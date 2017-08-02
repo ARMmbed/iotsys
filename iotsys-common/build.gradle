@@ -4,11 +4,15 @@ description = 'Common classes for the IoTSyS project'
 eclipse{
 	classpath{
 		file {
+			whenMerged { classpath ->
+				classpath.entries.findAll { entry -> entry.kind == 'lib' }*.exported = true
+			}
 			withXml {
 				def node = it.asNode()		
 				node.appendNode('classpathentry', [kind: 'src', path: '/iotsys-obix', exported:'true'])
 			}
 		}
+		
 	}
 }
 

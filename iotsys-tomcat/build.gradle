@@ -1,6 +1,14 @@
 // Variables
 description = 'OSGI Wrapper for Tomcat libraries'
-
+eclipse {
+	classpath {
+		file {
+			whenMerged { classpath ->
+				classpath.entries.findAll { entry -> entry.kind == 'lib' }*.exported = true
+			}
+		}
+	}
+}
 jar {
 	from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 	

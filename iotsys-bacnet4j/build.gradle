@@ -1,8 +1,20 @@
+apply plugin: 'findbugs'
+
 // Variables
 description = 'OSGI wrapper for BACnet4J'
 
 repositories {
 	flatDir { dirs "lib" }
+}
+
+eclipse {
+	classpath {
+		file {
+			whenMerged { classpath ->
+				classpath.entries.findAll { entry -> entry.kind == 'lib' }*.exported = true
+			}
+		}
+	}
 }
 
 jar {

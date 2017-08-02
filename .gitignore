@@ -10,3 +10,12 @@ felix-framework-*
 # General
 # ---
 *.zip
+
+# Eclipse
+# ---
+.project
+.metadata
+.recommenders
+.classpath
+.settings
+*/bin

@@ -1,3 +1,6 @@
 /target
 /enocean error.txt
 /bin
+.classpath
+.settings
+.project
