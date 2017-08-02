@@ -341,6 +341,7 @@ public class BacnetDeviceLoaderImpl implements DeviceLoader {
 
 			// add all children objects also in the object broker
 
+			@SuppressWarnings("unused")
 			Obj[] list = device.list();
 
 			// for(Obj obj : list){

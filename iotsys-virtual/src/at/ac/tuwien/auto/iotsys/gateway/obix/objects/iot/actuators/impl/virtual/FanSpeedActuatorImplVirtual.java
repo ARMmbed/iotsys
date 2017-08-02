@@ -38,10 +38,7 @@ import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.simulation.HVACSimula
 import obix.Obj;
 
 public class FanSpeedActuatorImplVirtual extends FanSpeedActuatorImpl {
-	private VirtualConnector virtualConnector;
-
 	public FanSpeedActuatorImplVirtual(VirtualConnector virtualConnector) {
-		this.virtualConnector = virtualConnector;
 	}
 
 	@Override

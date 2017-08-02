@@ -810,7 +810,6 @@ public class JmDNSImpl extends JmDNS implements DNSStatefulObject, DNSTaskStarte
 
 				Map<Fields, String> map = cachedInfo.getQualifiedNameMap();
 				byte[] srvBytes = null;
-				String server = "";
 				DNSEntry serviceEntry = this.getCache().getDNSEntry(info.getQualifiedName(), DNSRecordType.TYPE_SRV,
 						DNSRecordClass.CLASS_ANY);
 				if (serviceEntry instanceof DNSRecord) {
@@ -820,7 +819,6 @@ public class JmDNSImpl extends JmDNS implements DNSStatefulObject, DNSTaskStarte
 								cachedServiceEntryInfo.getWeight(), cachedServiceEntryInfo.getPriority(), persistent,
 								(byte[]) null);
 						srvBytes = cachedServiceEntryInfo.getTextBytes();
-						server = cachedServiceEntryInfo.getServer();
 					}
 				}
 

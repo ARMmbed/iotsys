@@ -44,10 +44,14 @@ import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.util.Converter;
 public class TelegramDataField extends TelegramField {
 
 	private TelegramVariableDataRecord parent;
+	@SuppressWarnings("unused")
 	private static int REAL_FRACTION = 0x7FFFFF; // 23-Bit (fraction of real)
+	@SuppressWarnings("unused")
 	private static int REAL_EXPONENT = 0x7F80000; // 24-Bit to 31-Bit (exponent
 													// of real)
+	@SuppressWarnings("unused")
 	private static int REAL_SIGN = 0x80000000; // 32-Bit (signum of real)
+	@SuppressWarnings("unused")
 	private static int SIGN = 0x01; // mask for signum
 
 	public TelegramDataField() {
@@ -63,8 +67,6 @@ public class TelegramDataField extends TelegramField {
 
 		int length = this.parent.getDif().getDataFieldLength();
 		Measure_Unit unit = this.parent.getVif().getmUnit();
-		int multiplier = this.parent.getVif().getMultiplier();
-
 		if (length != this.fieldParts.size()) {
 			System.out.println("ERROR: wrong size");
 			// TODO: throw exception

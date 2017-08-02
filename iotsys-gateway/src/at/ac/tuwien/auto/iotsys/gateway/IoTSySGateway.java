@@ -196,7 +196,8 @@ public class IoTSySGateway {
 					Method getInstance;
 					try {
 						getInstance = pdpSettingsClazz.getDeclaredMethod("getInstance");
-						PDPInterceptorSettings settings = (PDPInterceptorSettings) getInstance.invoke(null, null);
+						PDPInterceptorSettings settings = (PDPInterceptorSettings) getInstance.invoke(null,
+								(Object[]) null);
 						settings.setRemotePdpWsdl(remotePdpWsdl);
 						settings.setRemotePdp(remotePdp);
 					} catch (NoSuchMethodException e) {
@@ -316,7 +317,8 @@ public class IoTSySGateway {
 			try {
 				Named n = (Named) Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.NamedImpl").newInstance();
 				Class<?> mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
-				MdnsResolver m = (MdnsResolver) mc.getDeclaredMethod("getInstance", null).invoke(null, null);
+				MdnsResolver m = (MdnsResolver) mc.getDeclaredMethod("getInstance", (Class<?>) null).invoke(null,
+						(Object[]) null);
 
 				n.startNamedService();
 				iotsys.setMdnsResolver(m);

@@ -38,6 +38,7 @@ import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.SimpleTelegram
 
 public class SimpleTelegramTestList {
 
+	@SuppressWarnings("unused")
 	private ArrayList<SimpleTelegram> telegrams;
 
 	public SimpleTelegramTestList() {

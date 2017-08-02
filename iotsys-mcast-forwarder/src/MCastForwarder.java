@@ -91,6 +91,7 @@ public class MCastForwarder {
 		this.interfaces = interfaces;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void startForwarding() {
 		List<PcapIf> alldevs = new ArrayList<PcapIf>();
 		StringBuilder errbuf = new StringBuilder();
@@ -180,7 +181,7 @@ public class MCastForwarder {
 
 						System.out.println(jpacket);
 
-						if (pcap.isSendPacketSupported()) {
+						if (Pcap.isSendPacketSupported()) {
 							pcap.sendPacket(packet);
 						} else {
 							System.err.println("Cannot forward packet. PCAP interface " + device.getName()
@@ -237,7 +238,7 @@ public class MCastForwarder {
 						// System.out
 						// .println("#####################################");
 						// System.out.println("TUN: " + jpacket);
-						if (pcap.isSendPacketSupported()) {
+						if (Pcap.isSendPacketSupported()) {
 							pcap.sendPacket(packet);
 						} else {
 							System.err.println("Cannot forward packet. PCAP interface " + device.getName()
@@ -266,7 +267,7 @@ public class MCastForwarder {
 		if (pcap == null) {
 			log.info("Cannot listen.");
 		}
-		final MCastHandler<String> mcastHandler = new MCastHandler<String>(port, pcap, this, device.getName());
+		final PcapPacketHandler<String> mcastHandler = new MCastHandler(port, pcap, this, device.getName());
 
 		log.info("Registered mcastHandler handler.");
 
@@ -285,7 +286,7 @@ public class MCastForwarder {
 	}
 }
 
-class MCastHandler<String> implements PcapPacketHandler<String> {
+class MCastHandler implements PcapPacketHandler<String> {
 	private int port = 5683;
 	private static final Logger log = Logger.getLogger(MCastHandler.class.getName());
 
@@ -385,6 +386,7 @@ class MCastHandler<String> implements PcapPacketHandler<String> {
 
 			if (udp.destination() == this.port && dest.isMulticastAddress()) {
 				if (packet.hasHeader(Ethernet.ID)) {
+					@SuppressWarnings("unused")
 					Ethernet ethernet = packet.getHeader(new Ethernet());
 					System.out.println("Captured at ethernet: " + packet);
 

@@ -6,7 +6,6 @@ import java.net.UnknownHostException;
 
 import ch.ethz.inf.vs.californium.coap.Message.messageType;
 import ch.ethz.inf.vs.californium.coap.PUTRequest;
-import obix.Bool;
 
 public class MulticastTestRequest {
 	public static void main(String[] args) {
@@ -18,7 +17,7 @@ public class MulticastTestRequest {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		Object state = new Bool(true);
+		// Object state = new Bool(true);
 		for (int i = 0; i < 1000; i++) {
 			PUTRequest putRequest = new PUTRequest();
 			putRequest.setType(messageType.NON);

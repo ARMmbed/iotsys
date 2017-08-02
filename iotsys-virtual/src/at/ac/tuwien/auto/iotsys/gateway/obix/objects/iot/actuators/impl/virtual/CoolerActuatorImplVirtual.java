@@ -38,10 +38,7 @@ import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.simulation.HVACSimula
 import obix.Obj;
 
 public class CoolerActuatorImplVirtual extends CoolerActuatorImpl {
-	private VirtualConnector virtualConnector;
-
 	public CoolerActuatorImplVirtual(VirtualConnector virtualConnector) {
-		this.virtualConnector = virtualConnector;
 	}
 
 	@Override

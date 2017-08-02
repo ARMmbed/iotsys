@@ -32,8 +32,6 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.weatherforecast.crawler.impl;
 
-import java.util.logging.Logger;
-
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -49,7 +47,6 @@ import obix.Obj;
 import obix.Uri;
 
 public class WeatherObjImpl extends Obj implements WeatherObject {
-	private static final Logger log = Logger.getLogger(WeatherObjImpl.class.getName());
 
 	protected WeatherForecastConnector connector;
 

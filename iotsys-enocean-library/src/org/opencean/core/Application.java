@@ -31,7 +31,7 @@ public class Application {
 
 		// ++++++++++ TEST Start light actuator 2 ++++++++++++++
 		final String ON = "ON";
-		final String OFF = "OFF";
+		// final String OFF = "OFF";
 		final byte[] id = { (byte) 0x00, (byte) 0x25, (byte) 0xA2, (byte) 0xDE };
 		final EnoceanId enId = new EnoceanId(id);
 		// final EnoceanParameterAddress parAddress = new

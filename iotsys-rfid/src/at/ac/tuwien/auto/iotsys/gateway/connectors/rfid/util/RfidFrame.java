@@ -26,7 +26,6 @@ public class RfidFrame {
 	private byte[] packetData;
 	private int packetLength;
 	private RFIDPacketHeader header;
-	private RFIDPacket packet;
 	private RFIDData data;
 	private StringBuffer stringData;
 
@@ -115,7 +114,7 @@ public class RfidFrame {
 				if (data_pos == header.getDataLength()) {
 					state = STATES_GET_PACKET.STATE_BCC;
 					data = new RFIDData(t_data);
-					packet = new RFIDPacket(header, data);
+					new RFIDPacket(header, data);
 				}
 				break;
 			case STATE_BCC:

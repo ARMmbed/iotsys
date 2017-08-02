@@ -24,6 +24,7 @@ public class ObjObserver<ObjType extends Obj> implements EventObserver<ObjType> 
 	public ObjObserver() {
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public void update(Object currentState) {
 		synchronized (lock) {

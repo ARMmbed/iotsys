@@ -164,6 +164,7 @@ public class EntityEEP_A52001Impl extends EnoceanEntityImpl implements EntityEEP
 		// check if the entity is writable and create a new 4BS telegram with
 		// the necessary information
 		if (this.datapoint_percent.isWritable()) {
+			@SuppressWarnings("unused")
 			byte value = 0x00;
 
 			if (input instanceof Real) {

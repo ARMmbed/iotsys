@@ -49,7 +49,6 @@ public class ObixServerImpl implements ObixServer {
 	private static final Logger log = Logger.getLogger(ObixServerImpl.class.getName());
 
 	private ObjectBroker objectBroker;
-	private UIDb uidb;
 
 	@Override
 	public UIDb getUidb() {

@@ -1,7 +1,6 @@
 package org.opencean.core.eep;
 
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.opencean.core.address.EnoceanParameterAddress;
 import org.opencean.core.common.EEPId;
@@ -9,12 +8,9 @@ import org.opencean.core.common.Parameter;
 import org.opencean.core.common.values.NumberWithUnit;
 import org.opencean.core.common.values.Unit;
 import org.opencean.core.common.values.Value;
-import org.opencean.core.packets.LearnButtonState;
 import org.opencean.core.packets.RadioPacket4BS;
 
 public class TemperaturSensor extends RadioPacket4BSParser {
-
-	private static Logger logger = Logger.getLogger(TemperaturSensor.class.getName());
 
 	private static final int RANGE_MIN = 255;
 	private static final int RANGE_MAX = 0;
@@ -22,15 +18,11 @@ public class TemperaturSensor extends RadioPacket4BSParser {
 	private int scaleMin;
 	private int scaleMax;
 
-	private EEPId eep;
-	private LearnButtonState learnButton;
-
 	private CalculationUtil calculationUtil = new CalculationUtil();
 
 	public TemperaturSensor(int scaleMin, int scaleMax, EEPId eep) {
 		this.scaleMin = scaleMin;
 		this.scaleMax = scaleMax;
-		this.eep = eep;
 	}
 
 	@Override

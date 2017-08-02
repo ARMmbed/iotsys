@@ -34,8 +34,6 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.test;
 
 import java.util.logging.Logger;
 
-import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.TelegramManagerInterface;
-import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.WMBusConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.SimpleTelegram;
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.Telegram;
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.util.Measure_Unit;
@@ -47,12 +45,8 @@ public class TelegramTest {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String telegramString = "";
-		TelegramManagerInterface manager = new WMBusConnector();
-
 		String aesKey = "66 77 66 77 66 77 66 77 66 77 66 77 66 77 66 77";
-
-		telegramString = "3E 44 2D 4C 74 44 00 15 1E 02 7A 04 00 30 85 16 D9 B7 3C F2 A6 6B 34 2A 49 E3 7B 80 5A A7 86 D3 E8 9F 3E BD CD E2 0D 7E DC 79 B8 CD 45 37 CB 95 50 1F 55 4B EE 52 F6 0A F5 F1 EA D3 82 54 E3";
+		String telegramString = "3E 44 2D 4C 74 44 00 15 1E 02 7A 04 00 30 85 16 D9 B7 3C F2 A6 6B 34 2A 49 E3 7B 80 5A A7 86 D3 E8 9F 3E BD CD E2 0D 7E DC 79 B8 CD 45 37 CB 95 50 1F 55 4B EE 52 F6 0A F5 F1 EA D3 82 54 E3";
 
 		Telegram telegram = new Telegram();
 		telegram.createTelegram(telegramString, false);

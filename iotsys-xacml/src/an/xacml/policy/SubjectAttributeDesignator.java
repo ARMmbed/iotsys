@@ -36,9 +36,9 @@ public class SubjectAttributeDesignator extends AttributeDesignator {
 				throw ex;
 			}
 
-			for (AttributeValue v : result) {
-				// System.out.println("Designator: " + v.getClass().getName());
-			}
+			// for (AttributeValue v : result) {
+			// // System.out.println("Designator: " + v.getClass().getName());
+			// }
 
 			return result;
 		} catch (IndeterminateException ex) {

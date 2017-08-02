@@ -41,7 +41,9 @@ import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.util.Converter;
 public class VIFETelegramField extends TelegramField {
 
 	private static int EXTENSION_BIT_MASK = 0x80; // 1000 0000
+	@SuppressWarnings("unused")
 	private static int LAST_TWO_BIT_OR_MASK = 0x03; // 0000 0011
+	@SuppressWarnings("unused")
 	private static int LAST_FOUR_BIT_OR_MASK = 0x0F; // 0000 1111
 	private static int UNIT_MULTIPLIER_MASK = 0x7F; // 0111 1111
 

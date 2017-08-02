@@ -44,11 +44,17 @@ public class DateCalculator {
 	private static int YEAR_MASK = 0xE0; // 1110 0000
 	private static int YEAR_MASK_2 = 0xF0; // 1111 0000
 	private static int HUNDERT_YEAR_MASK = 0xC0;// 1100 0000
+	@SuppressWarnings("unused")
 	private static int WEEK_DAY = 0xE0; // 1110 0000
+	@SuppressWarnings("unused")
 	private static int WEEK = 0x3F; // 0011 1111
+	@SuppressWarnings("unused")
 	private static int TIME_INVALID = 0x80; // 1000 0000
+	@SuppressWarnings("unused")
 	private static int SOMMERTIME = 0x40; // 0100 0000
+	@SuppressWarnings("unused")
 	private static int LEAP_YEAR = 0x80; // 1000 0000
+	@SuppressWarnings("unused")
 	private static int DIF_SOMMERTIME = 0xC0; // 1100 0000
 
 	public static String getTimeWithSeconds(String secondValue, String minuteValue, String hourValue) {

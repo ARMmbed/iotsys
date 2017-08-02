@@ -18,6 +18,7 @@ public class RockerSwitch extends RadioPacketRPSParser {
 	public static final String CHANNEL_B = "B";
 
 	private NUState nu;
+	@SuppressWarnings("unused")
 	private T21State t21;
 
 	private ButtonState buttonAO;

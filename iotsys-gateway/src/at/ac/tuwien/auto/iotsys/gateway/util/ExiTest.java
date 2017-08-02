@@ -290,7 +290,7 @@ public class ExiTest {
 	}
 
 	public static byte[] encodeEXI(String source) throws TransmogrifierException, EXIOptionsException, IOException {
-		StringWriter stringWriter = new StringWriter();
+		// StringWriter stringWriter = new StringWriter();
 		ByteArrayOutputStream outBytes = new ByteArrayOutputStream();
 		FileInputStream in = null;
 		FileOutputStream out = null;

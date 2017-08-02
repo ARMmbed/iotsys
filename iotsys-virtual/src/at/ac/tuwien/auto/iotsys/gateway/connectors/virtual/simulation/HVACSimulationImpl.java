@@ -49,8 +49,6 @@ public class HVACSimulationImpl extends Obj implements HVACSimulation {
 
 	public static HVACSimulationImpl instance = null;
 
-	private static final Logger log = Logger.getLogger(HVACSimulationImpl.class.getName());
-
 	private Real temp = new Real(18);
 
 	// // if no cooling or heating happens the season

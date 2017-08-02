@@ -36,7 +36,6 @@ import com.serotonin.bacnet4j.RemoteObject;
 import com.serotonin.bacnet4j.event.DefaultDeviceEventListener;
 import com.serotonin.bacnet4j.exception.BACnetException;
 import com.serotonin.bacnet4j.exception.PropertyValueException;
-import com.serotonin.bacnet4j.service.acknowledgement.AcknowledgementService;
 import com.serotonin.bacnet4j.service.unconfirmed.WhoIsRequest;
 import com.serotonin.bacnet4j.type.Encodable;
 import com.serotonin.bacnet4j.type.constructed.PropertyReference;
@@ -162,8 +161,7 @@ public class BACnetConnector extends Connector {
 			remoteDev.setMaxAPDULengthAccepted(1476);
 			remoteDev.setSegmentationSupported(Segmentation.segmentedBoth);
 
-			AcknowledgementService ack = localDevice.setProperty(remoteDev, objectIdentifier, propertyIdentifier,
-					property, priority);
+			localDevice.setProperty(remoteDev, objectIdentifier, propertyIdentifier, property, priority);
 
 		}
 	}

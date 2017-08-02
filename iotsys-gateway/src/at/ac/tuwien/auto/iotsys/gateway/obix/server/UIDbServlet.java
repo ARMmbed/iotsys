@@ -19,7 +19,6 @@
 */
 package at.ac.tuwien.auto.iotsys.gateway.obix.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Map;
@@ -92,6 +91,7 @@ public class UIDbServlet extends HttpServlet {
 		w.close();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter w = resp.getWriter();
@@ -171,16 +171,6 @@ public class UIDbServlet extends HttpServlet {
 
 		w.flush();
 		w.close();
-	}
-
-	private String getRequestPayload(HttpServletRequest req) throws IOException {
-		StringBuilder sb = new StringBuilder();
-		BufferedReader br = req.getReader();
-		String str = null;
-		while ((str = br.readLine()) != null) {
-			sb.append(str);
-		}
-		return str;
 	}
 
 	private boolean servletMatcher(String resourcePath, String pattern) {

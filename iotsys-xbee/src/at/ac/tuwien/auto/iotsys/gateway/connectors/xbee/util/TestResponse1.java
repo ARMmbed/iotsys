@@ -2,7 +2,6 @@ package at.ac.tuwien.auto.iotsys.gateway.connectors.xbee.util;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.rapplogic.xbee.api.AtCommand;
@@ -11,8 +10,6 @@ import com.rapplogic.xbee.api.XBeeException;
 import com.rapplogic.xbee.api.XBeeResponse;
 
 public class TestResponse1 {
-
-	private final static Logger log = Logger.getLogger(TestResponse1.class);
 
 	private XBee xbee = new XBee();
 

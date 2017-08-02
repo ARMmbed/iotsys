@@ -338,8 +338,9 @@ public final class DNSOutgoing extends DNSMessage {
 	 * Builds the final message buffer to be send and returns it.
 	 *
 	 * @return bytes to send.
+	 * @throws IOException
 	 */
-	public byte[] data() {
+	public byte[] data() throws IOException {
 		long now = System.currentTimeMillis(); // System.currentTimeMillis()
 		_names.clear();
 
@@ -362,7 +363,9 @@ public final class DNSOutgoing extends DNSMessage {
 		for (DNSRecord record : _additionals) {
 			message.writeRecord(record, now);
 		}
-		return message.toByteArray();
+		byte[] byteArray = message.toByteArray();
+		message.close();
+		return byteArray;
 	}
 
 	@Override
@@ -372,8 +375,10 @@ public final class DNSOutgoing extends DNSMessage {
 
 	/**
 	 * Debugging.
+	 * 
+	 * @throws IOException
 	 */
-	String print(boolean dump) {
+	String print(boolean dump) throws IOException {
 		StringBuilder buf = new StringBuilder();
 		buf.append(this.print());
 		if (dump) {

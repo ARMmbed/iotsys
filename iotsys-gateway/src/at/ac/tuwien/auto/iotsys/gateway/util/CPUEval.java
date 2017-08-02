@@ -14,7 +14,6 @@ import org.xml.sax.SAXException;
 import at.ac.tuwien.auto.iotsys.commons.util.CsvCreator;
 import obix.Bool;
 import obix.Int;
-import obix.Obj;
 import obix.Real;
 import obix.Str;
 import obix.io.BinObixDecoder;
@@ -862,7 +861,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
 				try {
-					Obj fromBytes = EXIDecoder.getInstance().fromBytesSchema(payload);
+					EXIDecoder.getInstance().fromBytesSchema(payload);
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -913,7 +912,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
 				try {
-					Obj fromBytes = EXIDecoder.getInstance().fromBytesSchema(payload);
+					EXIDecoder.getInstance().fromBytesSchema(payload);
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -964,7 +963,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
 				try {
-					Obj fromBytes = EXIDecoder.getInstance().fromBytesSchema(payload);
+					EXIDecoder.getInstance().fromBytesSchema(payload);
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1015,7 +1014,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
 				try {
-					Obj fromBytes = EXIDecoder.getInstance().fromBytesSchema(payload);
+					EXIDecoder.getInstance().fromBytesSchema(payload);
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1069,7 +1068,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC_REDUCED; k++) {
 				try {
-					Obj fromBytes = ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, true));
+					ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, true));
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1117,7 +1116,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC_REDUCED; k++) {
 				try {
-					Obj fromBytes = ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, true));
+					ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, true));
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1165,7 +1164,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC_REDUCED; k++) {
 				try {
-					Obj fromBytes = ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, true));
+					ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, true));
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1213,7 +1212,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC_REDUCED; k++) {
 				try {
-					Obj fromBytes = ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, true));
+					ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, true));
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1267,7 +1266,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC_REDUCED; k++) {
 				try {
-					Obj fromBytes = ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, false));
+					ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, false));
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1315,7 +1314,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC_REDUCED; k++) {
 				try {
-					Obj fromBytes = ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, false));
+					ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, false));
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1363,7 +1362,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC_REDUCED; k++) {
 				try {
-					Obj fromBytes = ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, false));
+					ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, false));
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1411,7 +1410,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC_REDUCED; k++) {
 				try {
-					Obj fromBytes = ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, false));
+					ObixDecoder.fromString(ExiUtil.getInstance().decodeEXI(payload, false));
 				} catch (EXIOptionsException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1454,7 +1453,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
-				Obj obj = ObixDecoder.fromString(xml);
+				ObixDecoder.fromString(xml);
 			}
 
 			endTime = threadMXBean.getThreadCpuTime(mainThreadId);
@@ -1477,7 +1476,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
-				Obj obj = ObixDecoder.fromString(xml);
+				ObixDecoder.fromString(xml);
 			}
 
 			endTime = threadMXBean.getThreadCpuTime(mainThreadId);
@@ -1500,7 +1499,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
-				Obj obj = ObixDecoder.fromString(xml);
+				ObixDecoder.fromString(xml);
 			}
 
 			endTime = threadMXBean.getThreadCpuTime(mainThreadId);
@@ -1523,7 +1522,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
-				Obj obj = ObixDecoder.fromString(xml);
+				ObixDecoder.fromString(xml);
 			}
 
 			endTime = threadMXBean.getThreadCpuTime(mainThreadId);
@@ -1557,7 +1556,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
 				try {
-					Obj obj = ObixDecoder.fromString(JsonUtil.fromJSONtoXML(xml));
+					ObixDecoder.fromString(JsonUtil.fromJSONtoXML(xml));
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1589,7 +1588,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
 				try {
-					Obj obj = ObixDecoder.fromString(JsonUtil.fromJSONtoXML(xml));
+					ObixDecoder.fromString(JsonUtil.fromJSONtoXML(xml));
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1621,7 +1620,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
 				try {
-					Obj obj = ObixDecoder.fromString(JsonUtil.fromJSONtoXML(xml));
+					ObixDecoder.fromString(JsonUtil.fromJSONtoXML(xml));
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1653,7 +1652,7 @@ public class CPUEval {
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
 				try {
-					Obj obj = ObixDecoder.fromString(JsonUtil.fromJSONtoXML(xml));
+					ObixDecoder.fromString(JsonUtil.fromJSONtoXML(xml));
 				} catch (JSONException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -1686,7 +1685,7 @@ public class CPUEval {
 			startTime = threadMXBean.getThreadCpuTime(mainThreadId);
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
-				Obj obj = BinObixDecoder.fromBytes(payload);
+				BinObixDecoder.fromBytes(payload);
 			}
 
 			endTime = threadMXBean.getThreadCpuTime(mainThreadId);
@@ -1708,7 +1707,7 @@ public class CPUEval {
 			startTime = threadMXBean.getThreadCpuTime(mainThreadId);
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
-				Obj obj = BinObixDecoder.fromBytes(payload);
+				BinObixDecoder.fromBytes(payload);
 			}
 
 			endTime = threadMXBean.getThreadCpuTime(mainThreadId);
@@ -1730,7 +1729,7 @@ public class CPUEval {
 			startTime = threadMXBean.getThreadCpuTime(mainThreadId);
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
-				Obj obj = BinObixDecoder.fromBytes(payload);
+				BinObixDecoder.fromBytes(payload);
 			}
 
 			endTime = threadMXBean.getThreadCpuTime(mainThreadId);
@@ -1752,7 +1751,7 @@ public class CPUEval {
 			startTime = threadMXBean.getThreadCpuTime(mainThreadId);
 			sTime = System.currentTimeMillis();
 			for (int k = 0; k < RUNS_PER_OBJ_ENC; k++) {
-				Obj obj = BinObixDecoder.fromBytes(payload);
+				BinObixDecoder.fromBytes(payload);
 			}
 
 			endTime = threadMXBean.getThreadCpuTime(mainThreadId);

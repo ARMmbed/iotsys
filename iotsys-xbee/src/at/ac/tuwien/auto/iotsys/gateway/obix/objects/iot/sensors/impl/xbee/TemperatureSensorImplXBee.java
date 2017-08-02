@@ -14,13 +14,7 @@ public class TemperatureSensorImplXBee extends TemperatureSensorImpl {
 
 	private static final Logger log = Logger.getLogger(TemperatureSensorImplXBee.class.getName());
 
-	private XBeeConnector connector;
-	private String hexAddress;
-
 	public TemperatureSensorImplXBee(XBeeConnector connector, String hexAddress) {
-		this.connector = connector;
-		this.hexAddress = hexAddress;
-
 		connector.addWatchDog(hexAddress, new XBeeWatchdog() {
 
 			@Override

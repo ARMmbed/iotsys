@@ -2,7 +2,6 @@ package org.opencean.core.eep;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.opencean.core.address.EnoceanParameterAddress;
 import org.opencean.core.common.Parameter;
@@ -16,8 +15,7 @@ import org.opencean.core.packets.RadioPacket4BS;
 
 public class OccupancySensor implements EEPParser {
 
-	private static Logger logger = Logger.getLogger(OccupancySensor.class.getName());
-
+	@SuppressWarnings("unused")
 	private LearnButtonState learnButton;
 
 	private CalculationUtil calculationUtil = new CalculationUtil();
@@ -28,6 +26,7 @@ public class OccupancySensor implements EEPParser {
 		if (packet instanceof RadioPacket4BS) {
 			RadioPacket4BS radioPacket4BS = (RadioPacket4BS) packet;
 			byte db0 = radioPacket4BS.getDb0();
+			@SuppressWarnings("unused")
 			byte db1 = radioPacket4BS.getDb1();
 			byte db2 = radioPacket4BS.getDb2();
 			byte db3 = radioPacket4BS.getDb3();

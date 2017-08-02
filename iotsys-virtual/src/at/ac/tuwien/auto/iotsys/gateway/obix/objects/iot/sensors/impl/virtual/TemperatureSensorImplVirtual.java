@@ -33,15 +33,11 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.sensors.impl.virtual;
 
-import java.util.logging.Logger;
-
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.TemperatureSensorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.VirtualConnector;
 import obix.Obj;
 
 public class TemperatureSensorImplVirtual extends TemperatureSensorImpl {
-	private static final Logger log = Logger.getLogger(TemperatureSensorImplVirtual.class.getName());
-
 	private VirtualConnector virtualConnector;
 	private Object busAddress; // dummy Object, modify it according to your
 								// technology

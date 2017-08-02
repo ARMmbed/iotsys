@@ -130,10 +130,10 @@ public class EvaluationContext implements AdditionalNamespaceMappingEntry {
 				}
 			}
 		}
-		for (AttributeValue v : result) {
-			// System.out.println("EvaluationContext: " +
-			// v.getClass().getName());
-		}
+		// for (AttributeValue v : result) {
+		// // System.out.println("EvaluationContext: " +
+		// // v.getClass().getName());
+		// }
 
 		return result != null ? result : new AttributeValue[0];
 	}

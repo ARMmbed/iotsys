@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.net.Inet6Address;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -1147,10 +1148,12 @@ public class NanoHTTPD {
 			else if (tok.equals(" "))
 				newUri += "%20";
 			else {
-				newUri += URLEncoder.encode(tok);
-				// For Java 1.4 you'll want to use this instead:
-				// try { newUri += URLEncoder.encode( tok, "UTF-8" ); } catch (
-				// java.io.UnsupportedEncodingException uee ) {}
+				try {
+					newUri += URLEncoder.encode(tok, "UTF-8");
+				} catch (UnsupportedEncodingException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 		return newUri;
@@ -1159,7 +1162,6 @@ public class NanoHTTPD {
 	private int myTcpPort;
 	private final ServerSocket myServerSocket;
 	private Thread myThread;
-	private File myRootDir;
 
 	// ==================================================
 	// File server code
@@ -1373,6 +1375,7 @@ public class NanoHTTPD {
 	/**
 	 * The distribution licence
 	 */
+	@SuppressWarnings("unused")
 	private static final String LICENCE = "Copyright (C) 2001,2005-2011 by Jarno Elonen <elonen@iki.fi>\n"
 			+ "and Copyright (C) 2010 by Konstantinos Togias <info@ktogias.gr>\n" + "\n"
 			+ "Redistribution and use in source and binary forms, with or without\n"

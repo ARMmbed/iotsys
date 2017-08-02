@@ -58,6 +58,8 @@ public class RemotePDP implements Pdp {
 				xRequest.addResourceAttribute(XacmlRequest.RESOURCE_ATTRIBUTE_PROTOCOL, XacmlRequest.URN_XACML_CONTEXT,
 						params.get(p));
 				break;
+			default:
+				break;
 			}
 		}
 

@@ -67,7 +67,7 @@ public class ComPortReader implements Runnable, SerialPortEventListener {
 	private static Logger log = Logger.getLogger(ComPortReader.class.getName());
 
 	// public static String COMPORT = "/dev/ttyAMA0";
-	private static String COMPORT = "COM4";
+	// private static String COMPORT = "COM4";
 
 	public ComPortReader(CommPortIdentifier portId, TelegramManagerInterface tManager, int interval, byte address) {
 		this(portId, tManager);
@@ -184,9 +184,8 @@ public class ComPortReader implements Runnable, SerialPortEventListener {
 		byte[] readBuffer = new byte[512];
 
 		try {
-			int numBytes = 0;
 			while (inputStream.available() > 0) {
-				numBytes += inputStream.read(readBuffer);
+				inputStream.read(readBuffer);
 			}
 			if (Integer.toHexString(readBuffer[0] & 0xFF).equalsIgnoreCase("e5")) {
 				// System.out.println("DEBUG: Received single character E5");

@@ -249,9 +249,8 @@ public class SimpleWriteRXTX {
 		byte[] readBuffer = new byte[512];
 
 		try {
-			int num = 0;
 			while (inputStream.available() > 0) {
-				num = inputStream.read(readBuffer, 0, readBuffer.length);
+				inputStream.read(readBuffer, 0, readBuffer.length);
 			}
 			System.out.println("Empfange: " + Integer.toHexString(readBuffer[0] & 0xFF));
 			if (Integer.toHexString(readBuffer[0] & 0xFF).equalsIgnoreCase("e5")) {

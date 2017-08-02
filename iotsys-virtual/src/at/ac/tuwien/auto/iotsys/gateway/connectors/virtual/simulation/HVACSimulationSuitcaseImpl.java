@@ -39,8 +39,6 @@ public class HVACSimulationSuitcaseImpl extends Obj implements HVACSimulationSui
 	public final static String HEATING_STATUS_LINK = "networks/siemens_koffer_iotsys/entities/fcu_operator_panel_office_up_237e_delta_i_system/1/datapoints/status_heating___cooling_mode/value";
 
 	public static HVACSimulationSuitcaseImpl instance = null;
-	private static final Logger log = Logger.getLogger(HVACSimulationSuitcaseImpl.class.getName());
-
 	private ObjectBroker objectBroker;
 
 	protected Bool enabled = new Bool(false);

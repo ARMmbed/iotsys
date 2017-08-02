@@ -50,8 +50,11 @@ public class LedsActuatorImplCoap extends LedsActuatorImpl implements IoTSySDevi
 
 	private CoapConnector coapConnector;
 	private String busAddress;
+	@SuppressWarnings("unused")
 	private boolean redObserved;
+	@SuppressWarnings("unused")
 	private boolean blueObserved;
+	@SuppressWarnings("unused")
 	private boolean greenObserved;
 	private boolean shouldObserve;
 	private boolean forwardGroupAddress;

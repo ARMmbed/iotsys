@@ -40,6 +40,7 @@ public class Test2 {
 		ReadPropertyAck ack = (ReadPropertyAck) localDevice.send(addr, null, 1476, Segmentation.segmentedBoth, read);
 
 		System.out.println("IP: " + ip);
+		@SuppressWarnings("unchecked")
 		SequenceOf<ObjectIdentifier> oids = (SequenceOf<ObjectIdentifier>) ack.getValue();
 		for (ObjectIdentifier oid : oids)
 			System.out.println("    " + oid);

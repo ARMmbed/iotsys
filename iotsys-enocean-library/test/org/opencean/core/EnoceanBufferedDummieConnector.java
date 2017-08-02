@@ -23,11 +23,6 @@ public class EnoceanBufferedDummieConnector implements ProtocolConnector {
 
 	private byte[] buffer;
 
-	/**
-	 * Timeout in ms
-	 */
-	private int timeOut = 100;
-
 	public EnoceanBufferedDummieConnector(int size) {
 		buffer = new byte[size];
 	}
@@ -51,20 +46,6 @@ public class EnoceanBufferedDummieConnector implements ProtocolConnector {
 			} catch (Exception e) {
 				logger.error("Error while waiting for new data", e);
 			}
-		}
-	}
-
-	private void waitForDataWithTimeout() {
-		int loopCount = 0;
-		while (isEmpty() && ((loopCount++ * WAIT_MS) < timeOut)) {
-			try {
-				Thread.sleep(WAIT_MS);
-			} catch (Exception e) {
-				logger.error("Error while waiting for new data", e);
-			}
-		}
-		if ((loopCount++ * WAIT_MS) >= timeOut) {
-			throw new RuntimeException("Timeout!");
 		}
 	}
 

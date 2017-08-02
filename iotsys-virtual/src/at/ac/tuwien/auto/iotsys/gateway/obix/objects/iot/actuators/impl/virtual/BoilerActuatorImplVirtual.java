@@ -38,10 +38,10 @@ import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.simulation.HVACSimula
 import obix.Obj;
 
 public class BoilerActuatorImplVirtual extends BoilerActuatorImpl {
-	private VirtualConnector virtualConnector;
+	// private VirtualConnector virtualConnector;
 
 	public BoilerActuatorImplVirtual(VirtualConnector virtualConnector) {
-		this.virtualConnector = virtualConnector;
+		// this.virtualConnector = virtualConnector;
 	}
 
 	@Override

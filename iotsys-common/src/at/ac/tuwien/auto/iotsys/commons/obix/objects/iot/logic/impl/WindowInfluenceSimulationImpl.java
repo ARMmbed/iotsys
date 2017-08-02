@@ -14,7 +14,6 @@ import obix.Uri;
 public class WindowInfluenceSimulationImpl extends Obj implements WindowInfluenceSimulation {
 
 	private ObjectBroker objectBroker;
-	private ControllerState controllerState = ControllerState.INACTIVE;
 	protected Bool enabled = new Bool(false);
 	protected Bool windowClosed = new Bool(false);
 	protected Bool comfortModeActive = new Bool(false);

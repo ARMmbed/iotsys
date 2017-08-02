@@ -57,22 +57,5 @@ public class CanvasObject {
 	}
 
 	private class CanvasObjectPlacement {
-		int left, top;
-
-		public int getLeft() {
-			return left;
-		}
-
-		public void setLeft(int left) {
-			this.left = left;
-		}
-
-		public int getTop() {
-			return top;
-		}
-
-		public void setTop(int top) {
-			this.top = top;
-		}
 	}
 }

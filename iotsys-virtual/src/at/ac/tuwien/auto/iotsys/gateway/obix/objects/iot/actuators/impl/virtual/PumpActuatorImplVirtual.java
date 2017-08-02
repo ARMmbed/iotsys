@@ -38,10 +38,7 @@ import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.simulation.HVACSimula
 import obix.Obj;
 
 public class PumpActuatorImplVirtual extends PumpActuatorImpl {
-	private VirtualConnector virtualConnector;
-
 	public PumpActuatorImplVirtual(VirtualConnector virtualConnector) {
-		this.virtualConnector = virtualConnector;
 	}
 
 	@Override

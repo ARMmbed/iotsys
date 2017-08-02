@@ -81,7 +81,7 @@ public class MdnssdServiceTest extends AbstractGatewayTest {
 
 		try {
 			Class<?> mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
-			m = (MdnsResolver) mc.getDeclaredMethod("getInstance", null).invoke(null, null);
+			m = (MdnsResolver) mc.getDeclaredMethod("getInstance", (Class<?>) null).invoke(null, (Object[]) null);
 
 		} catch (IllegalAccessException e) {
 			// TODO Auto-generated catch block

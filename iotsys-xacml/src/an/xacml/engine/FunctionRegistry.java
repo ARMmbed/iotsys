@@ -59,7 +59,6 @@ public class FunctionRegistry {
 	 * @throws IOException
 	 * @throws BuiltInFunctionExistsException
 	 */
-	@SuppressWarnings("unchecked")
 	protected void initialize() throws IOException, ClassNotFoundException, BuiltInFunctionExistsException {
 		Set<Class<?>> providerClasses = new HashSet<Class<?>>();
 

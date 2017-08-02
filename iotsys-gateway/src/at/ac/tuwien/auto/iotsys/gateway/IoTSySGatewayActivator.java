@@ -55,8 +55,6 @@ public class IoTSySGatewayActivator implements BundleActivator, ServiceListener 
 
 	private static final Logger log = Logger.getLogger(IoTSySGatewayActivator.class.getName());
 
-	private DeviceLoaderListener deviceLoaderListener = new DeviceLoaderListener();
-
 	private MdnsResolver resolver;
 
 	private BundleContext context = null;

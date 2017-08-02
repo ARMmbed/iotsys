@@ -255,7 +255,7 @@ public final class TranslatorTypes {
 		public DPTXlator createTranslator(String dptID) throws KNXException {
 			try {
 				return (DPTXlator) xlator.getConstructor(new Class[] { String.class })
-						.newInstance(new String[] { dptID });
+						.newInstance(new Object[] { dptID });
 			} catch (final InvocationTargetException e) {
 				// try to forward encapsulated target exception
 				if (e.getTargetException() instanceof KNXFormatException)
@@ -306,7 +306,8 @@ public final class TranslatorTypes {
 		 */
 		public Map<?, ?> getSubTypes() throws KNXException {
 			try {
-				return (Map<?, ?>) xlator.getDeclaredMethod("getSubTypesStatic", null).invoke(null, null);
+				return (Map<?, ?>) xlator.getDeclaredMethod("getSubTypesStatic", (Class<?>) null).invoke(null,
+						(Object[]) null);
 			} catch (final NoSuchMethodException e) {
 				throw new KNXException("no method to get subtypes, " + e.getMessage());
 			} catch (final Exception e) {

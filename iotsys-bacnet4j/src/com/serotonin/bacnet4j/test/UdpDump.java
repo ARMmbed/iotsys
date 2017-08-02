@@ -29,6 +29,7 @@ import java.net.InetSocketAddress;
 public class UdpDump {
 	public static void main(String args[]) throws Exception {
 		int port = 0xbac0;
+		@SuppressWarnings("resource")
 		DatagramSocket socket = new DatagramSocket(port);
 		DatagramPacket packet;
 

@@ -2,7 +2,6 @@ package at.ac.tuwien.auto.iotsys.gateway.connectors.xbee.util;
 
 import java.io.IOException;
 
-import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
 import com.rapplogic.xbee.api.ApiId;
@@ -15,8 +14,6 @@ import com.rapplogic.xbee.api.zigbee.ZNetRxIoSampleResponse;
 import com.rapplogic.xbee.api.zigbee.ZNetTxRequest;
 
 public class TestResponse {
-
-	private final static Logger log = Logger.getLogger(TestResponse.class);
 
 	private XBee xbee = new XBee();
 
@@ -82,7 +79,7 @@ public class TestResponse {
 		XBeeResponse response2 = xbee.getResponse();
 
 		if (response2.getApiId() == ApiId.ZNET_IO_SAMPLE_RESPONSE) {
-			ApiId apiId2 = response2.getApiId();
+			// ApiId apiId2 = response2.getApiId();
 			System.out.println(response2);
 			// ZNetTxStatusResponse responseZNet = (ZNetTxStatusResponse)
 			// response2;

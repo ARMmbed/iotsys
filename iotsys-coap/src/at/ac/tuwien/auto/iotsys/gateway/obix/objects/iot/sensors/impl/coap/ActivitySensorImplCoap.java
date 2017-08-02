@@ -41,18 +41,18 @@ public class ActivitySensorImplCoap extends ActivitySensorImpl implements IoTSyS
 	// private static final Logger log =
 	// Logger.getLogger(TemperatureSensorImplCoap.class.getName());
 
-	private CoapConnector coapConnector;
+	// private CoapConnector coapConnector;
 	private String busAddress;
-	private boolean isObserved;
+	// private boolean isObserved;
 	private boolean shouldObserve;
 	private boolean forwardGroupAddress;
 
 	public ActivitySensorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve,
 			boolean forwardGroupAddress) {
 		// technology specific initialization
-		this.coapConnector = coapConnector;
+		// this.coapConnector = coapConnector;
 		this.busAddress = busAddress;
-		this.isObserved = false;
+		// this.isObserved = false;
 		this.shouldObserve = shouldObserve;
 		this.forwardGroupAddress = forwardGroupAddress;
 	}

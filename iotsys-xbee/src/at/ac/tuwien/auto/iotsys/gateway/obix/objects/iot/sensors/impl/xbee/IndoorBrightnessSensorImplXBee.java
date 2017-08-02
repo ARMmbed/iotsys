@@ -14,13 +14,7 @@ public class IndoorBrightnessSensorImplXBee extends IndoorBrightnessSensorImpl {
 
 	private static final Logger log = Logger.getLogger(IndoorBrightnessSensorImplXBee.class.getName());
 
-	private XBeeConnector connector;
-	private String hexAddress;
-
 	public IndoorBrightnessSensorImplXBee(XBeeConnector connector, String hexAddress) {
-		this.connector = connector;
-		this.hexAddress = hexAddress;
-
 		connector.addWatchDog(hexAddress, new XBeeWatchdog() {
 
 			@Override

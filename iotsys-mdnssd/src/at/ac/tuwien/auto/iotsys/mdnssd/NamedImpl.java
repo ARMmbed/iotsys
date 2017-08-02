@@ -102,10 +102,7 @@ public class NamedImpl implements Named {
 	private class UDPListener extends Thread {
 
 		DatagramSocket sock;// = new DatagramSocket(port, addr);
-		public static final int IPv4 = 1;
-		public static final int IPv6 = 2;
 		boolean stop = true;
-		Logger logger = Logger.getLogger(UDPListener.class.getName());
 
 		public UDPListener(NamedImpl sn) {
 			try {
@@ -214,10 +211,10 @@ public class NamedImpl implements Named {
 			}
 
 			out.setId(msg.getId());
-			byte[] message = out.data();
-			DatagramPacket packet = new DatagramPacket(message, message.length, msg.getPacket().getAddress(),
-					msg.getPacket().getPort());
 			try {
+				byte[] message = out.data();
+				DatagramPacket packet = new DatagramPacket(message, message.length, msg.getPacket().getAddress(),
+						msg.getPacket().getPort());
 				sock.send(packet);
 			} catch (IOException ex) {
 				Logger.getLogger(NamedImpl.class.getName()).log(Level.SEVERE, null, ex);

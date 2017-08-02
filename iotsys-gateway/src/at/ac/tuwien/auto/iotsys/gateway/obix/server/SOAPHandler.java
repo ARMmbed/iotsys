@@ -171,6 +171,7 @@ public class SOAPHandler {
 		int firstQuote = soapPayload.indexOf("\"", hrefStart) + 1;
 		int secondQuote = soapPayload.indexOf("\"", firstQuote + 1);
 
+		@SuppressWarnings("unused")
 		String href = "";
 		if (firstQuote >= 0 && secondQuote > firstQuote) {
 			href = soapPayload.substring(firstQuote, secondQuote);

@@ -74,7 +74,8 @@ public class EvaluationUtil {
 			e.printStackTrace();
 		}
 
-		for (Entry<String, String> entry : ipv6ContractList.entrySet()) {
+		for (@SuppressWarnings("unused")
+		Entry<String, String> entry : ipv6ContractList.entrySet()) {
 
 		}
 	}

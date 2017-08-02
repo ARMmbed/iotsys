@@ -19,20 +19,10 @@ public class RemoteCommand4BSTeachIn extends BasicPacket {
 	private boolean learnStatus;
 	private LearnBit learnBit;
 
-	// optionalData
-	private int destinationId;
-	private int sourceId;
-	private byte dBm;
-	private boolean sendWithDelay;
-
 	public RemoteCommand4BSTeachIn(byte functionNumber, short manufactorerId, int destinationId, int sourceId, byte dBm,
 			boolean sendWithDelay) {
 		this.functionNumber = functionNumber;
 		this.manufactorerId = manufactorerId;
-		this.destinationId = destinationId;
-		this.sourceId = sourceId;
-		this.dBm = dBm;
-		this.sendWithDelay = sendWithDelay;
 	}
 
 	/**

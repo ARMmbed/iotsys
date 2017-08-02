@@ -21,7 +21,6 @@ package at.ac.tuwien.auto.iotsys.commons.persistent;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import at.ac.tuwien.auto.iotsys.commons.PropertiesLoader;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.User;
@@ -33,7 +32,6 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.models.User;
 public class UIDbImpl implements UIDb {
 
 	private static UIDb INSTANCE;
-	private static final Logger log = Logger.getLogger(UIDbImpl.class.getName());
 
 	public static UIDb getInstance() {
 		INSTANCE = UIDbRepo.getInstance();

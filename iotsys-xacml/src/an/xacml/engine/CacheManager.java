@@ -238,9 +238,5 @@ public class CacheManager {
 		public Result evaluate(EvaluationContext ctx) throws IndeterminateException {
 			throw new UnsupportedOperationException("We don't support evaluate operation on this class.");
 		}
-
-		protected void mergeTargets() {
-			throw new UnsupportedOperationException("We don't support mergeTargets operation on this class.");
-		}
 	}
 }

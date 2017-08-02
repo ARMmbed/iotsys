@@ -85,6 +85,7 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 		return INSTANCE;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void loadAllKeyValues() {
 		try {
 			uiStorageMap = db.get(Map.class, "uistorage");
@@ -142,34 +143,10 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 			return salt;
 		}
 
-		public void setSalt(String salt) {
-			this.salt = salt;
-		}
-
 		public String getHash() {
 			return hash;
 		}
 
-		public void setHash(String hash) {
-			this.hash = hash;
-		}
-
-	}
-
-	private String hashGen(String rawPassword, String salt) {
-		byte[] saltB = new BigInteger(salt, 16).toByteArray();
-		// calculate the hash
-		KeySpec spec = new PBEKeySpec(rawPassword.toCharArray(), saltB, 65536, 128);
-		SecretKeyFactory f;
-		try {
-			f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-			byte[] hash = f.generateSecret(spec).getEncoded();
-			String hasedPassword = new BigInteger(1, hash).toString(16);
-			return hasedPassword;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	private SaltHash saltHashGen(String rawPassword) {

@@ -350,26 +350,8 @@ public class HttpDateFormat {
 		public int hour = -1;
 		public int minute = -1;
 		public int second = -1;
-
-		/**
-		 * Print the attributes of this date.
-		 */
-		public void printAttributes() {
-			System.out.println("DateTimeInfo:");
-			System.out.println("  dayOfWeek : " + dayOfWeek);
-			System.out.println("  dayOfMonth: " + dayOfMonth);
-			System.out.println("  month     : " + month);
-			System.out.println("  year      : " + year);
-			System.out.println("  hour      : " + hour);
-			System.out.println("  minute    : " + minute);
-			System.out.println("  second    : " + second);
-		}
 	}
 
 	private static Calendar cal = Calendar.getInstance(TimeZone.getTimeZone("GMT"), Locale.US);
 
-	/*
-	 * public static void main(String[] args) throws Exception {
-	 * System.out.println(format(System.currentTimeMillis())); }
-	 */
 }

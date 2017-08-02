@@ -71,8 +71,10 @@ public class Test {
 
 		ReadPropertyRequest req = new ReadPropertyRequest(new ObjectIdentifier(ObjectType.analogOutput, 1234),
 				PropertyIdentifier.priorityArray);
+		@SuppressWarnings("null")
 		ReadPropertyAck ack = (ReadPropertyAck) localDevice.send(remoteDevice, req);
 		PriorityArray priorityArray = (PriorityArray) ack.getValue();
+		@SuppressWarnings("unused")
 		int priority = priorityArray.get(16).getIntegerValue().intValue();
 	}
 

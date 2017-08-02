@@ -31,6 +31,7 @@ public class TestApp {
 			// Hashtable<String, WeatherForecastRecordImpl>
 			Hashtable<String, String> dataTable = new Hashtable<String, String>();
 			// WeatherForecastRecordImpl
+			@SuppressWarnings("unused")
 			String forecast;
 
 			if (doc != null) {

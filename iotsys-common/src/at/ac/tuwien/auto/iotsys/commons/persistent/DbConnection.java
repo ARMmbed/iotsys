@@ -31,17 +31,12 @@ import org.ektorp.impl.StdCouchDbInstance;
  */
 public class DbConnection {
 
-	private static DbConnection INSTANCE;
 	private static StdCouchDbInstance couchInstance;
-
-	private DbConnection() throws MalformedURLException {
-		HttpClient couchHttpClient = new StdHttpClient.Builder().url("http://127.0.0.1:5984").build();
-		couchInstance = new StdCouchDbInstance(couchHttpClient);
-	}
 
 	static {
 		try {
-			INSTANCE = new DbConnection();
+			HttpClient couchHttpClient = new StdHttpClient.Builder().url("http://127.0.0.1:5984").build();
+			couchInstance = new StdCouchDbInstance(couchHttpClient);
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
 		}

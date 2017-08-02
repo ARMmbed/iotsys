@@ -68,6 +68,7 @@ public class Log {
 		}
 	};
 
+	@SuppressWarnings("unused")
 	private static final Formatter csvFormatter = new Formatter() {
 		@Override
 		public String format(LogRecord record) {

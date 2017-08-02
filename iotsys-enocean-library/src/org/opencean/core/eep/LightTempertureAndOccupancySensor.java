@@ -2,7 +2,6 @@ package org.opencean.core.eep;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Logger;
 
 import org.opencean.core.address.EnoceanParameterAddress;
 import org.opencean.core.common.Parameter;
@@ -16,8 +15,7 @@ import org.opencean.core.packets.RadioPacket4BS;
 
 public class LightTempertureAndOccupancySensor implements EEPParser {
 
-	private static Logger logger = Logger.getLogger(LightTempertureAndOccupancySensor.class.getName());
-
+	@SuppressWarnings("unused")
 	private LearnButtonState learnButton;
 
 	private CalculationUtil calculationUtil = new CalculationUtil();
