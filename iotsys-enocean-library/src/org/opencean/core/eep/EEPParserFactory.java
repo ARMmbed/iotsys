@@ -7,7 +7,7 @@ import org.opencean.core.common.EEPId;
 
 public class EEPParserFactory {
 
-	private Map<EEPId, EEPParser> parser = new HashMap<EEPId, EEPParser>();
+	private Map<EEPId, EEPParser> parser = new HashMap<>();
 
 	public EEPParserFactory() {
 		parser.put(EEPId.EEP_D2_01_08, new PowerSensor(EEPId.EEP_D2_01_08));

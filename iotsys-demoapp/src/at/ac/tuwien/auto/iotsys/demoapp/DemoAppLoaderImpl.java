@@ -43,7 +43,7 @@ import obix.Obj;
 import obix.Uri;
 
 public class DemoAppLoaderImpl implements DeviceLoader {
-	private final ArrayList<String> myObjects = new ArrayList<String>();
+	private final ArrayList<String> myObjects = new ArrayList<>();
 
 	@Override
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {

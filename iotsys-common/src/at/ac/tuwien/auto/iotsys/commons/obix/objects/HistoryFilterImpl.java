@@ -128,7 +128,7 @@ public class HistoryFilterImpl extends Obj implements HistoryFilter, FeedFilter 
 			records.remove(0);// remove the latest or oldest? records.size()-1
 								// or 0
 
-		return new ArrayList<Obj>(records);
+		return new ArrayList<>(records);
 	}
 
 	@Override
@@ -139,11 +139,11 @@ public class HistoryFilterImpl extends Obj implements HistoryFilter, FeedFilter 
 		while (limit.get() > 0 & records.size() > limit.get())
 			records.remove(records.size() - 1);
 
-		return new ArrayList<Obj>(records);
+		return new ArrayList<>(records);
 	}
 
 	private ArrayList<HistoryRecordImpl> filterRecords(List<Obj> events) {
-		ArrayList<HistoryRecordImpl> filteredRecords = new ArrayList<HistoryRecordImpl>();
+		ArrayList<HistoryRecordImpl> filteredRecords = new ArrayList<>();
 
 		// sort records by time stamp
 		Collections.sort(events, new Comparator<Obj>() {

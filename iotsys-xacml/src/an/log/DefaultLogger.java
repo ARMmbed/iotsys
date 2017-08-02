@@ -44,7 +44,7 @@ public class DefaultLogger implements Logger {
 
 	public static final String STR_FORMAT_PATTERM = "%s %7s %s %s %s - %s";
 
-	protected static Map<String, PrintWriter> outputMap = new Hashtable<String, PrintWriter>();
+	protected static Map<String, PrintWriter> outputMap = new Hashtable<>();
 	protected static Formatter msgFormatter = new Formatter(new StringBuffer());
 
 	protected String logFile;

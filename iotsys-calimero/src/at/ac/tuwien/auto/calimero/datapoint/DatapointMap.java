@@ -67,8 +67,7 @@ public class DatapointMap implements DatapointModel {
 	 */
 	public DatapointMap(Collection<?> datapoints) {
 		// not all HashSets put additional capacity in HashSet(Collection) ctor
-		final Map<GroupAddress, Datapoint> m = new HashMap<GroupAddress, Datapoint>(
-				Math.max(2 * datapoints.size(), 11));
+		final Map<GroupAddress, Datapoint> m = new HashMap<>(Math.max(2 * datapoints.size(), 11));
 		for (final Iterator<?> i = datapoints.iterator(); i.hasNext();) {
 			final Datapoint dp = (Datapoint) i.next();
 			if (m.containsKey(dp.getMainAddress()))

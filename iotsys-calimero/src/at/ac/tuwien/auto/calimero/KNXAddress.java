@@ -190,7 +190,7 @@ public abstract class KNXAddress {
 	 *             on output error
 	 */
 	public void save(XMLWriter w) throws KNXMLException {
-		final List<Attribute> att = new ArrayList<Attribute>();
+		final List<Attribute> att = new ArrayList<>();
 		att.add(new Attribute(ATTR_TYPE, getType()));
 		w.writeElement(TAG_ADDRESS, att, Integer.toString(address));
 		w.endElement();

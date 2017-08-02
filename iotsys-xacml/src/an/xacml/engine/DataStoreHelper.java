@@ -17,8 +17,8 @@ import an.xml.XMLGeneralException;
  * CustomDataStore(CustomConfigElement config)
  */
 public abstract class DataStoreHelper {
-	private static Map<PDP, DataStore> dsRegistry = new Hashtable<PDP, DataStore>();
-	private static Map<DataStore, PDP> pdpRegistry = new Hashtable<DataStore, PDP>();
+	private static Map<PDP, DataStore> dsRegistry = new Hashtable<>();
+	private static Map<DataStore, PDP> pdpRegistry = new Hashtable<>();
 	/**
 	 * Each data store should has a policy loader, which is used to load
 	 * policies from data store. We support custom policy loaders. The custom

@@ -57,7 +57,7 @@ public class NetworkTopologyDiscoveryImpl implements NetworkTopologyDiscovery {
 	 */
 	@Override
 	public InetAddress[] getInetAddresses() {
-		Set<InetAddress> result = new HashSet<InetAddress>();
+		Set<InetAddress> result = new HashSet<>();
 		try {
 
 			for (Enumeration<NetworkInterface> nifs = NetworkInterface.getNetworkInterfaces(); nifs

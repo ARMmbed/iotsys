@@ -55,7 +55,7 @@ public interface JmmDNS extends Closeable {
 
 		}
 
-		private static final AtomicReference<ClassDelegate> _databaseClassDelegate = new AtomicReference<ClassDelegate>();
+		private static final AtomicReference<ClassDelegate> _databaseClassDelegate = new AtomicReference<>();
 
 		private Factory() {
 			super();

@@ -36,7 +36,7 @@ import com.serotonin.bacnet4j.exception.BACnetTimeoutException;
 import com.serotonin.bacnet4j.exception.SegmentedMessageAbortedException;
 
 public class WaitingRoom {
-	private final HashMap<Key, Member> waitHere = new HashMap<Key, Member>();
+	private final HashMap<Key, Member> waitHere = new HashMap<>();
 	private byte nextInvokeId;
 
 	synchronized public Key enterClient(InetSocketAddress peer, Network network) {
@@ -162,7 +162,7 @@ public class WaitingRoom {
 	 * @author mlohbihler
 	 */
 	class Member {
-		private final LinkedList<APDU> apdus = new LinkedList<APDU>();
+		private final LinkedList<APDU> apdus = new LinkedList<>();
 
 		synchronized void setAPDU(APDU apdu) {
 			apdus.add(apdu);

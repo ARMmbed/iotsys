@@ -90,7 +90,7 @@ public class JSONArray {
 	 * Construct an empty JSONArray.
 	 */
 	public JSONArray() {
-		this.myArrayList = new ArrayList<Object>();
+		this.myArrayList = new ArrayList<>();
 	}
 
 	/**
@@ -154,7 +154,7 @@ public class JSONArray {
 	 *            A Collection.
 	 */
 	public JSONArray(Collection<?> collection) {
-		this.myArrayList = new ArrayList<Object>();
+		this.myArrayList = new ArrayList<>();
 		if (collection != null) {
 			Iterator<?> iter = collection.iterator();
 			while (iter.hasNext()) {

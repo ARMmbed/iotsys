@@ -182,15 +182,15 @@ public class Test {
 		AcknowledgementService result;
 
 		// Create object
-		List<PropertyValue> values = new ArrayList<PropertyValue>();
+		List<PropertyValue> values = new ArrayList<>();
 		values.add(new PropertyValue(PropertyIdentifier.objectName, new CharacterString("A cool analog input")));
 		CharacterString cs = new CharacterString(description);
 		values.add(new PropertyValue(PropertyIdentifier.description, cs));
 		values.add(new PropertyValue(PropertyIdentifier.presentValue, new Real(155.2f)));
 		values.add(new PropertyValue(PropertyIdentifier.units, EngineeringUnits.centimetersOfMercury));
-		result = send(d, new CreateObjectRequest(ObjectType.analogInput, new SequenceOf<PropertyValue>(values)));
+		result = send(d, new CreateObjectRequest(ObjectType.analogInput, new SequenceOf<>(values)));
 		System.out.println(result);
-		result = send(d, new CreateObjectRequest(ObjectType.analogInput, new SequenceOf<PropertyValue>(values)));
+		result = send(d, new CreateObjectRequest(ObjectType.analogInput, new SequenceOf<>(values)));
 		System.out.println(result);
 		ObjectIdentifier created = ((CreateObjectAck) result).getObjectIdentifier();
 		ObjectIdentifier device = new ObjectIdentifier(ObjectType.device, 1234);
@@ -216,14 +216,13 @@ public class Test {
 		System.out.println(send(d,
 				new WritePropertyRequest(created, PropertyIdentifier.presentValue, null, new Real(5.5f), null)));
 
-		List<WriteAccessSpecification> writeSpecs = new ArrayList<WriteAccessSpecification>();
-		List<PropertyValue> pvs = new ArrayList<PropertyValue>();
+		List<WriteAccessSpecification> writeSpecs = new ArrayList<>();
+		List<PropertyValue> pvs = new ArrayList<>();
 		pvs.add(new PropertyValue(PropertyIdentifier.presentValue, new Real(6.7f)));
 		pvs.add(new PropertyValue(PropertyIdentifier.highLimit, new Real(10f)));
 		pvs.add(new PropertyValue(PropertyIdentifier.lowLimit, new Real(0f)));
-		writeSpecs.add(new WriteAccessSpecification(created, new SequenceOf<PropertyValue>(pvs)));
-		System.out.println(
-				send(d, new WritePropertyMultipleRequest(new SequenceOf<WriteAccessSpecification>(writeSpecs))));
+		writeSpecs.add(new WriteAccessSpecification(created, new SequenceOf<>(pvs)));
+		System.out.println(send(d, new WritePropertyMultipleRequest(new SequenceOf<>(writeSpecs))));
 
 		// Read a value
 		System.out.println(send(d, new ReadPropertyRequest(created, PropertyIdentifier.presentValue, null)));
@@ -245,9 +244,9 @@ public class Test {
 		System.out.println(send(d, new ReadPropertyRequest(deviceIndirect, PropertyIdentifier.objectName, null)));
 
 		// Read multiple
-		List<ReadAccessSpecification> specs = new ArrayList<ReadAccessSpecification>();
+		List<ReadAccessSpecification> specs = new ArrayList<>();
 
-		List<PropertyReference> refs = new ArrayList<PropertyReference>();
+		List<PropertyReference> refs = new ArrayList<>();
 		// refs.add(new PropertyReference(PropertyIdentifier.objectName, null));
 		// refs.add(new PropertyReference(PropertyIdentifier.units, null));
 		// refs.add(new PropertyReference(PropertyIdentifier.presentValue,
@@ -261,30 +260,29 @@ public class Test {
 		// specs.add(new ReadAccessSpecification(created, new
 		// SequenceOf<PropertyReference>(refs)));
 
-		refs = new ArrayList<PropertyReference>();
+		refs = new ArrayList<>();
 		refs.add(new PropertyReference(PropertyIdentifier.all, null));
-		specs.add(new ReadAccessSpecification(created, new SequenceOf<PropertyReference>(refs)));
+		specs.add(new ReadAccessSpecification(created, new SequenceOf<>(refs)));
 
-		refs = new ArrayList<PropertyReference>();
+		refs = new ArrayList<>();
 		refs.add(new PropertyReference(PropertyIdentifier.all, null));
-		specs.add(new ReadAccessSpecification(device, new SequenceOf<PropertyReference>(refs)));
-		specs.add(new ReadAccessSpecification(deviceIndirect, new SequenceOf<PropertyReference>(refs)));
+		specs.add(new ReadAccessSpecification(device, new SequenceOf<>(refs)));
+		specs.add(new ReadAccessSpecification(deviceIndirect, new SequenceOf<>(refs)));
 
 		// refs = new ArrayList<PropertyReference>();
 		// refs.add(new PropertyReference(PropertyIdentifier.required, null));
 		// specs.add(new ReadAccessSpecification(created, new
 		// SequenceOf<PropertyReference>(refs)));
 
-		System.out.println(send(d, new ReadPropertyMultipleRequest(new SequenceOf<ReadAccessSpecification>(specs))));
+		System.out.println(send(d, new ReadPropertyMultipleRequest(new SequenceOf<>(specs))));
 
 		// Read conditional
-		List<SelectionCriteria> criteria = new ArrayList<SelectionCriteria>();
+		List<SelectionCriteria> criteria = new ArrayList<>();
 		criteria.add(
 				new SelectionCriteria(PropertyIdentifier.presentValue, null, RelationSpecifier.equal, new Real(0)));
 		criteria.add(
 				new SelectionCriteria(PropertyIdentifier.presentValue, null, RelationSpecifier.notEqual, new Real(0)));
-		ObjectSelectionCriteria osc = new ObjectSelectionCriteria(SelectionLogic.or,
-				new SequenceOf<SelectionCriteria>(criteria));
+		ObjectSelectionCriteria osc = new ObjectSelectionCriteria(SelectionLogic.or, new SequenceOf<>(criteria));
 		new ReadPropertyConditionalRequest(osc, null);
 
 		// Delete object
@@ -315,12 +313,11 @@ public class Test {
 		System.out.println(send(d, rd,
 				new WritePropertyRequest(nc0, PropertyIdentifier.recipientList, new UnsignedInteger(1), dest, null)));
 
-		List<ReadAccessSpecification> specs = new ArrayList<ReadAccessSpecification>();
+		List<ReadAccessSpecification> specs = new ArrayList<>();
 		specs.add(new ReadAccessSpecification(nc0, PropertyIdentifier.all));
 		specs.add(new ReadAccessSpecification(nc1, PropertyIdentifier.all));
 		specs.add(new ReadAccessSpecification(nc2, PropertyIdentifier.all));
-		System.out
-				.println(send(d, rd, new ReadPropertyMultipleRequest(new SequenceOf<ReadAccessSpecification>(specs))));
+		System.out.println(send(d, rd, new ReadPropertyMultipleRequest(new SequenceOf<>(specs))));
 
 	}
 

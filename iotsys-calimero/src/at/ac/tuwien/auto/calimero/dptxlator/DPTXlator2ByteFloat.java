@@ -148,7 +148,7 @@ public class DPTXlator2ByteFloat extends DPTXlator {
 	private static final Map<String, DPT> types;
 
 	static {
-		types = new HashMap<String, DPT>(25);
+		types = new HashMap<>(25);
 		types.put(DPT_TEMPERATURE.getID(), DPT_TEMPERATURE);
 		types.put(DPT_TEMPERATURE_DIFFERENCE.getID(), DPT_TEMPERATURE_DIFFERENCE);
 		types.put(DPT_TEMPERATURE_GRADIENT.getID(), DPT_TEMPERATURE_GRADIENT);

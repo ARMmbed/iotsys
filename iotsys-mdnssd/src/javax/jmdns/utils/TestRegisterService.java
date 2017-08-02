@@ -32,7 +32,7 @@ public class TestRegisterService {
 					8081, null);
 			ServiceInfo aService = ServiceInfo.create("_obix._udp.local.", "aSimpleService", 8082, null);
 
-			final HashMap<String, String> values = new HashMap<String, String>();
+			final HashMap<String, String> values = new HashMap<>();
 			values.put("A text", "text");
 
 			try {

@@ -66,8 +66,8 @@ public class JmmDNSImpl implements JmmDNS, NetworkTopologyListener, ServiceInfoI
 	public JmmDNSImpl() {
 		super();
 		_networkListeners = Collections.synchronizedSet(new HashSet<NetworkTopologyListener>());
-		_knownMDNS = new ConcurrentHashMap<InetAddress, JmDNS>();
-		_services = new ConcurrentHashMap<String, ServiceInfo>(20);
+		_knownMDNS = new ConcurrentHashMap<>();
+		_services = new ConcurrentHashMap<>(20);
 		_ListenerExecutor = Executors.newSingleThreadExecutor();
 		_jmDNSExecutor = Executors.newCachedThreadPool();
 		_timer = new Timer("Multihommed mDNS.Timer", true);
@@ -120,7 +120,7 @@ public class JmmDNSImpl implements JmmDNS, NetworkTopologyListener, ServiceInfoI
 	 */
 	@Override
 	public String[] getNames() {
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new HashSet<>();
 		for (JmDNS mDNS : _knownMDNS.values()) {
 			result.add(mDNS.getName());
 		}
@@ -134,7 +134,7 @@ public class JmmDNSImpl implements JmmDNS, NetworkTopologyListener, ServiceInfoI
 	 */
 	@Override
 	public String[] getHostNames() {
-		Set<String> result = new HashSet<String>();
+		Set<String> result = new HashSet<>();
 		for (JmDNS mDNS : _knownMDNS.values()) {
 			result.add(mDNS.getHostName());
 		}
@@ -148,7 +148,7 @@ public class JmmDNSImpl implements JmmDNS, NetworkTopologyListener, ServiceInfoI
 	 */
 	@Override
 	public InetAddress[] getInterfaces() throws IOException {
-		Set<InetAddress> result = new HashSet<InetAddress>();
+		Set<InetAddress> result = new HashSet<>();
 		for (JmDNS mDNS : _knownMDNS.values()) {
 			result.add(mDNS.getInterface());
 		}
@@ -466,7 +466,7 @@ public class JmmDNSImpl implements JmmDNS, NetworkTopologyListener, ServiceInfoI
 	 */
 	@Override
 	public Map<String, ServiceInfo[]> listBySubtype(final String type, final long timeout) {
-		Map<String, List<ServiceInfo>> map = new HashMap<String, List<ServiceInfo>>(5);
+		Map<String, List<ServiceInfo>> map = new HashMap<>(5);
 		for (ServiceInfo info : this.list(type, timeout)) {
 			String subtype = info.getSubtype();
 			if (!map.containsKey(subtype)) {
@@ -475,7 +475,7 @@ public class JmmDNSImpl implements JmmDNS, NetworkTopologyListener, ServiceInfoI
 			map.get(subtype).add(info);
 		}
 
-		Map<String, ServiceInfo[]> result = new HashMap<String, ServiceInfo[]>(map.size());
+		Map<String, ServiceInfo[]> result = new HashMap<>(map.size());
 		for (String subtype : map.keySet()) {
 			List<ServiceInfo> infoForSubType = map.get(subtype);
 			result.put(subtype, infoForSubType.toArray(new ServiceInfo[infoForSubType.size()]));
@@ -614,7 +614,7 @@ public class JmmDNSImpl implements JmmDNS, NetworkTopologyListener, ServiceInfoI
 		public void run() {
 			try {
 				InetAddress[] curentAddresses = _topology.getInetAddresses();
-				Set<InetAddress> current = new HashSet<InetAddress>(curentAddresses.length);
+				Set<InetAddress> current = new HashSet<>(curentAddresses.length);
 				for (InetAddress address : curentAddresses) {
 					current.add(address);
 					if (!_knownAddresses.contains(address)) {

@@ -30,12 +30,12 @@ import com.serotonin.bacnet4j.type.enumerated.PropertyIdentifier;
 import com.serotonin.bacnet4j.type.primitive.ObjectIdentifier;
 
 public class PropertyReferences {
-	private final Map<ObjectIdentifier, List<PropertyReference>> properties = new HashMap<ObjectIdentifier, List<PropertyReference>>();
+	private final Map<ObjectIdentifier, List<PropertyReference>> properties = new HashMap<>();
 
 	public void add(ObjectIdentifier oid, PropertyReference ref) {
 		List<PropertyReference> refs = properties.get(oid);
 		if (refs == null) {
-			refs = new ArrayList<PropertyReference>();
+			refs = new ArrayList<>();
 			properties.put(oid, refs);
 		}
 		refs.add(ref);
@@ -50,7 +50,7 @@ public class PropertyReferences {
 	}
 
 	public List<PropertyReferences> getPropertiesPartitioned(int maxPartitionSize) {
-		List<PropertyReferences> partitions = new ArrayList<PropertyReferences>();
+		List<PropertyReferences> partitions = new ArrayList<>();
 
 		if (size() <= maxPartitionSize)
 			partitions.add(this);

@@ -137,7 +137,7 @@ public class Tree extends JTree {
 
 	static Node makeRoot() {
 		Node root = new Node();
-		root.kids = new Vector<Node>();
+		root.kids = new Vector<>();
 		return root;
 	}
 
@@ -215,7 +215,7 @@ public class Tree extends JTree {
 
 		// lame!
 		public TreePath getPath() {
-			ArrayList<Node> acc = new ArrayList<Node>();
+			ArrayList<Node> acc = new ArrayList<>();
 			for (Node n = this; n != null; n = n.parent)
 				acc.add(0, n);
 			return new TreePath(acc.toArray());
@@ -231,7 +231,7 @@ public class Tree extends JTree {
 		Vector<Node> kids() {
 			if (kids == null) {
 				System.out.println("Tree.expand: " + name + " [" + href + "]");
-				kids = new Vector<Node>();
+				kids = new Vector<>();
 				try {
 					this.obj = session.read(href);
 					Obj[] list = obj.list();

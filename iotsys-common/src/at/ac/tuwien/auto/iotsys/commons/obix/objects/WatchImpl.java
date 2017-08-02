@@ -79,9 +79,9 @@ public class WatchImpl extends Obj implements Watch {
 
 	// holds an observer object for each obix object that is watched using the
 	// normalized href path as key.
-	private final Hashtable<String, EventObserver<Obj>> observers = new Hashtable<String, EventObserver<Obj>>();
+	private final Hashtable<String, EventObserver<Obj>> observers = new Hashtable<>();
 
-	private final Hashtable<String, Uri> observedObjects = new Hashtable<String, Uri>();
+	private final Hashtable<String, Uri> observedObjects = new Hashtable<>();
 
 	private static final int DEFAULT_LEASE = 60 * 1000; // 1 minute
 	private Reltime lease;
@@ -133,7 +133,7 @@ public class WatchImpl extends Obj implements Watch {
 					// in the same WatchIn request,
 					// then the server SHOULD only return the object once.
 					// Therefore filter out duplicate URIs
-					ArrayList<Uri> uris = new ArrayList<Uri>();
+					ArrayList<Uri> uris = new ArrayList<>();
 					for (IObj u : watchIn.get("hrefs").list()) {
 						if (!uris.contains(u))
 							uris.add((Uri) u);
@@ -152,7 +152,7 @@ public class WatchImpl extends Obj implements Watch {
 									filter = filter.getFilter(uri.list()[0]);
 								observer = new FeedObserver(filter);
 							} else {
-								observer = new ObjObserver<Obj>();
+								observer = new ObjObserver<>();
 							}
 							observers.put(uri.getPath(), observer);
 

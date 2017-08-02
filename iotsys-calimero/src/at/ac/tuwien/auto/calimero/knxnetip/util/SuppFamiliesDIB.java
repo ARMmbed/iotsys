@@ -44,7 +44,7 @@ public class SuppFamiliesDIB extends DIB {
 	private static final String[] familyNames = { null, null, "Core", "Device Management", "Tunneling", "Routing",
 			"Remote Logging", "Remote Configuration/Diagnosis", "Object Server" };
 
-	private final Map<Short, Short> map = new HashMap<Short, Short>();
+	private final Map<Short, Short> map = new HashMap<>();
 
 	/**
 	 * Creates a supported families DIB out of a byte array.

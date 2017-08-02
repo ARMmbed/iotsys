@@ -21,7 +21,7 @@ public class PolicySet extends AbstractPolicy {
 	private CombinerParameters combinerParameters;
 	private PolicyCombinerParameters policyCombinerParameters;
 	private PolicySetCombinerParameters policySetCombinerParameters;
-	private ArrayList<XACMLElement> all = new ArrayList<XACMLElement>();
+	private ArrayList<XACMLElement> all = new ArrayList<>();
 	private AbstractPolicy[] allPolicies;
 
 	// FIXME these ugly constructors should be replaced by setters and getters

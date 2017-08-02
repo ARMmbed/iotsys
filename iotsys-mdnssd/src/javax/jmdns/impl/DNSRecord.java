@@ -1077,7 +1077,7 @@ public abstract class DNSRecord extends DNSEntry {
 		 */
 		@Override
 		public ServiceInfo getServiceInfo(boolean persistent) {
-			Map<String, String> hinfo = new HashMap<String, String>(2);
+			Map<String, String> hinfo = new HashMap<>(2);
 			hinfo.put("cpu", _cpu);
 			hinfo.put("os", _os);
 			return new ServiceInfoImpl(this.getQualifiedNameMap(), 0, 0, 0, persistent, hinfo);

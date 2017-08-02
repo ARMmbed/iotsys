@@ -54,12 +54,12 @@ public class KNXDeviceLoaderETSImplManual implements DeviceLoader {
 
 	private XMLConfiguration devicesConfig;
 
-	private ArrayList<String> myObjects = new ArrayList<String>();
+	private ArrayList<String> myObjects = new ArrayList<>();
 
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		setConfiguration(devicesConfig);
 
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 
 		KNXConnector knxConnector = new KNXConnector("192.168.161.59", 3671, "auto");
 

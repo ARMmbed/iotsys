@@ -68,8 +68,8 @@ public class BACnetObject implements Serializable {
 
 	private final LocalDevice localDevice;
 	private final ObjectIdentifier id;
-	private final Map<PropertyIdentifier, Encodable> properties = new HashMap<PropertyIdentifier, Encodable>();
-	private final List<ObjectCovSubscription> covSubscriptions = new ArrayList<ObjectCovSubscription>();
+	private final Map<PropertyIdentifier, Encodable> properties = new HashMap<>();
+	private final List<ObjectCovSubscription> covSubscriptions = new ArrayList<>();
 
 	public BACnetObject(LocalDevice localDevice, ObjectIdentifier id) {
 		this.localDevice = localDevice;
@@ -199,7 +199,7 @@ public class BACnetObject implements Serializable {
 		ObjectProperties.validateSequenceValue(id.getObjectType(), pid, value);
 		SequenceOf<Encodable> list = (SequenceOf<Encodable>) properties.get(pid);
 		if (list == null) {
-			list = new SequenceOf<Encodable>();
+			list = new SequenceOf<>();
 			setPropertyImpl(pid, list);
 		}
 		list.set(indexBase1, value);
@@ -348,7 +348,7 @@ public class BACnetObject implements Serializable {
 	private void sendCovNotification(ObjectCovSubscription sub, long now) {
 		try {
 			UnsignedInteger timeLeft = new UnsignedInteger(sub.getTimeRemaining(now));
-			SequenceOf<PropertyValue> values = new SequenceOf<PropertyValue>(ObjectCovSubscription.getValues(this));
+			SequenceOf<PropertyValue> values = new SequenceOf<>(ObjectCovSubscription.getValues(this));
 
 			if (sub.isIssueConfirmedNotifications()) {
 				// Confirmed

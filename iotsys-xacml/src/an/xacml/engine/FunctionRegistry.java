@@ -25,7 +25,7 @@ import an.xml.XMLGeneralException;
 public class FunctionRegistry {
 	public static String XACML_FUNCTION_PACKAGE = "an.xacml.policy.function";
 	private static FunctionRegistry functionReg;
-	private Map<URI, BuiltInFunction> functions = new HashMap<URI, BuiltInFunction>();
+	private Map<URI, BuiltInFunction> functions = new HashMap<>();
 	private Logger logger;
 
 	private FunctionRegistry() throws IOException, ClassNotFoundException, BuiltInFunctionExistsException {
@@ -60,7 +60,7 @@ public class FunctionRegistry {
 	 * @throws BuiltInFunctionExistsException
 	 */
 	protected void initialize() throws IOException, ClassNotFoundException, BuiltInFunctionExistsException {
-		Set<Class<?>> providerClasses = new HashSet<Class<?>>();
+		Set<Class<?>> providerClasses = new HashSet<>();
 
 		findClassesByPackage(XACML_FUNCTION_PACKAGE, true, providerClasses);
 		// loop on function provider classes
@@ -86,7 +86,7 @@ public class FunctionRegistry {
 							}
 
 							// function attributes map
-							final Map<Class<?>, Annotation> funcAttrs = new HashMap<Class<?>, Annotation>();
+							final Map<Class<?>, Annotation> funcAttrs = new HashMap<>();
 							Annotation[] anns = current.getDeclaredAnnotations();
 							for (Annotation ann : anns) {
 								// We don't need the function id's annotation

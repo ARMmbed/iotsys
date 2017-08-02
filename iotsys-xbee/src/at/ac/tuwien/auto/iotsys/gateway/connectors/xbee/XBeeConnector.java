@@ -20,7 +20,7 @@ public class XBeeConnector extends Connector {
 	private int baudRate;
 	private XBee xbee;
 
-	private final Hashtable<String, ArrayList<XBeeWatchdog>> watchDogs = new Hashtable<String, ArrayList<XBeeWatchdog>>();
+	private final Hashtable<String, ArrayList<XBeeWatchdog>> watchDogs = new Hashtable<>();
 
 	public XBeeConnector(String port, int baudRate) {
 		this.port = port;

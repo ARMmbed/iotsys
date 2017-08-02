@@ -48,7 +48,7 @@ public class Contract {
 	 */
 	public static Uri[] parse(String list) {
 		StringTokenizer st = new StringTokenizer(list, " ");
-		ArrayList<Uri> acc = new ArrayList<Uri>();
+		ArrayList<Uri> acc = new ArrayList<>();
 		while (st.hasMoreTokens())
 			acc.add(new Uri(st.nextToken()));
 		return (Uri[]) acc.toArray(new Uri[acc.size()]);

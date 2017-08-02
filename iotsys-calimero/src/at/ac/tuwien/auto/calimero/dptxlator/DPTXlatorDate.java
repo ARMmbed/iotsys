@@ -61,7 +61,7 @@ public class DPTXlatorDate extends DPTXlator {
 	private static final Map<String, DPT> types;
 
 	static {
-		types = new HashMap<String, DPT>(3);
+		types = new HashMap<>(3);
 		types.put(DPT_DATE.getID(), DPT_DATE);
 	}
 

@@ -13,7 +13,7 @@ public abstract class RadioPacketRPSParser implements EEPParser {
 
 	@Override
 	public Map<EnoceanParameterAddress, Value> parsePacket(BasicPacket packet) {
-		Map<EnoceanParameterAddress, Value> map = new HashMap<EnoceanParameterAddress, Value>();
+		Map<EnoceanParameterAddress, Value> map = new HashMap<>();
 		if (packet instanceof RadioPacketRPS) {
 			RadioPacketRPS radioPacketRPS = (RadioPacketRPS) packet;
 			parsePacket(map, radioPacketRPS);

@@ -81,7 +81,7 @@ public class KNXConnector extends Connector {
 
 	public static final Logger knxBus = Logger.getLogger("knxbus");
 
-	private final Hashtable<Integer, ArrayList<KNXWatchDog>> watchDogs = new Hashtable<Integer, ArrayList<KNXWatchDog>>();
+	private final Hashtable<Integer, ArrayList<KNXWatchDog>> watchDogs = new Hashtable<>();
 
 	private static final Logger log = Logger.getLogger(KNXConnector.class.getName());
 

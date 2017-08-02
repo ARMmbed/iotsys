@@ -314,7 +314,7 @@ public class ServiceInfoImpl extends ServiceInfo implements DNSListener, DNSStat
 			}
 		}
 
-		final Map<Fields, String> qualifiedNameMap = new HashMap<Fields, String>(5);
+		final Map<Fields, String> qualifiedNameMap = new HashMap<>(5);
 		qualifiedNameMap.put(Fields.Domain, removeSeparators(domain));
 		qualifiedNameMap.put(Fields.Protocol, protocol);
 		qualifiedNameMap.put(Fields.Application, removeSeparators(application));
@@ -325,7 +325,7 @@ public class ServiceInfoImpl extends ServiceInfo implements DNSListener, DNSStat
 	}
 
 	protected static Map<Fields, String> checkQualifiedNameMap(Map<Fields, String> qualifiedNameMap) {
-		Map<Fields, String> checkedQualifiedNameMap = new HashMap<Fields, String>(5);
+		Map<Fields, String> checkedQualifiedNameMap = new HashMap<>(5);
 
 		// Optional domain
 		String domain = (qualifiedNameMap.containsKey(Fields.Domain) ? qualifiedNameMap.get(Fields.Domain) : "local");
@@ -564,7 +564,7 @@ public class ServiceInfoImpl extends ServiceInfo implements DNSListener, DNSStat
 	 */
 	@Override
 	public InetAddress[] getInetAddresses() {
-		List<InetAddress> aList = new ArrayList<InetAddress>(_ipv4Addresses.size() + _ipv6Addresses.size());
+		List<InetAddress> aList = new ArrayList<>(_ipv4Addresses.size() + _ipv6Addresses.size());
 		aList.addAll(_ipv4Addresses);
 		aList.addAll(_ipv6Addresses);
 		return aList.toArray(new InetAddress[aList.size()]);
@@ -726,7 +726,7 @@ public class ServiceInfoImpl extends ServiceInfo implements DNSListener, DNSStat
 	public Enumeration<String> getPropertyNames() {
 		Map<String, byte[]> properties = this.getProperties();
 		Collection<String> names = (properties != null ? properties.keySet() : Collections.<String>emptySet());
-		return new Vector<String>(names).elements();
+		return new Vector<>(names).elements();
 	}
 
 	/**
@@ -766,7 +766,7 @@ public class ServiceInfoImpl extends ServiceInfo implements DNSListener, DNSStat
 	 */
 	@Override
 	public Map<Fields, String> getQualifiedNameMap() {
-		Map<Fields, String> map = new HashMap<Fields, String>(5);
+		Map<Fields, String> map = new HashMap<>(5);
 
 		map.put(Fields.Domain, this.getDomain());
 		map.put(Fields.Protocol, this.getProtocol());
@@ -846,7 +846,7 @@ public class ServiceInfoImpl extends ServiceInfo implements DNSListener, DNSStat
 
 	synchronized Map<String, byte[]> getProperties() {
 		if ((_props == null) && (this.getTextBytes() != null)) {
-			Hashtable<String, byte[]> properties = new Hashtable<String, byte[]>();
+			Hashtable<String, byte[]> properties = new Hashtable<>();
 			try {
 				int off = 0;
 				while (off < getTextBytes().length) {
@@ -1231,7 +1231,7 @@ public class ServiceInfoImpl extends ServiceInfo implements DNSListener, DNSStat
 	}
 
 	public Collection<DNSRecord> answers(boolean unique, int ttl, HostInfo localHost) {
-		List<DNSRecord> list = new ArrayList<DNSRecord>();
+		List<DNSRecord> list = new ArrayList<>();
 		if (this.getSubtype().length() > 0) {
 			list.add(new Pointer(this.getTypeWithSubtype(), DNSRecordClass.CLASS_IN, DNSRecordClass.NOT_UNIQUE, ttl,
 					this.getQualifiedName()));

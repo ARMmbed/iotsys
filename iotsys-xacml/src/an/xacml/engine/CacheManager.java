@@ -43,8 +43,8 @@ public class CacheManager {
 	public static final String ELEM_EVALRESULT_CACHE = "EvaluationResultCache";
 	public static final String ATTR_EVALRESULTCACHE = "enableEvaluationResultCache";
 
-	private static Map<PDP, CacheManager> managerRegistry = new Hashtable<PDP, CacheManager>();
-	private static Map<CacheManager, PDP> pdpRegistry = new Hashtable<CacheManager, PDP>();
+	private static Map<PDP, CacheManager> managerRegistry = new Hashtable<>();
+	private static Map<CacheManager, PDP> pdpRegistry = new Hashtable<>();
 
 	private boolean enableResultCache;
 	private ConfigElement policyCacheConfig;

@@ -44,7 +44,7 @@ public class XMLFileDataStore implements DataStore {
 	private String path;
 	private String pattern;
 	private Logger logger;
-	private Map<URI, File> policyFilesByID = new Hashtable<URI, File>();
+	private Map<URI, File> policyFilesByID = new Hashtable<>();
 
 	public static final String ATTRIBUTE_POLICY_ID = "PolicyId";
 	public static final String ATTRIBUTE_POLICYSET_ID = "PolicySetId";
@@ -75,7 +75,7 @@ public class XMLFileDataStore implements DataStore {
 	public DataAdapter[] load() throws DataAdapterException {
 		try {
 			policyFilesByID.clear();
-			Vector<DataAdapter> adapters = new Vector<DataAdapter>();
+			Vector<DataAdapter> adapters = new Vector<>();
 			File dir = new File(path);
 
 			if (dir.isDirectory()) {

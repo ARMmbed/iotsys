@@ -77,7 +77,7 @@ public interface NetworkTopologyDiscovery {
 			public NetworkTopologyDiscovery newNetworkTopologyDiscovery();
 		}
 
-		private static final AtomicReference<Factory.ClassDelegate> _databaseClassDelegate = new AtomicReference<Factory.ClassDelegate>();
+		private static final AtomicReference<Factory.ClassDelegate> _databaseClassDelegate = new AtomicReference<>();
 
 		private Factory() {
 			super();

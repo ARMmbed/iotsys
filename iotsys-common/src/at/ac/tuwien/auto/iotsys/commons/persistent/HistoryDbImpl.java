@@ -48,7 +48,7 @@ public class HistoryDbImpl implements HistoryDb {
 
 	@Override
 	public List<DbHistoryFeedRecord> getLatestHistoryFeed(String href, int number) {
-		return new ArrayList<DbHistoryFeedRecord>();
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class HistoryDbImpl implements HistoryDb {
 
 	@Override
 	public List<DbHistoryFeedRecord> getHistoryFeed(String href, long start, long end, int limit) {
-		return new ArrayList<DbHistoryFeedRecord>();
+		return new ArrayList<>();
 	}
 
 	@Override

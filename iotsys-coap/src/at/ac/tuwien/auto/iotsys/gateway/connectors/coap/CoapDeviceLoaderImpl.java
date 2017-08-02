@@ -57,7 +57,7 @@ import obix.Obj;
 import obix.Uri;
 
 public class CoapDeviceLoaderImpl implements DeviceLoader {
-	private final ArrayList<Obj> myObjects = new ArrayList<Obj>();
+	private final ArrayList<Obj> myObjects = new ArrayList<>();
 
 	private XMLConfiguration devicesConfig;
 
@@ -67,7 +67,7 @@ public class CoapDeviceLoaderImpl implements DeviceLoader {
 		setConfiguration(devicesConfig);
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
 
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("coap");
 		int connectorsSize = 0;

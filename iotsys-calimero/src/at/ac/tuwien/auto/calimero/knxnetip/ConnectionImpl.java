@@ -149,8 +149,8 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 	private HeartbeatMonitor heartbeat;
 
 	// event listener lists
-	private final List<KNXListener> listeners = new ArrayList<KNXListener>();
-	private List<KNXListener> listenersCopy = new ArrayList<KNXListener>();
+	private final List<KNXListener> listeners = new ArrayList<>();
+	private List<KNXListener> listenersCopy = new ArrayList<>();
 	private final Semaphore sendWaitQueue = new Semaphore();
 
 	ConnectionImpl() {
@@ -169,7 +169,7 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
-				listenersCopy = new ArrayList<KNXListener>(listeners);
+				listenersCopy = new ArrayList<>(listeners);
 			} else
 				logger.warn("event listener already registered");
 		}
@@ -185,7 +185,7 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 	public void removeConnectionListener(KNXListener l) {
 		synchronized (listeners) {
 			if (listeners.remove(l))
-				listenersCopy = new ArrayList<KNXListener>(listeners);
+				listenersCopy = new ArrayList<>(listeners);
 		}
 	}
 

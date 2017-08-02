@@ -47,7 +47,7 @@ public class DefaultElement implements Element {
 	 */
 	public DefaultElement(String name) {
 		type = name;
-		attributes = new ArrayList<Attribute>();
+		attributes = new ArrayList<>();
 	}
 
 	/*

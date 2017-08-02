@@ -105,7 +105,7 @@ public class Feed extends Obj {
 	 */
 	public List<Obj> getEvents() {
 		synchronized (events) {
-			return new ArrayList<Obj>(events);
+			return new ArrayList<>(events);
 		}
 	}
 
@@ -169,7 +169,7 @@ public class Feed extends Obj {
 
 	private Contract in;
 	private Contract of;
-	private LinkedList<Obj> events = new LinkedList<Obj>();
+	private LinkedList<Obj> events = new LinkedList<>();
 	private FeedFilter defaultFilter = new DefaultFeedFilter();
 	private int maxEvents = 0;
 	private Obj latestEvent;

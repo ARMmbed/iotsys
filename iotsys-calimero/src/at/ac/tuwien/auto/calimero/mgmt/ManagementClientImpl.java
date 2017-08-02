@@ -134,7 +134,7 @@ public class ManagementClientImpl implements ManagementClient {
 	private final TLListener tlListener = new TLListener();
 	private volatile Priority priority = Priority.LOW;
 	private volatile int responseTimeout = 5;
-	private final List<FrameEvent> indications = new LinkedList<FrameEvent>();
+	private final List<FrameEvent> indications = new LinkedList<>();
 	private volatile int svcResponse;
 	private volatile boolean detached;
 	private final LogService logger;
@@ -234,7 +234,7 @@ public class ManagementClientImpl implements ManagementClient {
 	 */
 	public synchronized IndividualAddress[] readAddress(boolean oneAddressOnly)
 			throws KNXTimeoutException, KNXRemoteException, KNXLinkClosedException {
-		final List<IndividualAddress> l = new ArrayList<IndividualAddress>();
+		final List<IndividualAddress> l = new ArrayList<>();
 		try {
 			svcResponse = IND_ADDR_RESPONSE;
 			tl.broadcast(false, Priority.SYSTEM, DataUnitBuilder.createCompactAPDU(IND_ADDR_READ, null));
@@ -678,7 +678,7 @@ public class ManagementClientImpl implements ManagementClient {
 	private synchronized List<byte[]> readBroadcast(Priority p, byte[] apdu, int response, int minASDULen,
 			int maxASDULen, boolean oneOnly)
 			throws KNXLinkClosedException, KNXInvalidResponseException, KNXTimeoutException {
-		final List<byte[]> l = new ArrayList<byte[]>();
+		final List<byte[]> l = new ArrayList<>();
 		try {
 			svcResponse = response;
 			tl.broadcast(true, p, apdu);

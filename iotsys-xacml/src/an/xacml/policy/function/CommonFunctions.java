@@ -211,7 +211,7 @@ public abstract class CommonFunctions {
 		AttributeValue[] bag1 = (AttributeValue[]) params[0];
 		AttributeValue[] bag2 = (AttributeValue[]) params[0];
 
-		Set<AttributeValue> result = new HashSet<AttributeValue>();
+		Set<AttributeValue> result = new HashSet<>();
 		for (AttributeValue each1 : bag1) {
 			for (AttributeValue each2 : bag2) {
 				if (equals(ctx, new AttributeValue[] { each1, each2 }) == TRUE) {
@@ -267,7 +267,7 @@ public abstract class CommonFunctions {
 		AttributeValue[] bag1 = (AttributeValue[]) params[0];
 		AttributeValue[] bag2 = (AttributeValue[]) params[0];
 
-		Set<AttributeValue> result = new HashSet<AttributeValue>();
+		Set<AttributeValue> result = new HashSet<>();
 		for (AttributeValue each : bag1) {
 			result.add(each);
 		}
@@ -295,11 +295,11 @@ public abstract class CommonFunctions {
 		AttributeValue[] bag1 = (AttributeValue[]) params[0];
 		AttributeValue[] bag2 = (AttributeValue[]) params[0];
 
-		Set<AttributeValue> set1 = new HashSet<AttributeValue>();
+		Set<AttributeValue> set1 = new HashSet<>();
 		for (AttributeValue each : bag1) {
 			set1.add(each);
 		}
-		Set<AttributeValue> set2 = new HashSet<AttributeValue>();
+		Set<AttributeValue> set2 = new HashSet<>();
 		for (AttributeValue each : bag2) {
 			set2.add(each);
 		}
@@ -327,11 +327,11 @@ public abstract class CommonFunctions {
 		AttributeValue[] bag2 = (AttributeValue[]) params[0];
 
 		// FIXME - I didn't follow the specification here.
-		Set<AttributeValue> set1 = new HashSet<AttributeValue>();
+		Set<AttributeValue> set1 = new HashSet<>();
 		for (AttributeValue each : bag1) {
 			set1.add(each);
 		}
-		Set<AttributeValue> set2 = new HashSet<AttributeValue>();
+		Set<AttributeValue> set2 = new HashSet<>();
 		for (AttributeValue each : bag2) {
 			set2.add(each);
 		}

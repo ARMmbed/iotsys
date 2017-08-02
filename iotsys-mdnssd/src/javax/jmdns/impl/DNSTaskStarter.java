@@ -61,11 +61,11 @@ public interface DNSTaskStarter {
 			public DNSTaskStarter newDNSTaskStarter(JmDNSImpl jmDNSImpl);
 		}
 
-		private static final AtomicReference<Factory.ClassDelegate> _databaseClassDelegate = new AtomicReference<Factory.ClassDelegate>();
+		private static final AtomicReference<Factory.ClassDelegate> _databaseClassDelegate = new AtomicReference<>();
 
 		private Factory() {
 			super();
-			_instances = new ConcurrentHashMap<JmDNSImpl, DNSTaskStarter>(20);
+			_instances = new ConcurrentHashMap<>(20);
 		}
 
 		/**

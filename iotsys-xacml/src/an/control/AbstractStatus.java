@@ -4,7 +4,7 @@ import java.util.Hashtable;
 import java.util.Iterator;
 
 public abstract class AbstractStatus implements Status {
-	protected Hashtable<String, Object> status = new Hashtable<String, Object>();
+	protected Hashtable<String, Object> status = new Hashtable<>();
 
 	@SuppressWarnings("unchecked")
 	public Object clone() throws CloneNotSupportedException {

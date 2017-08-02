@@ -14,7 +14,7 @@ public abstract class RadioPacket4BSParser implements EEPParser {
 
 	@Override
 	public Map<EnoceanParameterAddress, Value> parsePacket(BasicPacket packet) {
-		Map<EnoceanParameterAddress, Value> map = new HashMap<EnoceanParameterAddress, Value>();
+		Map<EnoceanParameterAddress, Value> map = new HashMap<>();
 		if (packet instanceof RadioPacket4BS) {
 			RadioPacket4BS radioPacket4BS = (RadioPacket4BS) packet;
 			parsePacket(map, radioPacket4BS);

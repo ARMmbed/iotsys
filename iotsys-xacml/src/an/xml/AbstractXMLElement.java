@@ -170,7 +170,7 @@ public abstract class AbstractXMLElement implements XMLElement {
 	 * @throws XMLGeneralException
 	 */
 	protected XMLElement[] extractChildXMLElements(Element element) throws XMLGeneralException {
-		Vector<XMLElement> list = new Vector<XMLElement>();
+		Vector<XMLElement> list = new Vector<>();
 
 		try {
 			if (element != null) {
@@ -205,7 +205,7 @@ public abstract class AbstractXMLElement implements XMLElement {
 	 * @throws XMLGeneralException
 	 */
 	protected XMLAttribute[] extractXMLAttributes(Element element) throws XMLGeneralException {
-		Vector<XMLAttribute> list = new Vector<XMLAttribute>();
+		Vector<XMLAttribute> list = new Vector<>();
 
 		if (element != null) {
 			NamedNodeMap attrs = element.getAttributes();
@@ -232,7 +232,7 @@ public abstract class AbstractXMLElement implements XMLElement {
 	}
 
 	public synchronized XMLElement[] getXMLElementsByType(Class<?> type) {
-		Vector<XMLElement> elements = new Vector<XMLElement>();
+		Vector<XMLElement> elements = new Vector<>();
 		for (int i = 0; i < childElements.length; i++) {
 			if (type.isAssignableFrom(childElements[i].getClass())) {
 				elements.add(childElements[i]);
@@ -256,7 +256,7 @@ public abstract class AbstractXMLElement implements XMLElement {
 	}
 
 	public synchronized XMLElement[] getXMLElementsByName(String name) {
-		Vector<XMLElement> elements = new Vector<XMLElement>();
+		Vector<XMLElement> elements = new Vector<>();
 		for (int i = 0; i < childElements.length; i++) {
 			if (name.equalsIgnoreCase(childElements[i].getElementName())) {
 				elements.add(childElements[i]);

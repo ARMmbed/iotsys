@@ -21,7 +21,7 @@ public class CommandLineArguments {
 	 * allow, false is disallow. Default is true.
 	 */
 	private boolean allowInvalidArgs;
-	private Map<String, Argument> arguments = new HashMap<String, Argument>();
+	private Map<String, Argument> arguments = new HashMap<>();
 	/**
 	 * All tokens should start with "-". For example "java someclass -config
 	 * c:\work\config.xml"
@@ -39,7 +39,7 @@ public class CommandLineArguments {
 	}
 
 	public CommandLineArguments(String[] requiredTokens, String[] optionalTokens, boolean allowInvalid) {
-		reqTokens = new HashSet<String>();
+		reqTokens = new HashSet<>();
 		if (requiredTokens != null) {
 			for (int i = 0; i < requiredTokens.length; i++) {
 				// For case-insensitive
@@ -47,7 +47,7 @@ public class CommandLineArguments {
 			}
 		}
 
-		optTokens = new HashSet<String>();
+		optTokens = new HashSet<>();
 		if (optionalTokens != null) {
 			for (int i = 0; i < optionalTokens.length; i++) {
 				// For case-insensitive
@@ -69,7 +69,7 @@ public class CommandLineArguments {
 
 	public CommandLineArguments(Collection<String> requiredTokens, Collection<String> optionalTokens,
 			boolean allowInvalid) {
-		reqTokens = new HashSet<String>();
+		reqTokens = new HashSet<>();
 		if (requiredTokens != null) {
 			Iterator<String> iReq = requiredTokens.iterator();
 			while (iReq.hasNext()) {
@@ -78,7 +78,7 @@ public class CommandLineArguments {
 			}
 		}
 
-		optTokens = new HashSet<String>();
+		optTokens = new HashSet<>();
 		if (optionalTokens != null) {
 			Iterator<String> iOpt = optionalTokens.iterator();
 			while (iOpt.hasNext()) {
@@ -156,7 +156,7 @@ public class CommandLineArguments {
 	}
 
 	private String[] trimStringArray(String[] array) {
-		Vector<String> result = new Vector<String>();
+		Vector<String> result = new Vector<>();
 		for (int i = 0; i < array.length; i++) {
 			if (!array[i].equals("")) {
 				result.add(array[i]);

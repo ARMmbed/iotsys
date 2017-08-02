@@ -34,7 +34,7 @@ public class Status {
 	}
 
 	private static Status[] list = new Status[8];
-	private static HashMap<String, Status> map = new HashMap<String, Status>();
+	private static HashMap<String, Status> map = new HashMap<>();
 
 	// //////////////////////////////////////////////////////////////
 	// Range

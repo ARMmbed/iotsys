@@ -284,7 +284,7 @@ public class HostInfo implements DNSStatefulObject {
 	}
 
 	public Collection<DNSRecord> answers(boolean unique, int ttl) {
-		List<DNSRecord> list = new ArrayList<DNSRecord>();
+		List<DNSRecord> list = new ArrayList<>();
 		DNSRecord answer = this.getDNS4AddressRecord(unique, ttl);
 		if (answer != null) {
 			list.add(answer);

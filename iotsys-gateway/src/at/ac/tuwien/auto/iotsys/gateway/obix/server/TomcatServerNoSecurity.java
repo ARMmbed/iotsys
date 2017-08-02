@@ -658,7 +658,7 @@ public class TomcatServerNoSecurity {
 			log.info("Interceptors found ... starting to prepare.");
 
 			InterceptorRequest interceptorRequest = new InterceptorRequestImpl();
-			HashMap<Parameter, String> interceptorParams = new HashMap<Parameter, String>();
+			HashMap<Parameter, String> interceptorParams = new HashMap<>();
 
 			String uri = req.getRequestURI();
 			String subject = req.getRemoteAddr();
@@ -828,7 +828,7 @@ public class TomcatServerNoSecurity {
 		/**
 		 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 		 */
-		private Hashtable<String, String> theMimeTypes = new Hashtable<String, String>();
+		private Hashtable<String, String> theMimeTypes = new Hashtable<>();
 		{
 			StringTokenizer st = new StringTokenizer("css		text/css " + "htm		text/html "
 					+ "html		text/html " + "xml		text/xml " + "txt		text/plain " + "asc		text/plain "

@@ -266,5 +266,5 @@ public class AlarmConsoleView extends View {
 
 	JTable table;
 	Model model;
-	ArrayList<Row> rows = new ArrayList<Row>();
+	ArrayList<Row> rows = new ArrayList<>();
 }

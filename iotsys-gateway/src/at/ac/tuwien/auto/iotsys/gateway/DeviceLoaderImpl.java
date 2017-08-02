@@ -61,7 +61,7 @@ public class DeviceLoaderImpl implements DeviceLoader {
 	}
 
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 
 		// use technology specific device loaders
 		int deviceLoadersSize = 0;

@@ -140,9 +140,9 @@ public class NamedImpl implements Named {
 
 		private void handleQuery(DNSIncoming msg) {
 
-			ArrayList<DNSRecord> ansRcrdList = new ArrayList<DNSRecord>();
-			ArrayList<DNSRecord> authRcrdList = new ArrayList<DNSRecord>();
-			ArrayList<DNSRecord> addtnRcrdList = new ArrayList<DNSRecord>();
+			ArrayList<DNSRecord> ansRcrdList = new ArrayList<>();
+			ArrayList<DNSRecord> authRcrdList = new ArrayList<>();
+			ArrayList<DNSRecord> addtnRcrdList = new ArrayList<>();
 
 			DNSOutgoing out = new DNSOutgoing(DNSConstants.FLAGS_QR_RESPONSE | DNSConstants.FLAGS_AA, false,
 					msg.getSenderUDPPayload());

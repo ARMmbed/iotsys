@@ -206,7 +206,7 @@ public class DPTXlatorBoolean extends DPTXlator {
 	}
 
 	static {
-		types = new HashMap<String, DPT>(30);
+		types = new HashMap<>(30);
 		types.put(DPT_SWITCH.getID(), DPT_SWITCH);
 		types.put(DPT_BOOL.getID(), DPT_BOOL);
 		types.put(DPT_ENABLE.getID(), DPT_ENABLE);

@@ -52,7 +52,7 @@ public class LFUCache extends ExpiringCache {
 		super(timeToExpire);
 		if (cacheSize > 0)
 			maxSize = cacheSize;
-		tree = new TreeMap<CacheObject, CacheObject>(new LFUObjectCompare());
+		tree = new TreeMap<>(new LFUObjectCompare());
 	}
 
 	/**

@@ -52,7 +52,7 @@ public class EntitiesImpl extends List implements Entities {
 		this.setHref(new Uri("entities"));
 		this.setHidden(true);
 
-		this.entities = new ArrayList<Entity>();
+		this.entities = new ArrayList<>();
 	}
 
 	public void addEntity(EntityImpl entity) {

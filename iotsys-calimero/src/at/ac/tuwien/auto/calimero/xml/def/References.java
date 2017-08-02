@@ -50,7 +50,7 @@ final class References {
 	private static final Map<String, String> map;
 
 	static {
-		map = new HashMap<String, String>(25);
+		map = new HashMap<>(25);
 		for (int i = 0; i < 5; ++i)
 			for (int k = 0; k < 3; ++k)
 				map.put(entityTable[i][k], entityTable[i][3]);

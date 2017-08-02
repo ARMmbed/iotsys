@@ -43,7 +43,7 @@ import obix.Refreshable;
  */
 
 public class ObjectRefresher implements Runnable {
-	private static final HashSet<Obj> objects = new HashSet<Obj>();
+	private static final HashSet<Obj> objects = new HashSet<>();
 
 	private volatile boolean stop = false;
 

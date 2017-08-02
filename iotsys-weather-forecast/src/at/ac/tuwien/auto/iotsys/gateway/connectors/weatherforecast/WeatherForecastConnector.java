@@ -67,7 +67,7 @@ import at.ac.tuwien.auto.iotsys.obix.observer.Subject;
 
 public class WeatherForecastConnector extends Connector implements Subject {
 
-	private static final HashSet<Observer> observers = new HashSet<Observer>();
+	private static final HashSet<Observer> observers = new HashSet<>();
 	private static final Logger log = Logger.getLogger(WeatherForecastConnector.class.getName());
 
 	private ManualOverwrite overwrite = ManualOverwrite.OFF;
@@ -122,7 +122,7 @@ public class WeatherForecastConnector extends Connector implements Subject {
 	@JsonIgnore
 	public List<WeatherForcastObject> getWeatherForecast(String serviceURL) {
 
-		ArrayList<WeatherForcastObject> resultWeatherList = new ArrayList<WeatherForcastObject>();
+		ArrayList<WeatherForcastObject> resultWeatherList = new ArrayList<>();
 
 		if (overwrite == ManualOverwrite.STORM_ALARM) {
 

@@ -536,7 +536,7 @@ public class ObixSession {
 	String username;
 	String password;
 	String authHeader;
-	HashMap<String, SessionWatch> watches = new HashMap<String, SessionWatch>();
+	HashMap<String, SessionWatch> watches = new HashMap<>();
 	boolean testHttps = true;
 	boolean useHttpURLConnection = true;
 	int timeout = 0;

@@ -271,7 +271,7 @@ public class Discoverer {
 			throw new KNXException("no network interfaces found");
 		}
 
-		final List<Receiver> rcv = new ArrayList<Receiver>();
+		final List<Receiver> rcv = new ArrayList<>();
 		boolean lo = false;
 		while (eni.hasMoreElements()) {
 			final NetworkInterface ni = (NetworkInterface) eni.nextElement();

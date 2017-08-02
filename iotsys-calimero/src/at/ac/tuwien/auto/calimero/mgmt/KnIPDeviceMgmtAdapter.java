@@ -85,7 +85,7 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter {
 	private final PropertyAdapterListener listener;
 	private final List<CEMI> frames = Collections.synchronizedList(new LinkedList<CEMI>());
 
-	private final List<Pair> interfaceObjects = new ArrayList<Pair>();
+	private final List<Pair> interfaceObjects = new ArrayList<>();
 	private final boolean checkRW;
 
 	private volatile boolean serverReset;

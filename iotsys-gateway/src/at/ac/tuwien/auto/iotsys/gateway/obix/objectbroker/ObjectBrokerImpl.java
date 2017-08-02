@@ -74,7 +74,7 @@ public class ObjectBrokerImpl implements ObjectBroker {
 
 	private AboutImpl aboutImpl = null;
 
-	private final HashMap<String, String> ipv6Mapping = new HashMap<String, String>();
+	private final HashMap<String, String> ipv6Mapping = new HashMap<>();
 
 	private static final ObjectBroker instance = new ObjectBrokerImpl();
 
@@ -86,7 +86,7 @@ public class ObjectBrokerImpl implements ObjectBroker {
 
 	private DeviceLoaderImpl deviceLoader;
 
-	private ArrayList<Connector> connectors = new ArrayList<Connector>();
+	private ArrayList<Connector> connectors = new ArrayList<>();
 
 	static {
 		((ObjectBrokerImpl) instance).initInternals();

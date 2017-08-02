@@ -14,12 +14,12 @@ public class PolicyResolverRegistry {
 	public static final String ELEMTYPE_POLICYRESOLVER = "PolicyResolverType";
 	public static final String ATTR_POLICYRESOLVER_CLASSNAME = "an.xacml.engine.PolicyResolver";
 
-	private static Map<PDP, PolicyResolverRegistry> policyResolverRegistry = new Hashtable<PDP, PolicyResolverRegistry>();
-	private static Map<PolicyResolverRegistry, PDP> pdpRegistry = new Hashtable<PolicyResolverRegistry, PDP>();
+	private static Map<PDP, PolicyResolverRegistry> policyResolverRegistry = new Hashtable<>();
+	private static Map<PolicyResolverRegistry, PDP> pdpRegistry = new Hashtable<>();
 	// An empty registry
 	private static PolicyResolverRegistry defaultReg = new PolicyResolverRegistry(null);
 
-	private Set<PolicyResolver> resolvers = new HashSet<PolicyResolver>();
+	private Set<PolicyResolver> resolvers = new HashSet<>();
 	private Logger logger;
 
 	public PolicyResolverRegistry(ConfigElement config) {

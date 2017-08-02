@@ -63,7 +63,7 @@ public class EnumsImpl extends List implements IObj {
 		this.setHref(new Uri("/enums"));
 
 		// Create enumerations
-		enums = new TreeMap<String, RangeImpl>();
+		enums = new TreeMap<>();
 
 		enums.put(EnumCompareTypes.HREF, new EnumCompareTypesImpl());
 		enums.put(EnumStringCompareTypes.HREF, new EnumStringCompareTypesImpl());

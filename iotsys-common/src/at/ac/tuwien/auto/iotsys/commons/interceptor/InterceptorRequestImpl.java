@@ -5,11 +5,11 @@ import java.util.Map;
 
 public class InterceptorRequestImpl implements InterceptorRequest {
 
-	private Map<Parameter, String> interceptorParams = new HashMap<Parameter, String>();
+	private Map<Parameter, String> interceptorParams = new HashMap<>();
 
-	private Map<String, String> headerParams = new HashMap<String, String>();
+	private Map<String, String> headerParams = new HashMap<>();
 
-	private Map<String, String> requestParams = new HashMap<String, String>();
+	private Map<String, String> requestParams = new HashMap<>();
 
 	@Override
 	public Map<Parameter, String> getInterceptorParams() {

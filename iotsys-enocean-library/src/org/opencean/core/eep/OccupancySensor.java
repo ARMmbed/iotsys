@@ -22,7 +22,7 @@ public class OccupancySensor implements EEPParser {
 
 	@Override
 	public Map<EnoceanParameterAddress, Value> parsePacket(BasicPacket packet) {
-		Map<EnoceanParameterAddress, Value> map = new HashMap<EnoceanParameterAddress, Value>();
+		Map<EnoceanParameterAddress, Value> map = new HashMap<>();
 		if (packet instanceof RadioPacket4BS) {
 			RadioPacket4BS radioPacket4BS = (RadioPacket4BS) packet;
 			byte db0 = radioPacket4BS.getDb0();

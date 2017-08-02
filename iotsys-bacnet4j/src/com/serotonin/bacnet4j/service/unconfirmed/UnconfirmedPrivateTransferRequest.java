@@ -36,7 +36,7 @@ import com.serotonin.util.queue.ByteQueue;
 public class UnconfirmedPrivateTransferRequest extends UnconfirmedRequestService {
 	private static final long serialVersionUID = 2084345165686680966L;
 
-	public static final Map<VendorServiceKey, SequenceDefinition> vendorServiceResolutions = new HashMap<VendorServiceKey, SequenceDefinition>();
+	public static final Map<VendorServiceKey, SequenceDefinition> vendorServiceResolutions = new HashMap<>();
 
 	public static final byte TYPE_ID = 4;
 

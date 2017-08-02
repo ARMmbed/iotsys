@@ -67,7 +67,7 @@ public class ReadAllAvailableProperties {
 	private LoopDevice loopDevice;
 	private final LocalDevice localDevice;
 	// remote devices found
-	final List<RemoteDevice> remoteDevices = new ArrayList<RemoteDevice>();
+	final List<RemoteDevice> remoteDevices = new ArrayList<>();
 
 	public ReadAllAvailableProperties(String broadcastAddress, int port) throws IOException {
 		localDevice = new LocalDevice(1234, broadcastAddress);

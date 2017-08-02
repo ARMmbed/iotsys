@@ -52,7 +52,7 @@ public class EnoceanEntitiesImpl extends List implements EnoceanEntities {
 		this.setHref(new Uri("entities"));
 		this.setHidden(true);
 
-		this.entities = new ArrayList<EnoceanEntity>();
+		this.entities = new ArrayList<>();
 	}
 
 	public void addEntity(EnoceanEntityImpl entity) {

@@ -38,7 +38,7 @@ public class MessageControl extends Thread {
 	// Runtime
 	private byte nextMessageId;
 	private DatagramSocket socket;
-	private final HashMap<Byte, WaitingRoomMember> waitingRoom = new HashMap<Byte, WaitingRoomMember>();
+	private final HashMap<Byte, WaitingRoomMember> waitingRoom = new HashMap<>();
 
 	public MessageControl(int port) {
 		this.port = port;

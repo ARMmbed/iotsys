@@ -52,7 +52,7 @@ public class DPTXlator4ByteUnsigned extends DPTXlator {
 	private static final Map<String, DPT> types;
 
 	static {
-		types = new HashMap<String, DPT>(2);
+		types = new HashMap<>(2);
 		types.put(DPT_VALUE_4_UCOUNT.getID(), DPT_VALUE_4_UCOUNT);
 	}
 

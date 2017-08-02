@@ -81,10 +81,10 @@ public abstract class ExpiringCache implements Cache {
 	public ExpiringCache(int timeToExpire) {
 		if (timeToExpire > 0) {
 			this.timeToExpire = timeToExpire;
-			map = new LinkedHashMap<Object, CacheObject>();
+			map = new LinkedHashMap<>();
 		} else {
 			this.timeToExpire = 0;
-			map = new HashMap<Object, CacheObject>();
+			map = new HashMap<>();
 		}
 	}
 

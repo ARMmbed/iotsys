@@ -22,7 +22,7 @@ public class SingleInputContact implements EEPParser {
 
 	@Override
 	public Map<EnoceanParameterAddress, Value> parsePacket(BasicPacket packet) {
-		Map<EnoceanParameterAddress, Value> map = new HashMap<EnoceanParameterAddress, Value>();
+		Map<EnoceanParameterAddress, Value> map = new HashMap<>();
 		if (packet instanceof RadioPacket1BS) {
 			RadioPacket1BS radioPacket1BS = (RadioPacket1BS) packet;
 			contact = ContactState.values()[Bits.getBit(radioPacket1BS.getDataByte(), 0)];

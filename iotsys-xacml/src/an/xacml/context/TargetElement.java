@@ -12,11 +12,11 @@ public abstract class TargetElement extends DefaultXACMLElement {
 	/**
 	 * The attributes could be empty.
 	 */
-	protected ArrayList<Attribute> attributes = new ArrayList<Attribute>();
+	protected ArrayList<Attribute> attributes = new ArrayList<>();
 	protected Attribute[] allAttributes;
 
 	public Attribute[] getAttributeById(URI attrId) {
-		Vector<Attribute> result = new Vector<Attribute>();
+		Vector<Attribute> result = new Vector<>();
 		for (Attribute attr : attributes) {
 			if (attr.getAttributeID().equals(attrId)) {
 				result.add(attr);

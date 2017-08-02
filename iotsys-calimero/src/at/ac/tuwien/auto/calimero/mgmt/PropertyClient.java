@@ -846,7 +846,7 @@ public class PropertyClient {
 	private final LogService logger;
 
 	// maps object index to object type
-	private final List<Pair> objectTypes = new ArrayList<Pair>();
+	private final List<Pair> objectTypes = new ArrayList<>();
 	private final DPTXlator2ByteUnsigned tObjType;
 
 	/**
@@ -941,7 +941,7 @@ public class PropertyClient {
 		if (properties != null) {
 			if (rh == null)
 				rh = new XMLPropertyHandler();
-			final Map<PropertyKey, Property> map = new TreeMap<PropertyKey, Property>(properties);
+			final Map<PropertyKey, Property> map = new TreeMap<>(properties);
 			rh.save(resource, map.values());
 		}
 	}
@@ -1144,7 +1144,7 @@ public class PropertyClient {
 	 *             on adapter errors while querying the descriptions
 	 */
 	public List<Description> scanProperties(boolean allProperties) throws KNXException {
-		final List<Description> scan = new ArrayList<Description>();
+		final List<Description> scan = new ArrayList<>();
 		for (int index = 0;; ++index) {
 			final List<Description> l = scanProperties(index, allProperties);
 			if (l.size() == 0)
@@ -1171,7 +1171,7 @@ public class PropertyClient {
 	 *             on adapter errors while querying the descriptions
 	 */
 	public List<Description> scanProperties(int objIndex, boolean allProperties) throws KNXException {
-		final List<Description> scan = new ArrayList<Description>();
+		final List<Description> scan = new ArrayList<>();
 		// property with index 0 is description of object type
 		// rest are ordinary properties of the object
 		try {
@@ -1290,7 +1290,7 @@ public class PropertyClient {
 		 */
 		public Collection<Property> load(String resource) throws KNXException {
 			final XMLReader r = XMLFactory.getInstance().createXMLReader(resource);
-			final List<Property> list = new ArrayList<Property>(30);
+			final List<Property> list = new ArrayList<>(30);
 			int objType = -1;
 			try {
 				if (r.read() != XMLReader.START_TAG || !r.getCurrent().getName().equals(PROPDEFS_TAG))
@@ -1340,12 +1340,12 @@ public class PropertyClient {
 						if (objType != noType)
 							w.endElement();
 						objType = p.objType;
-						final List<Attribute> att = new ArrayList<Attribute>();
+						final List<Attribute> att = new ArrayList<>();
 						att.add(new Attribute(OBJECTTYPE_ATTR, objType == -1 ? "global" : Integer.toString(objType)));
 						w.writeElement(OBJECT_TAG, att, null);
 					}
 					// property attributes
-					final List<Attribute> att = new ArrayList<Attribute>();
+					final List<Attribute> att = new ArrayList<>();
 					att.add(new Attribute(PID_ATTR, Integer.toString(p.id)));
 					att.add(new Attribute(PIDNAME_ATTR, p.name));
 					att.add(new Attribute(NAME_ATTR, p.propName));

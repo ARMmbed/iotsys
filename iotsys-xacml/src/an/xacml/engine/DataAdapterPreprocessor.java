@@ -19,7 +19,7 @@ public class DataAdapterPreprocessor {
 	private DataAdapter[] das;
 	private AbstractPolicy[] policies;
 
-	private ArrayList<IdReference> idReferences = new ArrayList<IdReference>();
+	private ArrayList<IdReference> idReferences = new ArrayList<>();
 
 	public DataAdapterPreprocessor(DataAdapter[] das) throws PolicySyntaxException {
 		this.das = das;
@@ -51,7 +51,7 @@ public class DataAdapterPreprocessor {
 
 	private void searchAndRegisterIdReferenceElement(PolicySet policy) {
 		PolicySet policySet = (PolicySet) policy;
-		ArrayList<PolicySet> childPolicySets = new ArrayList<PolicySet>();
+		ArrayList<PolicySet> childPolicySets = new ArrayList<>();
 
 		XACMLElement[] allPolicies = policySet.getAllCrudeChildPolicies();
 		for (XACMLElement elem : allPolicies) {

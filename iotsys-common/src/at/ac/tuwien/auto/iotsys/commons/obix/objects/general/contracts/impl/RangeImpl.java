@@ -96,7 +96,7 @@ public abstract class RangeImpl extends List implements Range {
 		this.setIs(new Contract(Range.CONTRACT));
 		this.setHidden(true);
 
-		this.elements = new ArrayList<RangeElement>();
+		this.elements = new ArrayList<>();
 
 		this.initValues();
 

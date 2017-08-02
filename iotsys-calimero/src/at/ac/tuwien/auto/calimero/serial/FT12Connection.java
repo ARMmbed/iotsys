@@ -127,8 +127,8 @@ public class FT12Connection {
 	private int idleTimeout;
 
 	// event listener lists
-	private final List<KNXListener> listeners = new ArrayList<KNXListener>();
-	private List<KNXListener> listenersCopy = new ArrayList<KNXListener>();
+	private final List<KNXListener> listeners = new ArrayList<>();
+	private List<KNXListener> listenersCopy = new ArrayList<>();
 
 	private static class CommConnectionAdapter extends LibraryAdapter {
 		private Object conn;
@@ -273,7 +273,7 @@ public class FT12Connection {
 		}
 		if (SerialCom.isLoaded()) {
 			final String prefix = defaultPortPrefix();
-			final List<String> l = new ArrayList<String>(10);
+			final List<String> l = new ArrayList<>(10);
 			for (int i = 0; i < 10; ++i)
 				if (SerialCom.portExists(prefix + i))
 					l.add(prefix + i);
@@ -298,7 +298,7 @@ public class FT12Connection {
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
-				listenersCopy = new ArrayList<KNXListener>(listeners);
+				listenersCopy = new ArrayList<>(listeners);
 			} else
 				logger.warn("event listener already registered");
 		}
@@ -317,7 +317,7 @@ public class FT12Connection {
 	public void removeConnectionListener(KNXListener l) {
 		synchronized (listeners) {
 			if (listeners.remove(l))
-				listenersCopy = new ArrayList<KNXListener>(listeners);
+				listenersCopy = new ArrayList<>(listeners);
 		}
 	}
 

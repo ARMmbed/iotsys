@@ -132,11 +132,11 @@ public class TransportLayerImpl implements TransportLayer {
 	private volatile boolean detached;
 	private final KNXNetworkLink lnk;
 	private final NetworkLinkListener lnkListener = new NLListener();
-	private final List<FrameEvent> indications = new LinkedList<FrameEvent>();
+	private final List<FrameEvent> indications = new LinkedList<>();
 	private final EventListeners listeners;
 
 	// holds the mapping of connection destination address to proxy
-	private final Map<IndividualAddress, AggregatorProxy> proxies = new HashMap<IndividualAddress, AggregatorProxy>();
+	private final Map<IndividualAddress, AggregatorProxy> proxies = new HashMap<>();
 	private AggregatorProxy active;
 	private volatile int repeated;
 	private final Object lock = new Object();

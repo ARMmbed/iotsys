@@ -45,7 +45,7 @@ public class RadioSubTelPacket extends RadioPacket {
 		ByteBuffer optionalDataBytes = ByteBuffer.wrap(payload.getOptionalData());
 		optionalDataBytes.position(7);
 		timeStamp = optionalDataBytes.getShort();
-		subTels = new ArrayList<SubTel>();
+		subTels = new ArrayList<>();
 		while (optionalDataBytes.hasRemaining()) {
 			SubTel subTel = new SubTel();
 			subTel.setTick(optionalDataBytes.get());

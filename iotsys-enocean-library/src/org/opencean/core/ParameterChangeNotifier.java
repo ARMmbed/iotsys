@@ -20,8 +20,8 @@ public class ParameterChangeNotifier implements EnoceanReceiver {
 
 	private static Logger logger = Logger.getLogger(ParameterChangeNotifier.class.getName());
 
-	private List<ParameterValueChangeListener> valueChangeListeners = new ArrayList<ParameterValueChangeListener>();
-	private Map<EnoceanId, EEPId> deviceToEEP = new HashMap<EnoceanId, EEPId>();
+	private List<ParameterValueChangeListener> valueChangeListeners = new ArrayList<>();
+	private Map<EnoceanId, EEPId> deviceToEEP = new HashMap<>();
 	private EEPParserFactory parserFactory = new EEPParserFactory();
 
 	public void addDeviceProfile(EnoceanId id, EEPId epp) {
@@ -60,7 +60,7 @@ public class ParameterChangeNotifier implements EnoceanReceiver {
 						+ " is not properly configured or not supported.");
 			}
 		}
-		return new HashMap<EnoceanParameterAddress, Value>();
+		return new HashMap<>();
 	}
 
 }

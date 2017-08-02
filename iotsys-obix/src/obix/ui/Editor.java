@@ -140,7 +140,7 @@ public abstract class Editor extends JPanel {
 	// Fields
 	////////////////////////////////////////////////////////////////
 
-	ArrayList<Listener> listeners = new ArrayList<Listener>();
+	ArrayList<Listener> listeners = new ArrayList<>();
 	boolean editable = true;
 	boolean suppressChanged = false;
 

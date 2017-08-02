@@ -123,9 +123,9 @@ public class StateDP extends Datapoint {
 	public StateDP(GroupAddress main, String name, Collection<GroupAddress> invalidatingAddresses,
 			Collection<GroupAddress> updatingAddresses) {
 		super(main, name, true);
-		invalidating = Collections.synchronizedList(new ArrayList<GroupAddress>(invalidatingAddresses));
+		invalidating = Collections.synchronizedList(new ArrayList<>(invalidatingAddresses));
 		checkGAs(invalidating);
-		updating = Collections.synchronizedList(new ArrayList<GroupAddress>(updatingAddresses));
+		updating = Collections.synchronizedList(new ArrayList<>(updatingAddresses));
 		checkGAs(updating);
 	}
 

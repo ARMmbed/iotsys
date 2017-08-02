@@ -34,7 +34,7 @@ import com.serotonin.util.queue.ByteQueue;
 public class ConfirmedPrivateTransferAck extends AcknowledgementService {
 	private static final long serialVersionUID = -2452028785449989142L;
 
-	public static final Map<VendorServiceKey, SequenceDefinition> vendorServiceResolutions = new HashMap<VendorServiceKey, SequenceDefinition>();
+	public static final Map<VendorServiceKey, SequenceDefinition> vendorServiceResolutions = new HashMap<>();
 
 	public static final byte TYPE_ID = 18;
 

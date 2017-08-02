@@ -8,7 +8,7 @@ import an.config.ConfigElement;
 import an.xacml.policy.AbstractPolicy;
 
 public class DefaultDataStorePolicyResolver implements PolicyResolver {
-	private Map<URI, AbstractPolicy> policies = new Hashtable<URI, AbstractPolicy>();
+	private Map<URI, AbstractPolicy> policies = new Hashtable<>();
 
 	public DefaultDataStorePolicyResolver(ConfigElement config) {
 	}

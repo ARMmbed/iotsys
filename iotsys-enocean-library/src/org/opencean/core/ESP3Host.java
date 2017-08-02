@@ -52,7 +52,7 @@ public class ESP3Host extends Connector implements Runnable {
 	private static Logger logger = Logger.getLogger(ESP3Host.class.getName());
 	private static byte[] DEFAULT_SENDERID = { (byte) 0x00, (byte) 0x25, (byte) 0xA2, (byte) 0xDC };
 
-	private List<EnoceanReceiver> receivers = new ArrayList<EnoceanReceiver>();
+	private List<EnoceanReceiver> receivers = new ArrayList<>();
 
 	final ProtocolConnector connector;
 	private EnoceanId senderId;
@@ -60,7 +60,7 @@ public class ESP3Host extends Connector implements Runnable {
 
 	private ParameterChangeNotifier parameterChangeNotifier;
 
-	private final Hashtable<String, ArrayList<EnoceanWatchdog>> watchDogs = new Hashtable<String, ArrayList<EnoceanWatchdog>>();
+	private final Hashtable<String, ArrayList<EnoceanWatchdog>> watchDogs = new Hashtable<>();
 
 	public ESP3Host(ProtocolConnector connector) {
 		this.connector = connector;

@@ -49,7 +49,7 @@ public final class DNSIncoming extends DNSMessage {
 		 */
 		public MessageInputStream(byte[] buffer, int offset, int length) {
 			super(buffer, offset, length);
-			_names = new HashMap<Integer, String>();
+			_names = new HashMap<>();
 		}
 
 		public int readByte() {
@@ -113,7 +113,7 @@ public final class DNSIncoming extends DNSMessage {
 		}
 
 		public String readName() {
-			Map<Integer, StringBuilder> names = new HashMap<Integer, StringBuilder>();
+			Map<Integer, StringBuilder> names = new HashMap<>();
 			StringBuilder buffer = new StringBuilder();
 			boolean finished = false;
 			while (!finished) {

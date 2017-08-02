@@ -66,7 +66,7 @@ public class TelegramVariableDataRecord {
 
 	public void addDifes(List<DIFETelegramField> difes) {
 		if (this.difes == null) {
-			this.difes = new ArrayList<DIFETelegramField>();
+			this.difes = new ArrayList<>();
 			this.difes.addAll(difes);
 		}
 	}
@@ -81,7 +81,7 @@ public class TelegramVariableDataRecord {
 
 	public void addVifes(List<VIFETelegramField> vifes) {
 		if (this.vifes == null) {
-			this.vifes = new ArrayList<VIFETelegramField>();
+			this.vifes = new ArrayList<>();
 			this.vifes.addAll(vifes);
 		}
 	}

@@ -39,7 +39,7 @@ public class Obj implements IObj, Subject, AlarmSource, Cloneable {
 
 	public static final String DEFAULT_LANGUAGE = "en";
 
-	private HashMap<TranslationAttribute, HashMap<String, String>> translations = new HashMap<TranslationAttribute, HashMap<String, String>>();
+	private HashMap<TranslationAttribute, HashMap<String, String>> translations = new HashMap<>();
 
 	public void addTranslation(String language, String attribute, String value) throws Exception {
 		attribute = attribute.toLowerCase().trim();
@@ -112,7 +112,7 @@ public class Obj implements IObj, Subject, AlarmSource, Cloneable {
 	private Uri href;
 	private Contract is;
 	private Obj parent;
-	private HashMap<String, Obj> kidsByName = new HashMap<String, Obj>();
+	private HashMap<String, Obj> kidsByName = new HashMap<>();
 
 	private Obj kidsHead, kidsTail;
 	private int kidsCount;
@@ -132,8 +132,8 @@ public class Obj implements IObj, Subject, AlarmSource, Cloneable {
 
 	private String invokedHref = new String();
 
-	private LinkedList<Alarm> alarms = new LinkedList<Alarm>();
-	private LinkedList<Alarm> unackedAlarms = new LinkedList<Alarm>();
+	private LinkedList<Alarm> alarms = new LinkedList<>();
+	private LinkedList<Alarm> unackedAlarms = new LinkedList<>();
 
 	private long lastRefresh;
 	private long refreshInterval;
@@ -177,8 +177,8 @@ public class Obj implements IObj, Subject, AlarmSource, Cloneable {
 		}
 	}
 
-	static HashMap<String, Class<?>> elemNameToClass = new HashMap<String, Class<?>>();
-	static HashMap<Integer, Class<?>> binCodeToClass = new HashMap<Integer, Class<?>>();
+	static HashMap<String, Class<?>> elemNameToClass = new HashMap<>();
+	static HashMap<Integer, Class<?>> binCodeToClass = new HashMap<>();
 	static {
 		mapClass("obj", BinObix.OBJ, Obj.class);
 		mapClass("str", BinObix.STR, Str.class);
@@ -680,7 +680,7 @@ public class Obj implements IObj, Subject, AlarmSource, Cloneable {
 			return Status.down;
 
 		if (inAlarmState()) {
-			ArrayList<Alarm> unackedActiveAlarms = new ArrayList<Alarm>(alarms);
+			ArrayList<Alarm> unackedActiveAlarms = new ArrayList<>(alarms);
 			unackedActiveAlarms.retainAll(unackedAlarms);
 
 			if (!unackedActiveAlarms.isEmpty())
@@ -1154,7 +1154,7 @@ public class Obj implements IObj, Subject, AlarmSource, Cloneable {
 	/**
 	 * All observers of this object.
 	 */
-	private final HashSet<Observer> observers = new HashSet<Observer>();
+	private final HashSet<Observer> observers = new HashSet<>();
 
 	/**
 	 * Attach an observer that will be notified if the state changes.
@@ -1268,7 +1268,7 @@ public class Obj implements IObj, Subject, AlarmSource, Cloneable {
 	 */
 	public LinkedList<Alarm> getAlarms() {
 		if (alarms == null)
-			alarms = new LinkedList<Alarm>();
+			alarms = new LinkedList<>();
 
 		return alarms;
 	}
@@ -1346,7 +1346,7 @@ public class Obj implements IObj, Subject, AlarmSource, Cloneable {
 
 	public ArrayList<Val> getValChilds() {
 		Obj[] childs = this.list();
-		ArrayList<Val> result = new ArrayList<Val>();
+		ArrayList<Val> result = new ArrayList<>();
 
 		if (this instanceof Val) {
 			System.out.println(this.getFullContextPath() + ": " + this.toString());

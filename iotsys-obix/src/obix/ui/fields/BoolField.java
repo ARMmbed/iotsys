@@ -55,6 +55,6 @@ public class BoolField extends ObjField {
 	// Fields
 	////////////////////////////////////////////////////////////////
 
-	JComboBox<String> combo = new JComboBox<String>();
+	JComboBox<String> combo = new JComboBox<>();
 
 }

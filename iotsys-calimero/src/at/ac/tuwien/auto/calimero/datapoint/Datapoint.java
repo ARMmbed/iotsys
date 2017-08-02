@@ -282,7 +282,7 @@ public abstract class Datapoint {
 		 * mainNumber=int dptID=string priority=string> knxAddress ...
 		 * </datapoint>
 		 */
-		final List<Attribute> att = new ArrayList<Attribute>();
+		final List<Attribute> att = new ArrayList<>();
 		att.add(new Attribute(ATTR_STATEBASED, Boolean.toString(stateBased)));
 		att.add(new Attribute(ATTR_NAME, name));
 		att.add(new Attribute(ATTR_MAINNUMBER, Integer.toString(mainNo)));

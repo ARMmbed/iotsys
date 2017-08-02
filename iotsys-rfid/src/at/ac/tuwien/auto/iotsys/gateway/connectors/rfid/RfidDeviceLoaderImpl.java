@@ -23,7 +23,7 @@ import obix.Uri;
 
 public class RfidDeviceLoaderImpl implements DeviceLoader {
 
-	private ArrayList<Obj> myObjects = new ArrayList<Obj>();
+	private ArrayList<Obj> myObjects = new ArrayList<>();
 
 	private XMLConfiguration devicesConfig = new XMLConfiguration();
 
@@ -47,7 +47,7 @@ public class RfidDeviceLoaderImpl implements DeviceLoader {
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
 		// Hard-coded connections and object creation
 
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("rfid");
 		int connectorsSize = 0;

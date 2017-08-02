@@ -60,16 +60,16 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 	private static final Logger log = Logger.getLogger(ConfigsDbRepo.class.getName());
 	private ObjectMapper om = new ObjectMapper();
 
-	private List<JsonNode> allConnectors = new ArrayList<JsonNode>();
-	private List<Device> allDevices = new ArrayList<Device>();
+	private List<JsonNode> allConnectors = new ArrayList<>();
+	private List<Device> allDevices = new ArrayList<>();
 	private DeviceLoaders deviceLoaders = new DeviceLoaders();
 
 	// Transition step
 	private boolean migrating = false;
 	private boolean connectorsMigrated = false;
-	private List<String> allDeviceLoadersFromXML = new ArrayList<String>();
-	private List<Connector> allConnectorsFromXML = new ArrayList<Connector>();
-	private List<Device> allDevicesFromXML = new ArrayList<Device>();
+	private List<String> allDeviceLoadersFromXML = new ArrayList<>();
+	private List<Connector> allConnectorsFromXML = new ArrayList<>();
+	private List<Device> allDevicesFromXML = new ArrayList<>();
 
 	private ConfigsDbRepo(CouchDbConnector db) throws Exception {
 		super(Connector.class, db);
@@ -190,7 +190,7 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 
 	@Override
 	public List<JsonNode> getConnectors(String technology) {
-		List<JsonNode> resultList = new ArrayList<JsonNode>();
+		List<JsonNode> resultList = new ArrayList<>();
 		for (JsonNode j : allConnectors)
 			if (j.get("technology").asText().equals(technology))
 				resultList.add(j);
@@ -270,7 +270,7 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 
 	@Override
 	public List<Device> getDevices(String connectorId) {
-		List<Device> devices = new ArrayList<Device>();
+		List<Device> devices = new ArrayList<>();
 		for (Device d : allDevices)
 			if (d.getConnectorId().equals(connectorId))
 				devices.add(d);

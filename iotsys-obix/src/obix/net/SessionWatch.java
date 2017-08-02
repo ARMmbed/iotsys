@@ -520,13 +520,13 @@ public class SessionWatch {
 	Uri pollChangesHref;
 	Uri pollRefreshHref;
 	Uri deleteHref;
-	ArrayList<Item> items = new ArrayList<Item>();
-	HashMap<String, Item> hrefToItem = new HashMap<String, Item>();
+	ArrayList<Item> items = new ArrayList<>();
+	HashMap<String, Item> hrefToItem = new HashMap<>();
 	long pollPeriod;
 	long lastPollAttempt;
 	long lastPollSuccess;
 	Thread poller;
 	boolean alive;
-	ArrayList<WatchListener> listeners = new ArrayList<WatchListener>();
+	ArrayList<WatchListener> listeners = new ArrayList<>();
 
 }

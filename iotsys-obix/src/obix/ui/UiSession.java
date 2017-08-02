@@ -85,7 +85,7 @@ public class UiSession extends ObixSession {
 	}
 
 	// sessions by authority string
-	static HashMap<String, UiSession> sessions = new HashMap<String, UiSession>();
+	static HashMap<String, UiSession> sessions = new HashMap<>();
 
 	static class Ask {
 		public String lobby = "";
@@ -409,7 +409,7 @@ public class UiSession extends ObixSession {
 
 	Object iconLock = new Object();
 	IconLoader iconLoader = new IconLoader();
-	HashMap<String, RemoteIcon> iconCache = new HashMap<String, RemoteIcon>();
-	ArrayList<RemoteIcon> iconQueue = new ArrayList<RemoteIcon>();
+	HashMap<String, RemoteIcon> iconCache = new HashMap<>();
+	ArrayList<RemoteIcon> iconQueue = new ArrayList<>();
 
 }

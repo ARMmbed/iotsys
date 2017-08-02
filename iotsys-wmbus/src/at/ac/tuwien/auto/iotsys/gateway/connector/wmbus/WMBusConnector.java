@@ -49,7 +49,7 @@ import gnu.io.CommPortIdentifier;
 public class WMBusConnector extends Connector implements TelegramManagerInterface {
 	private static final Logger log = Logger.getLogger(WMBusConnector.class.getName());
 
-	private final Hashtable<String, ArrayList<WMBusWatchDog>> watchDogs = new Hashtable<String, ArrayList<WMBusWatchDog>>();
+	private final Hashtable<String, ArrayList<WMBusWatchDog>> watchDogs = new Hashtable<>();
 
 	private ArrayList<SimpleTelegram> simpleTestTelegrams;
 
@@ -149,7 +149,7 @@ public class WMBusConnector extends Connector implements TelegramManagerInterfac
 	}
 
 	public void loadTelegrams() {
-		simpleTestTelegrams = new ArrayList<SimpleTelegram>();
+		simpleTestTelegrams = new ArrayList<>();
 		for (int i = 0; i < SmartMeterTestTelegrams.telegrams.length; i++) {
 			long curTime = new java.util.Date().getTime();
 			// just for some test values set the timestamp in 10 minute

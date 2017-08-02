@@ -245,18 +245,18 @@ abstract public class Encodable implements Serializable {
 	// Read lists
 	protected static <T extends Encodable> SequenceOf<T> readSequenceOf(ByteQueue queue, Class<T> clazz)
 			throws BACnetException {
-		return new SequenceOf<T>(queue, clazz);
+		return new SequenceOf<>(queue, clazz);
 	}
 
 	protected static <T extends Encodable> SequenceOf<T> readSequenceOf(ByteQueue queue, int count, Class<T> clazz)
 			throws BACnetException {
-		return new SequenceOf<T>(queue, count, clazz);
+		return new SequenceOf<>(queue, count, clazz);
 	}
 
 	protected static <T extends Encodable> SequenceOf<T> readSequenceOf(ByteQueue queue, Class<T> clazz, int contextId)
 			throws BACnetException {
 		popStart(queue, contextId);
-		SequenceOf<T> result = new SequenceOf<T>(queue, clazz, contextId);
+		SequenceOf<T> result = new SequenceOf<>(queue, clazz, contextId);
 		popEnd(queue, contextId);
 		return result;
 	}
@@ -278,7 +278,7 @@ abstract public class Encodable implements Serializable {
 	protected static SequenceOf<Choice> readSequenceOfChoice(ByteQueue queue, List<Class<? extends Encodable>> classes,
 			int contextId) throws BACnetException {
 		popStart(queue, contextId);
-		SequenceOf<Choice> result = new SequenceOf<Choice>();
+		SequenceOf<Choice> result = new SequenceOf<>();
 		while (readEnd(queue) != contextId)
 			result.add(new Choice(queue, classes));
 		popEnd(queue, contextId);

@@ -122,7 +122,7 @@ public class ProcessCommunicatorImpl implements ProcessCommunicator {
 	private final KNXNetworkLink lnk;
 	private final NetworkLinkListener lnkListener = new NLListener();
 	private final EventListeners listeners;
-	private final List<FrameEvent> indications = new LinkedList<FrameEvent>();
+	private final List<FrameEvent> indications = new LinkedList<>();
 	private Priority priority = Priority.LOW;
 	// maximum wait time in seconds for a response message
 	private int responseTimeout = 10;

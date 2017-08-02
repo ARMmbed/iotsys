@@ -141,13 +141,13 @@ public abstract class XMLFileDataAdapterRegistry {
 	 * Each XML element maps to a Java class. Following map provides Policy
 	 * element mappings.
 	 */
-	private static Map<String, Class<?>> policyByXMLTag = new Hashtable<String, Class<?>>();
-	private static Map<Class<?>, Class<?>> policyByXACMLElement = new Hashtable<Class<?>, Class<?>>();
+	private static Map<String, Class<?>> policyByXMLTag = new Hashtable<>();
+	private static Map<Class<?>, Class<?>> policyByXACMLElement = new Hashtable<>();
 	/**
 	 * Following map provides Context element mappings.
 	 */
-	private static Map<String, Class<?>> contextByXMLTag = new Hashtable<String, Class<?>>();
-	private static Map<Class<?>, Class<?>> contextByXACMLElement = new Hashtable<Class<?>, Class<?>>();
+	private static Map<String, Class<?>> contextByXMLTag = new Hashtable<>();
+	private static Map<Class<?>, Class<?>> contextByXACMLElement = new Hashtable<>();
 
 	static {
 		policyByXMLTag.put(POLICY_TAG_ACTIONMATCH, FileAdapterActionMatch.class);

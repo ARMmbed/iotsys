@@ -41,7 +41,7 @@ import obix.Uri;
 import obix.contracts.Lobby;
 
 public class LobbyImpl extends Obj implements Lobby {
-	private final Hashtable<String, Ref> references = new Hashtable<String, Ref>();
+	private final Hashtable<String, Ref> references = new Hashtable<>();
 	private Ref about = new Ref();
 
 	public LobbyImpl() {

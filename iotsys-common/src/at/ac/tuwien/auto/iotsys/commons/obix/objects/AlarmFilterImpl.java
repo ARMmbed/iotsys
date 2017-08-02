@@ -91,7 +91,7 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 		while (limit.get() > 0 & alarms.size() > limit.get())
 			alarms.remove(alarms.size() - 1);
 
-		return new ArrayList<Obj>(alarms);
+		return new ArrayList<>(alarms);
 	}
 
 	@Override
@@ -102,11 +102,11 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 		while (limit.get() > 0 & alarms.size() > limit.get())
 			alarms.remove(alarms.size() - 1);
 
-		return new ArrayList<Obj>(alarms);
+		return new ArrayList<>(alarms);
 	}
 
 	private ArrayList<AlarmImpl> filterRecords(List<Obj> events) {
-		ArrayList<AlarmImpl> filteredRecords = new ArrayList<AlarmImpl>();
+		ArrayList<AlarmImpl> filteredRecords = new ArrayList<>();
 
 		// sort alarms
 		Collections.sort(events, new Comparator<Obj>() {

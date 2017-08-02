@@ -25,7 +25,7 @@ package at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet;
 import java.util.HashMap;
 
 public class BacnetUnits {
-	private static final HashMap<Integer, String> units = new HashMap<Integer, String>();
+	private static final HashMap<Integer, String> units = new HashMap<>();
 
 	static {
 		// Acceleration

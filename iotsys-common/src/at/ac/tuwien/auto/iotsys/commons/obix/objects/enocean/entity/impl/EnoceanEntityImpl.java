@@ -71,7 +71,7 @@ public class EnoceanEntityImpl extends Obj implements EnoceanEntity {
 			this.list.setHref(new Uri("datapoints"));
 			this.add(this.list);
 
-			this.datapoints = new ArrayList<EnoceanDPT>();
+			this.datapoints = new ArrayList<>();
 		}
 
 		this.list.add(datapoint);

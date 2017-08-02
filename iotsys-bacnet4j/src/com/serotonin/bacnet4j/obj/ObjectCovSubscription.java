@@ -38,8 +38,8 @@ import com.serotonin.bacnet4j.type.primitive.UnsignedInteger;
 public class ObjectCovSubscription implements Serializable {
 	private static final long serialVersionUID = 3546250271813406695L;
 
-	private static Set<ObjectType> supportedObjectTypes = new HashSet<ObjectType>();
-	private static Set<PropertyIdentifier> supportedPropertyIdentifiers = new HashSet<PropertyIdentifier>();
+	private static Set<ObjectType> supportedObjectTypes = new HashSet<>();
+	private static Set<PropertyIdentifier> supportedPropertyIdentifiers = new HashSet<>();
 
 	static {
 		supportedObjectTypes.add(ObjectType.accessDoor);
@@ -80,7 +80,7 @@ public class ObjectCovSubscription implements Serializable {
 	}
 
 	public static List<PropertyValue> getValues(BACnetObject obj) {
-		List<PropertyValue> values = new ArrayList<PropertyValue>();
+		List<PropertyValue> values = new ArrayList<>();
 		for (PropertyIdentifier pid : supportedPropertyIdentifiers)
 			addValue(obj, values, pid);
 		return values;

@@ -213,8 +213,8 @@ public class StateFilter implements NetworkFilter, RequestFilter {
 	}
 
 	private void createReferences(DatapointModel model) {
-		invalidate = new HashMap<Object, List<GroupAddress>>();
-		update = new HashMap<Object, List<GroupAddress>>();
+		invalidate = new HashMap<>();
+		update = new HashMap<>();
 		final Collection<?> c = ((DatapointMap) model).getDatapoints();
 		synchronized (c) {
 			for (final Iterator<?> i = c.iterator(); i.hasNext();) {
@@ -233,7 +233,7 @@ public class StateFilter implements NetworkFilter, RequestFilter {
 			final Object o = i.next();
 			List<GroupAddress> l = (List<GroupAddress>) map.get(o);
 			if (l == null)
-				map.put(o, l = new ArrayList<GroupAddress>());
+				map.put(o, l = new ArrayList<>());
 			l.add(toAddr);
 		}
 	}

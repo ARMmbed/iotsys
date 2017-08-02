@@ -104,7 +104,7 @@ public class DPTXlator3BitControlled extends DPTXlator {
 	private static final Map<String, DPT> types;
 
 	static {
-		types = new HashMap<String, DPT>(3);
+		types = new HashMap<>(3);
 		types.put(DPT_CONTROL_DIMMING.getID(), DPT_CONTROL_DIMMING);
 		types.put(DPT_CONTROL_BLINDS.getID(), DPT_CONTROL_BLINDS);
 	}

@@ -221,7 +221,7 @@ public final class DNSOutgoing extends DNSMessage {
 	 */
 	public DNSOutgoing(int flags, boolean multicast, int senderUDPPayload) {
 		super(flags, 0, multicast);
-		_names = new HashMap<String, Integer>();
+		_names = new HashMap<>();
 		_maxUDPPayload = (senderUDPPayload > 0 ? senderUDPPayload : DNSConstants.MAX_MSG_TYPICAL);
 		_questionsBytes = new MessageOutputStream(senderUDPPayload, this);
 		_answersBytes = new MessageOutputStream(senderUDPPayload, this);

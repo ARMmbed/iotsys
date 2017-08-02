@@ -16,7 +16,7 @@ import java.util.Iterator;
  * a timeout for getting an available connection.
  */
 public class SimpleJDBCConnectionPool {
-	private Collection<PooledConnection> pool = new HashSet<PooledConnection>();
+	private Collection<PooledConnection> pool = new HashSet<>();
 	// If we can't get an available connection within "timeout", we will throw
 	// an exception. This value equal 0 or less
 	// than 0 means we will always wait until we get a connection.

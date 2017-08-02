@@ -66,7 +66,7 @@ public class LogService {
 			}
 		}
 
-		private final List<LogData> data = new LinkedList<LogData>();
+		private final List<LogData> data = new LinkedList<>();
 		private volatile boolean quit;
 
 		Dispatcher() {
@@ -128,7 +128,7 @@ public class LogService {
 	/** Name of this log service. */
 	protected final String name;
 	private LogLevel logLevel = LogLevel.ALL;
-	private List<LogWriter> writers = new Vector<LogWriter>();
+	private List<LogWriter> writers = new Vector<>();
 
 	/**
 	 * Creates a new log service with the specified <code>name</code>.
@@ -231,7 +231,7 @@ public class LogService {
 				for (final Iterator<LogWriter> i = writers.iterator(); i.hasNext();)
 					((LogWriter) i.next()).close();
 			}
-		writers = new Vector<LogWriter>();
+		writers = new Vector<>();
 	}
 
 	/**

@@ -42,7 +42,7 @@ import java.util.Set;
  * @author B. Malinowsky
  */
 public class PositiveListCache extends ExpiringCache {
-	private Set<Object> posList = new HashSet<Object>();
+	private Set<Object> posList = new HashSet<>();
 	private long hits;
 	private long misses;
 
@@ -88,7 +88,7 @@ public class PositiveListCache extends ExpiringCache {
 		if (posList.size() == 0)
 			posList.addAll(positiveList);
 		else {
-			posList = new HashSet<Object>(positiveList);
+			posList = new HashSet<>(positiveList);
 			// remove old keys not in the new list anymore
 			for (final Iterator<?> i = map.keySet().iterator(); i.hasNext();)
 				if (!posList.contains(i.next()))

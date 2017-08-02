@@ -80,7 +80,7 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader {
 	private XMLConfiguration devicesConfig;
 	private XMLConfiguration connectorsConfig;
 
-	private ArrayList<String> myObjects = new ArrayList<String>();
+	private ArrayList<String> myObjects = new ArrayList<>();
 
 	public void unZip(String zipFile, String outputFolder) {
 		byte[] buffer = new byte[1024];
@@ -127,7 +127,7 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader {
 		log.info("KNX ETS device loader starting. - connectorsConfig: " + connectorsConfig);
 		setConfiguration(connectorsConfig);
 
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 
 		log.info("connectors config now: " + connectorsConfig);
 		Object knxConnectors = connectorsConfig.getProperty("knx-ets.connector.name");
@@ -278,10 +278,10 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader {
 	private void initNetworks(KNXConnector knxConnector, ObjectBroker objectBroker, Obj networks,
 			boolean enableGroupComm, boolean enableHistories) {
 		// Maps
-		Hashtable<String, EntityImpl> entityById = new Hashtable<String, EntityImpl>();
-		Hashtable<String, DatapointImpl> datapointById = new Hashtable<String, DatapointImpl>();
-		Hashtable<String, String> referenceById = new Hashtable<String, String>();
-		Hashtable<String, String> groupAddressByDatapointID = new Hashtable<String, String>();
+		Hashtable<String, EntityImpl> entityById = new Hashtable<>();
+		Hashtable<String, DatapointImpl> datapointById = new Hashtable<>();
+		Hashtable<String, String> referenceById = new Hashtable<>();
+		Hashtable<String, String> groupAddressByDatapointID = new Hashtable<>();
 
 		// Resources
 		parseReferences(referenceById);

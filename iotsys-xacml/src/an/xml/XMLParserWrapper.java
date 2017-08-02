@@ -64,9 +64,9 @@ public abstract class XMLParserWrapper {
 	private static final String XML_TAG_START = "<?xml";
 	private static final String XML_TAG_STOP = "?>";
 
-	private static Map<String, DocumentBuilderFactory> factoryReg = new HashMap<String, DocumentBuilderFactory>();
+	private static Map<String, DocumentBuilderFactory> factoryReg = new HashMap<>();
 	private static DocumentBuilderFactory defaultFactory;
-	private static Map<String, Validator> validatorReg = new HashMap<String, Validator>();
+	private static Map<String, Validator> validatorReg = new HashMap<>();
 	private static SchemaFactory schemaFactory;
 
 	private static ErrorHandler errHandler = new DefaultErrorHandler();
@@ -325,7 +325,7 @@ public abstract class XMLParserWrapper {
 	}
 
 	public static Map<String, String> getNamespaceMappings(Element elem) {
-		Map<String, String> nsMap = new Hashtable<String, String>();
+		Map<String, String> nsMap = new Hashtable<>();
 
 		NamedNodeMap allAttrs = elem.getAttributes();
 		for (int i = 0; i < allAttrs.getLength(); i++) {

@@ -126,8 +126,8 @@ public class LocalDevice implements RequestHandler {
 
 	private final IpMessageControl messageControl;
 	private BACnetObject configuration;
-	private final List<BACnetObject> localObjects = new CopyOnWriteArrayList<BACnetObject>();
-	private final List<RemoteDevice> remoteDevices = new CopyOnWriteArrayList<RemoteDevice>();
+	private final List<BACnetObject> localObjects = new CopyOnWriteArrayList<>();
+	private final List<RemoteDevice> remoteDevices = new CopyOnWriteArrayList<>();
 	private boolean initialized;
 
 	/**
@@ -366,7 +366,7 @@ public class LocalDevice implements RequestHandler {
 
 	public ObjectIdentifier getNextInstanceObjectIdentifier(ObjectType objectType) {
 		// Make a list of existing ids.
-		List<Integer> ids = new ArrayList<Integer>();
+		List<Integer> ids = new ArrayList<>();
 		int type = objectType.intValue();
 		ObjectIdentifier id;
 		for (BACnetObject obj : localObjects) {
@@ -602,7 +602,7 @@ public class LocalDevice implements RequestHandler {
 		// Send the message to the destinations that are interested in it, while
 		// recording any exceptions in the result
 		// list
-		List<BACnetException> sendExceptions = new ArrayList<BACnetException>();
+		List<BACnetException> sendExceptions = new ArrayList<>();
 		for (Destination destination : recipientList) {
 			if (destination.isSuitableForEvent(timeStamp, toState)) {
 				if (destination.getIssueConfirmedNotifications().booleanValue()) {
@@ -755,7 +755,7 @@ public class LocalDevice implements RequestHandler {
 
 					// We know that the original request property was a
 					// sequence, so create one to store the result.
-					SequenceOf<Encodable> list = new SequenceOf<Encodable>();
+					SequenceOf<Encodable> list = new SequenceOf<>();
 					for (int i = 1; i <= len; i++)
 						list.add(pvs.getNoErrorCheck(oid, new PropertyReference(pid, new UnsignedInteger(i))));
 
@@ -815,9 +815,9 @@ public class LocalDevice implements RequestHandler {
 		PropertyValues pvs = readProperties(d, refs);
 
 		// Read the properties in the same order.
-		List<Tuple<ObjectPropertyReference, Encodable>> results = new ArrayList<Tuple<ObjectPropertyReference, Encodable>>();
+		List<Tuple<ObjectPropertyReference, Encodable>> results = new ArrayList<>();
 		for (ObjectPropertyReference opr : oprs)
-			results.add(new Tuple<ObjectPropertyReference, Encodable>(opr, pvs.getNoErrorCheck(opr)));
+			results.add(new Tuple<>(opr, pvs.getNoErrorCheck(opr)));
 
 		return results;
 	}
@@ -862,12 +862,11 @@ public class LocalDevice implements RequestHandler {
 			List<PropertyReferences> partitions = refs.getPropertiesPartitioned(maxRef);
 			for (PropertyReferences partition : partitions) {
 				properties = partition.getProperties();
-				List<ReadAccessSpecification> specs = new ArrayList<ReadAccessSpecification>();
+				List<ReadAccessSpecification> specs = new ArrayList<>();
 				for (ObjectIdentifier oid : properties.keySet())
-					specs.add(new ReadAccessSpecification(oid, new SequenceOf<PropertyReference>(properties.get(oid))));
+					specs.add(new ReadAccessSpecification(oid, new SequenceOf<>(properties.get(oid))));
 
-				ReadPropertyMultipleRequest request = new ReadPropertyMultipleRequest(
-						new SequenceOf<ReadAccessSpecification>(specs));
+				ReadPropertyMultipleRequest request = new ReadPropertyMultipleRequest(new SequenceOf<>(specs));
 				ReadPropertyMultipleAck ack = (ReadPropertyMultipleAck) send(d, request);
 
 				List<ReadAccessResult> results = ack.getListOfReadAccessResults().getValues();
@@ -910,7 +909,7 @@ public class LocalDevice implements RequestHandler {
 	}
 
 	public PropertyValues readPresentValues(RemoteDevice d, List<RemoteObject> objs) throws BACnetException {
-		List<ObjectIdentifier> oids = new ArrayList<ObjectIdentifier>(objs.size());
+		List<ObjectIdentifier> oids = new ArrayList<>(objs.size());
 		for (RemoteObject o : d.getObjects())
 			oids.add(o.getObjectIdentifier());
 		return readOidPresentValues(d, oids);

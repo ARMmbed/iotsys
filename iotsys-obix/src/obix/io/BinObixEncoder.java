@@ -548,7 +548,7 @@ public class BinObixEncoder extends DataOutputStream {
 	// Fields
 	// //////////////////////////////////////////////////////////////
 
-	private HashMap<String, Integer> strTable = new HashMap<String, Integer>(); // String
-																				// ->
-																				// Integer
+	private HashMap<String, Integer> strTable = new HashMap<>(); // String
+																	// ->
+																	// Integer
 }

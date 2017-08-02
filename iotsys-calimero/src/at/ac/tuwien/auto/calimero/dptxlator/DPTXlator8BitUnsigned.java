@@ -80,7 +80,7 @@ public class DPTXlator8BitUnsigned extends DPTXlator {
 	private static final Map<String, DPT> types;
 
 	static {
-		types = new HashMap<String, DPT>();
+		types = new HashMap<>();
 		types.put(DPT_SCALING.getID(), DPT_SCALING);
 		types.put(DPT_ANGLE.getID(), DPT_ANGLE);
 		types.put(DPT_PERCENT_U8.getID(), DPT_PERCENT_U8);

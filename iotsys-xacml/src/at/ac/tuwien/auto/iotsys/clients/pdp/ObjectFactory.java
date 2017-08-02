@@ -75,7 +75,7 @@ public class ObjectFactory {
 	 */
 	@XmlElementDecl(namespace = "http://pdp.smartwebgrid.auto.tuwien.ac.at/", name = "authorize")
 	public JAXBElement<Authorize> createAuthorize(Authorize value) {
-		return new JAXBElement<Authorize>(_Authorize_QNAME, Authorize.class, null, value);
+		return new JAXBElement<>(_Authorize_QNAME, Authorize.class, null, value);
 	}
 
 	/**
@@ -85,7 +85,7 @@ public class ObjectFactory {
 	 */
 	@XmlElementDecl(namespace = "http://pdp.smartwebgrid.auto.tuwien.ac.at/", name = "authorizeResponse")
 	public JAXBElement<AuthorizeResponse> createAuthorizeResponse(AuthorizeResponse value) {
-		return new JAXBElement<AuthorizeResponse>(_AuthorizeResponse_QNAME, AuthorizeResponse.class, null, value);
+		return new JAXBElement<>(_AuthorizeResponse_QNAME, AuthorizeResponse.class, null, value);
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class ObjectFactory {
 	 */
 	@XmlElementDecl(namespace = "http://pdp.smartwebgrid.auto.tuwien.ac.at/", name = "init")
 	public JAXBElement<Init> createInit(Init value) {
-		return new JAXBElement<Init>(_Init_QNAME, Init.class, null, value);
+		return new JAXBElement<>(_Init_QNAME, Init.class, null, value);
 	}
 
 	/**
@@ -105,7 +105,7 @@ public class ObjectFactory {
 	 */
 	@XmlElementDecl(namespace = "http://pdp.smartwebgrid.auto.tuwien.ac.at/", name = "initResponse")
 	public JAXBElement<InitResponse> createInitResponse(InitResponse value) {
-		return new JAXBElement<InitResponse>(_InitResponse_QNAME, InitResponse.class, null, value);
+		return new JAXBElement<>(_InitResponse_QNAME, InitResponse.class, null, value);
 	}
 
 }

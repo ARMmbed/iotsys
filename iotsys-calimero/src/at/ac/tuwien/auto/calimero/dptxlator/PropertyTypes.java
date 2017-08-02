@@ -292,7 +292,7 @@ public final class PropertyTypes {
 	private static final Map<Integer, DPTID> pt;
 
 	static {
-		final Map<Integer, DPTID> m = new HashMap<Integer, DPTID>(40);
+		final Map<Integer, DPTID> m = new HashMap<>(40);
 		m.put(new Integer(PDT_CHAR), new DPTID(TranslatorTypes.TYPE_8BIT_SIGNED, "6.010"));
 		m.put(new Integer(PDT_UNSIGNED_CHAR), new DPTID(TranslatorTypes.TYPE_8BIT_UNSIGNED, "5.010"));
 		m.put(new Integer(PDT_INT), new DPTID(TranslatorTypes.TYPE_2OCTET_SIGNED, "8.001"));

@@ -111,7 +111,7 @@ public final class NetworkBuffer {
 
 		private final class SquirrelLink implements KNXNetworkLink {
 			private final KNXNetworkLink base;
-			private final List<NetworkLinkListener> listeners = new Vector<NetworkLinkListener>();
+			private final List<NetworkLinkListener> listeners = new Vector<>();
 
 			SquirrelLink(KNXNetworkLink baseLink) {
 				base = baseLink;
@@ -297,7 +297,7 @@ public final class NetworkBuffer {
 	static final LogService logger = LogManager.getManager().getLogService(LOG_SERVICE);
 
 	// all network buffers currently in use
-	private static final List<NetworkBuffer> buffers = new ArrayList<NetworkBuffer>();
+	private static final List<NetworkBuffer> buffers = new ArrayList<>();
 	private static int uniqueInstID;
 
 	private final List<ConfigImpl> configs = Collections.synchronizedList(new ArrayList<ConfigImpl>());

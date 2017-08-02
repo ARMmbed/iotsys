@@ -59,8 +59,8 @@ public class GroupCommServiceImpl implements GroupCommService {
 
 	private final static GroupCommServiceImpl instance = new GroupCommServiceImpl();
 
-	private static final Hashtable<Inet6Address, Hashtable<String, Obj>> groupObjectPerAddress = new Hashtable<Inet6Address, Hashtable<String, Obj>>();
-	private static final Hashtable<Inet6Address, Hashtable<String, Obj>> receiverObjectPerAddress = new Hashtable<Inet6Address, Hashtable<String, Obj>>();
+	private static final Hashtable<Inet6Address, Hashtable<String, Obj>> groupObjectPerAddress = new Hashtable<>();
+	private static final Hashtable<Inet6Address, Hashtable<String, Obj>> receiverObjectPerAddress = new Hashtable<>();
 
 	private boolean MCAST_ENABLED = true;
 	private boolean INTERNAL_NOTFICATION = true;
@@ -131,7 +131,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 				try {
 					CommunicatorFactory.getInstance().getCommunicator().getMultiInterfaceUDPLayer()
 							.openMulticastSocket(group);
-					Hashtable<String, Obj> newGroupObjects = new Hashtable<String, Obj>();
+					Hashtable<String, Obj> newGroupObjects = new Hashtable<>();
 					groupObjectPerAddress.put(group, newGroupObjects);
 					newGroupObjects.put(obj.getFullContextPath(), obj);
 				} catch (SocketException e) {
@@ -258,7 +258,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 				try {
 					CommunicatorFactory.getInstance().getCommunicator().getMultiInterfaceUDPLayer()
 							.openMulticastSocket(group);
-					Hashtable<String, Obj> newGroupObjects = new Hashtable<String, Obj>();
+					Hashtable<String, Obj> newGroupObjects = new Hashtable<>();
 					receiverObjectPerAddress.put(group, newGroupObjects);
 					newGroupObjects.put(obj.getFullContextPath(), obj);
 				} catch (SocketException e) {

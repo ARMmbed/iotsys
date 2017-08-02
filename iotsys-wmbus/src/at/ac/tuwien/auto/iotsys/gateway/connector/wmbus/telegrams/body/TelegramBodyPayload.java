@@ -62,7 +62,7 @@ public class TelegramBodyPayload {
 
 	public void parse() {
 		if (this.records == null) {
-			this.records = new ArrayList<TelegramVariableDataRecord>();
+			this.records = new ArrayList<>();
 		}
 		this.records.clear();
 
@@ -108,7 +108,7 @@ public class TelegramBodyPayload {
 			return startPosition + 1;
 		}
 
-		List<DIFETelegramField> difeList = new ArrayList<DIFETelegramField>();
+		List<DIFETelegramField> difeList = new ArrayList<>();
 		if (dif.isExtensionBit() == true) {
 			// increase start position by one (because we have already read DIF)
 			difeList = this.parseDIFEFields(startPosition + 1);
@@ -124,7 +124,7 @@ public class TelegramBodyPayload {
 
 		rec.setVif(vif);
 
-		List<VIFETelegramField> vifeList = new ArrayList<VIFETelegramField>();
+		List<VIFETelegramField> vifeList = new ArrayList<>();
 		if (vif.isExtensionBit() == true) {
 			// increase startPosition by 2 (DIF and VIF) and the number of DIFEs
 			vifeList = this.parseVIFEFields(startPosition + 2 + difeList.size());
@@ -156,7 +156,7 @@ public class TelegramBodyPayload {
 	}
 
 	private List<DIFETelegramField> parseDIFEFields(int position) {
-		List<DIFETelegramField> difeList = new ArrayList<DIFETelegramField>();
+		List<DIFETelegramField> difeList = new ArrayList<>();
 		boolean extensionBitSet = true;
 		DIFETelegramField dife = null;
 
@@ -181,7 +181,7 @@ public class TelegramBodyPayload {
 	}
 
 	private List<VIFETelegramField> parseVIFEFields(int position) {
-		List<VIFETelegramField> vifeList = new ArrayList<VIFETelegramField>();
+		List<VIFETelegramField> vifeList = new ArrayList<>();
 		boolean extensionBitSet = true;
 		VIFETelegramField vife = null;
 

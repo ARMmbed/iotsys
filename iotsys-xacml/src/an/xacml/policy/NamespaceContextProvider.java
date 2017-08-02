@@ -8,7 +8,7 @@ import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
 
 public class NamespaceContextProvider implements NamespaceContext {
-	private Map<String, String> listByPrefix = new Hashtable<String, String>();
+	private Map<String, String> listByPrefix = new Hashtable<>();
 
 	public NamespaceContextProvider() {
 		listByPrefix.put(XMLConstants.XML_NS_PREFIX, XMLConstants.XML_NS_URI);

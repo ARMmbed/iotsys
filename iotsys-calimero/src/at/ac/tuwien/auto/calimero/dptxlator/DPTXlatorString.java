@@ -60,7 +60,7 @@ public class DPTXlatorString extends DPTXlator {
 	private static final int stringLength = 14;
 
 	static {
-		types = new HashMap<String, DPT>(5);
+		types = new HashMap<>(5);
 		types.put(DPT_STRING_ASCII.getID(), DPT_STRING_ASCII);
 		types.put(DPT_STRING_8859_1.getID(), DPT_STRING_8859_1);
 	}

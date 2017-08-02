@@ -66,7 +66,7 @@ public class CommandFilter implements NetworkFilter, RequestFilter {
 	}
 
 	// stores LDataObjectQueues objects
-	private final List<CacheObject> indicationKeys = new LinkedList<CacheObject>();
+	private final List<CacheObject> indicationKeys = new LinkedList<>();
 	private final QueueListener ql = new QueueListenerImpl();
 	private volatile QueueListener userListener;
 

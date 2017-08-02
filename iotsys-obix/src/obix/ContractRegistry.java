@@ -87,7 +87,7 @@ public class ContractRegistry {
 	private static Class<?> compile(Class<?> base, Contract contract) throws Exception {
 		// try to map each URI in the contract list to an interface
 		Uri[] list = contract.list();
-		ArrayList<Class<?>> acc = new ArrayList<Class<?>>();
+		ArrayList<Class<?>> acc = new ArrayList<>();
 		for (int i = 0; i < list.length; ++i) {
 			// check for Java interface
 			Class<?> cls = loader.getClass(list[i]);
@@ -161,20 +161,20 @@ public class ContractRegistry {
 	// //////////////////////////////////////////////////////////////
 
 	static ContractClassLoader loader = new ContractClassLoader();
-	static HashMap<String, String> map = new HashMap<String, String>(); // URI
-																		// ->
-																		// className
-	static HashMap<String, Class<?>> cache = new HashMap<String, Class<?>>(); // Contract.toString
-																				// ->
-																				// Class
+	static HashMap<String, String> map = new HashMap<>(); // URI
+															// ->
+															// className
+	static HashMap<String, Class<?>> cache = new HashMap<>(); // Contract.toString
+																// ->
+																// Class
 
-	static HashMap<Object, Object> reverseMap = new HashMap<Object, Object>(); // className
-																				// ->
-																				// Contract.toString
+	static HashMap<Object, Object> reverseMap = new HashMap<>(); // className
+																	// ->
+																	// Contract.toString
 
 	static Class<?> NotFound = ContractRegistry.class;
 
-	static HashMap<String, String> baseContracts = new HashMap<String, String>();
+	static HashMap<String, String> baseContracts = new HashMap<>();
 	static {
 		baseContracts.put("obix:obj", "obix.Obj");
 		baseContracts.put("obix:bool", "obix.Bool");
@@ -196,7 +196,7 @@ public class ContractRegistry {
 	}
 
 	public static void buildReverseMap() {
-		reverseMap = new HashMap<Object, Object>();
+		reverseMap = new HashMap<>();
 
 		// build reverse map
 		for (Object contract : baseContracts.keySet()) {
@@ -263,9 +263,9 @@ public class ContractRegistry {
 			return (result == null) ? super.findClass(name) : result;
 		}
 
-		private HashMap<String, Class<?>> classMap = new HashMap<String, Class<?>>(); // className
-																						// ->
-																						// class
+		private HashMap<String, Class<?>> classMap = new HashMap<>(); // className
+																		// ->
+																		// class
 
 	}
 }

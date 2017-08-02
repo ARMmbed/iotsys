@@ -542,5 +542,5 @@ public class BinObixDecoder extends DataInputStream {
 	// Fields
 	// //////////////////////////////////////////////////////////////
 
-	ArrayList<String> strTable = new ArrayList<String>();
+	ArrayList<String> strTable = new ArrayList<>();
 }

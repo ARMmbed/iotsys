@@ -55,7 +55,7 @@ import obix.Obj;
 import obix.Uri;
 
 public class VirtualDeviceLoaderImpl implements DeviceLoader {
-	private final ArrayList<Obj> myObjects = new ArrayList<Obj>();
+	private final ArrayList<Obj> myObjects = new ArrayList<>();
 
 	private XMLConfiguration devicesConfig;
 
@@ -69,7 +69,7 @@ public class VirtualDeviceLoaderImpl implements DeviceLoader {
 		// Hard-coded connections and object creation
 
 		// store all created connectors, will be used by the gateway for closing
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 		// Open connection ???
 		// VirtualConnector virtualConnector = new VirtualConnector();
 		try {

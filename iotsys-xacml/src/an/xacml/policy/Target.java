@@ -29,7 +29,7 @@ public class Target extends ConjunctiveMatch {
 	 * @param envs
 	 */
 	public Target(Subjects subjects, Resources resources, Actions actions, Environments envs) {
-		Vector<Matchable> vMatch = new Vector<Matchable>();
+		Vector<Matchable> vMatch = new Vector<>();
 		if (subjects != null)
 			vMatch.add(subjects);
 		if (resources != null)

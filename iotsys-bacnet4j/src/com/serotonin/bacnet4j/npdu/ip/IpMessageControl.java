@@ -643,7 +643,7 @@ public class IpMessageControl extends Thread {
 		int actualSegWindow = ack.getActualWindowSize();
 
 		// Create a queue of messages to send.
-		LinkedList<APDU> apduQueue = new LinkedList<APDU>();
+		LinkedList<APDU> apduQueue = new LinkedList<>();
 		boolean finalMessage;
 		byte sequenceNumber = 1;
 		while (serviceData.size() > 0) {

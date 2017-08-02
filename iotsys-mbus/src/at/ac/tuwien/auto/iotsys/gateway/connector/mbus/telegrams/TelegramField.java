@@ -48,7 +48,7 @@ public class TelegramField {
 
 	public void addFieldPart(String value) {
 		if (this.fieldParts == null) {
-			this.fieldParts = new ArrayList<String>();
+			this.fieldParts = new ArrayList<>();
 		}
 		this.fieldParts.add(value);
 	}

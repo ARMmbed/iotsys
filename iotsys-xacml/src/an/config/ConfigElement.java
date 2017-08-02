@@ -63,7 +63,7 @@ public class ConfigElement extends AbstractXMLElement {
 	 * @throws XMLGeneralException
 	 */
 	protected XMLElement[] extractChildXMLElements(Element element) throws XMLGeneralException {
-		Vector<XMLElement> list = new Vector<XMLElement>();
+		Vector<XMLElement> list = new Vector<>();
 
 		try {
 			if (element != null) {
@@ -124,7 +124,7 @@ public class ConfigElement extends AbstractXMLElement {
 	 * engine element are refactored.
 	 */
 	public synchronized XMLElement[] getXMLElementsByType(String type) {
-		Vector<XMLElement> elements = new Vector<XMLElement>();
+		Vector<XMLElement> elements = new Vector<>();
 		for (int i = 0; i < childElements.length; i++) {
 			XMLElement child = childElements[i];
 			if (child instanceof ConfigElement && ((ConfigElement) child).isDerivedFrom(null, type)) {
@@ -139,7 +139,7 @@ public class ConfigElement extends AbstractXMLElement {
 	 * engine element are refactored.
 	 */
 	public synchronized XMLElement[] getXMLElementsByTypeNS(String ns, String type) {
-		Vector<XMLElement> elements = new Vector<XMLElement>();
+		Vector<XMLElement> elements = new Vector<>();
 		for (int i = 0; i < childElements.length; i++) {
 			XMLElement child = childElements[i];
 			if (child instanceof ConfigElement && ((ConfigElement) child).isDerivedFrom(ns, type)) {
@@ -162,7 +162,7 @@ public class ConfigElement extends AbstractXMLElement {
 	}
 
 	public synchronized XMLElement[] getXMLElementsByName(String name) {
-		Vector<XMLElement> elements = new Vector<XMLElement>();
+		Vector<XMLElement> elements = new Vector<>();
 		for (int i = 0; i < childElements.length; i++) {
 			if (name.equalsIgnoreCase(childElements[i].getElementName())) {
 				elements.add(childElements[i]);

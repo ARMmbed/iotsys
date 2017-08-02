@@ -26,8 +26,8 @@ public final class XMLDataTypeRegistry {
 	/**
 	 * The registry also provide a Java primitive-wrapper class mapping.
 	 */
-	private static Map<Class<?>, Class<?>> primitiveMapper = new Hashtable<Class<?>, Class<?>>();
-	private static Map<QName, Class<?>> javaByXml = new Hashtable<QName, Class<?>>();
+	private static Map<Class<?>, Class<?>> primitiveMapper = new Hashtable<>();
+	private static Map<QName, Class<?>> javaByXml = new Hashtable<>();
 
 	private static DatatypeFactory dataTypeFactory;
 

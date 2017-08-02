@@ -22,7 +22,7 @@ import obix.Uri;
 
 public class XBeeDeviceLoaderImpl implements DeviceLoader {
 
-	private final ArrayList<Obj> myObjects = new ArrayList<Obj>();
+	private final ArrayList<Obj> myObjects = new ArrayList<>();
 
 	private XMLConfiguration devicesConfig = new XMLConfiguration();
 
@@ -44,7 +44,7 @@ public class XBeeDeviceLoaderImpl implements DeviceLoader {
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
 		// Hard-coded connections and object creation
 
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("xbee");
 		int connectorsSize = 0;

@@ -39,7 +39,7 @@ public class ChunkedOutputStream extends OutputStream {
 	 */
 	public void setHeader(String name, String value) {
 		if (entityHeaders == null)
-			entityHeaders = new Vector<String[]>(2);
+			entityHeaders = new Vector<>(2);
 
 		String[] nv = { name, value };
 		entityHeaders.addElement(nv);

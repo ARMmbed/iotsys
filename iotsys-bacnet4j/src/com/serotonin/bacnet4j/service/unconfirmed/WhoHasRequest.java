@@ -43,7 +43,7 @@ public class WhoHasRequest extends UnconfirmedRequestService {
 
 	private static List<Class<? extends Encodable>> classes;
 	static {
-		classes = new ArrayList<Class<? extends Encodable>>();
+		classes = new ArrayList<>();
 		classes.add(Encodable.class);
 		classes.add(Encodable.class);
 		classes.add(ObjectIdentifier.class);

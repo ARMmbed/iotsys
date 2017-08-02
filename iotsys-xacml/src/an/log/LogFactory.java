@@ -32,8 +32,8 @@ public class LogFactory {
 	 * Loggers are categorized by their tag. The logger's tag could not be
 	 * changed after the logger is instantiated.
 	 */
-	private static Map<String, Logger> loggerByTag = new Hashtable<String, Logger>();
-	private static Set<Method> cleanupRegistry = new HashSet<Method>();
+	private static Map<String, Logger> loggerByTag = new Hashtable<>();
+	private static Set<Method> cleanupRegistry = new HashSet<>();
 
 	static final String ATTR_LOGGER_CLASSNAME = "an.log.Logger";
 	/**

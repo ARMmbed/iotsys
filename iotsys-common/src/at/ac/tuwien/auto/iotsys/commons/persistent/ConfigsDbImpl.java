@@ -49,13 +49,13 @@ public class ConfigsDbImpl implements ConfigsDb {
 	@Override
 	public List<JsonNode> getAllConnectors() {
 		log.severe("CONFIGS DB NOT CONNECTED");
-		return new ArrayList<JsonNode>();
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<JsonNode> getConnectors(String technology) {
 		log.severe("CONFIGS DB NOT CONNECTED");
-		return new ArrayList<JsonNode>();
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class ConfigsDbImpl implements ConfigsDb {
 	@Override
 	public List<DocumentOperationResult> addBulkConnectors(List<Connector> cs) throws Exception {
 		log.severe("CONFIGS DB NOT CONNECTED");
-		return new ArrayList<DocumentOperationResult>();
+		return new ArrayList<>();
 	}
 
 	@Override
@@ -121,13 +121,13 @@ public class ConfigsDbImpl implements ConfigsDb {
 	@Override
 	public List<Device> getAllDevices() {
 		log.severe("CONFIGS DB NOT CONNECTED");
-		return new ArrayList<Device>();
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<Device> getDevices(String connectorId) {
 		log.severe("CONFIGS DB NOT CONNECTED");
-		return new ArrayList<Device>();
+		return new ArrayList<>();
 	}
 
 	@Override

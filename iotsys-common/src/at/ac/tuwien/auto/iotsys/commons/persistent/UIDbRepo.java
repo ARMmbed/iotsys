@@ -51,7 +51,7 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 	private static UIDbRepo INSTANCE;
 	private static final Logger log = Logger.getLogger(UIDbRepo.class.getName());
 
-	private Map<String, String> uiStorageMap = new HashMap<String, String>();
+	private Map<String, String> uiStorageMap = new HashMap<>();
 
 	protected UIDbRepo(CouchDbConnector db) {
 		super(User.class, db);

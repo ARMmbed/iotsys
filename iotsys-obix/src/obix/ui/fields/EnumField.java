@@ -54,6 +54,6 @@ public class EnumField extends ObjField {
 	// Fields
 	////////////////////////////////////////////////////////////////
 
-	JComboBox<?> combo = new JComboBox<Object>();
+	JComboBox<?> combo = new JComboBox<>();
 
 }

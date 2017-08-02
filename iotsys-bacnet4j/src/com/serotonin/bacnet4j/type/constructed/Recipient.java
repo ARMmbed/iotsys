@@ -35,7 +35,7 @@ public class Recipient extends BaseType {
 
 	private static List<Class<? extends Encodable>> classes;
 	static {
-		classes = new ArrayList<Class<? extends Encodable>>();
+		classes = new ArrayList<>();
 		classes.add(ObjectIdentifier.class);
 		classes.add(Address.class);
 	}

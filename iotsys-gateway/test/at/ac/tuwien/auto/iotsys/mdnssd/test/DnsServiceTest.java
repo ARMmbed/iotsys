@@ -76,7 +76,7 @@ public class DnsServiceTest extends AbstractGatewayTest {
 
 		testDeviceNames = new String[2];
 		testDeviceAddr = new String[2];
-		env = new Hashtable<String, String>();
+		env = new Hashtable<>();
 
 		testDeviceNames[0] = "brightnessSensor1.testdevices.iotsys.auto.tuwien.ac.at";
 		testDeviceNames[1] = "sunblind1.testdevices.iotsys.auto.tuwien.ac.at";

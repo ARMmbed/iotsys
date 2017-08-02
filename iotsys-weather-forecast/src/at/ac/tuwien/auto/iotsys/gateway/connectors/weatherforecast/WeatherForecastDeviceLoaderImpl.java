@@ -57,7 +57,7 @@ import obix.Uri;
 
 public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 
-	private final ArrayList<Obj> myObjects = new ArrayList<Obj>();
+	private final ArrayList<Obj> myObjects = new ArrayList<>();
 
 	private XMLConfiguration devicesConfig;
 
@@ -69,7 +69,7 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
 
 		// Hard-coded connections and object creation
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("weather-forecast");
 		int connectorsSize = 0;

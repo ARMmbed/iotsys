@@ -51,7 +51,7 @@ public final class LogManager {
 
 	private LogManager() {
 		loggers = Collections.synchronizedMap(new HashMap<String, LogService>());
-		writers = new Vector<LogWriter>();
+		writers = new Vector<>();
 	}
 
 	/**

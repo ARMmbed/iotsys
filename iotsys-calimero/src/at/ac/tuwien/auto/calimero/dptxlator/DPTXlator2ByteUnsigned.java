@@ -119,7 +119,7 @@ public class DPTXlator2ByteUnsigned extends DPTXlator {
 	private final int max;
 
 	static {
-		types = new HashMap<String, DPT>(15);
+		types = new HashMap<>(15);
 		types.put(DPT_VALUE_2_UCOUNT.getID(), DPT_VALUE_2_UCOUNT);
 		types.put(DPT_PROP_DATATYPE.getID(), DPT_PROP_DATATYPE);
 		types.put(DPT_TIMEPERIOD.getID(), DPT_TIMEPERIOD);

@@ -47,7 +47,7 @@ public class ObixAssembler extends Assembler implements OpCodes {
 
 		// walk thru each interface and add code
 		// to ctor and accessor methods
-		HashMap<String, Method> done = new HashMap<String, Method>();
+		HashMap<String, Method> done = new HashMap<>();
 		for (int i = 0; i < interfaces.length; ++i)
 			asm.compileInterface(interfaces[i], done, ctor);
 
@@ -261,9 +261,9 @@ public class ObixAssembler extends Assembler implements OpCodes {
 	static AsmClassLoader classLoader = new AsmClassLoader();
 	static final Object nameLock = new Object();
 	static final Object loadLock = new Object();
-	static HashMap<String, Buffer> loadClassFiles = new HashMap<String, Buffer>(); // className
-																					// ->
-																					// byte[]
+	static HashMap<String, Buffer> loadClassFiles = new HashMap<>(); // className
+																		// ->
+																		// byte[]
 	static int nextName = 0;
 
 	private int objAdd, objAddWithName, objGet, decoderFromString;

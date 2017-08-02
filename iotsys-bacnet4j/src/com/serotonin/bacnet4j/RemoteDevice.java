@@ -45,7 +45,7 @@ public class RemoteDevice implements Serializable {
 	private UnsignedInteger protocolVersion;
 	private UnsignedInteger protocolRevision;
 	private ServicesSupported servicesSupported;
-	private final Map<ObjectIdentifier, RemoteObject> objects = new HashMap<ObjectIdentifier, RemoteObject>();
+	private final Map<ObjectIdentifier, RemoteObject> objects = new HashMap<>();
 	private Object userData;
 
 	// public RemoteDevice(int instanceNumber, Address address) {
@@ -83,7 +83,7 @@ public class RemoteDevice implements Serializable {
 	}
 
 	public List<RemoteObject> getObjects() {
-		return new ArrayList<RemoteObject>(objects.values());
+		return new ArrayList<>(objects.values());
 	}
 
 	public void clearObjects() {

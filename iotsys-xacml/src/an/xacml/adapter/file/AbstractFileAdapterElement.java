@@ -59,7 +59,7 @@ public abstract class AbstractFileAdapterElement extends AbstractXMLElement {
 	}
 
 	protected XMLElement[] extractChildXMLElements(Element element) throws XMLGeneralException {
-		Vector<XMLElement> list = new Vector<XMLElement>();
+		Vector<XMLElement> list = new Vector<>();
 
 		try {
 			if (element != null) {

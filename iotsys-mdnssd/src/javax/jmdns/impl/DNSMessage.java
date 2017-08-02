@@ -132,8 +132,7 @@ public abstract class DNSMessage {
 	}
 
 	public Collection<? extends DNSRecord> getAllAnswers() {
-		List<DNSRecord> aList = new ArrayList<DNSRecord>(
-				_answers.size() + _authoritativeAnswers.size() + _additionals.size());
+		List<DNSRecord> aList = new ArrayList<>(_answers.size() + _authoritativeAnswers.size() + _additionals.size());
 		aList.addAll(_answers);
 		aList.addAll(_authoritativeAnswers);
 		aList.addAll(_additionals);

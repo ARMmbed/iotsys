@@ -233,12 +233,12 @@ public class ConstantPool {
 	Buffer buf = new Buffer();
 	int count = 0;
 
-	Hashtable<String, Integer> utfTable = new Hashtable<String, Integer>();
-	Hashtable<String, Integer> classTable = new Hashtable<String, Integer>();
-	Hashtable<String, Integer> stringTable = new Hashtable<String, Integer>();
-	Hashtable<Float, Integer> floatTable = new Hashtable<Float, Integer>();
-	Hashtable<Double, Integer> doubleTable = new Hashtable<Double, Integer>();
-	Hashtable<Long, Integer> longTable = new Hashtable<Long, Integer>();
+	Hashtable<String, Integer> utfTable = new Hashtable<>();
+	Hashtable<String, Integer> classTable = new Hashtable<>();
+	Hashtable<String, Integer> stringTable = new Hashtable<>();
+	Hashtable<Float, Integer> floatTable = new Hashtable<>();
+	Hashtable<Double, Integer> doubleTable = new Hashtable<>();
+	Hashtable<Long, Integer> longTable = new Hashtable<>();
 	IntHashMap integerTable = new IntHashMap();
 	IntHashMap ntTable = new IntHashMap();
 	IntHashMap fieldTable = new IntHashMap();

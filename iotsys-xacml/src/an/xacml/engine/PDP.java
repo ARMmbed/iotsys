@@ -48,7 +48,7 @@ public class PDP extends AbstractMonitorableAndControllable {
 	static final String ELEM_POLICY_RESOLVER = "PolicyResolverRegistry";
 	static final String ELEM_ATTRIBUTE_FACTORY = "AttributeRetrieverRegistry";
 
-	private static Map<String, PDP> pdpRegistry = new Hashtable<String, PDP>();
+	private static Map<String, PDP> pdpRegistry = new Hashtable<>();
 	private String domain;
 	private DataStore policyLoader;
 	private ContextFactory contextFactory;

@@ -55,7 +55,7 @@ public class WriteableObjectDbImpl implements WriteableObjectDb {
 	@Override
 	public List<WriteableObject> getPersistedObjects() {
 		log.severe("WRITEABLE OBJECT DB NOT CONNECTED");
-		return new ArrayList<WriteableObject>();
+		return new ArrayList<>();
 	}
 
 	@Override

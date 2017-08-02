@@ -69,7 +69,7 @@ public class Obixc {
 
 	public void map(Obj proto) throws Exception {
 		// first recursively map the protos into Type instances
-		ArrayList<Type> acc = new ArrayList<Type>();
+		ArrayList<Type> acc = new ArrayList<>();
 		map(proto, acc);
 		types = (Type[]) acc.toArray(new Type[acc.size()]);
 
@@ -117,7 +117,7 @@ public class Obixc {
 	}
 
 	private void mapContracts(Type type) {
-		ArrayList<Type> acc = new ArrayList<Type>();
+		ArrayList<Type> acc = new ArrayList<>();
 
 		// always implement yourself
 		acc.add(type);
@@ -137,7 +137,7 @@ public class Obixc {
 	}
 
 	private void mapChildren(Type type) {
-		ArrayList<Child> acc = new ArrayList<Child>();
+		ArrayList<Child> acc = new ArrayList<>();
 
 		Obj[] kids = type.proto.list();
 		for (int i = 0; i < kids.length; ++i) {

@@ -189,7 +189,7 @@ public class DNSQuestion extends DNSEntry {
 	 * AllRecords question.
 	 */
 	private static class AllRecords extends DNSQuestion {
-		Set<DNSRecord> addtnAnswers = new HashSet<DNSRecord>();
+		Set<DNSRecord> addtnAnswers = new HashSet<>();
 
 		AllRecords(String name, DNSRecordType type, DNSRecordClass recordClass, boolean unique) {
 			super(name, type, recordClass, unique);

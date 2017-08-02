@@ -183,12 +183,12 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e1_2aTest() {
-		List<PropertyValue> list = new ArrayList<PropertyValue>();
+		List<PropertyValue> list = new ArrayList<>();
 		list.add(new PropertyValue(PropertyIdentifier.presentValue, null, new Real(65), null));
 		list.add(new PropertyValue(PropertyIdentifier.statusFlags, null, new StatusFlags(false, false, false, false),
 				null));
 
-		SequenceOf<PropertyValue> listOfValues = new SequenceOf<PropertyValue>(list);
+		SequenceOf<PropertyValue> listOfValues = new SequenceOf<>(list);
 
 		ConfirmedCovNotificationRequest confirmedCovNotification = new ConfirmedCovNotificationRequest(
 				new UnsignedInteger(18), new ObjectIdentifier(ObjectType.device, 4),
@@ -213,12 +213,12 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e1_3Test() {
-		List<PropertyValue> list = new ArrayList<PropertyValue>();
+		List<PropertyValue> list = new ArrayList<>();
 		list.add(new PropertyValue(PropertyIdentifier.presentValue, null, new Real(65), null));
 		list.add(new PropertyValue(PropertyIdentifier.statusFlags, null, new StatusFlags(false, false, false, false),
 				null));
 
-		SequenceOf<PropertyValue> listOfValues = new SequenceOf<PropertyValue>(list);
+		SequenceOf<PropertyValue> listOfValues = new SequenceOf<>(list);
 
 		UnconfirmedCovNotificationRequest unconfirmedCovNotificationRequest = new UnconfirmedCovNotificationRequest(
 				new UnsignedInteger(18), new ObjectIdentifier(ObjectType.device, 4),
@@ -298,14 +298,13 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e1_6bTest() {
-		List<GetAlarmSummaryAck.AlarmSummary> alarmSummaries = new ArrayList<GetAlarmSummaryAck.AlarmSummary>();
+		List<GetAlarmSummaryAck.AlarmSummary> alarmSummaries = new ArrayList<>();
 		alarmSummaries.add(new GetAlarmSummaryAck.AlarmSummary(new ObjectIdentifier(ObjectType.analogInput, 2),
 				EventState.highLimit, new EventTransitionBits(false, true, true)));
 		alarmSummaries.add(new GetAlarmSummaryAck.AlarmSummary(new ObjectIdentifier(ObjectType.analogInput, 3),
 				EventState.lowLimit, new EventTransitionBits(true, true, true)));
 
-		GetAlarmSummaryAck getAlarmSummaryAck = new GetAlarmSummaryAck(
-				new SequenceOf<GetAlarmSummaryAck.AlarmSummary>(alarmSummaries));
+		GetAlarmSummaryAck getAlarmSummaryAck = new GetAlarmSummaryAck(new SequenceOf<>(alarmSummaries));
 
 		ComplexACK pdu = new ComplexACK(false, false, (byte) 1, 0, 0, getAlarmSummaryAck);
 
@@ -331,7 +330,7 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e1_7bTest() {
-		List<GetEnrollmentSummaryAck.EnrollmentSummary> enrollmentSummaries = new ArrayList<GetEnrollmentSummaryAck.EnrollmentSummary>();
+		List<GetEnrollmentSummaryAck.EnrollmentSummary> enrollmentSummaries = new ArrayList<>();
 		enrollmentSummaries
 				.add(new GetEnrollmentSummaryAck.EnrollmentSummary(new ObjectIdentifier(ObjectType.analogInput, 2),
 						EventType.outOfRange, EventState.highLimit, new UnsignedInteger(100), new UnsignedInteger(4)));
@@ -340,7 +339,7 @@ public class AnnexFEncodingTest {
 						EventType.changeOfState, EventState.normal, new UnsignedInteger(50), new UnsignedInteger(2)));
 
 		GetEnrollmentSummaryAck getEnrollmentSummaryAck = new GetEnrollmentSummaryAck(
-				new SequenceOf<GetEnrollmentSummaryAck.EnrollmentSummary>(enrollmentSummaries));
+				new SequenceOf<>(enrollmentSummaries));
 
 		ComplexACK pdu = new ComplexACK(false, false, (byte) 1, 0, 0, getEnrollmentSummaryAck);
 
@@ -371,7 +370,7 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e1_7dTest() {
-		List<GetEnrollmentSummaryAck.EnrollmentSummary> enrollmentSummaries = new ArrayList<GetEnrollmentSummaryAck.EnrollmentSummary>();
+		List<GetEnrollmentSummaryAck.EnrollmentSummary> enrollmentSummaries = new ArrayList<>();
 		enrollmentSummaries
 				.add(new GetEnrollmentSummaryAck.EnrollmentSummary(new ObjectIdentifier(ObjectType.analogInput, 2),
 						EventType.outOfRange, EventState.normal, new UnsignedInteger(8), new UnsignedInteger(4)));
@@ -386,7 +385,7 @@ public class AnnexFEncodingTest {
 						EventType.floatingLimit, EventState.normal, new UnsignedInteger(3), new UnsignedInteger(8)));
 
 		GetEnrollmentSummaryAck getEnrollmentSummaryAck = new GetEnrollmentSummaryAck(
-				new SequenceOf<GetEnrollmentSummaryAck.EnrollmentSummary>(enrollmentSummaries));
+				new SequenceOf<>(enrollmentSummaries));
 
 		ComplexACK pdu = new ComplexACK(false, false, (byte) 2, 0, 0, getEnrollmentSummaryAck);
 
@@ -414,7 +413,7 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e1_8bTest() {
-		List<GetEventInformationAck.EventSummary> eventSummaries = new ArrayList<GetEventInformationAck.EventSummary>();
+		List<GetEventInformationAck.EventSummary> eventSummaries = new ArrayList<>();
 		eventSummaries.add(new GetEventInformationAck.EventSummary(new ObjectIdentifier(ObjectType.analogInput, 2),
 				EventState.highLimit, new EventTransitionBits(false, true, true),
 				new TimeStamp(new Time(15, 35, 0, 20)), new TimeStamp(new Time(255, 255, 255, 255)),
@@ -427,8 +426,8 @@ public class AnnexFEncodingTest {
 				new EventTransitionBits(true, true, true), new UnsignedInteger(15), new UnsignedInteger(15),
 				new UnsignedInteger(20)));
 
-		GetEventInformationAck getEventInformationAck = new GetEventInformationAck(
-				new SequenceOf<GetEventInformationAck.EventSummary>(eventSummaries), new Boolean(false));
+		GetEventInformationAck getEventInformationAck = new GetEventInformationAck(new SequenceOf<>(eventSummaries),
+				new Boolean(false));
 
 		ComplexACK pdu = new ComplexACK(false, false, (byte) 1, 0, 0, getEventInformationAck);
 
@@ -546,11 +545,11 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e2_1dTest() {
-		List<OctetString> strings = new ArrayList<OctetString>();
+		List<OctetString> strings = new ArrayList<>();
 		strings.add(new OctetString("12:00,45.6".getBytes()));
 		strings.add(new OctetString("12:15,44.8".getBytes()));
 		AcknowledgementService service = new AtomicReadFileAck(new Boolean(true), new SignedInteger(14),
-				new UnsignedInteger(2), new SequenceOf<OctetString>(strings));
+				new UnsignedInteger(2), new SequenceOf<>(strings));
 		APDU pdu = new ComplexACK(false, false, (byte) 18, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x12, (byte) 0x06, (byte) 0x11, (byte) 0x1E, (byte) 0x31,
 				(byte) 0x0E, (byte) 0x21, (byte) 0x02, (byte) 0x65, (byte) 0x0A, (byte) 0x31, (byte) 0x32, (byte) 0x3A,
@@ -582,11 +581,11 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e2_2cTest() {
-		List<OctetString> strings = new ArrayList<OctetString>();
+		List<OctetString> strings = new ArrayList<>();
 		strings.add(new OctetString("12:00,45.6".getBytes()));
 		strings.add(new OctetString("12:15,44.8".getBytes()));
 		ConfirmedRequestService service = new AtomicWriteFileRequest(new ObjectIdentifier(ObjectType.file, 2),
-				new SignedInteger(-1), new UnsignedInteger(2), new SequenceOf<OctetString>(strings));
+				new SignedInteger(-1), new UnsignedInteger(2), new SequenceOf<>(strings));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_206, (byte) 85, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x02, (byte) 0x55, (byte) 0x07, (byte) 0xC4, (byte) 0x02,
@@ -606,15 +605,15 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_1aTest() {
-		List<PropertyReference> propertyReferences = new ArrayList<PropertyReference>();
+		List<PropertyReference> propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.reliability, null));
 
-		List<ReadAccessSpecification> elements = new ArrayList<ReadAccessSpecification>();
+		List<ReadAccessSpecification> elements = new ArrayList<>();
 		elements.add(new ReadAccessSpecification(new ObjectIdentifier(ObjectType.analogInput, 15),
-				new SequenceOf<PropertyReference>(propertyReferences)));
+				new SequenceOf<>(propertyReferences)));
 		ConfirmedRequestService service = new AddListElementRequest(new ObjectIdentifier(ObjectType.group, 3),
-				PropertyIdentifier.listOfGroupMembers, null, new SequenceOf<ReadAccessSpecification>(elements));
+				PropertyIdentifier.listOfGroupMembers, null, new SequenceOf<>(elements));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_206, (byte) 1, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x08, (byte) 0x0C, (byte) 0x02,
@@ -631,24 +630,24 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_2aTest() {
-		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<ReadAccessSpecification>();
+		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<>();
 
-		List<PropertyReference> propertyReferences = new ArrayList<PropertyReference>();
+		List<PropertyReference> propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.reliability, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.description, null));
 		readAccessSpecs.add(new ReadAccessSpecification(new ObjectIdentifier(ObjectType.analogInput, 12),
-				new SequenceOf<PropertyReference>(propertyReferences)));
+				new SequenceOf<>(propertyReferences)));
 
-		propertyReferences = new ArrayList<PropertyReference>();
+		propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.reliability, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.description, null));
 		readAccessSpecs.add(new ReadAccessSpecification(new ObjectIdentifier(ObjectType.analogInput, 13),
-				new SequenceOf<PropertyReference>(propertyReferences)));
+				new SequenceOf<>(propertyReferences)));
 
 		ConfirmedRequestService service = new RemoveListElementRequest(new ObjectIdentifier(ObjectType.group, 3),
-				PropertyIdentifier.listOfGroupMembers, null, new SequenceOf<ReadAccessSpecification>(readAccessSpecs));
+				PropertyIdentifier.listOfGroupMembers, null, new SequenceOf<>(readAccessSpecs));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_206, (byte) 52, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x02, (byte) 0x34, (byte) 0x09, (byte) 0x0C, (byte) 0x02,
@@ -667,22 +666,22 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_2cTest() {
-		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<ReadAccessSpecification>();
+		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<>();
 
-		List<PropertyReference> propertyReferences = new ArrayList<PropertyReference>();
+		List<PropertyReference> propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.reliability, null));
 		readAccessSpecs.add(new ReadAccessSpecification(new ObjectIdentifier(ObjectType.analogInput, 12),
-				new SequenceOf<PropertyReference>(propertyReferences)));
+				new SequenceOf<>(propertyReferences)));
 
-		propertyReferences = new ArrayList<PropertyReference>();
+		propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.reliability, null));
 		readAccessSpecs.add(new ReadAccessSpecification(new ObjectIdentifier(ObjectType.analogInput, 13),
-				new SequenceOf<PropertyReference>(propertyReferences)));
+				new SequenceOf<>(propertyReferences)));
 
 		ConfirmedRequestService service = new AddListElementRequest(new ObjectIdentifier(ObjectType.group, 3),
-				PropertyIdentifier.listOfGroupMembers, null, new SequenceOf<ReadAccessSpecification>(readAccessSpecs));
+				PropertyIdentifier.listOfGroupMembers, null, new SequenceOf<>(readAccessSpecs));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_206, (byte) 53, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x02, (byte) 0x35, (byte) 0x08, (byte) 0x0C, (byte) 0x02,
@@ -700,13 +699,12 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_3aTest() {
-		List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
+		List<PropertyValue> propertyValues = new ArrayList<>();
 		propertyValues.add(new PropertyValue(PropertyIdentifier.objectName, null,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "Trend 1"), null));
 		propertyValues
 				.add(new PropertyValue(PropertyIdentifier.fileAccessMethod, null, FileAccessMethod.recordAccess, null));
-		ConfirmedRequestService service = new CreateObjectRequest(ObjectType.file,
-				new SequenceOf<PropertyValue>(propertyValues));
+		ConfirmedRequestService service = new CreateObjectRequest(ObjectType.file, new SequenceOf<>(propertyValues));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 86, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x56, (byte) 0x0A, (byte) 0x0E, (byte) 0x09,
@@ -778,11 +776,11 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_6aTest() {
-		List<SelectionCriteria> selectionCriteria = new ArrayList<SelectionCriteria>();
+		List<SelectionCriteria> selectionCriteria = new ArrayList<>();
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.objectType, null, RelationSpecifier.equal,
 				ObjectType.binaryInput));
 		ObjectSelectionCriteria objectSelectionCriteria = new ObjectSelectionCriteria(SelectionLogic.and,
-				new SequenceOf<SelectionCriteria>(selectionCriteria));
+				new SequenceOf<>(selectionCriteria));
 		ConfirmedRequestService service = new ReadPropertyConditionalRequest(objectSelectionCriteria, null);
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 81, (byte) 0, 0,
 				service);
@@ -793,13 +791,12 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_6bTest() {
-		List<ReadAccessResult> readAccessResults = new ArrayList<ReadAccessResult>();
+		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.binaryInput, 1), null));
 		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.binaryInput, 2), null));
 		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.binaryInput, 3), null));
 		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.binaryInput, 4), null));
-		AcknowledgementService service = new ReadPropertyConditionalAck(
-				new SequenceOf<ReadAccessResult>(readAccessResults));
+		AcknowledgementService service = new ReadPropertyConditionalAck(new SequenceOf<>(readAccessResults));
 		APDU pdu = new ComplexACK(false, false, (byte) 81, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x51, (byte) 0x0D, (byte) 0x0C, (byte) 0x00, (byte) 0xC0,
 				(byte) 0x00, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0xC0, (byte) 0x00, (byte) 0x02, (byte) 0x0C,
@@ -809,13 +806,13 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_6cTest() {
-		List<SelectionCriteria> selectionCriteria = new ArrayList<SelectionCriteria>();
+		List<SelectionCriteria> selectionCriteria = new ArrayList<>();
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.objectType, null, RelationSpecifier.equal,
 				ObjectType.analogInput));
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.presentValue, null,
 				RelationSpecifier.greaterThan, new Real(100)));
 		ObjectSelectionCriteria objectSelectionCriteria = new ObjectSelectionCriteria(SelectionLogic.and,
-				new SequenceOf<SelectionCriteria>(selectionCriteria));
+				new SequenceOf<>(selectionCriteria));
 		ConfirmedRequestService service = new ReadPropertyConditionalRequest(objectSelectionCriteria, null);
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 82, (byte) 0, 0,
 				service);
@@ -827,25 +824,24 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_6dTest() {
-		List<ReadAccessResult> readAccessResults = new ArrayList<ReadAccessResult>();
+		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 
-		List<Result> results = new ArrayList<Result>();
+		List<Result> results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.presentValue, null, new Real(102.3f)));
-		readAccessResults.add(
-				new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 1), new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 1), new SequenceOf<>(results)));
 
-		results = new ArrayList<Result>();
+		results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.presentValue, null, new Real(180.7f)));
-		readAccessResults.add(
-				new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 2), new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 2), new SequenceOf<>(results)));
 
-		results = new ArrayList<Result>();
+		results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.presentValue, null, new Real(142.1f)));
-		readAccessResults.add(
-				new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 3), new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 3), new SequenceOf<>(results)));
 
-		AcknowledgementService service = new ReadPropertyConditionalAck(
-				new SequenceOf<ReadAccessResult>(readAccessResults));
+		AcknowledgementService service = new ReadPropertyConditionalAck(new SequenceOf<>(readAccessResults));
 		APDU pdu = new ComplexACK(false, false, (byte) 82, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x52, (byte) 0x0D, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
 				(byte) 0x00, (byte) 0x01, (byte) 0x1E, (byte) 0x29, (byte) 0x55, (byte) 0x4E, (byte) 0x44, (byte) 0x42,
@@ -858,21 +854,21 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_6eTest() {
-		List<SelectionCriteria> selectionCriteria = new ArrayList<SelectionCriteria>();
+		List<SelectionCriteria> selectionCriteria = new ArrayList<>();
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.reliability, null, RelationSpecifier.notEqual,
 				Reliability.noFaultDetected));
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.outOfService, null, RelationSpecifier.equal,
 				new Boolean(true)));
 		ObjectSelectionCriteria objectSelectionCriteria = new ObjectSelectionCriteria(SelectionLogic.or,
-				new SequenceOf<SelectionCriteria>(selectionCriteria));
+				new SequenceOf<>(selectionCriteria));
 
-		List<PropertyReference> propertyReferences = new ArrayList<PropertyReference>();
+		List<PropertyReference> propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.reliability, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.outOfService, null));
 
 		ConfirmedRequestService service = new ReadPropertyConditionalRequest(objectSelectionCriteria,
-				new SequenceOf<PropertyReference>(propertyReferences));
+				new SequenceOf<>(propertyReferences));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 83, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x53, (byte) 0x0D, (byte) 0x0E, (byte) 0x09,
@@ -884,24 +880,23 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_6fTest() {
-		List<ReadAccessResult> readAccessResults = new ArrayList<ReadAccessResult>();
+		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 
-		List<Result> results = new ArrayList<Result>();
+		List<Result> results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.presentValue, null, BinaryPV.active));
 		results.add(new Result(PropertyIdentifier.reliability, null, Reliability.noFaultDetected));
 		results.add(new Result(PropertyIdentifier.outOfService, null, new Boolean(true)));
-		readAccessResults.add(
-				new ReadAccessResult(new ObjectIdentifier(ObjectType.binaryInput, 1), new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.binaryInput, 1), new SequenceOf<>(results)));
 
-		results = new ArrayList<Result>();
+		results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.presentValue, null, new Real(250)));
 		results.add(new Result(PropertyIdentifier.reliability, null, Reliability.unreliableOther));
 		results.add(new Result(PropertyIdentifier.outOfService, null, new Boolean(false)));
-		readAccessResults.add(
-				new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 2), new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 2), new SequenceOf<>(results)));
 
-		AcknowledgementService service = new ReadPropertyConditionalAck(
-				new SequenceOf<ReadAccessResult>(readAccessResults));
+		AcknowledgementService service = new ReadPropertyConditionalAck(new SequenceOf<>(readAccessResults));
 		APDU pdu = new ComplexACK(false, false, (byte) 83, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x53, (byte) 0x0D, (byte) 0x0C, (byte) 0x00, (byte) 0xC0,
 				(byte) 0x00, (byte) 0x01, (byte) 0x1E, (byte) 0x29, (byte) 0x55, (byte) 0x4E, (byte) 0x91, (byte) 0x01,
@@ -915,19 +910,19 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_6gTest() {
-		List<SelectionCriteria> selectionCriteria = new ArrayList<SelectionCriteria>();
+		List<SelectionCriteria> selectionCriteria = new ArrayList<>();
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.objectName, null, RelationSpecifier.equal,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "C* Pressure")));
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.objectName, null, RelationSpecifier.equal,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "AC? Supply Temp")));
 		ObjectSelectionCriteria objectSelectionCriteria = new ObjectSelectionCriteria(SelectionLogic.or,
-				new SequenceOf<SelectionCriteria>(selectionCriteria));
+				new SequenceOf<>(selectionCriteria));
 
-		List<PropertyReference> propertyReferences = new ArrayList<PropertyReference>();
+		List<PropertyReference> propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.objectName, null));
 
 		ConfirmedRequestService service = new ReadPropertyConditionalRequest(objectSelectionCriteria,
-				new SequenceOf<PropertyReference>(propertyReferences));
+				new SequenceOf<>(propertyReferences));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 84, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x54, (byte) 0x0D, (byte) 0x0E, (byte) 0x09,
@@ -942,40 +937,39 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_6hTest() {
-		List<ReadAccessResult> readAccessResults = new ArrayList<ReadAccessResult>();
+		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 
-		List<Result> results = new ArrayList<Result>();
+		List<Result> results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.objectName, null,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "AC1 Supply Temp")));
-		readAccessResults.add(
-				new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 4), new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 4), new SequenceOf<>(results)));
 
-		results = new ArrayList<Result>();
+		results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.objectName, null,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "CWP1 Pressure")));
-		readAccessResults.add(
-				new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 7), new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 7), new SequenceOf<>(results)));
 
-		results = new ArrayList<Result>();
+		results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.objectName, null,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "Chiller 1 Freon Pressure")));
-		readAccessResults.add(
-				new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 8), new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 8), new SequenceOf<>(results)));
 
-		results = new ArrayList<Result>();
+		results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.objectName, null,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "AC2 Supply Temp")));
-		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 10),
-				new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 10), new SequenceOf<>(results)));
 
-		results = new ArrayList<Result>();
+		results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.objectName, null,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "AC3 Supply Temp")));
-		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 12),
-				new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 12), new SequenceOf<>(results)));
 
-		AcknowledgementService service = new ReadPropertyConditionalAck(
-				new SequenceOf<ReadAccessResult>(readAccessResults));
+		AcknowledgementService service = new ReadPropertyConditionalAck(new SequenceOf<>(readAccessResults));
 		APDU pdu = new ComplexACK(false, false, (byte) 84, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x54, (byte) 0x0D, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
 				(byte) 0x00, (byte) 0x04, (byte) 0x1E, (byte) 0x29, (byte) 0x4D, (byte) 0x4E, (byte) 0x75, (byte) 0x10,
@@ -1001,14 +995,13 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_7aTest() {
-		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<ReadAccessSpecification>();
-		List<PropertyReference> propertyReferences = new ArrayList<PropertyReference>();
+		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<>();
+		List<PropertyReference> propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.reliability, null));
 		readAccessSpecs.add(new ReadAccessSpecification(new ObjectIdentifier(ObjectType.analogInput, 16),
-				new SequenceOf<PropertyReference>(propertyReferences)));
-		ConfirmedRequestService service = new ReadPropertyMultipleRequest(
-				new SequenceOf<ReadAccessSpecification>(readAccessSpecs));
+				new SequenceOf<>(propertyReferences)));
+		ConfirmedRequestService service = new ReadPropertyMultipleRequest(new SequenceOf<>(readAccessSpecs));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 241, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0xF1, (byte) 0x0E, (byte) 0x0C, (byte) 0x00,
@@ -1018,14 +1011,13 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_7bTest() {
-		List<ReadAccessResult> readAccessResults = new ArrayList<ReadAccessResult>();
-		List<Result> results = new ArrayList<Result>();
+		List<ReadAccessResult> readAccessResults = new ArrayList<>();
+		List<Result> results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.presentValue, null, new Real(72.3f)));
 		results.add(new Result(PropertyIdentifier.reliability, null, Reliability.noFaultDetected));
-		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 16),
-				new SequenceOf<Result>(results)));
-		AcknowledgementService service = new ReadPropertyMultipleAck(
-				new SequenceOf<ReadAccessResult>(readAccessResults));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 16), new SequenceOf<>(results)));
+		AcknowledgementService service = new ReadPropertyMultipleAck(new SequenceOf<>(readAccessResults));
 		APDU pdu = new ComplexACK(false, false, (byte) 241, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0xF1, (byte) 0x0E, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
 				(byte) 0x00, (byte) 0x10, (byte) 0x1E, (byte) 0x29, (byte) 0x55, (byte) 0x4E, (byte) 0x44, (byte) 0x42,
@@ -1035,25 +1027,24 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_7cTest() {
-		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<ReadAccessSpecification>();
+		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<>();
 
-		List<PropertyReference> propertyReferences = new ArrayList<PropertyReference>();
+		List<PropertyReference> propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		readAccessSpecs.add(new ReadAccessSpecification(new ObjectIdentifier(ObjectType.analogInput, 33),
-				new SequenceOf<PropertyReference>(propertyReferences)));
+				new SequenceOf<>(propertyReferences)));
 
-		propertyReferences = new ArrayList<PropertyReference>();
+		propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		readAccessSpecs.add(new ReadAccessSpecification(new ObjectIdentifier(ObjectType.analogInput, 50),
-				new SequenceOf<PropertyReference>(propertyReferences)));
+				new SequenceOf<>(propertyReferences)));
 
-		propertyReferences = new ArrayList<PropertyReference>();
+		propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
 		readAccessSpecs.add(new ReadAccessSpecification(new ObjectIdentifier(ObjectType.analogInput, 35),
-				new SequenceOf<PropertyReference>(propertyReferences)));
+				new SequenceOf<>(propertyReferences)));
 
-		ConfirmedRequestService service = new ReadPropertyMultipleRequest(
-				new SequenceOf<ReadAccessSpecification>(readAccessSpecs));
+		ConfirmedRequestService service = new ReadPropertyMultipleRequest(new SequenceOf<>(readAccessSpecs));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 2, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x02, (byte) 0x0E, (byte) 0x0C, (byte) 0x00,
@@ -1065,26 +1056,25 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_7dTest() {
-		List<ReadAccessResult> readAccessResults = new ArrayList<ReadAccessResult>();
+		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 
-		List<Result> results = new ArrayList<Result>();
+		List<Result> results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.presentValue, null, new Real(42.3f)));
-		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 33),
-				new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 33), new SequenceOf<>(results)));
 
-		results = new ArrayList<Result>();
+		results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.presentValue, null,
 				new BACnetError(ErrorClass.object, ErrorCode.unknownObject)));
-		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 50),
-				new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 50), new SequenceOf<>(results)));
 
-		results = new ArrayList<Result>();
+		results = new ArrayList<>();
 		results.add(new Result(PropertyIdentifier.presentValue, null, new Real(435.7f)));
-		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 35),
-				new SequenceOf<Result>(results)));
+		readAccessResults
+				.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.analogInput, 35), new SequenceOf<>(results)));
 
-		AcknowledgementService service = new ReadPropertyMultipleAck(
-				new SequenceOf<ReadAccessResult>(readAccessResults));
+		AcknowledgementService service = new ReadPropertyMultipleAck(new SequenceOf<>(readAccessResults));
 		APDU pdu = new ComplexACK(false, false, (byte) 2, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x02, (byte) 0x0E, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
 				(byte) 0x00, (byte) 0x21, (byte) 0x1E, (byte) 0x29, (byte) 0x55, (byte) 0x4E, (byte) 0x44, (byte) 0x42,
@@ -1101,7 +1091,7 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_8bTest() {
-		List<BaseType> itemData = new ArrayList<BaseType>();
+		List<BaseType> itemData = new ArrayList<>();
 		itemData.add(
 				new LogRecord(new DateTime(new Date(1998, Month.MARCH, 23, DayOfWeek.MONDAY), new Time(19, 54, 27, 0)),
 						false, new Real(18), new StatusFlags(false, false, false, false)));
@@ -1110,7 +1100,7 @@ public class AnnexFEncodingTest {
 						false, new Real(18.1f), new StatusFlags(false, false, false, false)));
 		AcknowledgementService service = new ReadRangeAck(new ObjectIdentifier(ObjectType.trendLog, 1),
 				PropertyIdentifier.logBuffer, null, new ResultFlags(true, true, false), new UnsignedInteger(2),
-				new SequenceOf<BaseType>(itemData), null);
+				new SequenceOf<>(itemData), null);
 		APDU pdu = new ComplexACK(false, false, (byte) 1, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x01, (byte) 0x1A, (byte) 0x0C, (byte) 0x05, (byte) 0x00,
 				(byte) 0x00, (byte) 0x01, (byte) 0x19, (byte) 0x83, (byte) 0x3A, (byte) 0x05, (byte) 0xC0, (byte) 0x49,
@@ -1141,24 +1131,23 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e3_10aTest() {
-		List<WriteAccessSpecification> writeAccessSpecs = new ArrayList<WriteAccessSpecification>();
+		List<WriteAccessSpecification> writeAccessSpecs = new ArrayList<>();
 
-		List<PropertyValue> propertyValues = new ArrayList<PropertyValue>();
+		List<PropertyValue> propertyValues = new ArrayList<>();
 		propertyValues.add(new PropertyValue(PropertyIdentifier.presentValue, null, new Real(67), null));
 		writeAccessSpecs.add(new WriteAccessSpecification(new ObjectIdentifier(ObjectType.analogValue, 5),
-				new SequenceOf<PropertyValue>(propertyValues)));
+				new SequenceOf<>(propertyValues)));
 
-		propertyValues = new ArrayList<PropertyValue>();
+		propertyValues = new ArrayList<>();
 		propertyValues.add(new PropertyValue(PropertyIdentifier.presentValue, null, new Real(67), null));
 		writeAccessSpecs.add(new WriteAccessSpecification(new ObjectIdentifier(ObjectType.analogValue, 6),
-				new SequenceOf<PropertyValue>(propertyValues)));
+				new SequenceOf<>(propertyValues)));
 
-		propertyValues = new ArrayList<PropertyValue>();
+		propertyValues = new ArrayList<>();
 		propertyValues.add(new PropertyValue(PropertyIdentifier.presentValue, null, new Real(72), null));
 		writeAccessSpecs.add(new WriteAccessSpecification(new ObjectIdentifier(ObjectType.analogValue, 7),
-				new SequenceOf<PropertyValue>(propertyValues)));
-		ConfirmedRequestService service = new WritePropertyMultipleRequest(
-				new SequenceOf<WriteAccessSpecification>(writeAccessSpecs));
+				new SequenceOf<>(propertyValues)));
+		ConfirmedRequestService service = new WritePropertyMultipleRequest(new SequenceOf<>(writeAccessSpecs));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 1, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x01, (byte) 0x10, (byte) 0x0C, (byte) 0x00,
@@ -1195,12 +1184,12 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e4_2aTest() {
-		List<ElementSpecification> elements = new ArrayList<ElementSpecification>();
+		List<ElementSpecification> elements = new ArrayList<>();
 		elements.add(new ElementSpecification("value1", Real.class, false, false));
 		elements.add(new ElementSpecification("value2", OctetString.class, false, false));
 		SequenceDefinition def = new SequenceDefinition(elements);
 
-		Map<String, Encodable> values = new HashMap<String, Encodable>();
+		Map<String, Encodable> values = new HashMap<>();
 		values.put("value1", new Real(72.4f));
 		values.put("value2", new OctetString(new byte[] { 0x16, 0x49 }));
 		Sequence parameters = new Sequence(def, values);
@@ -1227,12 +1216,12 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e4_3Test() {
-		List<ElementSpecification> elements = new ArrayList<ElementSpecification>();
+		List<ElementSpecification> elements = new ArrayList<>();
 		elements.add(new ElementSpecification("value1", Real.class, false, false));
 		elements.add(new ElementSpecification("value2", OctetString.class, false, false));
 		SequenceDefinition def = new SequenceDefinition(elements);
 
-		Map<String, Encodable> values = new HashMap<String, Encodable>();
+		Map<String, Encodable> values = new HashMap<>();
 		values.put("value1", new Real(72.4f));
 		values.put("value2", new OctetString(new byte[] { 0x16, 0x49 }));
 		Sequence parameters = new Sequence(def, values);
@@ -1483,9 +1472,9 @@ public class AnnexFEncodingTest {
 	}
 
 	public void e5_iTest() {
-		List<UnsignedInteger> ids = new ArrayList<UnsignedInteger>();
+		List<UnsignedInteger> ids = new ArrayList<>();
 		ids.add(new UnsignedInteger(29));
-		ConfirmedRequestService service = new VtCloseRequest(new SequenceOf<UnsignedInteger>(ids));
+		ConfirmedRequestService service = new VtCloseRequest(new SequenceOf<>(ids));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_128, (byte) 84, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x01, (byte) 0x54, (byte) 0x16, (byte) 0x21, (byte) 0x1D };

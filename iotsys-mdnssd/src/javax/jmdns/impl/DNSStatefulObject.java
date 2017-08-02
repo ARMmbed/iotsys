@@ -47,7 +47,7 @@ public interface DNSStatefulObject {
 		public DNSStatefulObjectSemaphore(String name) {
 			super();
 			_name = name;
-			_semaphores = new ConcurrentHashMap<Thread, Semaphore>(50);
+			_semaphores = new ConcurrentHashMap<>(50);
 		}
 
 		/**

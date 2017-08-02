@@ -261,8 +261,8 @@ public class Uri extends Val {
 			return str;
 		}
 
-		ArrayList<String> keys = new ArrayList<String>();
-		HashMap<String, String> map = new HashMap<String, String>();
+		ArrayList<String> keys = new ArrayList<>();
+		HashMap<String, String> map = new HashMap<>();
 		String str;
 	}
 

@@ -27,7 +27,7 @@ public class EnterprisePDP implements Pdp {
 
 	private String requestTemplate = "";
 
-	private HashMap<String, String> policies = new HashMap<String, String>();
+	private HashMap<String, String> policies = new HashMap<>();
 
 	public EnterprisePDP() {
 
@@ -69,7 +69,7 @@ public class EnterprisePDP implements Pdp {
 		log.fine("Action: " + action);
 
 		if (params == null) {
-			params = new HashMap<Parameter, String>();
+			params = new HashMap<>();
 		}
 		params.put(Parameter.RESOURCE, resource);
 		params.put(Parameter.SUBJECT, subject);

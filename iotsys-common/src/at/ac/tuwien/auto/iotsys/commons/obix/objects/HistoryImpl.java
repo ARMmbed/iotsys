@@ -221,9 +221,9 @@ public class HistoryImpl extends Obj implements History, Observer {
 			return new Err("Invalid interval");
 		}
 
-		ArrayList<HistoryRollupRecordImpl> rollups = new ArrayList<HistoryRollupRecordImpl>();
+		ArrayList<HistoryRollupRecordImpl> rollups = new ArrayList<>();
 
-		ArrayList<HistoryRecordImpl> currentInterval = new ArrayList<HistoryRecordImpl>();
+		ArrayList<HistoryRecordImpl> currentInterval = new ArrayList<>();
 
 		List<Obj> records = feed.getEvents();
 		int i = records.size() - 1;
@@ -289,7 +289,7 @@ public class HistoryImpl extends Obj implements History, Observer {
 		}
 
 		Abstime timestamp = end;
-		ArrayList<HistoryRecordImpl> newRecords = new ArrayList<HistoryRecordImpl>();
+		ArrayList<HistoryRecordImpl> newRecords = new ArrayList<>();
 
 		for (Obj record : records.list()) {
 			HistoryRecord historyRecord = (HistoryRecord) record;
@@ -446,7 +446,7 @@ public class HistoryImpl extends Obj implements History, Observer {
 		cachedRecordsCount++;
 		if (cachedRecordsCount == feed.getMaxEvents()) {
 			// flush the feed to database
-			List<DbHistoryFeedRecord> dhfs = new ArrayList<DbHistoryFeedRecord>();
+			List<DbHistoryFeedRecord> dhfs = new ArrayList<>();
 			for (Obj o : feed.getEvents()) {
 				HistoryRecordImpl feedRecord = (HistoryRecordImpl) o;
 				// Only persisting the value

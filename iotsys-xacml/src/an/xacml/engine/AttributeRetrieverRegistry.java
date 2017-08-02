@@ -16,8 +16,8 @@ public class AttributeRetrieverRegistry {
 	public static final String ELEMTYPE_RETRIEVER = "AttributeRetrieverType";
 	public static final String ATTR_RETRIEVER_CLASSNAME = "an.xacml.engine.AttributeRetriever";
 
-	private static Map<PDP, AttributeRetrieverRegistry> attrRetrieverRegistry = new Hashtable<PDP, AttributeRetrieverRegistry>();
-	private static Map<AttributeRetrieverRegistry, PDP> pdpRegistry = new Hashtable<AttributeRetrieverRegistry, PDP>();
+	private static Map<PDP, AttributeRetrieverRegistry> attrRetrieverRegistry = new Hashtable<>();
+	private static Map<AttributeRetrieverRegistry, PDP> pdpRegistry = new Hashtable<>();
 	// An empty registry
 	private static AttributeRetrieverRegistry defaultReg = new AttributeRetrieverRegistry(null);
 

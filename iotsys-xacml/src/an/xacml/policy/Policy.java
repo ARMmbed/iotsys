@@ -24,7 +24,7 @@ public class Policy extends AbstractPolicy {
 	private RuleCombinerParameters ruleCombinerParameters;
 	private Rule[] rules;
 	private VariableDefinition[] crudeVariableDef;
-	private Map<String, VariableDefinition> variableDefs = new Hashtable<String, VariableDefinition>();
+	private Map<String, VariableDefinition> variableDefs = new Hashtable<>();
 
 	public Policy(URI policyId, Version version, URI ruleComId, String desc, Defaults defaults, CombinerParameters cp,
 			RuleCombinerParameters rcp, Target target, VariableDefinition[] varDefs, Rule[] rules, Obligations obls) {

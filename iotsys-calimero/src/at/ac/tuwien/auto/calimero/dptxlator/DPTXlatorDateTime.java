@@ -210,7 +210,7 @@ public class DPTXlatorDateTime extends DPTXlator {
 	private boolean extFormat = true;
 
 	static {
-		types = new HashMap<String, DPT>(3);
+		types = new HashMap<>(3);
 		types.put(DPT_DATE_TIME.getID(), DPT_DATE_TIME);
 	}
 

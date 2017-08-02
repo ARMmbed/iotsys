@@ -41,7 +41,7 @@ public class DefaultXMLReader implements XMLReader {
 	private Reader r;
 	private boolean closeReader;
 	private Element elem;
-	private final Stack<String> openElems = new Stack<String>();
+	private final Stack<String> openElems = new Stack<>();
 	private int pos;
 	private int line;
 

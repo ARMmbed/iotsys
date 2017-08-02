@@ -9,7 +9,7 @@ import java.util.Map;
  * attributes in thread or thread group scope.
  */
 public class ThreadContext {
-	private static Map<Object, Map<Object, Object>> globalContext = new HashMap<Object, Map<Object, Object>>();
+	private static Map<Object, Map<Object, Object>> globalContext = new HashMap<>();
 
 	public static synchronized Object getThreadObject(Object key) {
 		Map<Object, Object> threadContext = globalContext.get(Thread.currentThread());
@@ -30,7 +30,7 @@ public class ThreadContext {
 	public static synchronized void setThreadObject(Thread thread, Object key, Object value) {
 		Map<Object, Object> threadContext = globalContext.get(thread);
 		if (threadContext == null) {
-			threadContext = new HashMap<Object, Object>();
+			threadContext = new HashMap<>();
 			globalContext.put(thread, threadContext);
 		}
 		threadContext.put(key, value);
@@ -39,7 +39,7 @@ public class ThreadContext {
 	public static synchronized void setThreadGroupObject(ThreadGroup grp, Object key, Object value) {
 		Map<Object, Object> threadGrpContext = globalContext.get(grp);
 		if (threadGrpContext == null) {
-			threadGrpContext = new HashMap<Object, Object>();
+			threadGrpContext = new HashMap<>();
 			globalContext.put(grp, threadGrpContext);
 		}
 		threadGrpContext.put(key, value);

@@ -26,11 +26,11 @@ public class HttpHeader {
 	 * Constructor.
 	 */
 	public HttpHeader() {
-		table = new HashMap<String, String>(17);
+		table = new HashMap<>(17);
 	}
 
 	public Enumeration<String> getFieldNames() {
-		Vector<String> names = new Vector<String>(table.size() + 3);
+		Vector<String> names = new Vector<>(table.size() + 3);
 		Iterator<String> i = table.keySet().iterator();
 		while (i.hasNext()) {
 			String name = (String) i.next();
@@ -242,7 +242,7 @@ public class HttpHeader {
 			return new String[] { s };
 		else {
 			StringTokenizer st = new StringTokenizer(s, ", ");
-			Vector<String> vals = new Vector<String>(2);
+			Vector<String> vals = new Vector<>(2);
 			while (st.hasMoreTokens())
 				vals.addElement(st.nextToken());
 

@@ -51,7 +51,7 @@ public class EncodingsImpl extends List implements IObj {
 		this.setHref(new Uri("/encodings"));
 
 		// Create enumerations
-		encodings = new TreeMap<String, EncodingImpl>();
+		encodings = new TreeMap<>();
 
 		encodings.put(EncodingOnOffImpl.HREF, new EncodingOnOffImpl());
 		encodings.put(EncodingOpenClosedImpl.HREF, new EncodingOpenClosedImpl());

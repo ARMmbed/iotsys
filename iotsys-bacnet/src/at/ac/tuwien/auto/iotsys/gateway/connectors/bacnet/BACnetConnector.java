@@ -63,10 +63,10 @@ public class BACnetConnector extends Connector {
 	private LocalDevice localDevice;
 	private static final int BACNET_PORT = 0xBAC0;
 
-	private final Hashtable<Integer, RemoteDevice> remoteDevices = new Hashtable<Integer, RemoteDevice>();
-	private final List<DeviceDiscoveryListener> discoveryListeners = new ArrayList<DeviceDiscoveryListener>();
+	private final Hashtable<Integer, RemoteDevice> remoteDevices = new Hashtable<>();
+	private final List<DeviceDiscoveryListener> discoveryListeners = new ArrayList<>();
 	private final Obj root = new Obj();
-	private final HashMap<Integer, Obj> devices = new HashMap<Integer, Obj>();
+	private final HashMap<Integer, Obj> devices = new HashMap<>();
 
 	private int localDeviceID = (int) ((Math.random() * 10000) + 10000);
 	private String broadCastIP = "128.130.56.255";

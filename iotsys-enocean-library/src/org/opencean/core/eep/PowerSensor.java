@@ -28,7 +28,7 @@ public class PowerSensor implements EEPParser {
 
 	@Override
 	public Map<EnoceanParameterAddress, Value> parsePacket(BasicPacket packet) {
-		Map<EnoceanParameterAddress, Value> map = new HashMap<EnoceanParameterAddress, Value>();
+		Map<EnoceanParameterAddress, Value> map = new HashMap<>();
 		logger.info("Power eep " + eep.getId());
 		if (packet instanceof RadioPacketVLD) {
 			RadioPacketVLD radioPacketVLD = (RadioPacketVLD) packet;

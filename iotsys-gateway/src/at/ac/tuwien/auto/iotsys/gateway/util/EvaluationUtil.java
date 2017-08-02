@@ -52,10 +52,10 @@ public class EvaluationUtil {
 
 		new EvaluationGenerateContracts(ObjectBrokerImpl.getInstance(), false, true, false, false, false);
 
-		HashMap<String, String> ipv6ContractList = new HashMap<String, String>();
+		HashMap<String, String> ipv6ContractList = new HashMap<>();
 		ipv6ContractList = ObjectBrokerImpl.getInstance().get_ipv6MappingTable();
 		// Collections.sort(ipv6ContractList);
-		List<String> sortedList = new ArrayList<String>();
+		List<String> sortedList = new ArrayList<>();
 		sortedList.addAll(ipv6ContractList.keySet());
 		Collections.sort(sortedList);
 

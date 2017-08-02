@@ -12,7 +12,7 @@ import an.xacml.engine.EvaluationContext;
 
 public class Obligations extends DefaultXACMLElement {
 	private Obligation[] obligations;
-	private Map<Decision, Obligation[]> obliByDecision = new Hashtable<Decision, Obligation[]>();
+	private Map<Decision, Obligation[]> obliByDecision = new Hashtable<>();
 
 	public Obligations(Obligation[] obls) {
 		if (obls != null) {
@@ -41,8 +41,8 @@ public class Obligations extends DefaultXACMLElement {
 	}
 
 	protected void initialize() {
-		ArrayList<Obligation> permit = new ArrayList<Obligation>();
-		ArrayList<Obligation> deny = new ArrayList<Obligation>();
+		ArrayList<Obligation> permit = new ArrayList<>();
+		ArrayList<Obligation> deny = new ArrayList<>();
 		for (int i = 0; i < obligations.length; i++) {
 			if (obligations[i].getFulfillOnEffect() == Effect.Permit) {
 				permit.add(obligations[i]);
@@ -61,7 +61,7 @@ public class Obligations extends DefaultXACMLElement {
 	public Obligation[] getObligationsByDecision(Decision decision) {
 		Obligation[] result = obliByDecision.get(decision);
 		if (result == null && obligations != null) {
-			Vector<Obligation> obliList = new Vector<Obligation>();
+			Vector<Obligation> obliList = new Vector<>();
 			for (int i = 0; i < obligations.length; i++) {
 				if (obligations[i].getFulfillOnEffect().equals(decision)) {
 					obliList.add(obligations[i]);

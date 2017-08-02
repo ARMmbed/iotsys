@@ -62,7 +62,7 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 
 	private final static Logger log = Logger.getLogger(EnoceanDeviceLoaderImpl.class.getName());
 
-	private ArrayList<Obj> myObjects = new ArrayList<Obj>();
+	private ArrayList<Obj> myObjects = new ArrayList<>();
 
 	public EnoceanDeviceLoaderImpl() {
 		String devicesConfigFile = DEVICE_CONFIGURATION_LOCATION;
@@ -80,7 +80,7 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
 		// Hard-coded connections and object creation
 
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("enocean");
 		int connectorsSize = 0;

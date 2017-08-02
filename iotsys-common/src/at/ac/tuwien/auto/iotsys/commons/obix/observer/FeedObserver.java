@@ -25,7 +25,7 @@ public class FeedObserver implements EventObserver<Obj> {
 
 	public static final int MAX_EVENTS = 50;
 	private static final Object lock = new Object();
-	private LinkedList<Obj> unpolledEvents = new LinkedList<Obj>();
+	private LinkedList<Obj> unpolledEvents = new LinkedList<>();
 
 	private FeedFilter filter;
 
@@ -50,7 +50,7 @@ public class FeedObserver implements EventObserver<Obj> {
 	public List<Obj> pollChanges() {
 		List<Obj> ret = null;
 		synchronized (lock) {
-			ret = new ArrayList<Obj>(filter.poll(unpolledEvents));
+			ret = new ArrayList<>(filter.poll(unpolledEvents));
 			clear();
 		}
 		return ret;

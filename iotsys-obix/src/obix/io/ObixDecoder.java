@@ -482,7 +482,7 @@ public class ObixDecoder extends XParser {
 	 */
 	Contract decodeContract(String s, XElem elem) {
 		StringTokenizer st = new StringTokenizer(s, " ");
-		ArrayList<Uri> acc = new ArrayList<Uri>();
+		ArrayList<Uri> acc = new ArrayList<>();
 		while (st.hasMoreTokens())
 			acc.add(decodeRefUri(st.nextToken(), elem));
 		return new Contract((Uri[]) acc.toArray(new Uri[acc.size()]));
@@ -504,8 +504,8 @@ public class ObixDecoder extends XParser {
 	}
 
 	static class FragRefs {
-		ArrayList<Uri> uris = new ArrayList<Uri>(4);
-		ArrayList<XElem> elems = new ArrayList<XElem>(4);
+		ArrayList<Uri> uris = new ArrayList<>(4);
+		ArrayList<XElem> elems = new ArrayList<>(4);
 	}
 
 	// //////////////////////////////////////////////////////////////
@@ -532,12 +532,12 @@ public class ObixDecoder extends XParser {
 	// //////////////////////////////////////////////////////////////
 
 	private boolean useContracts = true;
-	private HashMap<String, Obj> fragIds = new HashMap<String, Obj>(); // fragment
-																		// id ->
-																		// Obj
-	private HashMap<String, FragRefs> fragRefs = new HashMap<String, FragRefs>(); // fragment
-																					// id
-																					// ->
-																					// FragRefs
+	private HashMap<String, Obj> fragIds = new HashMap<>(); // fragment
+															// id ->
+															// Obj
+	private HashMap<String, FragRefs> fragRefs = new HashMap<>(); // fragment
+																	// id
+																	// ->
+																	// FragRefs
 
 }

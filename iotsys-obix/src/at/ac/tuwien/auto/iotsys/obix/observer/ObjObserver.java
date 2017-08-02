@@ -19,7 +19,7 @@ public class ObjObserver<ObjType extends Obj> implements EventObserver<ObjType> 
 
 	public static final int MAX_EVENTS = 20;
 	private static final Object lock = new Object();
-	private LinkedList<ObjType> queue = new LinkedList<ObjType>();
+	private LinkedList<ObjType> queue = new LinkedList<>();
 
 	public ObjObserver() {
 	}
@@ -49,7 +49,7 @@ public class ObjObserver<ObjType extends Obj> implements EventObserver<ObjType> 
 		LinkedList<ObjType> ret = null;
 		synchronized (lock) {
 			ret = queue;
-			queue = new LinkedList<ObjType>();
+			queue = new LinkedList<>();
 		}
 		return ret;
 	}

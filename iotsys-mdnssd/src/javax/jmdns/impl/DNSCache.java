@@ -278,7 +278,7 @@ public class DNSCache extends AbstractMap<String, List<? extends DNSEntry>> {
 	 */
 	public DNSCache(int initialCapacity) {
 		super();
-		_entrySet = new HashSet<Map.Entry<String, List<? extends DNSEntry>>>(initialCapacity);
+		_entrySet = new HashSet<>(initialCapacity);
 	}
 
 	// ====================================================================
@@ -292,7 +292,7 @@ public class DNSCache extends AbstractMap<String, List<? extends DNSEntry>> {
 	@Override
 	public Set<Map.Entry<String, List<? extends DNSEntry>>> entrySet() {
 		if (_entrySet == null) {
-			_entrySet = new HashSet<Map.Entry<String, List<? extends DNSEntry>>>();
+			_entrySet = new HashSet<>();
 		}
 		return _entrySet;
 	}
@@ -350,7 +350,7 @@ public class DNSCache extends AbstractMap<String, List<? extends DNSEntry>> {
 	 * @return all entries in the cache
 	 */
 	public synchronized Collection<DNSEntry> allValues() {
-		List<DNSEntry> allValues = new ArrayList<DNSEntry>();
+		List<DNSEntry> allValues = new ArrayList<>();
 		for (List<? extends DNSEntry> entry : this.values()) {
 			if (entry != null) {
 				allValues.addAll(entry);
@@ -465,9 +465,9 @@ public class DNSCache extends AbstractMap<String, List<? extends DNSEntry>> {
 
 			List<DNSEntry> aNewValue = null;
 			if (oldEntry != null) {
-				aNewValue = new ArrayList<DNSEntry>(oldEntry.getValue());
+				aNewValue = new ArrayList<>(oldEntry.getValue());
 			} else {
-				aNewValue = new ArrayList<DNSEntry>();
+				aNewValue = new ArrayList<>();
 			}
 			aNewValue.add(dnsEntry);
 
@@ -522,9 +522,9 @@ public class DNSCache extends AbstractMap<String, List<? extends DNSEntry>> {
 
 			List<DNSEntry> aNewValue = null;
 			if (oldEntry != null) {
-				aNewValue = new ArrayList<DNSEntry>(oldEntry.getValue());
+				aNewValue = new ArrayList<>(oldEntry.getValue());
 			} else {
-				aNewValue = new ArrayList<DNSEntry>();
+				aNewValue = new ArrayList<>();
 			}
 			aNewValue.remove(existingDNSEntry);
 			aNewValue.add(newDNSEntry);

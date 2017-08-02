@@ -49,8 +49,8 @@ public class HttpConnection {
 	public HttpConnection(String hostname, int port) {
 		this.hostname = hostname;
 		this.port = port < 0 ? Http.DEFAULT_HTTP_PORT : port;
-		this.requestHeaderFields = new Vector<NameValue>(5);
-		this.responseHeaderFields = new Hashtable<String, String>(5);
+		this.requestHeaderFields = new Vector<>(5);
+		this.responseHeaderFields = new Hashtable<>(5);
 		timeout = 0;
 	}
 

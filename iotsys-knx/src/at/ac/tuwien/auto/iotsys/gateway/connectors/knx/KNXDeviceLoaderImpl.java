@@ -49,13 +49,13 @@ public class KNXDeviceLoaderImpl implements DeviceLoader {
 
 	private XMLConfiguration devicesConfig;
 
-	private ArrayList<Obj> myObjects = new ArrayList<Obj>();
+	private ArrayList<Obj> myObjects = new ArrayList<>();
 
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		setConfiguration(devicesConfig);
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
 
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("knx");
 		int connectorsSize = 0;

@@ -229,7 +229,7 @@ public class DefaultXMLWriter implements XMLWriter {
 	}
 
 	private void reset() {
-		layout = new Stack<Tag>();
+		layout = new Stack<>();
 		indent = 0;
 		newTag = false;
 	}

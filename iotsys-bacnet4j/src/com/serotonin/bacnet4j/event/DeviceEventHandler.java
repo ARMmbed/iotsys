@@ -53,7 +53,7 @@ import com.serotonin.bacnet4j.type.primitive.UnsignedInteger;
  */
 public class DeviceEventHandler {
 	private ExecutorService dispatchService;
-	final ConcurrentLinkedQueue<DeviceEventListener> listeners = new ConcurrentLinkedQueue<DeviceEventListener>();
+	final ConcurrentLinkedQueue<DeviceEventListener> listeners = new ConcurrentLinkedQueue<>();
 
 	//
 	// /

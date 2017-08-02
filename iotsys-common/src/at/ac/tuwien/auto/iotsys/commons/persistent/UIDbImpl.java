@@ -78,7 +78,7 @@ public class UIDbImpl implements UIDb {
 
 	@Override
 	public Map<String, String> getUiStorage() {
-		Map<String, String> sample = new HashMap<String, String>();
+		Map<String, String> sample = new HashMap<>();
 		sample.put("_id", "uikeyval");
 		sample.put("device_name", "awefjawei");
 		return sample;

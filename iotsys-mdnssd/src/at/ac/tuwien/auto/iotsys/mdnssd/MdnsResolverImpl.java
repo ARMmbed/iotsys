@@ -58,7 +58,7 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.Sensor;
 public class MdnsResolverImpl implements MdnsResolver {
 
 	private static final MdnsResolver INSTANCE = new MdnsResolverImpl();
-	private ConcurrentMap<String, String> recordDict = new ConcurrentHashMap<String, String>();
+	private ConcurrentMap<String, String> recordDict = new ConcurrentHashMap<>();
 	private ExecutorService executor;
 	private JmDNS jmdns;
 	private String gwIp = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.authNsAddr6",
@@ -72,7 +72,7 @@ public class MdnsResolverImpl implements MdnsResolver {
 			executor = Executors.newFixedThreadPool(10);
 
 			// / Making bonjour happy
-			final HashMap<String, String> values = new HashMap<String, String>();
+			final HashMap<String, String> values = new HashMap<>();
 			values.put("text", "text value");
 			ServiceInfo serviceSOAP = ServiceInfo.create("_obix._soap." + domain, "iotsysgateway", 8080, null);
 			serviceSOAP.setText(values);
@@ -126,7 +126,7 @@ public class MdnsResolverImpl implements MdnsResolver {
 
 	@Override
 	public ArrayList<String> reverseResolve(String ipv6) {
-		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> result = new ArrayList<>();
 		if (recordDict.containsValue(ipv6))
 			for (Map.Entry<String, String> he : recordDict.entrySet())
 				if (he.getValue().equals(ipv6))
@@ -165,7 +165,7 @@ public class MdnsResolverImpl implements MdnsResolver {
 				8080, null);
 
 		// / Making bonjour happy
-		final HashMap<String, String> values = new HashMap<String, String>();
+		final HashMap<String, String> values = new HashMap<>();
 		values.put("text", "text value");
 		ServiceInfo serviceCoAP = ServiceInfo.create("_obix._udp." + domain, deviceName, 5683, null);
 		ServiceInfo serviceHTTP = ServiceInfo.create("_obix._tcp." + domain, deviceName, 8080, null);

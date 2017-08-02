@@ -69,7 +69,7 @@ public class MdnssdServiceTest extends AbstractGatewayTest {
 	MdnsResolver m;
 
 	private CountDownLatch lock = new CountDownLatch(1);
-	ArrayList<ServiceEvent> resolvedEvents = new ArrayList<ServiceEvent>();
+	ArrayList<ServiceEvent> resolvedEvents = new ArrayList<>();
 
 	/*
 	 * (non-Javadoc)
@@ -163,7 +163,7 @@ public class MdnssdServiceTest extends AbstractGatewayTest {
 						}
 					});
 			lock.await(20000, TimeUnit.MILLISECONDS);
-			ArrayList<String> eventNames = new ArrayList<String>();
+			ArrayList<String> eventNames = new ArrayList<>();
 			for (ServiceEvent e : resolvedEvents) {
 				eventNames.add(e.getName());
 			}

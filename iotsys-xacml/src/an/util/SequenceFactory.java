@@ -4,7 +4,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 public class SequenceFactory {
-	private static Map<Object, Sequence> sequences = new Hashtable<Object, Sequence>();
+	private static Map<Object, Sequence> sequences = new Hashtable<>();
 
 	private SequenceFactory() {
 	}

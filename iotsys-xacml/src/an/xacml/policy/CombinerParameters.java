@@ -11,7 +11,7 @@ public class CombinerParameters extends DefaultXACMLElement {
 
 	public CombinerParameters(CombinerParameter[] params) {
 		crudeParams = params;
-		parameters = new Hashtable<String, AttributeValue>();
+		parameters = new Hashtable<>();
 		if (params != null) {
 			for (int i = 0; i < params.length; i++) {
 				parameters.put(params[i].getParameterName(), params[i].getValue());

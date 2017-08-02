@@ -41,7 +41,7 @@ public class RfidConnector extends Connector implements SerialPortEventListener 
 		this.port = portName;
 	}
 
-	private final ArrayList<RfidWatchdog> watchDogs = new ArrayList<RfidWatchdog>();
+	private final ArrayList<RfidWatchdog> watchDogs = new ArrayList<>();
 
 	public static void rfidSend(byte data[]) {
 		// log.info("sending data" + data.toString());

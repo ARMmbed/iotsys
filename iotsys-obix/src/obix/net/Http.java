@@ -105,7 +105,7 @@ public class Http {
 		return (result == null) ? null : result;
 	}
 
-	private static final Hashtable<String, String> phrasesByCode = new Hashtable<String, String>();
+	private static final Hashtable<String, String> phrasesByCode = new Hashtable<>();
 	private static final String UNKNOWN_STATUS_CODE = "Unknown Status Code: ";
 
 	// from fw/net/module.lexicon

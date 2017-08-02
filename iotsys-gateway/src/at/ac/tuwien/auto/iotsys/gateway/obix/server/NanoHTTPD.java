@@ -234,7 +234,7 @@ public class NanoHTTPD {
 		log.info("Interceptors found ... starting to prepare.");
 
 		InterceptorRequest interceptorRequest = new InterceptorRequestImpl();
-		HashMap<Parameter, String> interceptorParams = new HashMap<Parameter, String>();
+		HashMap<Parameter, String> interceptorParams = new HashMap<>();
 
 		String subject = mySocket.getInetAddress().getHostAddress();
 		String host = header.getProperty("host");
@@ -954,7 +954,7 @@ public class NanoHTTPD {
 		public int[] getBoundaryPositions(byte[] b, byte[] boundary) {
 			int matchcount = 0;
 			int matchbyte = -1;
-			Vector<Integer> matchbytes = new Vector<Integer>();
+			Vector<Integer> matchbytes = new Vector<>();
 			for (int i = 0; i < b.length; i++) {
 				if (b[i] == boundary[matchcount]) {
 					if (matchcount == 0)
@@ -1343,7 +1343,7 @@ public class NanoHTTPD {
 	/**
 	 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 	 */
-	private static Hashtable<String, String> theMimeTypes = new Hashtable<String, String>();
+	private static Hashtable<String, String> theMimeTypes = new Hashtable<>();
 	static {
 		StringTokenizer st = new StringTokenizer("css		text/css " + "htm		text/html " + "html		text/html "
 				+ "xml		text/xml " + "txt		text/plain " + "asc		text/plain " + "gif		image/gif "

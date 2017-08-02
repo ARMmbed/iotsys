@@ -34,7 +34,7 @@ public class KNXDeviceLoaderETSImplGenerated implements DeviceLoader {
 		this.connect(knxConnector);
 		this.initNetwork(knxConnector, objectBroker);
 
-		ArrayList<Connector> connectors = new ArrayList<Connector>();
+		ArrayList<Connector> connectors = new ArrayList<>();
 		connectors.add(knxConnector);
 
 		return connectors;
@@ -160,1464 +160,1464 @@ public class KNXDeviceLoaderETSImplGenerated implements DeviceLoader {
 		ArrayList<String> singleTranslation = null;
 
 		if (!translations.containsKey("P-0341-0_DI-2_M-0001_A-6102-01-A218_O-1_R-1")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-2_M-0001_A-6102-01-A218_O-1_R-1", temp);
 		}
 		temp = translations.get("P-0341-0_DI-2_M-0001_A-6102-01-A218_O-1_R-1");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Dimmen");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Heller / Dunkler");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Dimming");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Brighter / Darker");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Dimmerizzazione");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("Chiaro / Scuro");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Regulación");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Aclarar/ oscurecer");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-2_M-0001_A-6102-01-A218_O-3_R-3")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-2_M-0001_A-6102-01-A218_O-3_R-3", temp);
 		}
 		temp = translations.get("P-0341-0_DI-2_M-0001_A-6102-01-A218_O-3_R-3");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Status");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("8-bit Wert");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Status");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("8-bit Value");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Stato");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("Valore 8-bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Estado");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Valor 8 bits");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-2_M-0001_A-6102-01-A218_O-0_R-0")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-2_M-0001_A-6102-01-A218_O-0_R-0", temp);
 		}
 		temp = translations.get("P-0341-0_DI-2_M-0001_A-6102-01-A218_O-0_R-0");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Schalten, Status");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Ein / Aus");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Switch, Status");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("On / Off");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Commuta stato");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("On / Off");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Conectar, Status");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Encender / Apagar");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-3_M-0001_A-9803-03-3F77_O-3_R-4")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-3_M-0001_A-9803-03-3F77_O-3_R-4", temp);
 		}
 		temp = translations.get("P-0341-0_DI-3_M-0001_A-9803-03-3F77_O-3_R-4");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Schalten, Kanal A");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Ein / Aus");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Switch, Channel A");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("On / Off");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Commuta, canale A");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("On / Off");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-0_R-2")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-0_R-2", temp);
 		}
 		temp = translations.get("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-0_R-2");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperatur, Kanal A");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("°C-Wert (EIS5)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperature, Channel A");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("°C-value (EIS5)");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-1_R-3")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-1_R-3", temp);
 		}
 		temp = translations.get("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-1_R-3");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperatur, Kanal B");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("°C-Wert (EIS5)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperature, Channel B");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("°C-value (EIS5)");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-2_R-1")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-2_R-1", temp);
 		}
 		temp = translations.get("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-2_R-1");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperatur, Kanal C");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("°C-Wert (EIS5)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperature, Channel C");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("°C-value (EIS5)");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-3_R-4")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-3_R-4", temp);
 		}
 		temp = translations.get("P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-3_R-4");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperatur, Kanal D");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("°C-Wert (EIS5)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperature, Channel D");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("°C-value (EIS5)");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-3_R-50")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-3_R-50", temp);
 		}
 		temp = translations.get("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-3_R-50");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Tærskel 1 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("display");
 		singleTranslation.add("Værdisensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Schwelle 1 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Wertgeber");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Threshold 1 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Value");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Umbral 1 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Transmisor de valores");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Seuil 1 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("display");
 		singleTranslation.add("Commande progressive");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Soglia 1 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("Trasmettitore di valore");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Drempel 1 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("display");
 		singleTranslation.add("Meetsensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Tröskel 1 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("display");
 		singleTranslation.add("Värdegivare");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-5_R-55")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-5_R-55", temp);
 		}
 		temp = translations.get("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-5_R-55");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Tærskel 2 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("display");
 		singleTranslation.add("Værdisensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Schwelle 2 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Wertgeber");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Threshold 2 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Value");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Umbral 2 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Transmisor de valores");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Seuil 2 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("display");
 		singleTranslation.add("Commande progressive");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Soglia 2 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("Trasmettitore di valore");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Drempel 2 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("display");
 		singleTranslation.add("Meetsensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Tröskel 2 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("display");
 		singleTranslation.add("Värdegivare");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-7_R-60")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-7_R-60", temp);
 		}
 		temp = translations.get("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-7_R-60");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Tærskel 3 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("display");
 		singleTranslation.add("Værdisensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Schwelle 3 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Wertgeber");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Threshold 3 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Value");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Umbral 3 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Transmisor de valores");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Seuil 3 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("display");
 		singleTranslation.add("Commande progressive");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Soglia 3 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("Trasmettitore di valore");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Drempel 3 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("display");
 		singleTranslation.add("Meetsensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Tröskel 3 CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("display");
 		singleTranslation.add("Värdegivare");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-0_R-1")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-0_R-1", temp);
 		}
 		temp = translations.get("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-0_R-1");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("displayName");
 		singleTranslation.add("CO2-værdi");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("display");
 		singleTranslation.add("Fysisk værdi");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("CO2 Wert");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Physikalischer Wert");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("CO2 Value");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Physical Value");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valor CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Valor físico");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Teneur en CO2");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("display");
 		singleTranslation.add("Valeur physique");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("CO2 valore");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("Valore fisico");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("displayName");
 		singleTranslation.add("CO2-waarde");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("display");
 		singleTranslation.add("Fysieke waarde");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("CO2-värde");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("display");
 		singleTranslation.add("Fysiskt värde");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-1_R-2")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-1_R-2", temp);
 		}
 		temp = translations.get("P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-1_R-2");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Rel. fugtværdi");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("display");
 		singleTranslation.add("Fysisk værdi");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Rel. Feuchtewert");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Physikalischer Wert");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Rel. humidity value");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Physical Value");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valor de humedad relativa");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Valor físico");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valeur humidité relative");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("display");
 		singleTranslation.add("Valeur physique");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valore di umidità rel.");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("Valore fisico");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Rel. vochtigheidswaarde");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("display");
 		singleTranslation.add("Fysieke waarde");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Rel. fuktvärde");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("display");
 		singleTranslation.add("Fysiskt värde");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-0_R-10")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-0_R-10", temp);
 		}
 		temp = translations.get("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-0_R-10");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Wert links außen");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("8-bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Value of outer left");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valore sinistra, esterno");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valor, exterior izquierda");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bits");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-2_R-18")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-2_R-18", temp);
 		}
 		temp = translations.get("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-2_R-18");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Wert links Mitte");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("8-bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Value of centre left");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valore sinistra, centro");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valor, central izquierda");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bits");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-7_R-41")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-7_R-41", temp);
 		}
 		temp = translations.get("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-7_R-41");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Jalousie rechts außen");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Ab / Auf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Shutter outer right");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Down / Up");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Tapparella esterna destra");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("discesa / salita");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Persiana, exterior derecha");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Bajar/Subir");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-6_R-38")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-6_R-38", temp);
 		}
 		temp = translations.get("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-6_R-38");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Wert rechts außen");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("8-bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Value of outer right");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valore destra, esterno");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valor, exterior derecha");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bits");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-4_R-27")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-4_R-27", temp);
 		}
 		temp = translations.get("P-0341-0_DI-10_M-0001_A-2413-01-B14F_O-4_R-27");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Wert rechts Mitte");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("8-bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Value of centre right");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valore destra, centro");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bit");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Valor, central derecha");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("8 bits");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-1")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-1", temp);
 		}
 		temp = translations.get("P-0341-0_DI-1");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Jalousieschalter N 522/02");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Produktinfo - siehe Datei:   5221ab02_tpi.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Shutter switch N 522/02");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Productinfo - see file:   5221ab02_tpi_e.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Info Producto - ver fichero:   5221ab02_tpi_es.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Attuatore tapparelle N 522/02");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-2")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-2", temp);
 		}
 		temp = translations.get("P-0341-0_DI-2");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Universal-Dimmer N 527");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Produktinfo - siehe Datei:   5271ab01_tpi.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Universal dimmer N 527");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Productinfo - see file:   5271ab01_tpi_e.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Info Producto - ver fichero:   5271ab01_tpi_es.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("id_ID");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Dimmer universale N 527");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nb_NO");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-3")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-3", temp);
 		}
 		temp = translations.get("P-0341-0_DI-3");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Schaltaktor N 567/01, (8 Amp)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Produktinfo - siehe Datei:   5671ab01_tpi.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Switching actuator N 567/01, (8 Amp)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Productinfo - see file:   5671ab01_tpi_e.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Uscita binaria N 567/01, (8Amp)");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-11")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-11", temp);
 		}
 		temp = translations.get("P-0341-0_DI-11");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperatursensor N 258/02");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Produktinfo - siehe Datei:   1258ab02_tpi.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Temperature Sensor N 258/02");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Productinfo - see file:   2581ab02_tpi_e.pdf");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-9")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-9", temp);
 		}
 		temp = translations.get("P-0341-0_DI-9");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Taster 2-fach UP 211 DELTA studio (rote Linse)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Produktinfo - siehe Datei:   2112_b___tpi.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Push button 2-fold UP 211 DELTA studio (red lens)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Productinfo - see file:   2112_b___tpi_e.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Info Producto - ver fichero:   2112_b___tpi_es.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("id_ID");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Pulsante 2-c UP 211 DELTA studio (lente rossa)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nb_NO");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-7")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-7", temp);
 		}
 		temp = translations.get("P-0341-0_DI-7");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("da_DK");
 		singleTranslation.add("displayName");
 		singleTranslation.add("KNX CO2-, fugtigheds- og  temperatursensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("KNX CO2-, Feuchte- und Temperatursensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("KNX CO², Humidity and Temperature Sensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Sensor de temperatura, humedad y CO2 KNX");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Capteur de CO2, d´humidité et de temperature KNX");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Sensore KNX per CO2 umidità e temperatura");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nl_NL");
 		singleTranslation.add("displayName");
 		singleTranslation.add("KNX CO2-, vochtigheids- en temperatuursensor");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("KNX CO2-, fukt- och temperatursensor");
 		temp.add(singleTranslation);
 
 		if (!translations.containsKey("P-0341-0_DI-10")) {
-			temp = new ArrayList<ArrayList<String>>();
+			temp = new ArrayList<>();
 			translations.put("P-0341-0_DI-10", temp);
 		}
 		temp = translations.get("P-0341-0_DI-10");
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Taster 4-fach UP 245 DELTA profil (ohne Symbol)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("de_DE");
 		singleTranslation.add("display");
 		singleTranslation.add("Produktinfo - siehe Datei:   24_2ab_1_tpi.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Push button 4-f UP 245 DELTA profil (without sym)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("en_US");
 		singleTranslation.add("display");
 		singleTranslation.add("Productinfo - see file:   24_2ab_1_tpi_e.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("es_ES");
 		singleTranslation.add("display");
 		singleTranslation.add("Info Producto - ver fichero:   2452ab_1_tpi_es.pdf");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("fr_FR");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("id_ID");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("it_IT");
 		singleTranslation.add("displayName");
 		singleTranslation.add("Pulsante 4-c UP 245 DELTA profil (senza simboli)");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("nb_NO");
 		singleTranslation.add("display");
 		singleTranslation.add("");
 		temp.add(singleTranslation);
 
-		singleTranslation = new ArrayList<String>();
+		singleTranslation = new ArrayList<>();
 		singleTranslation.add("sv_SE");
 		singleTranslation.add("display");
 		singleTranslation.add("");
@@ -1627,10 +1627,10 @@ public class KNXDeviceLoaderETSImplGenerated implements DeviceLoader {
 
 	private void initNetwork(KNXConnector knxConnector, ObjectBroker objectBroker) {
 		try {
-			HashMap<String, Integer> groupAddresses = new HashMap<String, Integer>();
+			HashMap<String, Integer> groupAddresses = new HashMap<>();
 			initAddresses(groupAddresses);
 
-			HashMap<String, ArrayList<ArrayList<String>>> translations = new HashMap<String, ArrayList<ArrayList<String>>>();
+			HashMap<String, ArrayList<ArrayList<String>>> translations = new HashMap<>();
 			initTranslations(translations);
 
 			// create generic object

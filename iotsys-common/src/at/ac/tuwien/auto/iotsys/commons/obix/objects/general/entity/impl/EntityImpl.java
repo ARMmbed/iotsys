@@ -79,7 +79,7 @@ public class EntityImpl extends Obj implements Entity {
 			this.list.setHref(new Uri("datapoints"));
 			this.add(this.list);
 
-			this.datapoints = new ArrayList<DataPoint>();
+			this.datapoints = new ArrayList<>();
 		}
 
 		this.list.add(datapoint);

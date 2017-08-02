@@ -35,7 +35,7 @@ import com.serotonin.util.queue.ByteQueue;
 public class ConfirmedPrivateTransferError extends BaseError {
 	private static final long serialVersionUID = -4736829685989649711L;
 
-	public static final Map<VendorServiceKey, SequenceDefinition> vendorServiceResolutions = new HashMap<VendorServiceKey, SequenceDefinition>();
+	public static final Map<VendorServiceKey, SequenceDefinition> vendorServiceResolutions = new HashMap<>();
 
 	private final UnsignedInteger vendorId;
 	private final UnsignedInteger serviceNumber;

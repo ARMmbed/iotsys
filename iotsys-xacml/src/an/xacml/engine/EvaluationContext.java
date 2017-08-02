@@ -146,7 +146,7 @@ public class EvaluationContext implements AdditionalNamespaceMappingEntry {
 			// retrievers.
 			if (result == null || result.length == 0) {
 				AttributeRetrieverRegistry reg = AttributeRetrieverRegistry.getInstance(policy.getOwnerPDP());
-				Map<String, String> mappings = new HashMap<String, String>();
+				Map<String, String> mappings = new HashMap<>();
 				// Additional Namespace mappings.
 				mappings.putAll(policy.getPolicyNamespaceMappings());
 				if (additionalNSMappings != null) {
@@ -197,7 +197,7 @@ public class EvaluationContext implements AdditionalNamespaceMappingEntry {
 	private AttributeValue[] getAttributeValuesFromRequest(URI attrId, URI dataType, String issuer, URI subjCategory)
 			throws IndeterminateException {
 		try {
-			Vector<AttributeValue> result = new Vector<AttributeValue>();
+			Vector<AttributeValue> result = new Vector<>();
 
 			TargetElement[] allElements;
 			if (subjCategory == null) {
@@ -247,7 +247,7 @@ public class EvaluationContext implements AdditionalNamespaceMappingEntry {
 
 	private AttributeValue[] getAttributeValuesFromRequest(String requestCtxPath, URI dataType)
 			throws IndeterminateException {
-		Vector<AttributeValue> result = new Vector<AttributeValue>();
+		Vector<AttributeValue> result = new Vector<>();
 		NodeList nList = null;
 
 		try {

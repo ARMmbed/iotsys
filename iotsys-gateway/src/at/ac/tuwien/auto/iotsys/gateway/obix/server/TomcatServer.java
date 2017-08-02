@@ -58,7 +58,7 @@ public class TomcatServer {
 
 	private static final Logger log = Logger.getLogger(TomcatServer.class.getName());
 
-	private static final Collection<String> URIs_TO_NON_CRITICAL_RESOURCES = new HashSet<String>();
+	private static final Collection<String> URIs_TO_NON_CRITICAL_RESOURCES = new HashSet<>();
 
 	private String password = "123456";
 	private String alias = "tomcat";
@@ -755,7 +755,7 @@ public class TomcatServer {
 			log.info("Interceptors found ... starting to prepare.");
 
 			InterceptorRequest interceptorRequest = new InterceptorRequestImpl();
-			HashMap<Parameter, String> interceptorParams = new HashMap<Parameter, String>();
+			HashMap<Parameter, String> interceptorParams = new HashMap<>();
 
 			String uri = req.getRequestURI();
 			String subject = req.getRemoteAddr();
@@ -925,7 +925,7 @@ public class TomcatServer {
 		/**
 		 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 		 */
-		private Hashtable<String, String> theMimeTypes = new Hashtable<String, String>();
+		private Hashtable<String, String> theMimeTypes = new Hashtable<>();
 		{
 			StringTokenizer st = new StringTokenizer("css		text/css " + "htm		text/html "
 					+ "html		text/html " + "xml		text/xml " + "txt		text/plain " + "asc		text/plain "

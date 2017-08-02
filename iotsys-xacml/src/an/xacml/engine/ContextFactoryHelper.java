@@ -20,8 +20,8 @@ import an.xml.XMLGeneralException;
 public abstract class ContextFactoryHelper {
 	public static final String ATTR_CONTEXTFACTORY_CLASSNAME = "an.xacml.engine.ContextFactory";
 
-	private static Map<PDP, ContextFactory> factoryRegistry = new Hashtable<PDP, ContextFactory>();
-	private static Map<ContextFactory, PDP> pdpRegistry = new Hashtable<ContextFactory, PDP>();
+	private static Map<PDP, ContextFactory> factoryRegistry = new Hashtable<>();
+	private static Map<ContextFactory, PDP> pdpRegistry = new Hashtable<>();
 
 	/**
 	 * Get configuration from PDP and then initialize the configured

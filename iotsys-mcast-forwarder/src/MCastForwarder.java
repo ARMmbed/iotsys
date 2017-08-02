@@ -55,12 +55,12 @@ public class MCastForwarder {
 	private HashSet<String> interfaces = null;
 	private Logger log = Logger.getLogger(MCastForwarder.class.getName());
 	private int port = 5683;
-	private final Hashtable<PcapIf, Pcap> pcaps = new Hashtable<PcapIf, Pcap>();
+	private final Hashtable<PcapIf, Pcap> pcaps = new Hashtable<>();
 
 	// specify interfaces between which multicasts should be forwarded through
 	// command line args, e.g. eth0, tun0, ...
 	public static void main(String[] args) {
-		final HashSet<String> interfaces = new HashSet<String>();
+		final HashSet<String> interfaces = new HashSet<>();
 		for (int i = 0; i < args.length; i++) {
 			interfaces.add(args[i]);
 		}
@@ -93,7 +93,7 @@ public class MCastForwarder {
 
 	@SuppressWarnings("deprecation")
 	public void startForwarding() {
-		List<PcapIf> alldevs = new ArrayList<PcapIf>();
+		List<PcapIf> alldevs = new ArrayList<>();
 		StringBuilder errbuf = new StringBuilder();
 
 		int r = Pcap.findAllDevs(alldevs, errbuf);

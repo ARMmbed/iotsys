@@ -39,7 +39,7 @@ public class ListenerStatus<T extends EventListener> {
 		 */
 		public ServiceListenerStatus(ServiceListener listener, boolean synch) {
 			super(listener, synch);
-			_addedServices = new ConcurrentHashMap<String, ServiceInfo>(32);
+			_addedServices = new ConcurrentHashMap<>(32);
 		}
 
 		/**
@@ -197,7 +197,7 @@ public class ListenerStatus<T extends EventListener> {
 		 */
 		public ServiceTypeListenerStatus(ServiceTypeListener listener, boolean synch) {
 			super(listener, synch);
-			_addedTypes = new ConcurrentHashMap<String, String>(32);
+			_addedTypes = new ConcurrentHashMap<>(32);
 		}
 
 		/**

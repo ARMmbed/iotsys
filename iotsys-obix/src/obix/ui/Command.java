@@ -88,5 +88,5 @@ public abstract class Command extends AbstractAction {
 
 	private String name;
 	private Shell shell;
-	private ArrayList<JComponent> bindings = new ArrayList<JComponent>();
+	private ArrayList<JComponent> bindings = new ArrayList<>();
 }

@@ -36,7 +36,7 @@ import an.xacml.policy.function.EquivalentFunction;
 public class PolicyCache extends Cache {
 	public static final String ATTR_ENABLE_ATTRVALUEINDEX = "enableAttributeValueIndex";
 
-	List<AbstractPolicy> emptyTargetCache = new ArrayList<AbstractPolicy>();
+	List<AbstractPolicy> emptyTargetCache = new ArrayList<>();
 	private boolean enableAttrValueIndex;
 
 	public PolicyCache(ConfigElement config) {
@@ -64,7 +64,7 @@ public class PolicyCache extends Cache {
 		try {
 			readLock();
 
-			List<AbstractPolicy> result = new ArrayList<AbstractPolicy>();
+			List<AbstractPolicy> result = new ArrayList<>();
 			result.addAll(emptyTargetCache);
 
 			TargetElement[] allElems = request.getAllTargetElements();
@@ -84,7 +84,7 @@ public class PolicyCache extends Cache {
 							// value indexed policies.
 							if (enableAttrValueIndex) {
 								if (policies == null) {
-									policies = new ArrayList<Cacheable>();
+									policies = new ArrayList<>();
 								}
 								Object[] values = attr.getAttributeValues();
 								for (Object value : values) {
@@ -158,7 +158,7 @@ public class PolicyCache extends Cache {
 
 	private List<AttributeIndex> extractAttributeIndexesFromPolicy(AbstractPolicy policy)
 			throws BuiltInFunctionNotFoundException {
-		List<AttributeIndex> result = new ArrayList<AttributeIndex>();
+		List<AttributeIndex> result = new ArrayList<>();
 
 		// Get context information
 		PDP pdp = policy.getOwnerPDP();
@@ -248,7 +248,7 @@ public class PolicyCache extends Cache {
 	}
 
 	private List<DisjunctiveMatch> getElementsFromTarget(Target target) {
-		List<DisjunctiveMatch> targetElems = new ArrayList<DisjunctiveMatch>();
+		List<DisjunctiveMatch> targetElems = new ArrayList<>();
 		DisjunctiveMatch subjs = target.getSubjects();
 		if (subjs != null) {
 			targetElems.add(subjs);

@@ -228,6 +228,6 @@ public class History {
 	private Entry[] list = new Entry[MAX_HISTORY];
 	private int count;
 	private int current = -1;
-	private ArrayList<Entry> recent = new ArrayList<Entry>();
+	private ArrayList<Entry> recent = new ArrayList<>();
 
 }

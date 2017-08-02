@@ -6,7 +6,7 @@ import java.util.Set;
 
 public class ParameterMap {
 
-	Map<String, Object> map = new HashMap<String, Object>();
+	Map<String, Object> map = new HashMap<>();
 
 	public Object get(String parameterId) {
 		return map.get(parameterId);

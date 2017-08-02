@@ -29,7 +29,7 @@ public class TestApp {
 					.getWeatherForecastAsXML("http://api.yr.no/weatherapi/locationforecast/1.8/?lat=60.10;lon=9.58");
 
 			// Hashtable<String, WeatherForecastRecordImpl>
-			Hashtable<String, String> dataTable = new Hashtable<String, String>();
+			Hashtable<String, String> dataTable = new Hashtable<>();
 			// WeatherForecastRecordImpl
 			@SuppressWarnings("unused")
 			String forecast;

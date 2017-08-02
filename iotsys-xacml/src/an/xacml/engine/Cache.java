@@ -33,7 +33,7 @@ public abstract class Cache {
 	protected final int preparedNum = 10;
 	// Use a non-synchronized version of Map, I will use lock to control the
 	// access.
-	protected Map<Object, List<Cacheable>> cache = new HashMap<Object, List<Cacheable>>();
+	protected Map<Object, List<Cacheable>> cache = new HashMap<>();
 	protected Logger logger;
 
 	public Cache(ConfigElement config) {
@@ -104,7 +104,7 @@ public abstract class Cache {
 	 * @return
 	 */
 	protected List<Cacheable> getAll() {
-		List<Cacheable> all = new ArrayList<Cacheable>();
+		List<Cacheable> all = new ArrayList<>();
 		try {
 			readLock();
 
@@ -223,7 +223,7 @@ public abstract class Cache {
 		// Check if the instance exists.
 		List<Cacheable> origin = cache.get(key);
 		if (origin == null) {
-			List<Cacheable> toBeCached = new ArrayList<Cacheable>();
+			List<Cacheable> toBeCached = new ArrayList<>();
 			toBeCached.add(o);
 			cache.put(key, toBeCached);
 		} else {

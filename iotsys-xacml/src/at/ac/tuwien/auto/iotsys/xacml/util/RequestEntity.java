@@ -9,7 +9,7 @@ import org.w3c.dom.Element;
 
 public class RequestEntity extends AbstractNode {
 
-	private List<Attribute> attributes = new ArrayList<Attribute>();
+	private List<Attribute> attributes = new ArrayList<>();
 
 	private String tagName;
 

@@ -7,7 +7,7 @@ import org.opencean.core.common.EEPId;
 
 public class EEPSerializerFactory {
 
-	private Map<EEPId, EEPSerializer> parser = new HashMap<EEPId, EEPSerializer>();
+	private Map<EEPId, EEPSerializer> parser = new HashMap<>();
 
 	public EEPSerializerFactory() {
 	}
