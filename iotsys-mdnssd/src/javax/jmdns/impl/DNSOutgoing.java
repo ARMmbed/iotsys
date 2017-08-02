@@ -249,6 +249,7 @@ public final class DNSOutgoing extends DNSMessage {
 		MessageOutputStream record = new MessageOutputStream(512, this);
 		record.writeQuestion(rec);
 		byte[] byteArray = record.toByteArray();
+		record.close();
 		if (byteArray.length < this.availableSpace()) {
 			_questions.add(rec);
 			_questionsBytes.write(byteArray, 0, byteArray.length);
@@ -283,6 +284,7 @@ public final class DNSOutgoing extends DNSMessage {
 				MessageOutputStream record = new MessageOutputStream(512, this);
 				record.writeRecord(rec, now);
 				byte[] byteArray = record.toByteArray();
+				record.close();
 				if (byteArray.length < this.availableSpace()) {
 					_answers.add(rec);
 					_answersBytes.write(byteArray, 0, byteArray.length);
@@ -303,6 +305,7 @@ public final class DNSOutgoing extends DNSMessage {
 		MessageOutputStream record = new MessageOutputStream(512, this);
 		record.writeRecord(rec, 0);
 		byte[] byteArray = record.toByteArray();
+		record.close();
 		if (byteArray.length < this.availableSpace()) {
 			_authoritativeAnswers.add(rec);
 			_authoritativeAnswersBytes.write(byteArray, 0, byteArray.length);
@@ -322,6 +325,7 @@ public final class DNSOutgoing extends DNSMessage {
 		MessageOutputStream record = new MessageOutputStream(512, this);
 		record.writeRecord(rec, 0);
 		byte[] byteArray = record.toByteArray();
+		record.close();
 		if (byteArray.length < this.availableSpace()) {
 			_additionals.add(rec);
 			_additionalsAnswersBytes.write(byteArray, 0, byteArray.length);

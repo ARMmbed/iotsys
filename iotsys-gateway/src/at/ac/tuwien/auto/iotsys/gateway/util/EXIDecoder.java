@@ -79,6 +79,7 @@ public class EXIDecoder {
 			Obj obj = getInstance().fromBytes(fileContent, true);
 			System.out.println("FileContent length: " + fileContent.length);
 			System.out.println(obj);
+			in.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

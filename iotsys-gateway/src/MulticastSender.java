@@ -24,6 +24,7 @@ public class MulticastSender {
 				System.out.println("Sending msg.");
 				s.send(hi);
 			}
+			s.close();
 		} catch (UnknownHostException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

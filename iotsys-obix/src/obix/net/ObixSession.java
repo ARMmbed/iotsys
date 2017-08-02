@@ -376,9 +376,10 @@ public class ObixSession {
 			HttpURLConnection conn = setupHttpURLConnection(href, method);
 			conn.connect();
 			OutputStream out = conn.getOutputStream();
+			ObixEncoder obixEncoder = new ObixEncoder(out);
 			try {
 				// encode request
-				new ObixEncoder(out).encodeDocument(payload);
+				obixEncoder.encodeDocument(payload);
 				out.flush();
 
 				// read response
@@ -403,15 +404,17 @@ public class ObixSession {
 			} finally {
 				try {
 					out.close();
+					obixEncoder.close();
 				} catch (Exception x) {
 				}
 			}
 		} else {
 			OutputStream out = null;
 			int rc = -1;
+			ByteArrayOutputStream os = new ByteArrayOutputStream();
+			ObixEncoder obixEncoder = new ObixEncoder(os);
 			try {
-				ByteArrayOutputStream os = new ByteArrayOutputStream();
-				new ObixEncoder(os).encodeDocument(payload);
+				obixEncoder.encodeDocument(payload);
 				HttpConnection conn = setupHttpConnection(href);
 				if (method.equalsIgnoreCase("PUT"))
 					rc = conn.put(href.get(), "text/xml", os.toByteArray());
@@ -440,6 +443,7 @@ public class ObixSession {
 				try {
 					if (out != null)
 						out.close();
+					obixEncoder.close();
 				} catch (Exception x) {
 				}
 			}

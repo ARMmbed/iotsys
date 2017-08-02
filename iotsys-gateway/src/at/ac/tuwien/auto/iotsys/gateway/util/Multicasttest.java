@@ -30,6 +30,7 @@ public class Multicasttest {
 
 			// OK, I'm done talking - leave the group...
 			s.leaveGroup(group);
+			s.close();
 
 		} catch (Exception e) {
 			e.printStackTrace();
