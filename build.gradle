@@ -44,8 +44,7 @@ configure(
 			}
 
 			sourceSets {
-				main { java { srcDir 'src'
-					} }
+				main { java { srcDir 'src' } }
 			}
 
 			task deploy(dependsOn: jar)  {
