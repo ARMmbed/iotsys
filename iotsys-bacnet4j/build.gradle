@@ -47,3 +47,15 @@ jar {
 }
 
 dependencies{ compile ":seroUtils:" }
+
+def excludePattern = 'com/serotonin/bacnet4j/test'
+
+tasks.withType(FindBugs) {
+	reports {
+		xml.enabled false
+		html.enabled true
+	}
+	classes = classes.filter {
+		!it.path.contains(excludePattern)
+	}
+}
