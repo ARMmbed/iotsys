@@ -1,31 +1,32 @@
 package an.datatype;
 
 import java.io.IOException;
-
-import sun.misc.BASE64Decoder;
-import sun.misc.BASE64Encoder;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+import java.util.Base64.Decoder;
+import java.util.Base64.Encoder;
 
 public class base64Binary {
 	private String base64Value;
 	private byte[] value;
-	private static BASE64Decoder decoder = new BASE64Decoder();
-	private static BASE64Encoder encoder = new BASE64Encoder();
+	private static Decoder decoder = Base64.getDecoder();
+	private static Encoder encoder = Base64.getEncoder();
 	private int hashCode;
 
 	public base64Binary(String base64Value) throws IOException {
 		this.base64Value = base64Value;
-		this.value = decoder.decodeBuffer(base64Value);
+		this.value = decoder.decode(base64Value);
 		this.hashCode = base64Value.hashCode();
 	}
 
 	public base64Binary(byte[] value) {
 		this.value = value;
-		this.base64Value = encoder.encode(value);
+		this.base64Value = new String(encoder.encode(value), StandardCharsets.UTF_8);
 		this.hashCode = base64Value.hashCode();
 	}
 
-	public static base64Binary valueOf(String bsae64Value) throws IOException {
-		return new base64Binary(bsae64Value);
+	public static base64Binary valueOf(String base64Value) throws IOException {
+		return new base64Binary(base64Value);
 	}
 
 	public byte[] getValue() {
