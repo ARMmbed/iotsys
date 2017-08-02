@@ -24,11 +24,6 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import obix.Contract;
-import obix.List;
-import obix.Obj.TranslationAttribute;
-import obix.Uri;
-
 import org.apache.commons.configuration.XMLConfiguration;
 
 import at.ac.tuwien.auto.calimero.GroupAddress;
@@ -49,17 +44,19 @@ import at.ac.tuwien.auto.iotsys.gateway.obix.objects.knx.datapoint.impl.DPST_3_7
 import at.ac.tuwien.auto.iotsys.gateway.obix.objects.knx.datapoint.impl.DPST_5_1_ImplKnx;
 import at.ac.tuwien.auto.iotsys.gateway.obix.objects.knx.datapoint.impl.DPST_9_1_ImplKnx;
 import at.ac.tuwien.auto.iotsys.gateway.obix.objects.knx.datapoint.impl.DPST_9_8_ImplKnx;
+import obix.Contract;
+import obix.List;
+import obix.Obj.TranslationAttribute;
+import obix.Uri;
 
-public class KNXDeviceLoaderETSImplManual implements DeviceLoader
-{
+public class KNXDeviceLoaderETSImplManual implements DeviceLoader {
 	private static Logger log = Logger.getLogger(KNXDeviceLoaderImpl.class.getName());
 
 	private XMLConfiguration devicesConfig;
 
 	private ArrayList<String> myObjects = new ArrayList<String>();
 
-	public ArrayList<Connector> initDevices(ObjectBroker objectBroker)
-	{
+	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		setConfiguration(devicesConfig);
 
 		ArrayList<Connector> connectors = new ArrayList<Connector>();
@@ -75,8 +72,7 @@ public class KNXDeviceLoaderETSImplManual implements DeviceLoader
 		return connectors;
 	}
 
-	private void connect(KNXConnector knxConnector)
-	{
+	private void connect(KNXConnector knxConnector) {
 		// try
 		// {
 		// knxConnector.connect();
@@ -91,8 +87,7 @@ public class KNXDeviceLoaderETSImplManual implements DeviceLoader
 		// }
 	}
 
-	private void initNetworks(KNXConnector knxConnector, ObjectBroker objectBroker)
-	{
+	private void initNetworks(KNXConnector knxConnector, ObjectBroker objectBroker) {
 		// Networks
 		List networks = new List();
 		networks.setName("networks");
@@ -107,13 +102,15 @@ public class KNXDeviceLoaderETSImplManual implements DeviceLoader
 		objectBroker.addObj(n, true);
 
 		// Entities and Datapoints
-		EntityImpl entity = new EntityImpl("P-0341-0_DI-3", "Switching actuator N 567/01, (8 Amp)", null, "Siemens", "5WG1 567-1AB01");
+		EntityImpl entity = new EntityImpl("P-0341-0_DI-3", "Switching actuator N 567/01, (8 Amp)", null, "Siemens",
+				"5WG1 567-1AB01");
 		entity.addTranslation("de-DE", TranslationAttribute.displayName, "Schaltaktor N 567/01, (8 Amp)");
 		n.getEntities().addEntity(entity);
 
 		objectBroker.addObj(entity, true);
 
-		DPST_1_1_ImplKnx datapoint_lightonoff = new DPST_1_1_ImplKnx(knxConnector, new GroupAddress(1, 0, 0), "P-0341-0_DI-3_M-0001_A-9803-03-3F77_O-3_R-4", "Switch, Channel A", "On / Off", true, false);
+		DPST_1_1_ImplKnx datapoint_lightonoff = new DPST_1_1_ImplKnx(knxConnector, new GroupAddress(1, 0, 0),
+				"P-0341-0_DI-3_M-0001_A-9803-03-3F77_O-3_R-4", "Switch, Channel A", "On / Off", true, false);
 		datapoint_lightonoff.addTranslation("de-DE", TranslationAttribute.displayName, "Schalten, Kanal A");
 		entity.addDatapoint(datapoint_lightonoff);
 
@@ -125,12 +122,14 @@ public class KNXDeviceLoaderETSImplManual implements DeviceLoader
 
 		objectBroker.addObj(entity, true);
 
-		DPST_3_7_ImplKnx datapoint_dimming = new DPST_3_7_ImplKnx(knxConnector, new GroupAddress(1, 0, 1), "P-0341-0_DI-2_M-0001_A-6102-01-A218_O-1_R-1", "Dimming", "Brighter / Darker");
+		DPST_3_7_ImplKnx datapoint_dimming = new DPST_3_7_ImplKnx(knxConnector, new GroupAddress(1, 0, 1),
+				"P-0341-0_DI-2_M-0001_A-6102-01-A218_O-1_R-1", "Dimming", "Brighter / Darker");
 		entity.addDatapoint(datapoint_dimming);
 
 		objectBroker.addObj(datapoint_dimming, true);
 
-		DPST_5_1_ImplKnx datapoint_dimming_status = new DPST_5_1_ImplKnx(knxConnector, new GroupAddress(1, 0, 3), "P-0341-0_DI-2_M-0001_A-6102-01-A218_O-3_R-3", "Status", "8-bit Value", false, true);
+		DPST_5_1_ImplKnx datapoint_dimming_status = new DPST_5_1_ImplKnx(knxConnector, new GroupAddress(1, 0, 3),
+				"P-0341-0_DI-2_M-0001_A-6102-01-A218_O-3_R-3", "Status", "8-bit Value", false, true);
 		entity.addDatapoint(datapoint_dimming_status);
 
 		objectBroker.addObj(datapoint_dimming_status, true);
@@ -141,18 +140,22 @@ public class KNXDeviceLoaderETSImplManual implements DeviceLoader
 
 		objectBroker.addObj(entity, true);
 
-		DPST_9_1_ImplKnx datapoint_temperature = new DPST_9_1_ImplKnx(knxConnector, new GroupAddress(1, 1, 0), "P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-0_R-2", "Temperature, Channel A", "°C-value (EIS5)", false, true);
+		DPST_9_1_ImplKnx datapoint_temperature = new DPST_9_1_ImplKnx(knxConnector, new GroupAddress(1, 1, 0),
+				"P-0341-0_DI-11_M-0001_A-9814-01-5F7E_O-0_R-2", "Temperature, Channel A", "°C-value (EIS5)", false,
+				true);
 		entity.addDatapoint(datapoint_temperature);
 
 		objectBroker.addObj(datapoint_temperature, true);
 
-		entity = new EntityImpl("P-0341-0_DI-7", "KNX CO², Humidity and Temperature Sensor", null, "Schneider Electric Industries SAS", "MTN6005-0001");
+		entity = new EntityImpl("P-0341-0_DI-7", "KNX CO², Humidity and Temperature Sensor", null,
+				"Schneider Electric Industries SAS", "MTN6005-0001");
 		entity.addTranslation("de-DE", TranslationAttribute.displayName, "KNX CO2-, Feuchte- und Temperatursensor");
 		n.getEntities().addEntity(entity);
 
 		objectBroker.addObj(entity, true);
 
-		DPST_9_8_ImplKnx datapoint_co2 = new DPST_9_8_ImplKnx(knxConnector, new GroupAddress(1, 3, 0), "P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-0_R-1", "CO2 Value", "Physical Value", false, true);
+		DPST_9_8_ImplKnx datapoint_co2 = new DPST_9_8_ImplKnx(knxConnector, new GroupAddress(1, 3, 0),
+				"P-0341-0_DI-7_M-0064_A-FF21-11-DDFC-O0048_O-0_R-1", "CO2 Value", "Physical Value", false, true);
 		entity.addDatapoint(datapoint_co2);
 
 		objectBroker.addObj(datapoint_co2, true);
@@ -173,7 +176,8 @@ public class KNXDeviceLoaderETSImplManual implements DeviceLoader
 
 		all.addGroup(light);
 		light.addGroup(lightonoff);
-		lightonoff.addFunction(new DPST_1_1_ImplKnx(knxConnector, new GroupAddress(1, 0, 0), "function", null, null, true, false));
+		lightonoff.addFunction(
+				new DPST_1_1_ImplKnx(knxConnector, new GroupAddress(1, 0, 0), "function", null, null, true, false));
 		lightonoff.addInstance(datapoint_lightonoff, EnumConnector.KEY_SEND);
 		n.getFunctional().addGroup(all);
 
@@ -195,29 +199,21 @@ public class KNXDeviceLoaderETSImplManual implements DeviceLoader
 	}
 
 	@Override
-	public void removeDevices(ObjectBroker objectBroker)
-	{
-		synchronized (myObjects)
-		{
-			for (String href : myObjects)
-			{
+	public void removeDevices(ObjectBroker objectBroker) {
+		synchronized (myObjects) {
+			for (String href : myObjects) {
 				objectBroker.removeObj(href);
 			}
 		}
 	}
 
 	@Override
-	public void setConfiguration(XMLConfiguration devicesConfiguration)
-	{
+	public void setConfiguration(XMLConfiguration devicesConfiguration) {
 		this.devicesConfig = devicesConfiguration;
-		if (devicesConfiguration == null)
-		{
-			try
-			{
+		if (devicesConfiguration == null) {
+			try {
 				devicesConfig = new XMLConfiguration(DEVICE_CONFIGURATION_LOCATION);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				log.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}

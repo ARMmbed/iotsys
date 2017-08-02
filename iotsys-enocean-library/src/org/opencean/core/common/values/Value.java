@@ -2,8 +2,8 @@ package org.opencean.core.common.values;
 
 public interface Value {
 
-    Object getValue();
+	Object getValue();
 
-    String getDisplayValue();
+	String getDisplayValue();
 
 }

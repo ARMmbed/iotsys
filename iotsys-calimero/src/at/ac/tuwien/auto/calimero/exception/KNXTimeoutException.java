@@ -25,26 +25,26 @@ package at.ac.tuwien.auto.calimero.exception;
  * 
  * @author B. Malinowsky
  */
-public class KNXTimeoutException extends KNXException
-{
+public class KNXTimeoutException extends KNXException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new <code>KNXTimeoutException</code> without a detail message.
-	 * <p>
-	 */
-	public KNXTimeoutException()
-	{}
-
-	/**
-	 * Constructs a new <code>KNXTimeoutException</code> with the specified detail
+	 * Constructs a new <code>KNXTimeoutException</code> without a detail
 	 * message.
 	 * <p>
-	 * 
-	 * @param s the detail message
 	 */
-	public KNXTimeoutException(String s)
-	{
+	public KNXTimeoutException() {
+	}
+
+	/**
+	 * Constructs a new <code>KNXTimeoutException</code> with the specified
+	 * detail message.
+	 * <p>
+	 * 
+	 * @param s
+	 *            the detail message
+	 */
+	public KNXTimeoutException(String s) {
 		super(s);
 	}
 }

@@ -34,11 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Bool;
 
-public interface WaterChangeOverStatusSensor extends Sensor{
-	public static final String CHANGE_OVER_STATUS_WATER_CONTRACT_HREF="changeOverStatusWater";
-	public static final String CHANGE_OVER_STATUS_WATER_CONTRACT_NAME="changeOverStatusWater";
-	
-	public static final String CONTRACT="iot:WaterChangeOverStatusSensor";
-	public static final String CHANGE_OVER_STATUS_WATER_CONTRACT = "<bool name='"+WaterChangeOverStatusSensor.CHANGE_OVER_STATUS_WATER_CONTRACT_NAME+"' href='"+WaterChangeOverStatusSensor.CHANGE_OVER_STATUS_WATER_CONTRACT_HREF+"' val='false'/>";
-	public Bool changeOverStatusWaterValue();  
+public interface WaterChangeOverStatusSensor extends Sensor {
+	public static final String CHANGE_OVER_STATUS_WATER_CONTRACT_HREF = "changeOverStatusWater";
+	public static final String CHANGE_OVER_STATUS_WATER_CONTRACT_NAME = "changeOverStatusWater";
+
+	public static final String CONTRACT = "iot:WaterChangeOverStatusSensor";
+	public static final String CHANGE_OVER_STATUS_WATER_CONTRACT = "<bool name='"
+			+ WaterChangeOverStatusSensor.CHANGE_OVER_STATUS_WATER_CONTRACT_NAME + "' href='"
+			+ WaterChangeOverStatusSensor.CHANGE_OVER_STATUS_WATER_CONTRACT_HREF + "' val='false'/>";
+
+	public Bool changeOverStatusWaterValue();
 }

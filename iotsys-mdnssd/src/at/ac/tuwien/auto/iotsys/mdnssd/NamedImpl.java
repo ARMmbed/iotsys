@@ -78,12 +78,12 @@ public class NamedImpl implements Named {
 	public NamedImpl() {
 		ul = new UDPListener(this);
 	}
-	
+
 	@Override
-	public boolean isStart(){
+	public boolean isStart() {
 		return ul.isAlive();
 	}
-	
+
 	@Override
 	public void startNamedService() {
 		ul.start();
@@ -162,8 +162,8 @@ public class NamedImpl implements Named {
 					authRcrdList.add(createAuthRecord(true));
 					break;
 				} else {
-					if (!((requestedName.endsWith("." + AUTHORITATIVE_DOMAIN)) || (requestedName
-							.equals(AUTHORITATIVE_DOMAIN)))) {
+					if (!((requestedName.endsWith("." + AUTHORITATIVE_DOMAIN))
+							|| (requestedName.equals(AUTHORITATIVE_DOMAIN)))) {
 						out = new DNSOutgoing(DNSConstants.FLAGS_QR_RESPONSE | DNSConstants.FLAGS_RF, false,
 								msg.getSenderUDPPayload());
 						break;
@@ -192,10 +192,10 @@ public class NamedImpl implements Named {
 					out = new DNSOutgoing(DNSConstants.FLAGS_QR_RESPONSE | DNSConstants.FLAGS_NE, false,
 							msg.getSenderUDPPayload());
 				} else {
-					addtnRcrdList.add(createAddtnRecord(AUTHORITATIVE_NAME_SERVER, AUTHORITATIVE_NAME_SERVER_ADDR,
-							false));
-					addtnRcrdList.add(createAddtnRecord(AUTHORITATIVE_NAME_SERVER, AUTHORITATIVE_NAME_SERVER_ADDR6,
-							true));
+					addtnRcrdList
+							.add(createAddtnRecord(AUTHORITATIVE_NAME_SERVER, AUTHORITATIVE_NAME_SERVER_ADDR, false));
+					addtnRcrdList
+							.add(createAddtnRecord(AUTHORITATIVE_NAME_SERVER, AUTHORITATIVE_NAME_SERVER_ADDR6, true));
 
 					try {
 						for (DNSRecord r : ansRcrdList) {
@@ -215,8 +215,8 @@ public class NamedImpl implements Named {
 
 			out.setId(msg.getId());
 			byte[] message = out.data();
-			DatagramPacket packet = new DatagramPacket(message, message.length, msg.getPacket().getAddress(), msg
-					.getPacket().getPort());
+			DatagramPacket packet = new DatagramPacket(message, message.length, msg.getPacket().getAddress(),
+					msg.getPacket().getPort());
 			try {
 				sock.send(packet);
 			} catch (IOException ex) {

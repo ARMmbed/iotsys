@@ -31,27 +31,26 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.UnitImpl;
 import obix.Contract;
 import obix.IObj;
 import obix.List;
 import obix.Uri;
 import obix.contracts.Unit;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.UnitImpl;
 
-public class UnitsImpl extends List implements IObj
-{
+public class UnitsImpl extends List implements IObj {
 	private static final UnitsImpl instance = new UnitsImpl();
 
-	private UnitsImpl()
-	{
+	private UnitsImpl() {
 		this.setName("units");
 		this.setOf(new Contract(Unit.CONTRACT));
 		this.setHref(new Uri("/units"));
 
-		UnitImpl[] units = new UnitImpl[] { new UnitCelsiusImpl(), new UnitPercentImpl(), new UnitPpmImpl(), new UnitBeaufortImpl(), new UnitDegreeImpl(), new UnitHectopascalImpl(), new UnitMeterImpl(), new UnitMillimeterImpl() };
+		UnitImpl[] units = new UnitImpl[] { new UnitCelsiusImpl(), new UnitPercentImpl(), new UnitPpmImpl(),
+				new UnitBeaufortImpl(), new UnitDegreeImpl(), new UnitHectopascalImpl(), new UnitMeterImpl(),
+				new UnitMillimeterImpl() };
 
-		for (UnitImpl unit : units)
-		{
+		for (UnitImpl unit : units) {
 			unit.setHref(unit.getRelativePath());
 
 			this.add(unit);
@@ -59,8 +58,7 @@ public class UnitsImpl extends List implements IObj
 		}
 	}
 
-	public static UnitsImpl getInstance()
-	{
+	public static UnitsImpl getInstance() {
 		return instance;
 	}
 }

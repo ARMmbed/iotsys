@@ -33,37 +33,37 @@
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.sensors.impl.wmbus;
 
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.SmartMeterImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.SimpleTelegram;
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.WMBusConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.WMBusWatchDog;
+import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.SimpleTelegram;
 
 public class SmartMeterImplWMBus extends SmartMeterImpl {
 	private WMBusConnector connector;
 	private String serialNr;
-	
-	public SmartMeterImplWMBus(WMBusConnector connector, String serialNr, String aesKey){
+
+	public SmartMeterImplWMBus(WMBusConnector connector, String serialNr, String aesKey) {
 		this.connector = connector;
 		connector.registerAESKey(serialNr, aesKey);
-		this.serialNr = serialNr;		
+		this.serialNr = serialNr;
 	}
-	
-	public void createWatchDog(){
-		this.connector.addWatchDog(serialNr, new WMBusWatchDog(){
+
+	public void createWatchDog() {
+		this.connector.addWatchDog(serialNr, new WMBusWatchDog() {
 
 			@Override
 			public void notifyWatchDog(double power, double energy) {
 				powerValue.set(power);
-				energyValue.set(energy);				
+				energyValue.set(energy);
 			}
-			
+
 			@Override
 			public void notifyWatchDog(SimpleTelegram telegram) {
-			}			
+			}
 		});
-	}	
-	
+	}
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		createWatchDog();
 	}

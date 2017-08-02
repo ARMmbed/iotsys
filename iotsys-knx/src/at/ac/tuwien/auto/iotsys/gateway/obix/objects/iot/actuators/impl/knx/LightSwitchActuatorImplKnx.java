@@ -22,64 +22,63 @@ package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.knx;
 
 import java.util.logging.Logger;
 
-import obix.Obj;
 import at.ac.tuwien.auto.calimero.GroupAddress;
 import at.ac.tuwien.auto.calimero.dptxlator.DPTXlatorBoolean;
 import at.ac.tuwien.auto.calimero.exception.KNXException;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.LightSwitchActuatorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXWatchDog;
+import obix.Obj;
 
 /**
  * Provides the KNX specific implementation for a light switching actuator.
  */
-public class LightSwitchActuatorImplKnx extends LightSwitchActuatorImpl  {
+public class LightSwitchActuatorImplKnx extends LightSwitchActuatorImpl {
 	private GroupAddress status;
 	private GroupAddress switching;
 	private KNXConnector knxConnector;
-	
+
 	public static final Logger knxBus = KNXConnector.knxBus;
-	
-	public LightSwitchActuatorImplKnx(KNXConnector knxConnector, GroupAddress status, final GroupAddress switching){
+
+	public LightSwitchActuatorImplKnx(KNXConnector knxConnector, GroupAddress status, final GroupAddress switching) {
 		super();
 		this.status = status;
 		this.switching = switching;
 		this.knxConnector = knxConnector;
-		if(status == null){
+		if (status == null) {
 			// add watchdog on switching group address
 			knxConnector.addWatchDog(switching, new KNXWatchDog() {
 				@Override
-				public void notifyWatchDog(byte[] apdu) {			
+				public void notifyWatchDog(byte[] apdu) {
 					try {
 						DPTXlatorBoolean x = new DPTXlatorBoolean(DPTXlatorBoolean.DPT_SWITCH);
-											
-						x.setData(apdu);
-						
-						
 
-						if(x.getValueBoolean() != LightSwitchActuatorImplKnx.this.value.get()){
+						x.setData(apdu);
+
+						if (x.getValueBoolean() != LightSwitchActuatorImplKnx.this.value.get()) {
 							LightSwitchActuatorImplKnx.this.value.set(x.getValueBoolean());
 						}
-						
-					} catch (KNXException e) {					
+
+					} catch (KNXException e) {
 						e.printStackTrace();
 					}
 				}
 			});
 		}
 	}
-	
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.	
+
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
 		super.writeObject(input);
-		knxConnector.write(switching, this.value().get());	
-//		CsvCreator.instance.writeLine("" + System.currentTimeMillis() + ";" + switching.toString() + ";" + this.value().get());
+		knxConnector.write(switching, this.value().get());
+		// CsvCreator.instance.writeLine("" + System.currentTimeMillis() + ";" +
+		// switching.toString() + ";" + this.value().get());
 	}
-	
-	public void refreshObject(){
-		if(status != null){
-			boolean value = knxConnector.readBool(status);		
+
+	public void refreshObject() {
+		if (status != null) {
+			boolean value = knxConnector.readBool(status);
 			this.value().set(value);
-		}	
+		}
 	}
 }

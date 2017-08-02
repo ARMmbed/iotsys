@@ -28,44 +28,46 @@ import java.io.InputStream;
  * 
  * @author B. Malinowsky
  */
-class PortInputStream extends InputStream
-{
+class PortInputStream extends InputStream {
 	private final SerialCom p;
 
 	/**
 	 * Creates a new input stream for <code>port</code>.
 	 * <p>
 	 * 
-	 * @param port open port for input
+	 * @param port
+	 *            open port for input
 	 */
-	public PortInputStream(SerialCom port)
-	{
+	public PortInputStream(SerialCom port) {
 		p = port;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.InputStream#read()
 	 */
-	public int read() throws IOException
-	{
+	public int read() throws IOException {
 		return p.read();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.InputStream#read(byte[])
 	 */
-	public int read(byte[] b) throws IOException
-	{
+	public int read(byte[] b) throws IOException {
 		if (b == null)
 			throw new NullPointerException();
 		return p.readBytes(b, 0, b.length);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.InputStream#read(byte[], int, int)
 	 */
-	public int read(byte[] b, int off, int len) throws IOException
-	{
+	public int read(byte[] b, int off, int len) throws IOException {
 		if (b == null)
 			throw new NullPointerException();
 		if (off < 0 || len < 0 || len > b.length - off)
@@ -73,19 +75,21 @@ class PortInputStream extends InputStream
 		return p.readBytes(b, off, len);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.InputStream#available()
 	 */
-	public int available()
-	{
+	public int available() {
 		return p.getStatus(SerialCom.AVAILABLE_INPUT_STATUS);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.InputStream#close()
 	 */
-	public void close() throws IOException
-	{
+	public void close() throws IOException {
 		super.close();
 	}
 }

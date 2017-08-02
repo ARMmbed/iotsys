@@ -31,70 +31,60 @@ import at.ac.tuwien.auto.calimero.link.event.LinkListener;
 import at.ac.tuwien.auto.calimero.link.event.NetworkLinkListener;
 import at.ac.tuwien.auto.calimero.log.LogService;
 
-
 /**
  * Threaded event notifier for network link and monitor.
  * <p>
  * 
  * @author B. Malinowsky
  */
-abstract class EventNotifier extends Thread implements KNXListener
-{
-	// TODO extract event listener (throughout Calimero) and put it into its own class
-	
-	static interface EventCallback
-	{
+abstract class EventNotifier extends Thread implements KNXListener {
+	// TODO extract event listener (throughout Calimero) and put it into its own
+	// class
+
+	static interface EventCallback {
 		/**
-		 * Invokes the appropriate listener method with the event contained in this event
-		 * callback.
+		 * Invokes the appropriate listener method with the event contained in
+		 * this event callback.
 		 * <p>
 		 * 
-		 * @param l the listener to notify
+		 * @param l
+		 *            the listener to notify
 		 */
 		void invoke(LinkListener l);
 	}
 
-	static final class Indication implements EventCallback
-	{
+	static final class Indication implements EventCallback {
 		private final FrameEvent event;
 
-		Indication(FrameEvent e)
-		{
+		Indication(FrameEvent e) {
 			event = e;
 		}
 
-		public void invoke(LinkListener l)
-		{
+		public void invoke(LinkListener l) {
 			l.indication(event);
 		}
 	}
 
-	static final class Confirmation implements EventCallback
-	{
+	static final class Confirmation implements EventCallback {
 		private final FrameEvent event;
 
-		Confirmation(FrameEvent e)
-		{
+		Confirmation(FrameEvent e) {
 			event = e;
 		}
 
-		public void invoke(LinkListener l)
-		{
+		public void invoke(LinkListener l) {
 			((NetworkLinkListener) l).confirmation(event);
 		}
 	}
 
-	static final class Closed implements EventCallback
-	{
+	static final class Closed implements EventCallback {
 		private final CloseEvent event;
 
-		Closed(CloseEvent e)
-		{
+		Closed(CloseEvent e) {
 			event = e;
 		}
 
-		public void invoke(LinkListener l)
-		{
+		public void invoke(LinkListener l) {
 			l.linkClosed(event);
 		}
 	}
@@ -109,8 +99,7 @@ abstract class EventNotifier extends Thread implements KNXListener
 	private final List events = new LinkedList();
 	private volatile boolean stop;
 
-	EventNotifier(Object source, LogService logger)
-	{
+	EventNotifier(Object source, LogService logger) {
 		super("Link notifier");
 		this.logger = logger;
 		this.source = source;
@@ -118,8 +107,7 @@ abstract class EventNotifier extends Thread implements KNXListener
 		start();
 	}
 
-	public final void run()
-	{
+	public final void run() {
 		while (!stop) {
 			try {
 				EventCallback ec;
@@ -129,8 +117,8 @@ abstract class EventNotifier extends Thread implements KNXListener
 					ec = (EventCallback) events.remove(0);
 				}
 				fire(ec);
+			} catch (final InterruptedException ignore) {
 			}
-			catch (final InterruptedException ignore) {}
 		}
 		// empty event queue
 		synchronized (events) {
@@ -141,14 +129,12 @@ abstract class EventNotifier extends Thread implements KNXListener
 
 	public abstract void frameReceived(FrameEvent e);
 
-	public void connectionClosed(CloseEvent e)
-	{
+	public void connectionClosed(CloseEvent e) {
 		addEvent(new Closed(new CloseEvent(source, e.isUserRequest(), e.getReason())));
 		quit();
 	}
 
-	final void addEvent(EventCallback ec)
-	{
+	final void addEvent(EventCallback ec) {
 		if (!stop) {
 			synchronized (events) {
 				events.add(ec);
@@ -157,30 +143,26 @@ abstract class EventNotifier extends Thread implements KNXListener
 		}
 	}
 
-	final void addListener(LinkListener l)
-	{
+	final void addListener(LinkListener l) {
 		if (stop || l == null)
 			return;
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
 				listenersCopy = new ArrayList(listeners);
-			}
-			else
+			} else
 				logger.warn("event listener already registered");
 		}
 	}
 
-	final void removeListener(LinkListener l)
-	{
+	final void removeListener(LinkListener l) {
 		synchronized (listeners) {
 			if (listeners.remove(l))
 				listenersCopy = new ArrayList(listeners);
 		}
 	}
 
-	final void quit()
-	{
+	final void quit() {
 		if (stop)
 			return;
 		stop = true;
@@ -188,19 +170,17 @@ abstract class EventNotifier extends Thread implements KNXListener
 		if (currentThread() != this) {
 			try {
 				join();
+			} catch (final InterruptedException e) {
 			}
-			catch (final InterruptedException e) {}
 		}
 	}
 
-	private void fire(EventCallback ec)
-	{
+	private void fire(EventCallback ec) {
 		for (final Iterator i = listenersCopy.iterator(); i.hasNext();) {
 			final LinkListener l = (LinkListener) i.next();
 			try {
 				ec.invoke(l);
-			}
-			catch (final RuntimeException rte) {
+			} catch (final RuntimeException rte) {
 				removeListener(l);
 				logger.error("removed event listener", rte);
 			}

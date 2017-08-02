@@ -20,9 +20,9 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.knx;
 
-import java.util.logging.Logger;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Logger;
 
 import at.ac.tuwien.auto.calimero.GroupAddress;
 import at.ac.tuwien.auto.calimero.dptxlator.DPTXlatorBoolean;
@@ -43,8 +43,7 @@ public class SunblindActuatorImplKnx extends SunblindActuatorImpl {
 	}
 
 	private STATE_TYPE myState;
-	private static final Logger log = Logger
-			.getLogger(SunblindActuatorImplKnx.class.getName());
+	private static final Logger log = Logger.getLogger(SunblindActuatorImplKnx.class.getName());
 
 	private Timer timer;
 	private GroupAddress status;
@@ -54,8 +53,7 @@ public class SunblindActuatorImplKnx extends SunblindActuatorImpl {
 
 	public static final Logger knxBus = KNXConnector.knxBus;
 
-	public SunblindActuatorImplKnx(KNXConnector knxConnector,
-			GroupAddress status, final GroupAddress moveDown,
+	public SunblindActuatorImplKnx(KNXConnector knxConnector, GroupAddress status, final GroupAddress moveDown,
 			final GroupAddress moveUp) {
 		super();
 		this.status = status;
@@ -70,15 +68,12 @@ public class SunblindActuatorImplKnx extends SunblindActuatorImpl {
 				@Override
 				public void notifyWatchDog(byte[] apdu) {
 					try {
-						DPTXlatorBoolean x = new DPTXlatorBoolean(
-								DPTXlatorBoolean.DPT_OCCUPANCY);
+						DPTXlatorBoolean x = new DPTXlatorBoolean(DPTXlatorBoolean.DPT_OCCUPANCY);
 
 						x.setData(apdu);
 
-						if (x.getValueBoolean() != SunblindActuatorImplKnx.this.moveDownValue
-								.get()) {
-							SunblindActuatorImplKnx.this.moveDownValue.set(x
-									.getValueBoolean());
+						if (x.getValueBoolean() != SunblindActuatorImplKnx.this.moveDownValue.get()) {
+							SunblindActuatorImplKnx.this.moveDownValue.set(x.getValueBoolean());
 						}
 
 					} catch (KNXException e) {
@@ -86,7 +81,6 @@ public class SunblindActuatorImplKnx extends SunblindActuatorImpl {
 					}
 				}
 			});
-			
 
 		}
 	}
@@ -109,7 +103,7 @@ public class SunblindActuatorImplKnx extends SunblindActuatorImpl {
 		}
 
 	}
-	
+
 	class ChangeMoveStateTask extends TimerTask {
 
 		private GroupAddress address;
@@ -126,13 +120,13 @@ public class SunblindActuatorImplKnx extends SunblindActuatorImpl {
 		}
 
 	}
-	
-	public void changeDirection(GroupAddress stopAddress, GroupAddress newAddressContraryDirektion){
+
+	public void changeDirection(GroupAddress stopAddress, GroupAddress newAddressContraryDirektion) {
 		sunblindStop(stopAddress);
 		timer = new Timer();
 		timer.schedule(new ChangeMoveStateTask(newAddressContraryDirektion), 1000);
 	}
-	
+
 	public void sunblindDown() {
 		knxConnector.write(moveDown, true);
 		timer = new Timer();
@@ -153,20 +147,20 @@ public class SunblindActuatorImplKnx extends SunblindActuatorImpl {
 
 	public void writeObject(Obj input) {
 		// A write on this object was received, update the according data point.
-	
+
 		// boolean direction = false; // false == Up ; true = Down
-	//	boolean newMoveDownValue = false;
-		
+		// boolean newMoveDownValue = false;
+
 		if (input instanceof SunblindActuator) {
 			// boolean upDownValue = false;
 			SunblindActuator in = (SunblindActuator) input;
 
 			// vorzugsweise Up
-			
+
 			if (in.moveDownValue().get() && in.moveUpValue().get()) {
-					in.moveDownValue().set(false);
-				}
-		
+				in.moveDownValue().set(false);
+			}
+
 		}
 
 		super.writeObject(input);
@@ -181,19 +175,19 @@ public class SunblindActuatorImplKnx extends SunblindActuatorImpl {
 			} else if (this.moveUpValue().get()) {
 				myState = STATE_TYPE.STATE_MOVE_UP;
 				sunblindUp();
-			} 
+			}
 			break;
 
 		case STATE_MOVE_DOWN: // DOWN
 			log.info("State Number:" + myState);
 
-			if (this.moveUpValue().get()) {				
+			if (this.moveUpValue().get()) {
 				myState = STATE_TYPE.STATE_MOVE_UP;
-				changeDirection(moveDown,moveUp);
+				changeDirection(moveDown, moveUp);
 
 			} else if (this.moveDownValue().get()) {
-//				myState = STATE_TYPE.STATE_MOVE_DOWN;
-//				sunblindDown();
+				// myState = STATE_TYPE.STATE_MOVE_DOWN;
+				// sunblindDown();
 			} else {
 				myState = STATE_TYPE.STATE_STOP;
 				sunblindStop(moveDown);
@@ -203,13 +197,13 @@ public class SunblindActuatorImplKnx extends SunblindActuatorImpl {
 		case STATE_MOVE_UP: // UP
 			log.info("State Number:" + myState);
 			if (this.moveUpValue().get()) {
-//				myState = STATE_TYPE.STATE_STOP;
-//				sunblindUp();
+				// myState = STATE_TYPE.STATE_STOP;
+				// sunblindUp();
 			} else if (this.moveDownValue().get()) {
 				myState = STATE_TYPE.STATE_MOVE_DOWN;
-				changeDirection(moveUp,moveDown);
-				//sunblindStop(moveUp);
-				//sunblindDown();
+				changeDirection(moveUp, moveDown);
+				// sunblindStop(moveUp);
+				// sunblindDown();
 			} else {
 				myState = STATE_TYPE.STATE_STOP;
 				sunblindStop(moveUp);

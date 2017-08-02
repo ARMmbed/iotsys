@@ -34,12 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface AirChangeOverStatusSensor extends Sensor{
-	public static final String CHANGE_OVER_STATUS_AIR_CONTRACT_NAME="changeOverStatusAir";
-	public static final String CHANGE_OVER_STATUS_AIR_CONTRACT_HREF="changeOverStatusAir";
-	
-	public static final String CONTRACT="iot:AirChangeOverStatusSensor";
-	public static final String CHANGE_OVER_STATUS_AIR_CONTRACT = "<real name='"+CHANGE_OVER_STATUS_AIR_CONTRACT_NAME+"' href='"+CHANGE_OVER_STATUS_AIR_CONTRACT_HREF+"' val='0'/>";
+public interface AirChangeOverStatusSensor extends Sensor {
+	public static final String CHANGE_OVER_STATUS_AIR_CONTRACT_NAME = "changeOverStatusAir";
+	public static final String CHANGE_OVER_STATUS_AIR_CONTRACT_HREF = "changeOverStatusAir";
+
+	public static final String CONTRACT = "iot:AirChangeOverStatusSensor";
+	public static final String CHANGE_OVER_STATUS_AIR_CONTRACT = "<real name='" + CHANGE_OVER_STATUS_AIR_CONTRACT_NAME
+			+ "' href='" + CHANGE_OVER_STATUS_AIR_CONTRACT_HREF + "' val='0'/>";
+
 	public Real changeOverStatusAirValue();
-	
+
 }

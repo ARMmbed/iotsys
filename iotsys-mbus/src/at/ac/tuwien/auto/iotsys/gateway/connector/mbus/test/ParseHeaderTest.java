@@ -39,16 +39,16 @@ public class ParseHeaderTest {
 
 	public static void main(String[] args) throws Exception {
 		String telegram = "68 6A 6A 68 08 01 72 43 53 93 07 65 32 10 04 CA 00 00 00 0C 05 14 00 00 00 0C 13 13 20 00 00 0B 22 01 24 03 04 6D 12 0B D3 12 32 6C 00 00 0C 78 43 53 93 07 06 FD 0C F2 03 01 00 F6 01 0D FD 0B 05 31 32 4D 46 57 01 FD 0E 00 4C 05 14 00 00 00 4C 13 13 20 00 00 42 6C BF 1C 0F 37 FD 17 00 00 00 00 00 00 00 00 02 7A 25 00 02 78 25 00 3A 16";
-		
+
 		Telegram tel = new Telegram();
 		tel.createTelegram(telegram);
 		tel.debugOutput();
-		
+
 		byte[] result = Converter.convertStringListToByteArray(tel.getBody().getBodyPayload().getPayloadAsList());
-		
-		System.out.println("Payload: " + Converter.convertByteArrayToString(result));				
-	
+
+		System.out.println("Payload: " + Converter.convertByteArrayToString(result));
+
 		System.out.println("-----------------------------------------------------------------------");
-		System.out.println("-----------------------------------------------------------------------");		
+		System.out.println("-----------------------------------------------------------------------");
 	}
 }

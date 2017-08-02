@@ -38,107 +38,104 @@ import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.TelegramField;
 
 public class TelegramBodyHeader {
 
-	private TelegramField ciField;		// control information field
-	private TelegramField idNrField;	// identification number field	
-	private TelegramField mField; 		// manufacturer
-	private TelegramField vField;		// version
-	private TelegramField medField;		// Measured Medium
-	private TelegramField accNrField;	// access number
-	private TelegramField statusField;	// status
-	private TelegramField sigField;		// signature field
-	
+	private TelegramField ciField; // control information field
+	private TelegramField idNrField; // identification number field
+	private TelegramField mField; // manufacturer
+	private TelegramField vField; // version
+	private TelegramField medField; // Measured Medium
+	private TelegramField accNrField; // access number
+	private TelegramField statusField; // status
+	private TelegramField sigField; // signature field
+
 	public TelegramBodyHeader() {
-		
+
 	}
-	
-	public void createTelegramBodyHeader(String[] bodyHeader) {		
+
+	public void createTelegramBodyHeader(String[] bodyHeader) {
 		this.setCiField(bodyHeader[0]);
 		this.setIdNrField(Arrays.copyOfRange(bodyHeader, 1, 5));
 		this.setMField(Arrays.copyOfRange(bodyHeader, 5, 7));
 		this.setVField(bodyHeader[7]);
 		this.setMedField(bodyHeader[8]);
-		this.setAccNrField(bodyHeader[9]);	
+		this.setAccNrField(bodyHeader[9]);
 		this.setStatusField(bodyHeader[10]);
 		this.setSigField(Arrays.copyOfRange(bodyHeader, 10, 12));
 	}
-	
+
 	public void setCiField(String ciField) {
 		this.ciField = new TelegramField();
 		this.ciField.addFieldPart(ciField);
-	}	
-	
+	}
+
 	public void setIdNrField(String[] idNrField) {
 		this.idNrField = new TelegramField();
 		this.idNrField.addFieldParts(idNrField);
 	}
-	
+
 	public void setMField(String[] mField) {
 		this.mField = new TelegramField();
 		this.mField.addFieldParts(mField);
 	}
-	
+
 	public void setVField(String vField) {
 		this.vField = new TelegramField();
 		this.vField.addFieldPart(vField);
 	}
-	
+
 	public void setMedField(String medField) {
 		this.medField = new TelegramField();
 		this.medField.addFieldPart(medField);
 	}
-	
+
 	public void setAccNrField(String accField) {
 		this.accNrField = new TelegramField();
 		this.accNrField.addFieldPart(accField);
 	}
-	
+
 	public void setStatusField(String statusField) {
 		this.statusField = new TelegramField();
 		this.statusField.addFieldPart(statusField);
 	}
-	
+
 	public void setSigField(String[] sigField) {
 		this.sigField = new TelegramField();
 		this.sigField.addFieldParts(sigField);
-	}	
-	
-	public String getIdNr(){
-		return this.idNrField.getFieldParts().get(3) 
-				+ this.idNrField.getFieldParts().get(2)
-				+ this.idNrField.getFieldParts().get(1)
-				+ this.idNrField.getFieldParts().get(0);
 	}
-	
+
+	public String getIdNr() {
+		return this.idNrField.getFieldParts().get(3) + this.idNrField.getFieldParts().get(2)
+				+ this.idNrField.getFieldParts().get(1) + this.idNrField.getFieldParts().get(0);
+	}
+
 	public void debugOutput() {
-		if(this.ciField != null) {
+		if (this.ciField != null) {
 			System.out.println("Type of TelegramBodyHeader: " + this.ciField.getFieldParts().get(0));
 		}
-		if(this.idNrField != null) {
-			System.out.println("Identification#: " + this.idNrField.getFieldParts().get(3) 
-								+ this.idNrField.getFieldParts().get(2)
-								+ this.idNrField.getFieldParts().get(1)
-								+ this.idNrField.getFieldParts().get(0));			
+		if (this.idNrField != null) {
+			System.out.println(
+					"Identification#: " + this.idNrField.getFieldParts().get(3) + this.idNrField.getFieldParts().get(2)
+							+ this.idNrField.getFieldParts().get(1) + this.idNrField.getFieldParts().get(0));
 		}
-		if(this.mField != null) {
+		if (this.mField != null) {
 			ManufacturerTelegramField field = new ManufacturerTelegramField();
 			field.addFieldParts(this.mField.getFieldPartsAsArray());
 			field.parse();
-			System.out.println("Manufacturer: "	+ field.getParsedValue());			
+			System.out.println("Manufacturer: " + field.getParsedValue());
 		}
-		if(this.vField != null) {
+		if (this.vField != null) {
 			System.out.println("Version: " + this.vField.getFieldParts().get(0));
 		}
-		if(this.medField != null) {
+		if (this.medField != null) {
 			// TODO parse medium
 			System.out.println("Medium: " + this.medField.getFieldParts().get(0));
-		}		
-		if(this.accNrField != null) {
+		}
+		if (this.accNrField != null) {
 			System.out.println("AccessNumber: " + this.accNrField.getFieldParts().get(0));
 		}
-		if(this.statusField != null) {			
+		if (this.statusField != null) {
 			System.out.println("StatusField: " + this.statusField.getFieldParts().get(0));
 		}
-		if(this.sigField != null) {
+		if (this.sigField != null) {
 			// not in use --> value 00 00h
 			System.out.println("Sig-Field1: " + this.sigField.getFieldParts().get(0));
 			System.out.println("Sig-Field2: " + this.sigField.getFieldParts().get(1));

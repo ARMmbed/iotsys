@@ -45,9 +45,8 @@ import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 
-public class MBusBundleActivator implements BundleActivator, ServiceListener{
-	private static final Logger log = Logger.getLogger(MBusBundleActivator.class
-			.getName());
+public class MBusBundleActivator implements BundleActivator, ServiceListener {
+	private static final Logger log = Logger.getLogger(MBusBundleActivator.class.getName());
 
 	private DeviceLoader deviceLoader = new MBusDeviceLoaderImpl();
 	private ArrayList<Connector> connectors = null;
@@ -55,23 +54,21 @@ public class MBusBundleActivator implements BundleActivator, ServiceListener{
 	private volatile boolean registered = false;
 
 	private BundleContext context = null;
-	
+
 	public void start(BundleContext context) throws Exception {
 		log.info("Starting MBUS connector");
 		this.context = context;
-		ServiceReference serviceReference = context
-				.getServiceReference(ObjectBroker.class.getName());
+		ServiceReference serviceReference = context.getServiceReference(ObjectBroker.class.getName());
 		if (serviceReference == null) {
 			log.info("Could not find a running object broker to register devices! Waiting for service announcement.");
 
 		} else {
 			synchronized (this) {
 				log.info("Initiating MBUS devices.");
-				ObjectBroker objectBroker = (ObjectBroker) context
-						.getService(serviceReference);
+				ObjectBroker objectBroker = (ObjectBroker) context.getService(serviceReference);
 				connectors = deviceLoader.initDevices(objectBroker);
 				objectBroker.addConnectors(connectors);
-				
+
 				registered = true;
 			}
 
@@ -82,14 +79,12 @@ public class MBusBundleActivator implements BundleActivator, ServiceListener{
 
 	public void stop(BundleContext context) throws Exception {
 		log.info("Stopping MBUS connector");
-		ServiceReference serviceReference = context
-				.getServiceReference(ObjectBroker.class.getName());
+		ServiceReference serviceReference = context.getServiceReference(ObjectBroker.class.getName());
 		if (serviceReference == null) {
 			log.severe("Could not find a running object broker to unregister devices!");
 		} else {
 			log.info("Removing MBUS Devices.");
-			ObjectBroker objectBroker = (ObjectBroker) context
-					.getService(serviceReference);
+			ObjectBroker objectBroker = (ObjectBroker) context.getService(serviceReference);
 			deviceLoader.removeDevices(objectBroker);
 			if (connectors != null) {
 				objectBroker.removeConnectors(connectors);
@@ -106,8 +101,7 @@ public class MBusBundleActivator implements BundleActivator, ServiceListener{
 
 	@Override
 	public void serviceChanged(ServiceEvent event) {
-		String[] objectClass = (String[]) event.getServiceReference()
-				.getProperty("objectClass");
+		String[] objectClass = (String[]) event.getServiceReference().getProperty("objectClass");
 
 		if (event.getType() == ServiceEvent.REGISTERED) {
 			if (objectClass[0].equals(ObjectBroker.class.getName())) {
@@ -116,12 +110,11 @@ public class MBusBundleActivator implements BundleActivator, ServiceListener{
 					log.info("ObjectBroker detected.");
 
 					if (!registered) {
-						ObjectBroker objectBroker = (ObjectBroker) context
-								.getService(event.getServiceReference());
+						ObjectBroker objectBroker = (ObjectBroker) context.getService(event.getServiceReference());
 						try {
 							connectors = deviceLoader.initDevices(objectBroker);
 							objectBroker.addConnectors(connectors);
-							
+
 							registered = true;
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -129,6 +122,6 @@ public class MBusBundleActivator implements BundleActivator, ServiceListener{
 					}
 				}
 			}
-		} 
+		}
 	}
 }

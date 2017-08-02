@@ -31,23 +31,20 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
-import obix.Contract;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumWeatherSymbol;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherSymbol;
+import obix.Contract;
+import obix.Uri;
 
-public class EnumWeatherSymbolImpl extends RangeImpl implements EnumWeatherSymbol
-{
-	public EnumWeatherSymbolImpl()
-	{
+public class EnumWeatherSymbolImpl extends RangeImpl implements EnumWeatherSymbol {
+	public EnumWeatherSymbolImpl() {
 		super(new Uri(EnumWeatherSymbol.HREF));
 
 		this.setOf(new Contract("obix:int"));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		addElement(new IntElement(WeatherSymbol.NAME_UNKNOWN, WeatherSymbol.ID_UNKNOWN));
 		addElement(new IntElement(WeatherSymbol.NAME_SUN, WeatherSymbol.ID_SUN));
 		addElement(new IntElement(WeatherSymbol.NAME_FAIR, WeatherSymbol.ID_FAIR));

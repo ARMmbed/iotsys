@@ -21,8 +21,9 @@
 package at.ac.tuwien.auto.iotsys.gateway.connectors.knx;
 
 /**
- * A watch dog should be registered for events related to a certain group address.
- * The implementor of the watch dog should be aware of the exact data type (major and minor).
+ * A watch dog should be registered for events related to a certain group
+ * address. The implementor of the watch dog should be aware of the exact data
+ * type (major and minor).
  */
 public interface KNXWatchDog {
 	public void notifyWatchDog(byte[] apdu);

@@ -38,13 +38,13 @@ public class ParseBodyPayloadTest {
 
 	public static void main(String[] args) {
 		String payload = "2f 2f 06 6d 06 b6 e3 a2 01 35 04 03 17 f0 10 00 04 83 3c 00 00 00 00 04 2b 21 00 00 00 04 ab 3c 00 00 00 00 2f 2f 2f 2f 2f 2f 2f 2f 2f 2f 2f 2f";
-		
+
 		TelegramBodyPayload tBody = new TelegramBodyPayload();
-		
+
 		tBody.createTelegramBodyPayload(payload.split(" "));
 		tBody.setDecryptedTelegramBodyPayload(payload.split(" "));
 		tBody.setHasBeenEncrypted(true);
-		
+
 		tBody.parse();
 		tBody.debugOutput();
 	}

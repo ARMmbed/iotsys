@@ -51,7 +51,7 @@ public class DeviceLoaderImpl implements DeviceLoader {
 	public DeviceLoaderImpl() {
 		this(DEVICE_CONFIGURATION_LOCATION);
 	}
-	
+
 	public DeviceLoaderImpl(String devicesConfigFile) {
 		try {
 			devicesConfig = new XMLConfiguration(devicesConfigFile);
@@ -62,34 +62,36 @@ public class DeviceLoaderImpl implements DeviceLoader {
 
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		ArrayList<Connector> connectors = new ArrayList<Connector>();
-		
+
 		// use technology specific device loaders
 		int deviceLoadersSize = 0;
-		
+
 		Object deviceLoaders = devicesConfig.getProperty("deviceloaders.device-loader");
-		
-		if(deviceLoaders != null){
+
+		if (deviceLoaders != null) {
 			deviceLoadersSize = 1;
 		}
-		
-		if(deviceLoaders instanceof Collection<?>){
+
+		if (deviceLoaders instanceof Collection<?>) {
 			deviceLoadersSize = ((Collection<?>) deviceLoaders).size();
 		}
-		
-		// Transition step: replace deviceLoadersSize with DeviceConfigs.getInstance().getAllDeviceLoader().length when done
-		for(int i = 0; i< deviceLoadersSize; i++){
-		
-			// Transition step: change to DeviceConfigs.getInstance().getAllDeviceLoader()[i] when done
+
+		// Transition step: replace deviceLoadersSize with
+		// DeviceConfigs.getInstance().getAllDeviceLoader().length when done
+		for (int i = 0; i < deviceLoadersSize; i++) {
+
+			// Transition step: change to
+			// DeviceConfigs.getInstance().getAllDeviceLoader()[i] when done
 			String deviceLoaderName = devicesConfig.getString("deviceloaders.device-loader(" + i + ")");
 
 			log.info("Found device loader: " + deviceLoaderName);
-			
+
 			try {
 				DeviceLoader devLoader = (DeviceLoader) Class.forName(deviceLoaderName).newInstance();
 				devLoader.setConfiguration(devicesConfig);
 				ArrayList<Connector> connectorsList = devLoader.initDevices(objectBroker);
-				if(connectorsList != null)
-					connectors.addAll(connectorsList);			
+				if (connectorsList != null)
+					connectors.addAll(connectorsList);
 			} catch (InstantiationException e) {
 				e.printStackTrace();
 			} catch (IllegalAccessException e) {
@@ -100,13 +102,14 @@ public class DeviceLoaderImpl implements DeviceLoader {
 				log.severe("Debug Info:" + e.getMessage());
 			}
 		}
-	
+
 		return connectors;
 	}
 
 	@Override
 	public void removeDevices(ObjectBroker objectBroker) {
-		// This device loader acts as a parent loader for all technology specific device loaders.
+		// This device loader acts as a parent loader for all technology
+		// specific device loaders.
 	}
 
 	@Override

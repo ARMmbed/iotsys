@@ -22,19 +22,19 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.bacnet;
 
-import java.util.logging.Logger;
+import static at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector.BACNET_PRIORITY;
 
-import obix.Obj;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.FanSpeedActuatorImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
+import java.util.logging.Logger;
 
 import com.serotonin.bacnet4j.exception.BACnetException;
 import com.serotonin.bacnet4j.exception.PropertyValueException;
 import com.serotonin.bacnet4j.type.Encodable;
 import com.serotonin.bacnet4j.type.primitive.Real;
 
-import static at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector.BACNET_PRIORITY;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.FanSpeedActuatorImpl;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
+import obix.Obj;
 
 public class FanSpeedActuatorImplBacnet extends FanSpeedActuatorImpl {
 	private static final Logger log = Logger.getLogger(FanSpeedActuatorImplBacnet.class.getName());
@@ -43,8 +43,8 @@ public class FanSpeedActuatorImplBacnet extends FanSpeedActuatorImpl {
 	private BacnetDataPointInfo enabled;
 	private BACnetConnector bacnetConnector;
 
-	public FanSpeedActuatorImplBacnet(BACnetConnector bacnetConnector,
-			BacnetDataPointInfo fanSpeed, BacnetDataPointInfo enabled) {
+	public FanSpeedActuatorImplBacnet(BACnetConnector bacnetConnector, BacnetDataPointInfo fanSpeed,
+			BacnetDataPointInfo enabled) {
 		this.bacnetConnector = bacnetConnector;
 		this.fanSpeed = fanSpeed;
 		this.enabled = enabled;
@@ -52,18 +52,14 @@ public class FanSpeedActuatorImplBacnet extends FanSpeedActuatorImpl {
 
 	public void refreshObject() {
 		try {
-			Encodable property = bacnetConnector.readProperty(
-					fanSpeed.getDeviceIdentifier(),
-					fanSpeed.getObjectIdentifier(),
-					fanSpeed.getPropertyIdentifier());
+			Encodable property = bacnetConnector.readProperty(fanSpeed.getDeviceIdentifier(),
+					fanSpeed.getObjectIdentifier(), fanSpeed.getPropertyIdentifier());
 			if (property instanceof Real) {
 				fanSpeedSetpointValue.set((int) ((Real) property).floatValue());
 			}
-			if(enabled != null){
-				property = bacnetConnector.readProperty(
-						enabled.getDeviceIdentifier(),
-						enabled.getObjectIdentifier(),
-						enabled.getPropertyIdentifier());	
+			if (enabled != null) {
+				property = bacnetConnector.readProperty(enabled.getDeviceIdentifier(), enabled.getObjectIdentifier(),
+						enabled.getPropertyIdentifier());
 				if (property instanceof com.serotonin.bacnet4j.type.primitive.Boolean) {
 					enabledValue.set(((com.serotonin.bacnet4j.type.primitive.Boolean) property).booleanValue());
 				}
@@ -80,13 +76,15 @@ public class FanSpeedActuatorImplBacnet extends FanSpeedActuatorImpl {
 		super.writeObject(input);
 
 		try {
-			log.fine("Writing fan speed actuator to: " + fanSpeed + " value. " + this.fanSpeedSetpointValue().get() + " " + enabled + " value: " + enabledValue.get());
+			log.fine("Writing fan speed actuator to: " + fanSpeed + " value. " + this.fanSpeedSetpointValue().get()
+					+ " " + enabled + " value: " + enabledValue.get());
 			bacnetConnector.writeProperty(fanSpeed.getDeviceIdentifier(), fanSpeed.getObjectIdentifier(),
-					fanSpeed.getPropertyIdentifier(), new Real((float)this.fanSpeedSetpointValue()
-							.get()), BACNET_PRIORITY);
-			bacnetConnector.writeProperty(enabled.getDeviceIdentifier(), enabled.getObjectIdentifier(), enabled.getPropertyIdentifier(), 
-					new com.serotonin.bacnet4j.type.primitive.Enumerated(enabledValue.get()?1:0), BACNET_PRIORITY);
-			
+					fanSpeed.getPropertyIdentifier(), new Real((float) this.fanSpeedSetpointValue().get()),
+					BACNET_PRIORITY);
+			bacnetConnector.writeProperty(enabled.getDeviceIdentifier(), enabled.getObjectIdentifier(),
+					enabled.getPropertyIdentifier(),
+					new com.serotonin.bacnet4j.type.primitive.Enumerated(enabledValue.get() ? 1 : 0), BACNET_PRIORITY);
+
 		} catch (BACnetException e) {
 			e.printStackTrace();
 		} catch (PropertyValueException e) {

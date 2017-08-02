@@ -29,20 +29,21 @@ import at.ac.tuwien.auto.calimero.knxnetip.KNXnetIPTunnel;
  * 
  * @author B. Malinowsky
  */
-public class TunnelCRI extends CRI
-{
+public class TunnelCRI extends CRI {
 	/**
 	 * Creates a new CRI for tunnel connection type out of a byte array.
 	 * <p>
 	 * The CRI structure has a length of 4 bytes.<br>
 	 * 
-	 * @param data byte array containing a CRI structure,
-	 *        <code>data.length - offset = 4</code>
-	 * @param offset start offset of CRI in <code>data</code>
-	 * @throws KNXFormatException if no CRI found or invalid structure
+	 * @param data
+	 *            byte array containing a CRI structure,
+	 *            <code>data.length - offset = 4</code>
+	 * @param offset
+	 *            start offset of CRI in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no CRI found or invalid structure
 	 */
-	public TunnelCRI(byte[] data, int offset) throws KNXFormatException
-	{
+	public TunnelCRI(byte[] data, int offset) throws KNXFormatException {
 		super(data, offset);
 		if (getConnectionType() != KNXnetIPTunnel.TUNNEL_CONNECTION)
 			throw new KNXFormatException("not a tunneling CRI", getConnectionType());
@@ -54,10 +55,11 @@ public class TunnelCRI extends CRI
 	 * Creates a new CRI for tunnel connection type on the given KNX layer.
 	 * <p>
 	 * 
-	 * @param KNXLayer KNX layer specifying the kind of tunnel (e.g. link layer tunnel)
+	 * @param KNXLayer
+	 *            KNX layer specifying the kind of tunnel (e.g. link layer
+	 *            tunnel)
 	 */
-	public TunnelCRI(short KNXLayer)
-	{
+	public TunnelCRI(short KNXLayer) {
 		super(KNXnetIPTunnel.TUNNEL_CONNECTION, new byte[] { (byte) KNXLayer, 0 });
 		if (KNXLayer < 0 || KNXLayer > 0xff)
 			throw new KNXIllegalArgumentException("KNX layer out of range [0..255]");
@@ -68,12 +70,12 @@ public class TunnelCRI extends CRI
 	 * <p>
 	 * Note, the optional data field contains the KNX tunnel layer.<br>
 	 * 
-	 * @param optionalData byte array containing tunneling host protocol data, this
-	 *        information is located starting at offset 2 in the CRI structure,
-	 *        <code>optionalData.length</code> = 2
+	 * @param optionalData
+	 *            byte array containing tunneling host protocol data, this
+	 *            information is located starting at offset 2 in the CRI
+	 *            structure, <code>optionalData.length</code> = 2
 	 */
-	TunnelCRI(byte[] optionalData)
-	{
+	TunnelCRI(byte[] optionalData) {
 		super(KNXnetIPTunnel.TUNNEL_CONNECTION, (byte[]) optionalData.clone());
 		if (getStructLength() != 4)
 			throw new KNXIllegalArgumentException("wrong length for tunneling CRI");
@@ -85,8 +87,7 @@ public class TunnelCRI extends CRI
 	 * 
 	 * @return layer value as unsigned byte
 	 */
-	public final short getKNXLayer()
-	{
+	public final short getKNXLayer() {
 		return (short) (opt[0] & 0xFF);
 	}
 
@@ -96,8 +97,7 @@ public class TunnelCRI extends CRI
 	 * 
 	 * @return a string representation of the object
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return "tunneling CRI, KNX layer " + getKNXLayer();
 	}
 }

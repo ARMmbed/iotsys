@@ -34,171 +34,169 @@ import com.serotonin.bacnet4j.type.primitive.ObjectIdentifier;
 import com.serotonin.bacnet4j.type.primitive.UnsignedInteger;
 
 public class RemoteDevice implements Serializable {
-    private static final long serialVersionUID = 6338537708566242078L;
-    private final int instanceNumber;
-    private final Address address;
-    private final Network network;
-    private int maxAPDULengthAccepted;
-    private Segmentation segmentationSupported;
-    private int vendorId;
-    private String name;
-    private UnsignedInteger protocolVersion;
-    private UnsignedInteger protocolRevision;
-    private ServicesSupported servicesSupported;
-    private final Map<ObjectIdentifier, RemoteObject> objects = new HashMap<ObjectIdentifier, RemoteObject>();
-    private Object userData;
+	private static final long serialVersionUID = 6338537708566242078L;
+	private final int instanceNumber;
+	private final Address address;
+	private final Network network;
+	private int maxAPDULengthAccepted;
+	private Segmentation segmentationSupported;
+	private int vendorId;
+	private String name;
+	private UnsignedInteger protocolVersion;
+	private UnsignedInteger protocolRevision;
+	private ServicesSupported servicesSupported;
+	private final Map<ObjectIdentifier, RemoteObject> objects = new HashMap<ObjectIdentifier, RemoteObject>();
+	private Object userData;
 
-    // public RemoteDevice(int instanceNumber, Address address) {
-    // this(instanceNumber, address, null);
-    // }
+	// public RemoteDevice(int instanceNumber, Address address) {
+	// this(instanceNumber, address, null);
+	// }
 
-    public RemoteDevice(int instanceNumber, Address address, Network network) {
-        this.instanceNumber = instanceNumber;
-        this.address = address;
-        this.network = network;
-    }
+	public RemoteDevice(int instanceNumber, Address address, Network network) {
+		this.instanceNumber = instanceNumber;
+		this.address = address;
+		this.network = network;
+	}
 
-    public ObjectIdentifier getObjectIdentifier() {
-        return new ObjectIdentifier(ObjectType.device, instanceNumber);
-    }
+	public ObjectIdentifier getObjectIdentifier() {
+		return new ObjectIdentifier(ObjectType.device, instanceNumber);
+	}
 
-    @Override
-    public String toString() {
-        return "RemoteDevice(instanceNumber=" + instanceNumber + ", address=" + address + ", network=" + network + ")";
-    }
+	@Override
+	public String toString() {
+		return "RemoteDevice(instanceNumber=" + instanceNumber + ", address=" + address + ", network=" + network + ")";
+	}
 
-    public String toExtendedString() {
-        return "RemoteDevice(instanceNumber=" + instanceNumber + ", address=" + address + ", network=" + network
-                + ", maxAPDULengthAccepted=" + maxAPDULengthAccepted + ", segmentationSupported="
-                + segmentationSupported + ", vendorId=" + vendorId + ", name=" + name + ", servicesSupported="
-                + servicesSupported + ", objects=" + objects + ")";
-    }
+	public String toExtendedString() {
+		return "RemoteDevice(instanceNumber=" + instanceNumber + ", address=" + address + ", network=" + network
+				+ ", maxAPDULengthAccepted=" + maxAPDULengthAccepted + ", segmentationSupported="
+				+ segmentationSupported + ", vendorId=" + vendorId + ", name=" + name + ", servicesSupported="
+				+ servicesSupported + ", objects=" + objects + ")";
+	}
 
-    public void setObject(RemoteObject o) {
-        objects.put(o.getObjectIdentifier(), o);
-    }
+	public void setObject(RemoteObject o) {
+		objects.put(o.getObjectIdentifier(), o);
+	}
 
-    public RemoteObject getObject(ObjectIdentifier oid) {
-        return objects.get(oid);
-    }
+	public RemoteObject getObject(ObjectIdentifier oid) {
+		return objects.get(oid);
+	}
 
-    public List<RemoteObject> getObjects() {
-        return new ArrayList<RemoteObject>(objects.values());
-    }
+	public List<RemoteObject> getObjects() {
+		return new ArrayList<RemoteObject>(objects.values());
+	}
 
-    public void clearObjects() {
-        objects.clear();
-    }
+	public void clearObjects() {
+		objects.clear();
+	}
 
-    public Address getAddress() {
-        return address;
-    }
+	public Address getAddress() {
+		return address;
+	}
 
-    public Network getNetwork() {
-        return network;
-    }
+	public Network getNetwork() {
+		return network;
+	}
 
-    public int getMaxAPDULengthAccepted() {
-        return maxAPDULengthAccepted;
-    }
+	public int getMaxAPDULengthAccepted() {
+		return maxAPDULengthAccepted;
+	}
 
-    public void setMaxAPDULengthAccepted(int maxAPDULengthAccepted) {
-        this.maxAPDULengthAccepted = maxAPDULengthAccepted;
-    }
+	public void setMaxAPDULengthAccepted(int maxAPDULengthAccepted) {
+		this.maxAPDULengthAccepted = maxAPDULengthAccepted;
+	}
 
-    public Segmentation getSegmentationSupported() {
-        return segmentationSupported;
-    }
+	public Segmentation getSegmentationSupported() {
+		return segmentationSupported;
+	}
 
-    public void setSegmentationSupported(Segmentation segmentationSupported) {
-        this.segmentationSupported = segmentationSupported;
-    }
+	public void setSegmentationSupported(Segmentation segmentationSupported) {
+		this.segmentationSupported = segmentationSupported;
+	}
 
-    public int getVendorId() {
-        return vendorId;
-    }
+	public int getVendorId() {
+		return vendorId;
+	}
 
-    public void setVendorId(int vendorId) {
-        this.vendorId = vendorId;
-    }
+	public void setVendorId(int vendorId) {
+		this.vendorId = vendorId;
+	}
 
-    public int getInstanceNumber() {
-        return instanceNumber;
-    }
+	public int getInstanceNumber() {
+		return instanceNumber;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public UnsignedInteger getProtocolVersion() {
-        return protocolVersion;
-    }
+	public UnsignedInteger getProtocolVersion() {
+		return protocolVersion;
+	}
 
-    public void setProtocolVersion(UnsignedInteger protocolVersion) {
-        this.protocolVersion = protocolVersion;
-    }
+	public void setProtocolVersion(UnsignedInteger protocolVersion) {
+		this.protocolVersion = protocolVersion;
+	}
 
-    public UnsignedInteger getProtocolRevision() {
-        return protocolRevision;
-    }
+	public UnsignedInteger getProtocolRevision() {
+		return protocolRevision;
+	}
 
-    public void setProtocolRevision(UnsignedInteger protocolRevision) {
-        this.protocolRevision = protocolRevision;
-    }
+	public void setProtocolRevision(UnsignedInteger protocolRevision) {
+		this.protocolRevision = protocolRevision;
+	}
 
-    public ServicesSupported getServicesSupported() {
-        return servicesSupported;
-    }
+	public ServicesSupported getServicesSupported() {
+		return servicesSupported;
+	}
 
-    public void setServicesSupported(ServicesSupported servicesSupported) {
-        this.servicesSupported = servicesSupported;
-    }
+	public void setServicesSupported(ServicesSupported servicesSupported) {
+		this.servicesSupported = servicesSupported;
+	}
 
-    public Object getUserData() {
-        return userData;
-    }
+	public Object getUserData() {
+		return userData;
+	}
 
-    public void setUserData(Object userData) {
-        this.userData = userData;
-    }
+	public void setUserData(Object userData) {
+		this.userData = userData;
+	}
 
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((address == null) ? 0 : address.hashCode());
-        result = prime * result + instanceNumber;
-        result = prime * result + ((network == null) ? 0 : network.hashCode());
-        return result;
-    }
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + instanceNumber;
+		result = prime * result + ((network == null) ? 0 : network.hashCode());
+		return result;
+	}
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        final RemoteDevice other = (RemoteDevice) obj;
-        if (address == null) {
-            if (other.address != null)
-                return false;
-        }
-        else if (!address.equals(other.address))
-            return false;
-        if (instanceNumber != other.instanceNumber)
-            return false;
-        if (network == null) {
-            if (other.network != null)
-                return false;
-        }
-        else if (!network.equals(other.network))
-            return false;
-        return true;
-    }
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		final RemoteDevice other = (RemoteDevice) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
+		if (instanceNumber != other.instanceNumber)
+			return false;
+		if (network == null) {
+			if (other.network != null)
+				return false;
+		} else if (!network.equals(other.network))
+			return false;
+		return true;
+	}
 }

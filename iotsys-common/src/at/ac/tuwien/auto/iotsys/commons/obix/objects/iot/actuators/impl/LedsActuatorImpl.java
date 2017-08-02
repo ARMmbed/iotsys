@@ -34,23 +34,22 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl;
 
 import java.util.logging.Logger;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.LedsActuator;
 import obix.Bool;
 import obix.Contract;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.LedsActuator;
 
 public class LedsActuatorImpl extends ActuatorImpl implements LedsActuator {
 	protected Bool red = new Bool(false);
 	protected Bool blue = new Bool(false);
 	protected Bool green = new Bool(false);
 
-	private static final Logger log = Logger
-			.getLogger(LedsActuatorImpl.class.getName());
+	private static final Logger log = Logger.getLogger(LedsActuatorImpl.class.getName());
 
 	public LedsActuatorImpl() {
 		setIs(new Contract(LedsActuator.CONTRACT));
-		
+
 		red.setWritable(true);
 		red.setHref(new Uri(LedsActuator.LED_RED_CONTRACT_HREF));
 		red.setName(LedsActuator.LED_RED_CONTRACT_NAME);
@@ -58,11 +57,11 @@ public class LedsActuatorImpl extends ActuatorImpl implements LedsActuator {
 		blue.setWritable(true);
 		blue.setHref(new Uri(LedsActuator.LED_BLUE_CONTRACT_HREF));
 		blue.setName(LedsActuator.LED_BLUE_CONTRACT_NAME);
-		
+
 		green.setWritable(true);
 		green.setHref(new Uri(LedsActuator.LED_GREEN_CONTRACT_HREF));
 		green.setName(LedsActuator.LED_GREEN_CONTRACT_NAME);
-		
+
 		add(red);
 		add(blue);
 		add(green);
@@ -71,16 +70,14 @@ public class LedsActuatorImpl extends ActuatorImpl implements LedsActuator {
 	public void writeObject(Obj input) {
 		String resourceUriPath = "";
 		if (input.getHref() == null) {
-			resourceUriPath = input.getInvokedHref().substring(
-					input.getInvokedHref().lastIndexOf('/') + 1);
+			resourceUriPath = input.getInvokedHref().substring(input.getInvokedHref().lastIndexOf('/') + 1);
 		} else {
 			resourceUriPath = input.getHref().get();
 		}
 		if (input instanceof LedsActuator) {
 			LedsActuator in = (LedsActuator) input;
-			log.finer("Writing on LedsActuator: Blue: "
-					+ in.blue().get() + ", Red: "
-					+ in.red().get() + ", Green: " + in.green().get());
+			log.finer("Writing on LedsActuator: Blue: " + in.blue().get() + ", Red: " + in.red().get() + ", Green: "
+					+ in.green().get());
 
 			this.blue.set(in.blue().get());
 			this.red.set(in.red().get());
@@ -88,14 +85,11 @@ public class LedsActuatorImpl extends ActuatorImpl implements LedsActuator {
 
 		} else if (input instanceof Bool) {
 
-			if (LedsActuator.LED_BLUE_CONTRACT_HREF
-					.equals(resourceUriPath)) {
+			if (LedsActuator.LED_BLUE_CONTRACT_HREF.equals(resourceUriPath)) {
 				this.blue.set(((Bool) input).get());
-			} else if (LedsActuator.LED_RED_CONTRACT_HREF
-					.equals(resourceUriPath)) {
+			} else if (LedsActuator.LED_RED_CONTRACT_HREF.equals(resourceUriPath)) {
 				this.red.set(((Bool) input).get());
-			} else if (LedsActuator.LED_GREEN_CONTRACT_HREF
-					.equals(resourceUriPath)) {
+			} else if (LedsActuator.LED_GREEN_CONTRACT_HREF.equals(resourceUriPath)) {
 				this.green.set(((Bool) input).get());
 			}
 		}

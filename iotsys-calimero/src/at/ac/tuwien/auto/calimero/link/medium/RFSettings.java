@@ -29,8 +29,7 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
  * 
  * @author B. Malinowsky
  */
-public class RFSettings extends KNXMediumSettings
-{
+public class RFSettings extends KNXMediumSettings {
 	private static final byte[] broadcastDomain = new byte[6];
 
 	private byte[] doa;
@@ -38,16 +37,18 @@ public class RFSettings extends KNXMediumSettings
 	private final boolean unidir;
 
 	/**
-	 * Creates a new settings container with the device individual address for RF medium.
+	 * Creates a new settings container with the device individual address for
+	 * RF medium.
 	 * <p>
-	 * The domain address is initialized to broadcast domain, serial number is 0,
-	 * unidirectional is set <code>false</code>.
+	 * The domain address is initialized to broadcast domain, serial number is
+	 * 0, unidirectional is set <code>false</code>.
 	 * 
-	 * @param device device individual device address to use as source address in KNX
-	 *        messages, specifying <code>null</code> uses the individual address 0.0.0
+	 * @param device
+	 *            device individual device address to use as source address in
+	 *            KNX messages, specifying <code>null</code> uses the individual
+	 *            address 0.0.0
 	 */
-	public RFSettings(IndividualAddress device)
-	{
+	public RFSettings(IndividualAddress device) {
 		super(device);
 		doa = broadcastDomain;
 		sno = new byte[6];
@@ -58,19 +59,23 @@ public class RFSettings extends KNXMediumSettings
 	 * Creates a new settings container with RF medium specific information.
 	 * <p>
 	 * 
-	 * @param device device individual device address to use as source address in KNX
-	 *        messages, specifying <code>null</code> uses the individual address 0.0.0
-	 * @param domain byte array containing the domain address to use in KNX messages,
-	 *        address is given in network byte order, <code>domain.length</code> = 6,
-	 *        supplying <code>null</code> defaults to the broadcast domain
-	 * @param serialNumber serial number of the device, <code>serialNumber.length</code> =
-	 *        6
-	 * @param unidirectional <code>true</code> to indicate an unidirectional device,
-	 *        <code>false</code> otherwise
+	 * @param device
+	 *            device individual device address to use as source address in
+	 *            KNX messages, specifying <code>null</code> uses the individual
+	 *            address 0.0.0
+	 * @param domain
+	 *            byte array containing the domain address to use in KNX
+	 *            messages, address is given in network byte order,
+	 *            <code>domain.length</code> = 6, supplying <code>null</code>
+	 *            defaults to the broadcast domain
+	 * @param serialNumber
+	 *            serial number of the device, <code>serialNumber.length</code>
+	 *            = 6
+	 * @param unidirectional
+	 *            <code>true</code> to indicate an unidirectional device,
+	 *            <code>false</code> otherwise
 	 */
-	public RFSettings(IndividualAddress device, byte[] domain, byte[] serialNumber,
-		boolean unidirectional)
-	{
+	public RFSettings(IndividualAddress device, byte[] domain, byte[] serialNumber, boolean unidirectional) {
 		super(device);
 		setDomainAddress(domain);
 		setSerial(serialNumber);
@@ -81,12 +86,13 @@ public class RFSettings extends KNXMediumSettings
 	 * Sets a new domain address.
 	 * <p>
 	 * 
-	 * @param domain byte array containing the domain address to use in KNX messages,
-	 *        address is given in network byte order, <code>domain.length</code> = 6,
-	 *        supplying <code>null</code> defaults to the broadcast domain
+	 * @param domain
+	 *            byte array containing the domain address to use in KNX
+	 *            messages, address is given in network byte order,
+	 *            <code>domain.length</code> = 6, supplying <code>null</code>
+	 *            defaults to the broadcast domain
 	 */
-	public final synchronized void setDomainAddress(final byte[] domain)
-	{
+	public final synchronized void setDomainAddress(final byte[] domain) {
 		if (domain == null)
 			doa = broadcastDomain;
 		else if (domain.length != 6)
@@ -102,8 +108,7 @@ public class RFSettings extends KNXMediumSettings
 	 * 
 	 * @return domain address as byte array of length = 6
 	 */
-	public final synchronized byte[] getDomainAddress()
-	{
+	public final synchronized byte[] getDomainAddress() {
 		return (byte[]) doa.clone();
 	}
 
@@ -113,8 +118,7 @@ public class RFSettings extends KNXMediumSettings
 	 * 
 	 * @return serial number as byte array of length = 6
 	 */
-	public final byte[] getSerialNumber()
-	{
+	public final byte[] getSerialNumber() {
 		return (byte[]) sno.clone();
 	}
 
@@ -124,37 +128,37 @@ public class RFSettings extends KNXMediumSettings
 	 * 
 	 * @return <code>true</code> if unidirectional, <code>false</code> otherwise
 	 */
-	public final boolean isUnidirectional()
-	{
+	public final boolean isUnidirectional() {
 		return unidir;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.medium.KNXMediumSettings#getMedium()
 	 */
-	public short getMedium()
-	{
+	public short getMedium() {
 		return MEDIUM_RF;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.medium.KNXMediumSettings#toString()
 	 */
-	public String toString()
-	{
-		return super.toString() + " domain 0x" + DataUnitBuilder.toHex(doa, null)
-			+ " s/n 0x" + DataUnitBuilder.toHex(sno, null)
-			+ (unidir ? " unidirectional" : "");
+	public String toString() {
+		return super.toString() + " domain 0x" + DataUnitBuilder.toHex(doa, null) + " s/n 0x"
+				+ DataUnitBuilder.toHex(sno, null) + (unidir ? " unidirectional" : "");
 	}
 
 	/**
 	 * Sets a new serial number.
 	 * <p>
 	 * 
-	 * @param serial serial number of the device, <code>serial.length</code> = 6,
+	 * @param serial
+	 *            serial number of the device, <code>serial.length</code> = 6,
 	 */
-	private void setSerial(byte[] serial)
-	{
+	private void setSerial(byte[] serial) {
 		if (serial.length != 6)
 			throw new KNXIllegalArgumentException("invalid length of serial number");
 		sno = (byte[]) serial.clone();

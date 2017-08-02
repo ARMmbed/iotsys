@@ -1,6 +1,10 @@
 package obix.contracts;
 
-import obix.*;
+import obix.Abstime;
+import obix.Bool;
+import obix.IObj;
+import obix.Int;
+import obix.Uri;
 
 /**
  * AlarmFilter
@@ -9,8 +13,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface AlarmFilter extends IObj
-{
+public interface AlarmFilter extends IObj {
 	public static final String CONTRACT = "obix:AlarmFilter";
 
 	public static final String limitContract = "<int name='limit' val='0' null='true'/>";
@@ -24,15 +27,15 @@ public interface AlarmFilter extends IObj
 	public static final String endContract = "<abstime name='end' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
 
 	public Abstime end();
-	
+
 	public static final String sourceContract = "<uri name='source' null='true'/>";
 
 	public Uri source();
-	
+
 	public static final String unackedContract = "<bool name='unacked' null='true'/>";
 
 	public Bool unacked();
-	
+
 	public static final String activeContract = "<bool name='active' null='true'/>";
 
 	public Bool active();

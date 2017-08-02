@@ -33,21 +33,19 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl;
 
 import java.util.TreeMap;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import obix.Contract;
 import obix.IObj;
 import obix.List;
 import obix.Uri;
 import obix.contracts.Range;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 
-public class EncodingsImpl extends List implements IObj
-{
+public class EncodingsImpl extends List implements IObj {
 	private TreeMap<String, EncodingImpl> encodings;
 
 	private static final EncodingsImpl instance = new EncodingsImpl();
 
-	private EncodingsImpl()
-	{
+	private EncodingsImpl() {
 		this.setName("encodings");
 		this.setOf(new Contract(Range.CONTRACT));
 		this.setHref(new Uri("/encodings"));
@@ -60,8 +58,7 @@ public class EncodingsImpl extends List implements IObj
 		encodings.put(EncodingPressedReleasedImpl.HREF, new EncodingPressedReleasedImpl());
 
 		// Add enumerations
-		for (RangeImpl e : encodings.values())
-		{
+		for (RangeImpl e : encodings.values()) {
 			e.setHref(e.getRelativePath());
 
 			this.add(e);
@@ -69,13 +66,11 @@ public class EncodingsImpl extends List implements IObj
 		}
 	}
 
-	public static EncodingsImpl getInstance()
-	{
+	public static EncodingsImpl getInstance() {
 		return instance;
 	}
 
-	public EncodingImpl getEncoding(String href)
-	{
+	public EncodingImpl getEncoding(String href) {
 		return encodings.get(href);
 	}
 }

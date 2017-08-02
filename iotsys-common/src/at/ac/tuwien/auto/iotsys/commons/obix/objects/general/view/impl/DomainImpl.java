@@ -32,43 +32,37 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.impl.EntityImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Domain;
 import obix.Contract;
 import obix.List;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.impl.EntityImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Domain;
 
-public class DomainImpl extends ElementImpl implements Domain
-{
-	public DomainImpl(String name, String displayName, String display)
-	{
+public class DomainImpl extends ElementImpl implements Domain {
+	public DomainImpl(String name, String displayName, String display) {
 		super(name, displayName, display, new Contract(Domain.CONTRACT));
 	}
 
 	@Override
-	public void initElements(List elements)
-	{
+	public void initElements(List elements) {
 		elements.setName("domains");
 		elements.setHref(new Uri("domains"));
 		elements.setOf(new Contract(Domain.CONTRACT));
 	}
 
 	@Override
-	public void initInstances(List instances)
-	{
+	public void initInstances(List instances) {
 		instances.setName("instances");
 		instances.setHref(new Uri("instances"));
 		instances.setOf(new Contract(Domain.CONTRACT_INSTANCE));
 	}
 
-	public void addDomain(DomainImpl domain)
-	{
+	public void addDomain(DomainImpl domain) {
 		this.addElement(domain);
 	}
 
-	public Obj addInstance(EntityImpl entity)
-	{
+	public Obj addInstance(EntityImpl entity) {
 		return addInstance((Obj) entity, new Contract(Domain.CONTRACT_INSTANCE));
 	}
 }

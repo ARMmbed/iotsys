@@ -29,11 +29,6 @@ import java.util.Hashtable;
 import java.util.List;
 import java.util.logging.Logger;
 
-import obix.Obj;
-import obix.Ref;
-import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.serotonin.bacnet4j.LocalDevice;
 import com.serotonin.bacnet4j.RemoteDevice;
@@ -54,8 +49,14 @@ import com.serotonin.bacnet4j.type.primitive.UnsignedInteger;
 import com.serotonin.bacnet4j.util.PropertyReferences;
 import com.serotonin.bacnet4j.util.PropertyValues;
 
+import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
+import obix.Obj;
+import obix.Ref;
+import obix.Uri;
+
 public class BACnetConnector extends Connector {
 	private static final Logger log = Logger.getLogger(BACnetConnector.class.getName());
+
 	public static void main(String[] args) {
 		new BACnetConnector();
 	}
@@ -71,34 +72,34 @@ public class BACnetConnector extends Connector {
 	private int localDeviceID = (int) ((Math.random() * 10000) + 10000);
 	private String broadCastIP = "128.130.56.255";
 	private int localDevicePort = BACNET_PORT;
-	
+
 	public static final UnsignedInteger BACNET_PRIORITY = new UnsignedInteger(10);
 
 	public BACnetConnector() {
-		this(10000 + (int) ( Math.random() * 10000), "128.130.56.255", 0xBAC0);
+		this(10000 + (int) (Math.random() * 10000), "128.130.56.255", 0xBAC0);
 	}
 
-	public BACnetConnector(int localDeviceID, String broadCastIP,
-			int localDevicePort) {
+	public BACnetConnector(int localDeviceID, String broadCastIP, int localDevicePort) {
 		this.localDeviceID = localDeviceID;
 		this.broadCastIP = broadCastIP;
 		this.localDevicePort = localDevicePort;
-		log.info("Creating BACnet connector - localDeviceID: " + localDeviceID + ", broadCastIP: "+ broadCastIP + ", localDevicePort: " + localDevicePort);
+		log.info("Creating BACnet connector - localDeviceID: " + localDeviceID + ", broadCastIP: " + broadCastIP
+				+ ", localDevicePort: " + localDevicePort);
 		localDevice = new LocalDevice(this.localDeviceID, this.broadCastIP);
 		localDevice.setPort(this.localDevicePort);
-		
-		try {		
+
+		try {
 			localDevice.initialize();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
 		log.info("Initializing BACnet connector.");
-		
-		localDevice.getEventHandler().addListener(new DeviceListener());	
+
+		localDevice.getEventHandler().addListener(new DeviceListener());
 	}
-	
+
 	public void connect() {
-		
+
 	}
 
 	public void disconnect() {
@@ -116,10 +117,8 @@ public class BACnetConnector extends Connector {
 		}
 	}
 
-	public Encodable readProperty(int deviceInstanceNumber,
-			ObjectIdentifier objectIdentifier,
-			PropertyIdentifier propertyIdentifier) throws BACnetException,
-			PropertyValueException {
+	public Encodable readProperty(int deviceInstanceNumber, ObjectIdentifier objectIdentifier,
+			PropertyIdentifier propertyIdentifier) throws BACnetException, PropertyValueException {
 		synchronized (remoteDevices) {
 			RemoteDevice remoteDev = remoteDevices.get(deviceInstanceNumber);
 
@@ -128,8 +127,7 @@ public class BACnetConnector extends Connector {
 			}
 			PropertyReferences refs = new PropertyReferences();
 
-			PropertyReference propRef = new PropertyReference(
-					propertyIdentifier);
+			PropertyReference propRef = new PropertyReference(propertyIdentifier);
 
 			// refs.add(obj, eventDeadline);
 			refs.add(objectIdentifier, propRef);
@@ -144,12 +142,10 @@ public class BACnetConnector extends Connector {
 		}
 	}
 
-	public void writeProperty(int deviceInstanceNumber,
-			ObjectIdentifier objectIdentifier,
-			PropertyIdentifier propertyIdentifier, Encodable property,
-			UnsignedInteger priority) throws BACnetException,
-			PropertyValueException {
-		
+	public void writeProperty(int deviceInstanceNumber, ObjectIdentifier objectIdentifier,
+			PropertyIdentifier propertyIdentifier, Encodable property, UnsignedInteger priority)
+			throws BACnetException, PropertyValueException {
+
 		synchronized (remoteDevices) {
 			RemoteDevice remoteDev = remoteDevices.get(deviceInstanceNumber);
 
@@ -159,35 +155,36 @@ public class BACnetConnector extends Connector {
 
 			PropertyReferences refs = new PropertyReferences();
 
-			PropertyReference propRef = new PropertyReference(
-					propertyIdentifier);
+			PropertyReference propRef = new PropertyReference(propertyIdentifier);
 
 			refs.add(objectIdentifier, propRef);
 
 			remoteDev.setMaxAPDULengthAccepted(1476);
 			remoteDev.setSegmentationSupported(Segmentation.segmentedBoth);
 
-			AcknowledgementService ack = localDevice.setProperty(remoteDev,
-					objectIdentifier, propertyIdentifier, property, priority);
-			
+			AcknowledgementService ack = localDevice.setProperty(remoteDev, objectIdentifier, propertyIdentifier,
+					property, priority);
+
 		}
 	}
-	
+
 	private List<RemoteObject> fetchObjects(RemoteDevice device) throws BACnetException, PropertyValueException {
-		Encodable objlist = readProperty(device.getInstanceNumber(), new ObjectIdentifier(new ObjectType(8), device.getInstanceNumber()), new PropertyIdentifier(76));
+		Encodable objlist = readProperty(device.getInstanceNumber(),
+				new ObjectIdentifier(new ObjectType(8), device.getInstanceNumber()), new PropertyIdentifier(76));
 		device.clearObjects();
-		
+
 		if (objlist instanceof SequenceOf<?>) {
 			List<?> objects = ((SequenceOf<?>) objlist).getValues();
 			for (int i = 0; i < objects.size(); i++) {
-				if (!(objects.get(i) instanceof ObjectIdentifier)) continue;
+				if (!(objects.get(i) instanceof ObjectIdentifier))
+					continue;
 				device.setObject(new RemoteObject((ObjectIdentifier) objects.get(i)));
 			}
 		}
-		
+
 		return device.getObjects();
 	}
-	
+
 	public interface DeviceDiscoveryListener {
 		public void deviceDiscovered(Obj device);
 	}
@@ -197,7 +194,7 @@ public class BACnetConnector extends Connector {
 			if (discoveryListener != null && !discoveryListeners.contains(discoveryListener))
 				discoveryListeners.add(discoveryListener);
 		}
-		
+
 		// discover all devices
 		try {
 			localDevice.sendBroadcast(BACNET_PORT, null, new WhoIsRequest());
@@ -205,33 +202,33 @@ public class BACnetConnector extends Connector {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void deviceDiscovered(RemoteDevice device) {
-		log.fine("BACnet device discovered - instance number "
-				+ device.getInstanceNumber());
-		
+		log.fine("BACnet device discovered - instance number " + device.getInstanceNumber());
+
 		synchronized (remoteDevices) {
 			remoteDevices.put(device.getInstanceNumber(), device);
 		}
-		
+
 		try {
 			List<RemoteObject> objects = fetchObjects(device);
 			for (RemoteObject object : objects) {
 				ObjectIdentifier objIdentifier = object.getObjectIdentifier();
-				
-				if (objIdentifier.getObjectType().intValue() > 5) continue;
+
+				if (objIdentifier.getObjectType().intValue() > 5)
+					continue;
 				Obj bacnetDevice = BacnetDeviceFactory.createDevice(this, device, objIdentifier);
-				
-				if (bacnetDevice == null) continue;
-				
+
+				if (bacnetDevice == null)
+					continue;
+
 				String name = objIdentifier.toString().replaceAll(" ", "");
 				String href = root.getFullContextPath() + "/" + device.getInstanceNumber() + "/" + name;
 				bacnetDevice.setName(name);
 				bacnetDevice.setHref(new Uri(href));
-				
+
 				notifyDiscoveryListeners(bacnetDevice);
-				
-				
+
 				// device ID node
 				Obj devRoot;
 				if (!devices.containsKey(device.getInstanceNumber())) {
@@ -252,7 +249,7 @@ public class BACnetConnector extends Connector {
 			e.printStackTrace();
 		}
 	}
-	
+
 	private void notifyDiscoveryListeners(Obj device) {
 		synchronized (discoveryListeners) {
 			for (DeviceDiscoveryListener listener : discoveryListeners) {
@@ -265,7 +262,7 @@ public class BACnetConnector extends Connector {
 	public Obj getRootObj() {
 		return root;
 	}
-	
+
 	@Override
 	@JsonIgnore
 	public boolean isCoap() {
@@ -304,7 +301,5 @@ public class BACnetConnector extends Connector {
 	public void setLocalDevicePort(int localDevicePort) {
 		this.localDevicePort = localDevicePort;
 	}
-	
-	
 
 }

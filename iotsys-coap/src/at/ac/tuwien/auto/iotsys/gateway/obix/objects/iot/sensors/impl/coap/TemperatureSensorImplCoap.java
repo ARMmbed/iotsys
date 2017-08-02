@@ -36,13 +36,12 @@ package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.sensors.impl.coap;
 
 import java.util.logging.Logger;
 
-import ch.ethz.inf.vs.californium.coap.Response;
-import ch.ethz.inf.vs.californium.coap.ResponseHandler;
-
-import obix.Obj;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.TemperatureSensorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
+import ch.ethz.inf.vs.californium.coap.Response;
+import ch.ethz.inf.vs.californium.coap.ResponseHandler;
+import obix.Obj;
 
 public class TemperatureSensorImplCoap extends TemperatureSensorImpl implements IoTSySDevice {
 	// private static final Logger log =
@@ -53,11 +52,11 @@ public class TemperatureSensorImplCoap extends TemperatureSensorImpl implements 
 	private boolean isObserved;
 	private boolean shouldObserve;
 	private boolean forwardGroupAddress;
-	
+
 	private static final Logger log = Logger.getLogger(TemperatureSensorImplCoap.class.getName());
 
-	public TemperatureSensorImplCoap(CoapConnector coapConnector,
-			String busAddress, boolean shouldObserve, boolean forwardGroupAddress) {
+	public TemperatureSensorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve,
+			boolean forwardGroupAddress) {
 		// technology specific initialization
 		this.coapConnector = coapConnector;
 		this.busAddress = busAddress;
@@ -70,27 +69,27 @@ public class TemperatureSensorImplCoap extends TemperatureSensorImpl implements 
 	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
-		if(shouldObserve && !forwardGroupAddress)
+		if (shouldObserve && !forwardGroupAddress)
 			addWatchDog();
 	}
 
 	public void addWatchDog() {
-		coapConnector.createWatchDog(busAddress, "value",new ResponseHandler() {
+		coapConnector.createWatchDog(busAddress, "value", new ResponseHandler() {
 			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-						
-				if(payload.equals("") || payload.equals("TooManyObservers")){
+
+				if (payload.equals("") || payload.equals("TooManyObservers")) {
 					log.info("Failed to subscribe to " + busAddress + "/value");
 					return;
 				}
-						
-				if(payload.contains("Added")) {
+
+				if (payload.contains("Added")) {
 					log.info("Subscribed to " + busAddress + "/value");
 					isObserved = true;
 					return;
 				}
 
-				double temp = Double.parseDouble( CoapConnector.extractAttribute("real", "val", payload));
+				double temp = Double.parseDouble(CoapConnector.extractAttribute("real", "val", payload));
 				TemperatureSensorImplCoap.this.value().set(temp);
 			}
 		});
@@ -103,15 +102,17 @@ public class TemperatureSensorImplCoap extends TemperatureSensorImpl implements 
 
 	@Override
 	public void refreshObject() {
-		// value is the protected instance variable of the base class (TemperatureSensorImpl)
+		// value is the protected instance variable of the base class
+		// (TemperatureSensorImpl)
 		if (value != null && !isObserved && !forwardGroupAddress) {
-		
+
 			Double value = coapConnector.readDouble(busAddress, "value");
-			// this calls the implementation of the base class, which triggers also
+			// this calls the implementation of the base class, which triggers
+			// also
 			// oBIX services (e.g. watches, history) and CoAP observe!
 			this.value().set(value);
-		}	
-		
+		}
+
 	}
 
 	@Override

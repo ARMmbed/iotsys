@@ -5,12 +5,11 @@ import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import obix.Bool;
+import ch.ethz.inf.vs.californium.coap.Message.messageType;
+import ch.ethz.inf.vs.californium.coap.PUTRequest;
 import obix.Obj;
 import obix.Real;
 import obix.io.ObixEncoder;
-import ch.ethz.inf.vs.californium.coap.PUTRequest;
-import ch.ethz.inf.vs.californium.coap.Message.messageType;
 
 public class GroupCommTest {
 	public static void main(String[] args) {
@@ -44,6 +43,6 @@ public class GroupCommTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
+
 	}
 }

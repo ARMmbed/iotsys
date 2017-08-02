@@ -24,20 +24,20 @@ import java.util.EventListener;
 import at.ac.tuwien.auto.calimero.CloseEvent;
 import at.ac.tuwien.auto.calimero.FrameEvent;
 
-
 /**
- * Base listener interface for getting events from a KNX link (network or monitor link).
+ * Base listener interface for getting events from a KNX link (network or
+ * monitor link).
  * <p>
  * 
  * @author B. Malinowsky
  */
-public interface LinkListener extends EventListener
-{
+public interface LinkListener extends EventListener {
 	/**
 	 * Invoked on arrival of a new KNX indication message from the KNX network.
 	 * <p>
 	 * 
-	 * @param e frame event object
+	 * @param e
+	 *            frame event object
 	 */
 	void indication(FrameEvent e);
 
@@ -45,7 +45,8 @@ public interface LinkListener extends EventListener
 	 * Invoked after close of the link.
 	 * <p>
 	 * 
-	 * @param e close event object
+	 * @param e
+	 *            close event object
 	 */
 	void linkClosed(CloseEvent e);
 }

@@ -38,15 +38,13 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.internals.Internals
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.parameter.impl.ParametersImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.impl.UnitsImpl;
 
-public class InternalsImpl implements Internals
-{
+public class InternalsImpl implements Internals {
 	private EnumsImpl enums = null;
 	private UnitsImpl units = null;
 	private ParametersImpl parameters = null;
 	private EncodingsImpl encodings = null;
 
-	public InternalsImpl(ObjectBroker objectBroker)
-	{
+	public InternalsImpl(ObjectBroker objectBroker) {
 		// Enumerations
 		enums = EnumsImpl.getInstance();
 
@@ -66,26 +64,22 @@ public class InternalsImpl implements Internals
 	}
 
 	@Override
-	public EnumsImpl enums()
-	{
+	public EnumsImpl enums() {
 		return enums;
 	}
 
 	@Override
-	public UnitsImpl units()
-	{
+	public UnitsImpl units() {
 		return units;
 	}
 
 	@Override
-	public EncodingsImpl encodings()
-	{
+	public EncodingsImpl encodings() {
 		return encodings;
 	}
 
 	@Override
-	public ParametersImpl parameters()
-	{
+	public ParametersImpl parameters() {
 		return parameters;
 	}
 }

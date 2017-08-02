@@ -33,15 +33,16 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;;
 
-public interface SunIntensitySensor extends Sensor{
-	public static final String SUN_INTENSITY_CONTRACT_HREF="sunIntensity";
-	public static final String SUN_INTENSITY_CONTRACT_NAME="sunIntensity";
-	public static final String SUN_INTENSITY_CONTRACT_UNIT="obix:units/WattsPerSquareMetre";
-	
-	public static final String CONTRACT="iot:SunIntensitySensor";
+public interface SunIntensitySensor extends Sensor {
+	public static final String SUN_INTENSITY_CONTRACT_HREF = "sunIntensity";
+	public static final String SUN_INTENSITY_CONTRACT_NAME = "sunIntensity";
+	public static final String SUN_INTENSITY_CONTRACT_UNIT = "obix:units/WattsPerSquareMetre";
 
-	public static final String SUN_INTENSITY_CONTRACT = "<real name='"+SunIntensitySensor.SUN_INTENSITY_CONTRACT_NAME+"' href='"+SunIntensitySensor.SUN_INTENSITY_CONTRACT_HREF+"' val='0'/>";
-	
+	public static final String CONTRACT = "iot:SunIntensitySensor";
+
+	public static final String SUN_INTENSITY_CONTRACT = "<real name='" + SunIntensitySensor.SUN_INTENSITY_CONTRACT_NAME
+			+ "' href='" + SunIntensitySensor.SUN_INTENSITY_CONTRACT_HREF + "' val='0'/>";
+
 	// returns the current value of the sun intensity sensor
-	public Real sunIntensityValue(); 
+	public Real sunIntensityValue();
 }

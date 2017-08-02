@@ -34,7 +34,6 @@ package at.ac.tuwien.auto.iotsys.gateway;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.ConsoleHandler;
-import java.util.logging.FileHandler;
 import java.util.logging.Formatter;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -42,7 +41,6 @@ import java.util.logging.LogRecord;
 import java.util.logging.Logger;
 
 import at.ac.tuwien.auto.iotsys.commons.PropertiesLoader;
-
 import ch.ethz.inf.vs.californium.coap.EndpointAddress;
 import ch.ethz.inf.vs.californium.coap.LinkFormat;
 import ch.ethz.inf.vs.californium.coap.Message;
@@ -56,43 +54,40 @@ import ch.ethz.inf.vs.californium.util.Properties;
  * Logging configuration.
  */
 public class Log {
-	
+
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	private static Level logLevel = Level.parse(PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.loglevel", "OFF"));
-	
+	private static Level logLevel = Level
+			.parse(PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.loglevel", "OFF"));
+
 	private static final Formatter printFormatter = new Formatter() {
 		@Override
 		public String format(LogRecord record) {
-			return String.format("%s [%s] %s - %s\r\n",
-								 dateFormat.format(new Date(record.getMillis())),
-								 record.getSourceClassName().replace("ch.ethz.inf.vs.californium.", ""),
-								 record.getLevel(), record.getMessage()
-								);
+			return String.format("%s [%s] %s - %s\r\n", dateFormat.format(new Date(record.getMillis())),
+					record.getSourceClassName().replace("ch.ethz.inf.vs.californium.", ""), record.getLevel(),
+					record.getMessage());
 		}
 	};
-	
+
 	private static final Formatter csvFormatter = new Formatter() {
 		@Override
 		public String format(LogRecord record) {
-			return String.format("%s\r\n",
-								 record.getMessage()
-								);
+			return String.format("%s\r\n", record.getMessage());
 		}
 	};
-	
+
 	public static void setLevel(Level l) {
 		logLevel = l;
 	}
 
 	public static void init() {
-		
+
 		Logger globalLogger = Logger.getLogger("");
-		
+
 		// Remove the default handler
 		for (Handler handler : globalLogger.getHandlers()) {
-		    globalLogger.removeHandler(handler);
+			globalLogger.removeHandler(handler);
 		}
-		
+
 		// create custom console handler
 		ConsoleHandler cHandler = new ConsoleHandler();
 		cHandler.setFormatter(printFormatter);
@@ -101,28 +96,28 @@ public class Log {
 		// add
 		globalLogger.addHandler(cHandler);
 		globalLogger.setLevel(logLevel);
-		
+
 		// create custom file handler
-//		FileHandler fHandler;
-//		try {
-//			fHandler = new FileHandler("iotsys-log.%g.txt", true);
-//			fHandler.setFormatter(printFormatter);
-//			globalLogger.addHandler(fHandler);
-//		} catch (Exception e) {
-//			globalLogger.severe("Cannot add file logger: " + e.getMessage());
-//		}
-//		
-//		FileHandler knxHandler;
-//		
-//		try{
-//			knxHandler = new FileHandler("KNX.txt",true);
-//			knxHandler.setFormatter(csvFormatter);
-//			Logger.getLogger("knxbus").addHandler(knxHandler);
-//			Logger.getLogger("knxbus").setLevel(logLevel);
-//		} catch(Exception e){
-//			e.printStackTrace();
-//		}
-		
+		// FileHandler fHandler;
+		// try {
+		// fHandler = new FileHandler("iotsys-log.%g.txt", true);
+		// fHandler.setFormatter(printFormatter);
+		// globalLogger.addHandler(fHandler);
+		// } catch (Exception e) {
+		// globalLogger.severe("Cannot add file logger: " + e.getMessage());
+		// }
+		//
+		// FileHandler knxHandler;
+		//
+		// try{
+		// knxHandler = new FileHandler("KNX.txt",true);
+		// knxHandler.setFormatter(csvFormatter);
+		// Logger.getLogger("knxbus").addHandler(knxHandler);
+		// Logger.getLogger("knxbus").setLevel(logLevel);
+		// } catch(Exception e){
+		// e.printStackTrace();
+		// }
+
 		// customize levels
 		Logger.getLogger(Endpoint.class.getName()).setLevel(logLevel);
 		Logger.getLogger(EndpointAddress.class.getName()).setLevel(logLevel);
@@ -132,16 +127,16 @@ public class Log {
 		Logger.getLogger(ObservingManager.class.getName()).setLevel(logLevel);
 		Logger.getLogger(Layer.class.getName()).setLevel(logLevel);
 		Logger.getLogger(Properties.class.getName()).setLevel(logLevel);
-								
+
 		// obix server logger
-		
+
 		Logger.getLogger(IoTSySGateway.class.getName()).setLevel(logLevel);
-		
-		
+
 		// indicate new start-up
-		Logger.getLogger(Log.class.getName()).info("==[ START-UP ]========================================================");
-		Logger.getLogger(Log.class.getName()).finest("==[ Finest ]========================================================");
+		Logger.getLogger(Log.class.getName())
+				.info("==[ START-UP ]========================================================");
+		Logger.getLogger(Log.class.getName())
+				.finest("==[ Finest ]========================================================");
 
 	}
 }
-

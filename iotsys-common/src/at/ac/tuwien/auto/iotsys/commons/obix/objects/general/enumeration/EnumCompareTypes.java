@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration;
 
 import obix.contracts.Range;
 
-public interface EnumCompareTypes extends Range
-{
+public interface EnumCompareTypes extends Range {
 	public static final String HREF = "/enums/compareTypes";
 
 	public static final String KEY_EQ = "eq";

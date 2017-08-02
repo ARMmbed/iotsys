@@ -26,12 +26,11 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 import at.ac.tuwien.auto.calimero.knxnetip.util.CRI;
 import at.ac.tuwien.auto.calimero.knxnetip.util.HPAI;
 
-
 /**
  * Represents a KNXnet/IP connect request message.
  * <p>
- * Such request is used to open a logical connection to a server. The request is sent to
- * the control endpoint of the server. <br>
+ * Such request is used to open a logical connection to a server. The request is
+ * sent to the control endpoint of the server. <br>
  * The connection request is answered with a connect response.
  * <p>
  * Objects of this type are immutable.
@@ -39,8 +38,7 @@ import at.ac.tuwien.auto.calimero.knxnetip.util.HPAI;
  * @author B. Malinowsky
  * @see at.ac.tuwien.auto.calimero.knxnetip.servicetype.ConnectResponse
  */
-public class ConnectRequest extends ServiceType
-{
+public class ConnectRequest extends ServiceType {
 	private final CRI cri;
 	private final HPAI ctrlPt;
 	private final HPAI dataPt;
@@ -49,12 +47,14 @@ public class ConnectRequest extends ServiceType
 	 * Creates a connect request out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing a connect request structure
-	 * @param offset start offset of request in <code>data</code>
-	 * @throws KNXFormatException if no connect request was found or invalid structure
+	 * @param data
+	 *            byte array containing a connect request structure
+	 * @param offset
+	 *            start offset of request in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no connect request was found or invalid structure
 	 */
-	public ConnectRequest(byte[] data, int offset) throws KNXFormatException
-	{
+	public ConnectRequest(byte[] data, int offset) throws KNXFormatException {
 		super(KNXnetIPHeader.CONNECT_REQ);
 		ctrlPt = new HPAI(data, offset);
 		final int i = offset + ctrlPt.getStructLength();
@@ -63,19 +63,21 @@ public class ConnectRequest extends ServiceType
 	}
 
 	/**
-	 * Creates a connect request with the specific information of the CRI, and the
-	 * endpoint information of the client.
+	 * Creates a connect request with the specific information of the CRI, and
+	 * the endpoint information of the client.
 	 * <p>
 	 * The control and data endpoint specified are allowed to be equal, i.e all
 	 * communication is handled through the same endpoint at the client.
 	 * 
-	 * @param requestInfo connection specific options, depending on connection type
-	 * @param ctrlEndpoint return address information of the client's control endpoint
-	 * @param dataEndpoint address information of the client's data endpoint for the
-	 *        requested connection
+	 * @param requestInfo
+	 *            connection specific options, depending on connection type
+	 * @param ctrlEndpoint
+	 *            return address information of the client's control endpoint
+	 * @param dataEndpoint
+	 *            address information of the client's data endpoint for the
+	 *            requested connection
 	 */
-	public ConnectRequest(CRI requestInfo, HPAI ctrlEndpoint, HPAI dataEndpoint)
-	{
+	public ConnectRequest(CRI requestInfo, HPAI ctrlEndpoint, HPAI dataEndpoint) {
 		super(KNXnetIPHeader.CONNECT_REQ);
 		cri = requestInfo;
 		ctrlPt = ctrlEndpoint;
@@ -83,17 +85,18 @@ public class ConnectRequest extends ServiceType
 	}
 
 	/**
-	 * Creates a connect request for UDP communication, done on the specified local port
-	 * and the system default local host.
+	 * Creates a connect request for UDP communication, done on the specified
+	 * local port and the system default local host.
 	 * <p>
 	 * 
-	 * @param requestInfo connection specific options, depending on connection type
-	 * @param localPort local port of client used for connection, 0 &lt;= port &lt;=
-	 *        0xFFFF
+	 * @param requestInfo
+	 *            connection specific options, depending on connection type
+	 * @param localPort
+	 *            local port of client used for connection, 0 &lt;= port &lt;=
+	 *            0xFFFF
 	 * @see CRI
 	 */
-	public ConnectRequest(CRI requestInfo, int localPort)
-	{
+	public ConnectRequest(CRI requestInfo, int localPort) {
 		super(KNXnetIPHeader.CONNECT_REQ);
 		cri = requestInfo;
 		ctrlPt = new HPAI((InetAddress) null, localPort);
@@ -106,8 +109,7 @@ public class ConnectRequest extends ServiceType
 	 * 
 	 * @return connection specific CRI
 	 */
-	public final CRI getCRI()
-	{
+	public final CRI getCRI() {
 		return cri;
 	}
 
@@ -117,8 +119,7 @@ public class ConnectRequest extends ServiceType
 	 * 
 	 * @return control endpoint in a HPAI
 	 */
-	public final HPAI getControlEndpoint()
-	{
+	public final HPAI getControlEndpoint() {
 		return ctrlPt;
 	}
 
@@ -128,26 +129,27 @@ public class ConnectRequest extends ServiceType
 	 * 
 	 * @return data endpoint in a HPAI
 	 */
-	public final HPAI getDataEndpoint()
-	{
+	public final HPAI getDataEndpoint() {
 		return dataPt;
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
-	short getStructLength()
-	{
-		return (short) (ctrlPt.getStructLength() + dataPt.getStructLength() + cri
-			.getStructLength());
+	short getStructLength() {
+		return (short) (ctrlPt.getStructLength() + dataPt.getStructLength() + cri.getStructLength());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
-	 *      (java.io.ByteArrayOutputStream)
+	 * (java.io.ByteArrayOutputStream)
 	 */
-	byte[] toByteArray(ByteArrayOutputStream os)
-	{
+	byte[] toByteArray(ByteArrayOutputStream os) {
 		byte[] buf = ctrlPt.toByteArray();
 		os.write(buf, 0, buf.length);
 		buf = dataPt.toByteArray();

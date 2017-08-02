@@ -37,7 +37,7 @@ import obix.Contract;
 import obix.Obj;
 import obix.Uri;
 
-public class PresenceDetectorSensorImpl extends SensorImpl implements PresenceDetectorSensor{
+public class PresenceDetectorSensorImpl extends SensorImpl implements PresenceDetectorSensor {
 	protected Bool presenceStatusValue = new Bool(false);
 
 	public PresenceDetectorSensorImpl() {
@@ -49,10 +49,10 @@ public class PresenceDetectorSensorImpl extends SensorImpl implements PresenceDe
 		add(presenceStatusValue);
 	}
 
-	public void writeObject(Obj input){
+	public void writeObject(Obj input) {
 
 	}
-	
+
 	@Override
 	public Bool presenceStatusValue() {
 		return this.presenceStatusValue;

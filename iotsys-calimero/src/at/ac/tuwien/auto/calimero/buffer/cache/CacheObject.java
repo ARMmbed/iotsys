@@ -37,13 +37,12 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
  * @see Cache
  * @see System#currentTimeMillis()
  */
-public class CacheObject
-{
+public class CacheObject {
 	/**
 	 * The value object hold by this cache object.
 	 */
 	protected Object value;
-	
+
 	private final Object key;
 	// hit count (increment count) of this object
 	private int count;
@@ -57,14 +56,14 @@ public class CacheObject
 	 * <code>value</code> entry.
 	 * <p>
 	 * 
-	 * @param key key of this {@link CacheObject}
-	 * @param value value of this {@link CacheObject}
+	 * @param key
+	 *            key of this {@link CacheObject}
+	 * @param value
+	 *            value of this {@link CacheObject}
 	 */
-	public CacheObject(Object key, Object value)
-	{
+	public CacheObject(Object key, Object value) {
 		if (key == null || value == null)
-			throw new KNXIllegalArgumentException(
-				"key and value must not be null");
+			throw new KNXIllegalArgumentException("key and value must not be null");
 		this.key = key;
 		this.value = value;
 		resetTimestamp();
@@ -76,8 +75,7 @@ public class CacheObject
 	 * 
 	 * @return the key object
 	 */
-	public Object getKey()
-	{
+	public Object getKey() {
 		return key;
 	}
 
@@ -89,8 +87,7 @@ public class CacheObject
 	 * 
 	 * @return the value object
 	 */
-	public synchronized Object getValue()
-	{
+	public synchronized Object getValue() {
 		return value;
 	}
 
@@ -103,8 +100,7 @@ public class CacheObject
 	 * @return the timestamp in milliseconds of type long
 	 * @see System#currentTimeMillis()
 	 */
-	public final long getTimestamp()
-	{
+	public final long getTimestamp() {
 		return timestamp;
 	}
 
@@ -113,30 +109,27 @@ public class CacheObject
 	 * <p>
 	 * The timestamp is obtained by {@link System#currentTimeMillis()}.
 	 */
-	public final void resetTimestamp()
-	{
+	public final void resetTimestamp() {
 		timestamp = System.currentTimeMillis();
 	}
-	
+
 	/**
 	 * Returns the access count this cache object was queried from the cache.
 	 * <p>
 	 * 
 	 * @return the access count
 	 */
-	public final synchronized int getCount()
-	{
+	public final synchronized int getCount() {
 		return count;
 	}
 
 	/**
 	 * Increments the access count by 1.
 	 * <p>
-	 * It is invoked by a {@link Cache} implementation to record a client access to
-	 * this object.
+	 * It is invoked by a {@link Cache} implementation to record a client access
+	 * to this object.
 	 */
-	public final synchronized void incCount()
-	{
+	public final synchronized void incCount() {
 		++count;
 	}
 
@@ -144,19 +137,18 @@ public class CacheObject
 	 * Sets the access count to 0.
 	 * <p>
 	 */
-	protected final synchronized void resetCount()
-	{
+	protected final synchronized void resetCount() {
 		count = 0;
 	}
 
 	/**
-	 * Returns the usage value of this cache object as defined by a particular cache.
+	 * Returns the usage value of this cache object as defined by a particular
+	 * cache.
 	 * <p>
 	 * 
 	 * @return the usage value
 	 */
-	public final int getUsage()
-	{
+	public final int getUsage() {
 		return usage;
 	}
 
@@ -166,10 +158,10 @@ public class CacheObject
 	 * The usage value might be used by a caching policy to store a different
 	 * way of access counting.<br>
 	 * 
-	 * @param newUsage new usage value
+	 * @param newUsage
+	 *            new usage value
 	 */
-	protected final void setUsage(int newUsage)
-	{
+	protected final void setUsage(int newUsage) {
 		usage = newUsage;
 	}
 }

@@ -39,41 +39,42 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.IndoorBrig
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXWatchDog;
 
-public class IndoorBrightnessSensorImplKnx extends IndoorBrightnessSensorImpl{
+public class IndoorBrightnessSensorImplKnx extends IndoorBrightnessSensorImpl {
 	private KNXConnector connector;
 	private GroupAddress observation;
-	
+
 	public IndoorBrightnessSensorImplKnx(KNXConnector connector, GroupAddress observation) {
 		this.connector = connector;
 		this.observation = observation;
 	}
-	
+
 	public void createWatchDog() {
-		
+
 		connector.addWatchDog(observation, new KNXWatchDog() {
-			
+
 			@Override
-			public void notifyWatchDog(byte[] apdu) {			
+			public void notifyWatchDog(byte[] apdu) {
 				try {
-					
+
 					// KNX DPT 9.004
-					// Note: the unit of measure symbol used here is "lx", and not "Lux" as originally proposed for this DPT.
-					DPTXlator2ByteFloat knxData = new DPTXlator2ByteFloat(DPTXlator2ByteFloat.DPT_INTENSITY_OF_LIGHT);					
+					// Note: the unit of measure symbol used here is "lx", and
+					// not "Lux" as originally proposed for this DPT.
+					DPTXlator2ByteFloat knxData = new DPTXlator2ByteFloat(DPTXlator2ByteFloat.DPT_INTENSITY_OF_LIGHT);
 					knxData.setData(apdu, 0);
 
 					roomIlluminationValue.set(knxData.getValueFloat(1));
-				} 
-				
-				catch (KNXException e){
+				}
+
+				catch (KNXException e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		createWatchDog();
-	}	
+	}
 }

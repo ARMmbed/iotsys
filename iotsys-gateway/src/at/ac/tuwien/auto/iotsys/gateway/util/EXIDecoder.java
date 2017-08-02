@@ -37,15 +37,10 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.StringWriter;
 
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
-import javax.xml.transform.stream.StreamResult;
 
 import org.openexi.proc.common.EXIOptionsException;
 import org.openexi.proc.common.GrammarOptions;
@@ -67,14 +62,13 @@ public class EXIDecoder {
 	private static GrammarCache defaultGrammarCache;
 
 	private static final EXIDecoder instance = new EXIDecoder();
-	
+
 	private EXIReader exiReaderSchema;
 	private EXIReader exiReaderDefault;
-	
+
 	private ObixHandler exiSchemaHandler;
 	private ObixHandler exiDefaultHandler;
-	
-	
+
 	public static void main(String[] args) {
 		File inputFile = new File("out.exi");
 		try {
@@ -85,7 +79,7 @@ public class EXIDecoder {
 			Obj obj = getInstance().fromBytes(fileContent, true);
 			System.out.println("FileContent length: " + fileContent.length);
 			System.out.println(obj);
-		} catch (FileNotFoundException e) {	
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -124,14 +118,13 @@ public class EXIDecoder {
 			// fall back to default grammarCache
 			schemaGrammarCache = defaultGrammarCache;
 		}
-		
-		
+
 		try {
 			exiReaderSchema = new EXIReader();
 			exiReaderSchema.setEXISchema(schemaGrammarCache);
 			exiReaderDefault = new EXIReader();
 			exiReaderDefault.setEXISchema(defaultGrammarCache);
-			
+
 			exiSchemaHandler = new ObixHandler();
 			exiDefaultHandler = new ObixHandler();
 			exiReaderDefault.setContentHandler(exiDefaultHandler);
@@ -143,31 +136,28 @@ public class EXIDecoder {
 	}
 
 	public synchronized Obj fromBytes(byte[] payload, boolean useEXISchema)
-			throws IOException, SAXException,
-			TransformerConfigurationException, EXIOptionsException {
+			throws IOException, SAXException, TransformerConfigurationException, EXIOptionsException {
 
-		if(useEXISchema){
+		if (useEXISchema) {
 			exiReaderSchema.parse(new InputSource(new ByteArrayInputStream(payload)));
 			return exiSchemaHandler.getObj();
-		}
-		else{
+		} else {
 			exiReaderDefault.parse(new InputSource(new ByteArrayInputStream(payload)));
 			return exiDefaultHandler.getObj();
 		}
 
 	}
-	
+
 	public synchronized Obj fromBytesSchema(byte[] payload)
-			throws IOException, SAXException,
-			TransformerConfigurationException, EXIOptionsException {
-		
+			throws IOException, SAXException, TransformerConfigurationException, EXIOptionsException {
+
 		// Parse the file information.
 		exiReaderSchema.parse(new InputSource(new ByteArrayInputStream(payload)));
-	
+
 		return exiSchemaHandler.getObj();
 	}
-	
-	public static EXIDecoder getInstance(){
+
+	public static EXIDecoder getInstance() {
 		return instance;
 	}
 
@@ -177,28 +167,24 @@ class ObixHandler extends DefaultHandler {
 
 	// Obj to be returned
 	private Obj obj = new Obj();
-	
-	public ObixHandler(){
-		
+
+	public ObixHandler() {
+
 	}
 
-	public void startElement(String uri, String localName, String qName,
-			Attributes attributes) throws SAXException {
-		
-		if("bool".equals(localName)){
+	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
+
+		if ("bool".equals(localName)) {
 			obj = new Bool();
-			if("true".equals(attributes.getValue(0))){
+			if ("true".equals(attributes.getValue(0))) {
 				obj.setBool(true);
-			}
-			else{
+			} else {
 				obj.setBool(false);
 			}
-		}
-		else if("real".equals(localName)) {
+		} else if ("real".equals(localName)) {
 			obj = new Real();
 			obj.setReal(Double.parseDouble(attributes.getValue(0)));
-		} 
-		else if("int".equals(localName)){
+		} else if ("int".equals(localName)) {
 			obj = new Int();
 			obj.setInt(Integer.parseInt(attributes.getValue(0)));
 		}
@@ -207,7 +193,5 @@ class ObixHandler extends DefaultHandler {
 	public Obj getObj() {
 		return obj;
 	}
-	
-	
 
 }

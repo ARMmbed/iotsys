@@ -34,11 +34,13 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface ReturnAQSensor extends Sensor{
-	public static final String AQ_RETURN_AIR_CONTRACT_NAME="aqReturnAir";
-	public static final String AQ_RETURN_AIR_CONTRACT_HREF="aqReturnAir";
-	
-	public static final String CONTRACT="iot:ReturnAQSensor";
-	public static final String AQ_RETURN_AIR_CONTRACT = "<real name='"+ReturnAQSensor.AQ_RETURN_AIR_CONTRACT_NAME+"' href="+ReturnAQSensor.AQ_RETURN_AIR_CONTRACT_HREF+" val='0'/>";
-	public Real aqReturnAirValue();  
+public interface ReturnAQSensor extends Sensor {
+	public static final String AQ_RETURN_AIR_CONTRACT_NAME = "aqReturnAir";
+	public static final String AQ_RETURN_AIR_CONTRACT_HREF = "aqReturnAir";
+
+	public static final String CONTRACT = "iot:ReturnAQSensor";
+	public static final String AQ_RETURN_AIR_CONTRACT = "<real name='" + ReturnAQSensor.AQ_RETURN_AIR_CONTRACT_NAME
+			+ "' href=" + ReturnAQSensor.AQ_RETURN_AIR_CONTRACT_HREF + " val='0'/>";
+
+	public Real aqReturnAirValue();
 }

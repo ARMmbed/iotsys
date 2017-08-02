@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view;
 
 import obix.IObj;
 
-public interface Area extends IObj
-{
+public interface Area extends IObj {
 	public static final String CONTRACT = "knx:Area";
 	public static final String CONTRACT_INSTANCE = "knx:InstanceArea";
 }

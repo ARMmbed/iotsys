@@ -34,22 +34,20 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl;
 
 import java.util.logging.Logger;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPT_12;
 import obix.Bool;
 import obix.Contract;
 import obix.Int;
 import obix.Obj;
 import obix.Real;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPT_12;
 
-public abstract class DPT_12_Impl extends DatapointImpl implements DPT_12
-{
+public abstract class DPT_12_Impl extends DatapointImpl implements DPT_12 {
 	private static final Logger log = Logger.getLogger(DPT_9_Impl.class.getName());
 
 	private Int value = new Int();
 
-	public DPT_12_Impl(String name, String displayName, String display, boolean writable, boolean readable)
-	{
+	public DPT_12_Impl(String name, String displayName, String display, boolean writable, boolean readable) {
 		super(name, displayName, display, writable, readable);
 
 		this.addIs(new Contract(DPT_12.CONTRACT));
@@ -63,44 +61,32 @@ public abstract class DPT_12_Impl extends DatapointImpl implements DPT_12
 	}
 
 	@Override
-	public boolean isValueWritable()
-	{
+	public boolean isValueWritable() {
 		return value.isWritable();
 	}
 
 	@Override
-	public boolean isValueReadable()
-	{
+	public boolean isValueReadable() {
 		return value.isReadable();
 	}
 
 	@Override
-	public Int value()
-	{
+	public Int value() {
 		return value;
 	}
 
 	@Override
-	public void writeObject(Obj input)
-	{
-		if (this.value.isWritable())
-		{
-			if (input instanceof DPT_12)
-			{
+	public void writeObject(Obj input) {
+		if (this.value.isWritable()) {
+			if (input instanceof DPT_12) {
 				DPT_12 in = (DPT_12) input;
 				log.info("Writing on data point.");
 				this.value.set(in.value().get());
-			}
-			else if (input instanceof Bool)
-			{
+			} else if (input instanceof Bool) {
 				this.value.set(((Bool) input).get());
-			}
-			else if (input instanceof Real)
-			{
+			} else if (input instanceof Real) {
 				this.value.set(((Real) input).get());
-			}
-			else if (input instanceof Int)
-			{
+			} else if (input instanceof Int) {
 				this.value.set(((Int) input).get());
 			}
 		}

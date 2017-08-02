@@ -27,8 +27,7 @@ package at.ac.tuwien.auto.calimero.log;
  * 
  * @author B. Malinowsky
  */
-public class LogLevel
-{
+public class LogLevel {
 	private static final int LOG_OFF = 0;
 	private static final int LOG_FATAL = 100;
 	private static final int LOG_ERROR = 200;
@@ -70,10 +69,11 @@ public class LogLevel
 
 	/**
 	 * Creates a new LogLevel object with <code>logLevel</code> assigned to it.
-	 * @param logLevel log level represented by this object
+	 * 
+	 * @param logLevel
+	 *            log level represented by this object
 	 */
-	protected LogLevel(int logLevel)
-	{
+	protected LogLevel(int logLevel) {
 		level = logLevel;
 	}
 
@@ -81,11 +81,11 @@ public class LogLevel
 	 * Compares for a higher log level than <code>l</code>.
 	 * <p>
 	 * 
-	 * @param l level to compare
+	 * @param l
+	 *            level to compare
 	 * @return true iff this object has a higher log level than <code>l</code>.
 	 */
-	public final boolean higher(LogLevel l)
-	{
+	public final boolean higher(LogLevel l) {
 		return level > l.level;
 	}
 
@@ -93,23 +93,24 @@ public class LogLevel
 	 * Compares the log level with <code>obj</code>.
 	 * <p>
 	 * 
-	 * @param obj {@inheritDoc}
+	 * @param obj
+	 *            {@inheritDoc}
 	 * @return <code>true</code> if <code>o</code> is of type
 	 *         <code>LogLevel</code> and has the same log level as this object,
 	 *         <code>false</code> otherwise.
 	 */
-	public boolean equals(Object obj)
-	{
+	public boolean equals(Object obj) {
 		if (obj instanceof LogLevel)
 			return ((LogLevel) obj).level == level;
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode()
-	{
+	public int hashCode() {
 		final int offset = 435273;
 		return level + offset;
 	}
@@ -120,8 +121,7 @@ public class LogLevel
 	 * 
 	 * @return the log level as string
 	 */
-	public String toString()
-	{
+	public String toString() {
 		switch (level) {
 		case LOG_OFF:
 			return "off";

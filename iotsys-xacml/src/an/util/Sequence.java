@@ -1,15 +1,16 @@
 package an.util;
 
 public class Sequence {
-    private long sequence = 0L;
+	private long sequence = 0L;
 
-    Sequence() {}
+	Sequence() {
+	}
 
-    public synchronized Long getNextLong() {
-        return ++ sequence;
-    }
+	public synchronized Long getNextLong() {
+		return ++sequence;
+	}
 
-    public synchronized String getNextString() {
-        return String.valueOf(++ sequence);
-    }
+	public synchronized String getNextString() {
+		return String.valueOf(++sequence);
+	}
 }

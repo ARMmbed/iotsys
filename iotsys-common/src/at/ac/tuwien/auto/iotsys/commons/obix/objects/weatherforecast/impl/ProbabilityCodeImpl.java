@@ -3,17 +3,15 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.impl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.ProbabilityCode;
 
 public class ProbabilityCodeImpl implements ProbabilityCode {
-	
-	
-	
+
 	public static int GetByName(String name) {
 		int id;
-		
+
 		if (name == null)
 			name = NAME_UNKNOWN;
-		
+
 		name = name.toLowerCase();
-		
+
 		if (name.equals(NAME_HIGHLY_PROBABLE))
 			id = ID_HIGHLY_PROBABLE;
 		else if (name.equals(NAME_PROBABLE))
@@ -25,10 +23,10 @@ public class ProbabilityCodeImpl implements ProbabilityCode {
 
 		return id;
 	}
-	
+
 	public static String GetByID(int id) {
 		String name;
-		
+
 		if (id == ID_HIGHLY_PROBABLE)
 			name = NAME_HIGHLY_PROBABLE;
 		else if (id == ID_PROBABLE)

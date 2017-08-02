@@ -31,16 +31,15 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.DimensionImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.UnitImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitPercent;
+import obix.Uri;
 
-public class UnitPercentImpl extends UnitImpl implements UnitPercent
-{
-	public UnitPercentImpl()
-	{
-		super("percent", "percentage (0..100%)", new Uri(UnitPercent.HREF), "%", 1, 0, new DimensionImpl(0, 0, 0, 0, 0, 0, 0));
+public class UnitPercentImpl extends UnitImpl implements UnitPercent {
+	public UnitPercentImpl() {
+		super("percent", "percentage (0..100%)", new Uri(UnitPercent.HREF), "%", 1, 0,
+				new DimensionImpl(0, 0, 0, 0, 0, 0, 0));
 
 		// Translations
 		addTranslation("de", TranslationAttribute.displayName, "Prozent (0..100%)");

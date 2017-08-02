@@ -33,7 +33,6 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit;
 
 import obix.contracts.Unit;
 
-public interface UnitPpm extends Unit
-{
+public interface UnitPpm extends Unit {
 	public static final String HREF = "/units/ppm";
 }

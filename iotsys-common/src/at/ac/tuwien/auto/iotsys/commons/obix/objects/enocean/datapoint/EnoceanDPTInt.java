@@ -33,9 +33,8 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint;
 
 import obix.Int;;
 
-public interface EnoceanDPTInt extends EnoceanDPT
-{
+public interface EnoceanDPTInt extends EnoceanDPT {
 	public static final String CONTRACT = "enocean:DPTInt";
-	
+
 	public Int value();
 }

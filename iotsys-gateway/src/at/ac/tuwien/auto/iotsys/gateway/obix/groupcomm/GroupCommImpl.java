@@ -36,13 +36,6 @@ import java.net.Inet6Address;
 import java.net.UnknownHostException;
 import java.util.logging.Logger;
 
-import obix.Contract;
-import obix.List;
-import obix.Obj;
-import obix.Op;
-import obix.Ref;
-import obix.Str;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.GroupComm;
 import at.ac.tuwien.auto.iotsys.gateway.service.GroupCommService;
 import at.ac.tuwien.auto.iotsys.gateway.service.impl.GroupCommServiceImpl;
@@ -50,52 +43,58 @@ import at.ac.tuwien.auto.iotsys.obix.OperationHandler;
 import at.ac.tuwien.auto.iotsys.obix.observer.Observer;
 import at.ac.tuwien.auto.iotsys.obix.observer.Subject;
 import ch.ethz.inf.vs.californium.layers.MulticastUDPLayer;
+import obix.Contract;
+import obix.List;
+import obix.Obj;
+import obix.Op;
+import obix.Ref;
+import obix.Str;
+import obix.Uri;
 
-public class GroupCommImpl extends Obj implements GroupComm, Observer{
-	
+public class GroupCommImpl extends Obj implements GroupComm, Observer {
+
 	private static final Logger log = Logger.getLogger(GroupCommImpl.class.getName());
-	
+
 	protected List groups = new List();
-	
+
 	protected Op joinGroup = new Op();
 	protected Op leaveGroup = new Op();
-	
+
 	protected Obj datapoint;
 	protected GroupCommService groupCommService;
-	
-	public GroupCommImpl(Obj datapoint, GroupCommService groupCommService){
-		
+
+	public GroupCommImpl(Obj datapoint, GroupCommService groupCommService) {
+
 		this.groupCommService = groupCommService;
-		
+
 		this.setName("groupComm");
 		this.setHref(new Uri("groupComm"));
 		this.setIs(new Contract(GroupComm.CONTRACT));
-		
+
 		groups.setName(GroupComm.GROUPS_NAME);
 		groups.setHref(new Uri(GroupComm.GROUPS_HREF));
 		groups.setOf(new Contract("obix:str"));
-		
+
 		joinGroup.setName("joinGroup");
 		joinGroup.setHref(new Uri("joinGroup"));
 		joinGroup.setIn(new Contract("obix:str"));
 		joinGroup.setOut(new Contract("obix:list"));
-				
+
 		leaveGroup.setName("leaveGroup");
 		leaveGroup.setHref(new Uri("leaveGroup"));
 		leaveGroup.setIn(new Contract("obix:str"));
 		leaveGroup.setOut(new Contract("obix:list"));
-		
-		this.datapoint = datapoint;		
+
+		this.datapoint = datapoint;
 		this.datapoint.attach(this);
-		
+
 		this.add(groups);
 		this.add(joinGroup);
 		this.add(leaveGroup);
-		
-		
+
 		this.setHref(new Uri("groupComm"));
 		datapoint.add(this);
-		
+
 		joinGroup.setOperationHandler(new OperationHandler() {
 			public Obj invoke(Obj in) {
 				return GroupCommImpl.this.joinGroup(in);
@@ -111,8 +110,7 @@ public class GroupCommImpl extends Obj implements GroupComm, Observer{
 		// add groupComm reference in the parent element
 		this.setHidden(true);
 		if (datapoint.getParent() != null) {
-			Ref ref = new Ref(datapoint.getName() + " groupComm", new Uri(
-					datapoint.getHref() + "/groupComm"));
+			Ref ref = new Ref(datapoint.getName() + " groupComm", new Uri(datapoint.getHref() + "/groupComm"));
 			ref.setIs(new Contract(GroupComm.CONTRACT));
 			datapoint.getParent().add(ref);
 		}
@@ -132,20 +130,20 @@ public class GroupCommImpl extends Obj implements GroupComm, Observer{
 	public synchronized List groups() {
 		return groups;
 	}
-	
-	public synchronized Obj joinGroup(Obj in){
+
+	public synchronized Obj joinGroup(Obj in) {
 		log.finest("Joining group comm endpoint.");
-		if(in instanceof Str){
+		if (in instanceof Str) {
 			Str str = (Str) in;
 			Obj[] list = groups.list();
-			
-			for(int i = 0 ; i < list.length; i++){
-				if(((Str) list[i]).get().equals(str.get())){
+
+			for (int i = 0; i < list.length; i++) {
+				if (((Str) list[i]).get().equals(str.get())) {
 					// group address is already here
 					return groups;
 				}
 			}
-			if(!groups.has(str.get())){
+			if (!groups.has(str.get())) {
 				groups.add(str);
 				try {
 					Inet6Address groupAddr = (Inet6Address) Inet6Address.getByName(str.get());
@@ -155,23 +153,23 @@ public class GroupCommImpl extends Obj implements GroupComm, Observer{
 					e.printStackTrace();
 				}
 			}
-			
+
 		}
-		return groups;	
+		return groups;
 	}
-	
-	public synchronized Obj leaveGroup(Obj in){
+
+	public synchronized Obj leaveGroup(Obj in) {
 		log.finest("Leaving group comm endpoint.");
-		if(in instanceof Str){
+		if (in instanceof Str) {
 			Str str = (Str) in;
 			Obj[] list = groups.list();
-			for(Obj obj : list){
-				if(obj instanceof Str){
+			for (Obj obj : list) {
+				if (obj instanceof Str) {
 					Str strObj = (Str) obj;
-					if(strObj.get().equals(str.get())){
+					if (strObj.get().equals(str.get())) {
 						groups.remove(strObj);
 					}
-					
+
 					try {
 						Inet6Address groupAddr = (Inet6Address) Inet6Address.getByName(str.get());
 						GroupCommServiceImpl.getInstance().unregisterObject(groupAddr, this.datapoint);
@@ -180,51 +178,51 @@ public class GroupCommImpl extends Obj implements GroupComm, Observer{
 						e.printStackTrace();
 					}
 				}
-			}	
+			}
 		}
-		return groups;	
+		return groups;
 	}
 
 	@Override
 	public synchronized void update(Object state) {
-		log.finest("Object updated: " + state);	
+		log.finest("Object updated: " + state);
 		log.finest("Request type: " + MulticastUDPLayer.getRequestType());
 		log.finest("Group addr: " + MulticastUDPLayer.getMulticastAddress());
-		
+
 		Obj[] list = groups.list();
-		for(Obj obj : list){
-			if(obj instanceof Str){
+		for (Obj obj : list) {
+			if (obj instanceof Str) {
 				Str strObj = (Str) obj;
 				Inet6Address group;
 				try {
 					group = (Inet6Address) Inet6Address.getByName(strObj.get());
-					if(!group.equals(MulticastUDPLayer.getMulticastAddress())){
+					if (!group.equals(MulticastUDPLayer.getMulticastAddress())) {
 						log.finest("Sending out update of " + datapoint.getFullContextPath() + " to group " + group);
 						Obj payload = null;
 						try {
-							payload = (Obj) ((Obj)state).clone();
+							payload = (Obj) ((Obj) state).clone();
 						} catch (CloneNotSupportedException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-						GroupCommServiceImpl.getInstance().sendUpdate(group,payload);
+						GroupCommServiceImpl.getInstance().sendUpdate(group, payload);
 					}
 				} catch (UnknownHostException e) {
 					e.printStackTrace();
 				}
 			}
 		}
-				
+
 	}
 
 	@Override
 	public void setSubject(Subject object) {
-				
+
 	}
 
 	@Override
 	public Subject getSubject() {
-		
+
 		return null;
 	}
 }

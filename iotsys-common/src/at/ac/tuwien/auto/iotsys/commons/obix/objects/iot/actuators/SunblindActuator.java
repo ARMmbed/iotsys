@@ -34,32 +34,39 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 
 import obix.Bool;
 
-
 public interface SunblindActuator extends Actuator {
-	public static final String CONTRACT="iot:SunblindActuator";
-	
-	public static final String MOVE_DOWN_CONTRACT_NAME="moveDownValue";
-	public static final String MOVE_DOWN_CONTRACT_HREF="moveDownValue";	
-	public static final String MOVE_DOWN_CONTRACT = "<bool name='"+MOVE_DOWN_CONTRACT_NAME+"' href='"+MOVE_DOWN_CONTRACT_HREF+"' val='false'/>";
+	public static final String CONTRACT = "iot:SunblindActuator";
+
+	public static final String MOVE_DOWN_CONTRACT_NAME = "moveDownValue";
+	public static final String MOVE_DOWN_CONTRACT_HREF = "moveDownValue";
+	public static final String MOVE_DOWN_CONTRACT = "<bool name='" + MOVE_DOWN_CONTRACT_NAME + "' href='"
+			+ MOVE_DOWN_CONTRACT_HREF + "' val='false'/>";
+
 	public Bool moveDownValue();
-	
-	public static final String MOVE_UP_CONTRACT_NAME="moveUpValue";
-	public static final String MOVE_UP_CONTRACT_HREF="moveUpValue";	
-	public static final String MOVE_UP_CONTRACT = "<bool name='"+MOVE_UP_CONTRACT_NAME+"' href='"+MOVE_UP_CONTRACT_HREF+"' val='false'/>";
+
+	public static final String MOVE_UP_CONTRACT_NAME = "moveUpValue";
+	public static final String MOVE_UP_CONTRACT_HREF = "moveUpValue";
+	public static final String MOVE_UP_CONTRACT = "<bool name='" + MOVE_UP_CONTRACT_NAME + "' href='"
+			+ MOVE_UP_CONTRACT_HREF + "' val='false'/>";
+
 	public Bool moveUpValue();
-	
-	
-	
-//	public static final String DEDICATED_STOP_CONTRACT_NAME="dedicatedStopValue";
-//	public static final String DEDICATED_STOP_CONTRACT_HREF="dedicatedStopValue";	
-//	public static final String DEDICATED_STOP_CONTRACT = "<bool name='"+DEDICATED_STOP_CONTRACT_NAME+"' href='"+DEDICATED_STOP_CONTRACT_HREF+"' val='false'/>";
-//	public Bool dedicatedStopValue();
-//	
-//	
-//	public static final String STOP_STEP_UP_DOWN_CONTRACT_NAME="moveUpDownValue";
-//	public static final String STOP_STEP_UP_DOWN_CONTRACT_HREF="moveUpDownValue";
-//	public static final String STOP_STEP_UP_DOWN_CONTRACT = "<bool name='"+STOP_STEP_UP_DOWN_CONTRACT_NAME+"' href='"+STOP_STEP_UP_DOWN_CONTRACT_HREF+"' val='false'/>";
-//	public Bool stopStepUpDownValue();
+
+	// public static final String
+	// DEDICATED_STOP_CONTRACT_NAME="dedicatedStopValue";
+	// public static final String
+	// DEDICATED_STOP_CONTRACT_HREF="dedicatedStopValue";
+	// public static final String DEDICATED_STOP_CONTRACT = "<bool
+	// name='"+DEDICATED_STOP_CONTRACT_NAME+"'
+	// href='"+DEDICATED_STOP_CONTRACT_HREF+"' val='false'/>";
+	// public Bool dedicatedStopValue();
+	//
+	//
+	// public static final String
+	// STOP_STEP_UP_DOWN_CONTRACT_NAME="moveUpDownValue";
+	// public static final String
+	// STOP_STEP_UP_DOWN_CONTRACT_HREF="moveUpDownValue";
+	// public static final String STOP_STEP_UP_DOWN_CONTRACT = "<bool
+	// name='"+STOP_STEP_UP_DOWN_CONTRACT_NAME+"'
+	// href='"+STOP_STEP_UP_DOWN_CONTRACT_HREF+"' val='false'/>";
+	// public Bool stopStepUpDownValue();
 }
-
-

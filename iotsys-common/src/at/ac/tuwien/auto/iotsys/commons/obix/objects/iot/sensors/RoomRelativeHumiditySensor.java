@@ -34,13 +34,15 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface RoomRelativeHumiditySensor extends Sensor{
-	public static final String HUMIDITY_RELATIVE_ROOM_CONTRACT_NAME="humidityRelativeRoom";
-	public static final String HUMIDITY_RELATIVE_ROOM_CONTRACT_HREF="humidityRelativeRoom";
-	public static final String HUMIDITY_RELATIVE_ROOM_CONTRACT_UNIT="obix:units/percent";
-	
-	
-	public static final String CONTRACT="iot:RoomRelativeHumiditySensor";
-	public static final String HUMIDITY_RELATIVE_ROOM_CONTRACT = "<real name='"+RoomRelativeHumiditySensor.HUMIDITY_RELATIVE_ROOM_CONTRACT_NAME+"' href='"+RoomRelativeHumiditySensor.HUMIDITY_RELATIVE_ROOM_CONTRACT_HREF+"' val='0'/>";
+public interface RoomRelativeHumiditySensor extends Sensor {
+	public static final String HUMIDITY_RELATIVE_ROOM_CONTRACT_NAME = "humidityRelativeRoom";
+	public static final String HUMIDITY_RELATIVE_ROOM_CONTRACT_HREF = "humidityRelativeRoom";
+	public static final String HUMIDITY_RELATIVE_ROOM_CONTRACT_UNIT = "obix:units/percent";
+
+	public static final String CONTRACT = "iot:RoomRelativeHumiditySensor";
+	public static final String HUMIDITY_RELATIVE_ROOM_CONTRACT = "<real name='"
+			+ RoomRelativeHumiditySensor.HUMIDITY_RELATIVE_ROOM_CONTRACT_NAME + "' href='"
+			+ RoomRelativeHumiditySensor.HUMIDITY_RELATIVE_ROOM_CONTRACT_HREF + "' val='0'/>";
+
 	public Real humidityRelativeRoomValue();
 }

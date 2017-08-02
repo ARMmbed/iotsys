@@ -30,7 +30,7 @@ public class Canvas {
 	// canvas named "default". However, the REST API + persitence scheme should
 	// already support multiple canvas. The objects are identified through the
 	// oBIX URI and the x and y position are simple integers
-	
+
 	String name;
-	
+
 }

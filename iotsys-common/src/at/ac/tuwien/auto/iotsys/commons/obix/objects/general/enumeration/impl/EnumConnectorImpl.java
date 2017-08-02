@@ -31,19 +31,16 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumConnector;
+import obix.Uri;
 
-public class EnumConnectorImpl extends RangeImpl implements EnumConnector
-{
-	public EnumConnectorImpl()
-	{
+public class EnumConnectorImpl extends RangeImpl implements EnumConnector {
+	public EnumConnectorImpl() {
 		super(new Uri(EnumConnector.HREF));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		addElement(new ObjElement(EnumConnector.KEY_SEND, "Send"));
 		addElement(new ObjElement(EnumConnector.KEY_RECEIVE, "Receive"));
 	}

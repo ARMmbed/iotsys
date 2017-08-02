@@ -34,20 +34,18 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.impl;
 
 import java.util.ArrayList;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.Entities;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.Entity;
+import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 import obix.Contract;
 import obix.List;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.Entities;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.Entity;
-import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 
-public class EntitiesImpl extends List implements Entities
-{
+public class EntitiesImpl extends List implements Entities {
 	private ArrayList<Entity> entities;
 
-	public EntitiesImpl()
-	{
+	public EntitiesImpl() {
 		this.setName("entities");
 		this.setIs(new Contract(Entities.CONTRACT));
 		this.setOf(new Contract(new String[] { "obix:ref", Entity.CONTRACT }));
@@ -57,25 +55,20 @@ public class EntitiesImpl extends List implements Entities
 		this.entities = new ArrayList<Entity>();
 	}
 
-	public void addEntity(EntityImpl entity)
-	{
-		if (entity instanceof Obj)
-		{
+	public void addEntity(EntityImpl entity) {
+		if (entity instanceof Obj) {
 			entity.setHref(getHref(entity));
 			this.add((Obj) entity);
 			this.add(entity.getReference());
 		}
 	}
 
-	private Uri getHref(Obj entity)
-	{
+	private Uri getHref(Obj entity) {
 		int count = 1;
 		String uri = UriEncoder.getEscapedUri(entity.getDisplayName());
 
-		for (Entity e : entities)
-		{
-			if (UriEncoder.getEscapedUri(e.getDisplayName()).equals(uri))
-			{
+		for (Entity e : entities) {
+			if (UriEncoder.getEscapedUri(e.getDisplayName()).equals(uri)) {
 				count++;
 			}
 		}

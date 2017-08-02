@@ -32,10 +32,6 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.network.impl;
 
-import obix.Contract;
-import obix.Enum;
-import obix.Obj;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.impl.EntitiesImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumStandard;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl.EnumsImpl;
@@ -45,9 +41,12 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl.ViewDomai
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl.ViewFunctionalImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl.ViewTopologyImpl;
 import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
+import obix.Contract;
+import obix.Enum;
+import obix.Obj;
+import obix.Uri;
 
-public class NetworkImpl extends Obj implements Network
-{
+public class NetworkImpl extends Obj implements Network {
 	protected Enum standard;
 
 	protected EntitiesImpl entities;
@@ -56,8 +55,7 @@ public class NetworkImpl extends Obj implements Network
 	protected ViewTopologyImpl topology;
 	protected ViewDomainsImpl domains;
 
-	public NetworkImpl(String name, String displayName, String display, String standard)
-	{
+	public NetworkImpl(String name, String displayName, String display, String standard) {
 		this.setName(name);
 		this.setDisplay(display);
 		this.setDisplayName(displayName);
@@ -96,28 +94,23 @@ public class NetworkImpl extends Obj implements Network
 		this.add(entities.getReference());
 	}
 
-	public ViewFunctionalImpl getFunctional()
-	{
+	public ViewFunctionalImpl getFunctional() {
 		return this.functional;
 	}
 
-	public ViewTopologyImpl getTopology()
-	{
+	public ViewTopologyImpl getTopology() {
 		return this.topology;
 	}
 
-	public ViewBuildingImpl getBuilding()
-	{
+	public ViewBuildingImpl getBuilding() {
 		return this.building;
 	}
 
-	public ViewDomainsImpl getDomains()
-	{
+	public ViewDomainsImpl getDomains() {
 		return this.domains;
 	}
 
-	public EntitiesImpl getEntities()
-	{
+	public EntitiesImpl getEntities() {
 		return this.entities;
 	}
 

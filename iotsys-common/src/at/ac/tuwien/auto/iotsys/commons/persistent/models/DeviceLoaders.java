@@ -29,10 +29,10 @@ public class DeviceLoaders extends CouchDbDocument {
 
 	private String[] deviceLoaders;
 
-	public DeviceLoaders(){
+	public DeviceLoaders() {
 		this.deviceLoaders = new String[0];
 	}
-	
+
 	public String[] getDeviceLoaders() {
 		return deviceLoaders != null ? deviceLoaders : new String[0];
 	}
@@ -40,6 +40,5 @@ public class DeviceLoaders extends CouchDbDocument {
 	public void setDeviceLoaders(String[] deviceLoaders) {
 		this.deviceLoaders = deviceLoaders;
 	}
-	
-	
+
 }

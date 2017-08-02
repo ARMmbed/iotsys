@@ -22,30 +22,31 @@ package at.ac.tuwien.auto.calimero.exception;
 /**
  * Thrown to indicate that a method was invoked at an inappropriate time.
  * <p>
- * The object which was operated on, is not in the correct state for that operation.
+ * The object which was operated on, is not in the correct state for that
+ * operation.
  * 
  * @author B. Malinowsky
  */
-public class KNXIllegalStateException extends RuntimeException
-{
+public class KNXIllegalStateException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new <code>KNXIllegalStateException</code> without a detail message.
-	 * <p>
-	 */
-	public KNXIllegalStateException()
-	{}
-
-	/**
-	 * Constructs a new <code>KNXIllegalStateException</code> with the specified detail
+	 * Constructs a new <code>KNXIllegalStateException</code> without a detail
 	 * message.
 	 * <p>
-	 * 
-	 * @param s the detail message
 	 */
-	public KNXIllegalStateException(String s)
-	{
+	public KNXIllegalStateException() {
+	}
+
+	/**
+	 * Constructs a new <code>KNXIllegalStateException</code> with the specified
+	 * detail message.
+	 * <p>
+	 * 
+	 * @param s
+	 *            the detail message
+	 */
+	public KNXIllegalStateException(String s) {
 		super(s);
 	}
 }

@@ -32,22 +32,21 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.impl;
 
-import obix.Contract;
-import obix.Enum;
-import obix.Obj;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPTBoolPressedReleased;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl.EnoceanEntityImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingOpenClosed;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingPressedReleased;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl.EncodingsImpl;
+import obix.Contract;
+import obix.Enum;
+import obix.Obj;
+import obix.Uri;
 
-public class EnoceanDPTBoolPressedReleasedImpl extends EnoceanDPTBoolImpl implements EnoceanDPTBoolPressedReleased
-{
+public class EnoceanDPTBoolPressedReleasedImpl extends EnoceanDPTBoolImpl implements EnoceanDPTBoolPressedReleased {
 	private Enum encoding = new Enum();
 
-	public EnoceanDPTBoolPressedReleasedImpl(String name, String displayName, String display, EnoceanEntityImpl entity, boolean writable, boolean readable)
-	{
+	public EnoceanDPTBoolPressedReleasedImpl(String name, String displayName, String display, EnoceanEntityImpl entity,
+			boolean writable, boolean readable) {
 		// constructor
 		super(name, displayName, display, entity, writable, readable);
 
@@ -65,32 +64,29 @@ public class EnoceanDPTBoolPressedReleasedImpl extends EnoceanDPTBoolImpl implem
 	}
 
 	@Override
-	public void writeObject(Obj input)
-	{
+	public void writeObject(Obj input) {
 		super.writeObject(input);
 		this.refreshObject();
 	}
 
 	@Override
-	public void refreshObject()
-	{
+	public void refreshObject() {
 		this.encoding.set(EncodingsImpl.getInstance().getEncoding(EncodingPressedReleased.HREF).getName(this.value()));
 	}
 
 	@Override
-	public obix.Enum encoding()
-	{
+	public obix.Enum encoding() {
 		return encoding;
 	}
-	
+
 	@Override
-	public void setValue(Obj value){
+	public void setValue(Obj value) {
 		super.setValue(value);
 		this.refreshObject();
 	}
-	
+
 	@Override
-	public Obj getValue(){
+	public Obj getValue() {
 		return super.getValue();
 	}
 }

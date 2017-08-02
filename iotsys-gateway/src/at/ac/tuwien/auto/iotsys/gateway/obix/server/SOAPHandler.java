@@ -50,7 +50,7 @@ import obix.io.ObixEncoder;
 public class SOAPHandler {
 	private ObixServer obixServer;
 
-	private final String SOAP_RESPONSE_START = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns=\"http://obix.org/ns/schema/1.1\">" 					
+	private final String SOAP_RESPONSE_START = "<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns=\"http://obix.org/ns/schema/1.1\">"
 			+ "<soapenv:Header/><soapenv:Body>";
 
 	private final String SOAP_RESPONSE_END = "</soapenv:Body></soapenv:Envelope>";
@@ -63,17 +63,17 @@ public class SOAPHandler {
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	private String schemaFileContent = "";
 	private String wsdlFileContent = "";
-	
-	public String getSchemaFileContent(){
-		return schemaFileContent;	
+
+	public String getSchemaFileContent() {
+		return schemaFileContent;
 	}
-	
-	public String getWSDLFileContent(){
+
+	public String getWSDLFileContent() {
 		return wsdlFileContent;
 	}
 
@@ -81,11 +81,10 @@ public class SOAPHandler {
 		OPERATION op = null;
 
 		// String soapPayload = parms.getProperty("data");
-		
+
 		System.out.println("\n\n\nSOAP Payload: " + soapPayload + "\n\n");
 
-		String nameSpacePrefix = extractNSPrefix("http://obix.org/ns/wsdl/1.1",
-				soapPayload);
+		String nameSpacePrefix = extractNSPrefix("http://obix.org/ns/wsdl/1.1", soapPayload);
 
 		// String soapAction = header.getProperty("soapaction");
 
@@ -115,11 +114,10 @@ public class SOAPHandler {
 			}
 		}
 
-
 		String href = extractHref(soapPayload);
 
 		URI hrefURI = null;
-		
+
 		try {
 			hrefURI = new URI(href);
 		} catch (URISyntaxException e) {
@@ -127,13 +125,12 @@ public class SOAPHandler {
 			e.printStackTrace();
 			return e.getMessage();
 		}
-		
+
 		String soapResponse = "Not implemented yet.";
 		if (op == OPERATION.READ) {
 			// read on object, find href attribute
-			StringBuffer obixObj = new StringBuffer(ObixEncoder.toString(obixServer.readObj(hrefURI,
-					true)));
-			soapResponse =  SOAP_RESPONSE_START + obixObj.toString() + SOAP_RESPONSE_END;
+			StringBuffer obixObj = new StringBuffer(ObixEncoder.toString(obixServer.readObj(hrefURI, true)));
+			soapResponse = SOAP_RESPONSE_START + obixObj.toString() + SOAP_RESPONSE_END;
 
 		} else if (op == OPERATION.INVOKE) {
 			String obj = extractObject(soapPayload, nameSpacePrefix, false);
@@ -141,7 +138,7 @@ public class SOAPHandler {
 					+ SOAP_RESPONSE_END;
 		} else if (op == OPERATION.WRITE) {
 			String obj = extractObject(soapPayload, nameSpacePrefix, true);
-			soapResponse =  SOAP_RESPONSE_START + ObixEncoder.toString(obixServer.writeObj(hrefURI, obj))
+			soapResponse = SOAP_RESPONSE_START + ObixEncoder.toString(obixServer.writeObj(hrefURI, obj))
 					+ SOAP_RESPONSE_END;
 		}
 
@@ -164,8 +161,7 @@ public class SOAPHandler {
 		return nameSpacePrefix;
 	}
 
-	private String extractObject(String soapPayload, String nameSpacePrefix,
-			boolean writeOp) {
+	private String extractObject(String soapPayload, String nameSpacePrefix, boolean writeOp) {
 		if (soapPayload.indexOf("obj/>") >= 0) { // only simple obj closing tag
 			// present - empty obj
 			return "";
@@ -185,14 +181,12 @@ public class SOAPHandler {
 
 		// obj ends after first closing tag (either write or invoke)
 
-		int objEnd = soapPayload.indexOf("</" + nameSpacePrefix
-				+ ((writeOp) ? ("write") : ("invoke")) + ">");
+		int objEnd = soapPayload.indexOf("</" + nameSpacePrefix + ((writeOp) ? ("write") : ("invoke")) + ">");
 
 		if (objStart >= 0 && objEnd > objStart) {
 			String obj = soapPayload.substring(objStart, objEnd).trim();
 
-			String obixNsPrefix = extractNSPrefix(
-					"http://obix.org/ns/schema/1.1", soapPayload);
+			String obixNsPrefix = extractNSPrefix("http://obix.org/ns/schema/1.1", soapPayload);
 
 			// remove namepace
 			obj = obj.replaceAll(obixNsPrefix, "");
@@ -217,24 +211,21 @@ public class SOAPHandler {
 	}
 
 	private static String readFile(String path) throws IOException {
-		InputStream is = SOAPHandler.class.getClassLoader()
-				.getResourceAsStream(path);
+		InputStream is = SOAPHandler.class.getClassLoader().getResourceAsStream(path);
 		if (is != null) {
 			StringWriter writer = new StringWriter();
-			IOUtils.copy(SOAPHandler.class.getClassLoader()
-					.getResourceAsStream(path), writer);
+			IOUtils.copy(SOAPHandler.class.getClassLoader().getResourceAsStream(path), writer);
 			return writer.toString();
 		} else {
 			FileInputStream stream = new FileInputStream(new File(path));
 			try {
 				FileChannel fc = stream.getChannel();
-				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0,
-						fc.size());
+				MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
 				return Charset.defaultCharset().decode(bb).toString();
 			} finally {
 				stream.close();
 			}
-	}
+		}
 	}
 
 }

@@ -31,21 +31,18 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingOpenClosed;
 import obix.Contract;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingOpenClosed;
 
-public class EncodingOpenClosedImpl extends EncodingImpl implements EncodingOpenClosed
-{
-	public EncodingOpenClosedImpl()
-	{
+public class EncodingOpenClosedImpl extends EncodingImpl implements EncodingOpenClosed {
+	public EncodingOpenClosedImpl() {
 		super(new Uri(EncodingOpenClosed.HREF));
 
 		this.setOf(new Contract("obix:bool"));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		BoolElement open = new BoolElement(EncodingOpenClosed.KEY_OPEN, "Open", false);
 		BoolElement closed = new BoolElement(EncodingOpenClosed.KEY_CLOSED, "Closed", true);
 

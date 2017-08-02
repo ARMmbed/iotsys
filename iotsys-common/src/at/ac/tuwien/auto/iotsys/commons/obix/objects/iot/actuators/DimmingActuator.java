@@ -35,54 +35,57 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 import obix.Bool;
 import obix.Int;
 
-
 /**
  * Provides the interface for a brightness actuator.
  */
- 
-public interface DimmingActuator extends Actuator{
-	
-	public static final String CONTRACT="iot:DimmingActuator";
-	
-	public static final String SWITCH_ON_OFF_CONTRACT_NAME="switchOnOffValue";
-	public static final String SWITCH_ON_OFF_CONTRACT_HREF="switchOnOffValue";
-	public static final String SWITCH_ON_OFF_CONTRACT = "<bool name='"+SWITCH_ON_OFF_CONTRACT_NAME+"' href='"+SWITCH_ON_OFF_CONTRACT_HREF+"' val='false'/>";	
-	public Bool switchOnOffValue();
-	
-	
-	public static final String ABSOLUTE_SETVALUE_CONTRACT_NAME="absoluteSetvalueControlValue";
-	public static final String ABSOLUTE_SETVALUE_CONTRACT_HREF="absoluteSetvalueControlValue";
-	public static final String ABSOLUTE_SETVALUE_CONTRACT_UNIT="obix:units/percent";
-	public static final String ABSOLUTE_SETVALUE_CONTROL_CONTRACT = "<int name='"+ABSOLUTE_SETVALUE_CONTRACT_NAME+"' href='"+ABSOLUTE_SETVALUE_CONTRACT_HREF+"' val='0'/>";	
-	public Int absoluteSetvalueControlValue();
-	
-	
-	public static final String RELATIV_SETVALUE_CONTROL_CONTRACT_NAME="relativeSetvalueControl";
-	public static final String RELATIV_SETVALUE_CONTROL_CONTRACT_HREF="relativeSetvalueControl";
-	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_NAME="dimmingDirectionlValue";
-	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_HREF="dimmingDirectionlValue";
-	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_NAME="dimmingStepValue";
-	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_HREF="dimmingStepValue";
-	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_UNIT="obix:units/percent";
-	
-	
-	public static final String RELATIV_SETVALUE_CONTROL_CONTRACT = "<obj name='"+RELATIV_SETVALUE_CONTROL_CONTRACT_NAME+"' href='"+RELATIV_SETVALUE_CONTROL_CONTRACT_HREF+"'>" +
-																		"<bool name='"+RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_NAME+"' href='"+RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_HREF+"' val='false'/>" +
-																		"<int name='"+RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_NAME+"' href='"+RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_HREF+"' val'0'/>" +
-																	"</obj>";
-	
-	public Bool relativSetvalueControlDimmingDirectionValue();
-	public Int relativSetvalueControlDimmingStepValue();
-	
-	
-	/*
-	public static final String DEF_RELATIV_SETVALUE_CONTROL_CONTRACT = "<obj href='/def/relativSetvalueControl'>" +
-																			"<bool name='dimmingDirection' val='false'/>" +
-																			"<int name='dimmingStep' val'0'/>" +
-																		"</obj>";
-	public Int relativSetvalueControlDimmingStep();
-	public Bool relativSetvalueControlDimmingDirection();
-	public static final String RELATIV_SETVALUE_CONTROL_CONTRACT = "<obj name='RelativSetvalueControll' href='relativSetvalueControl' is='/def/relativSetvalueControl'/>";	
-	*/
-}
 
+public interface DimmingActuator extends Actuator {
+
+	public static final String CONTRACT = "iot:DimmingActuator";
+
+	public static final String SWITCH_ON_OFF_CONTRACT_NAME = "switchOnOffValue";
+	public static final String SWITCH_ON_OFF_CONTRACT_HREF = "switchOnOffValue";
+	public static final String SWITCH_ON_OFF_CONTRACT = "<bool name='" + SWITCH_ON_OFF_CONTRACT_NAME + "' href='"
+			+ SWITCH_ON_OFF_CONTRACT_HREF + "' val='false'/>";
+
+	public Bool switchOnOffValue();
+
+	public static final String ABSOLUTE_SETVALUE_CONTRACT_NAME = "absoluteSetvalueControlValue";
+	public static final String ABSOLUTE_SETVALUE_CONTRACT_HREF = "absoluteSetvalueControlValue";
+	public static final String ABSOLUTE_SETVALUE_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ABSOLUTE_SETVALUE_CONTROL_CONTRACT = "<int name='" + ABSOLUTE_SETVALUE_CONTRACT_NAME
+			+ "' href='" + ABSOLUTE_SETVALUE_CONTRACT_HREF + "' val='0'/>";
+
+	public Int absoluteSetvalueControlValue();
+
+	public static final String RELATIV_SETVALUE_CONTROL_CONTRACT_NAME = "relativeSetvalueControl";
+	public static final String RELATIV_SETVALUE_CONTROL_CONTRACT_HREF = "relativeSetvalueControl";
+	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_NAME = "dimmingDirectionlValue";
+	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_HREF = "dimmingDirectionlValue";
+	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_NAME = "dimmingStepValue";
+	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_HREF = "dimmingStepValue";
+	public static final String RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_UNIT = "obix:units/percent";
+
+	public static final String RELATIV_SETVALUE_CONTROL_CONTRACT = "<obj name='"
+			+ RELATIV_SETVALUE_CONTROL_CONTRACT_NAME + "' href='" + RELATIV_SETVALUE_CONTROL_CONTRACT_HREF + "'>"
+			+ "<bool name='" + RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_NAME + "' href='"
+			+ RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_HREF + "' val='false'/>" + "<int name='"
+			+ RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_NAME + "' href='"
+			+ RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_HREF + "' val'0'/>" + "</obj>";
+
+	public Bool relativSetvalueControlDimmingDirectionValue();
+
+	public Int relativSetvalueControlDimmingStepValue();
+
+	/*
+	 * public static final String DEF_RELATIV_SETVALUE_CONTROL_CONTRACT =
+	 * "<obj href='/def/relativSetvalueControl'>" +
+	 * "<bool name='dimmingDirection' val='false'/>" +
+	 * "<int name='dimmingStep' val'0'/>" + "</obj>"; public Int
+	 * relativSetvalueControlDimmingStep(); public Bool
+	 * relativSetvalueControlDimmingDirection(); public static final String
+	 * RELATIV_SETVALUE_CONTROL_CONTRACT =
+	 * "<obj name='RelativSetvalueControll' href='relativSetvalueControl' is='/def/relativSetvalueControl'/>"
+	 * ;
+	 */
+}

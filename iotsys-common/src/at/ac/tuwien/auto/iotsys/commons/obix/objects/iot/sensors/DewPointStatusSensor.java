@@ -34,11 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Bool;
 
-public interface DewPointStatusSensor extends Sensor{
-	public static final String DEW_POINT_STATUS_CONTRACT_NAME="dewPointStatus";
-	public static final String DEW_POINT_STATUS_CONTRACT_HREF="dewPointStatus";
-	
-	public static final String CONTRACT="iot:DewPointStatusSensor";
-	public static final String DEW_POINT_STATUS_CONTRACT = "<bool name='"+DewPointStatusSensor.DEW_POINT_STATUS_CONTRACT_NAME+"' href='"+DewPointStatusSensor.DEW_POINT_STATUS_CONTRACT_HREF+"' val='false'/>";
+public interface DewPointStatusSensor extends Sensor {
+	public static final String DEW_POINT_STATUS_CONTRACT_NAME = "dewPointStatus";
+	public static final String DEW_POINT_STATUS_CONTRACT_HREF = "dewPointStatus";
+
+	public static final String CONTRACT = "iot:DewPointStatusSensor";
+	public static final String DEW_POINT_STATUS_CONTRACT = "<bool name='"
+			+ DewPointStatusSensor.DEW_POINT_STATUS_CONTRACT_NAME + "' href='"
+			+ DewPointStatusSensor.DEW_POINT_STATUS_CONTRACT_HREF + "' val='false'/>";
+
 	public Bool dewPointStatusValue();
 }

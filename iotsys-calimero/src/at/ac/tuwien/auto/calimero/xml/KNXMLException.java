@@ -27,8 +27,7 @@ import at.ac.tuwien.auto.calimero.exception.KNXException;
  * 
  * @author B. Malinowsky
  */
-public class KNXMLException extends KNXException
-{
+public class KNXMLException extends KNXException {
 	private static final long serialVersionUID = 1L;
 
 	private final String item;
@@ -38,37 +37,39 @@ public class KNXMLException extends KNXException
 	 * Constructs a new <code>KNXMLException</code> without a detail message.
 	 * <p>
 	 */
-	public KNXMLException()
-	{
+	public KNXMLException() {
 		item = null;
 		line = 0;
 	}
 
 	/**
-	 * Constructs a new <code>KNXMLException</code> with the specified detail message.
+	 * Constructs a new <code>KNXMLException</code> with the specified detail
+	 * message.
 	 * <p>
 	 * 
-	 * @param s the detail message
+	 * @param s
+	 *            the detail message
 	 */
-	public KNXMLException(String s)
-	{
+	public KNXMLException(String s) {
 		super(s);
 		item = null;
 		line = 0;
 	}
 
 	/**
-	 * Constructs a new <code>KNXMLException</code> with the specified detail message,
-	 * the problematic/erroneous processed XML item together with the line number it
-	 * occurred on.
+	 * Constructs a new <code>KNXMLException</code> with the specified detail
+	 * message, the problematic/erroneous processed XML item together with the
+	 * line number it occurred on.
 	 * <p>
 	 * 
-	 * @param s the detail message
-	 * @param badItem the problematic/erroneous processed XML tag, text or content
-	 * @param lineNumber line number in the processed resource, 0 for no line number
+	 * @param s
+	 *            the detail message
+	 * @param badItem
+	 *            the problematic/erroneous processed XML tag, text or content
+	 * @param lineNumber
+	 *            line number in the processed resource, 0 for no line number
 	 */
-	public KNXMLException(String s, String badItem, int lineNumber)
-	{
+	public KNXMLException(String s, String badItem, int lineNumber) {
 		super(s);
 		item = badItem;
 		line = lineNumber;
@@ -80,8 +81,7 @@ public class KNXMLException extends KNXException
 	 * 
 	 * @return bad item as string, or <code>null</code> if no item available
 	 */
-	public final String getBadItem()
-	{
+	public final String getBadItem() {
 		return item;
 	}
 
@@ -92,8 +92,7 @@ public class KNXMLException extends KNXException
 	 * 
 	 * @return line number, 0 if no line number is available
 	 */
-	public final int getLineNumber()
-	{
+	public final int getLineNumber() {
 		return line;
 	}
 }

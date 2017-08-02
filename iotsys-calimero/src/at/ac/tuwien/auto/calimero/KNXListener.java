@@ -26,13 +26,13 @@ import java.util.EventListener;
  * network.
  * <p>
  */
-public interface KNXListener extends EventListener
-{
+public interface KNXListener extends EventListener {
 	/**
 	 * Arrival of a new KNX message frame.
 	 * <p>
 	 * 
-	 * @param e frame event object
+	 * @param e
+	 *            frame event object
 	 */
 	void frameReceived(FrameEvent e);
 
@@ -40,7 +40,8 @@ public interface KNXListener extends EventListener
 	 * The connection has been closed.
 	 * <p>
 	 * 
-	 * @param e connection close event object
+	 * @param e
+	 *            connection close event object
 	 */
 	void connectionClosed(CloseEvent e);
 }

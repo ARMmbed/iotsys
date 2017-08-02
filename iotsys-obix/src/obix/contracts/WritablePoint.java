@@ -1,6 +1,7 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
+import obix.Op;
 
 /**
  * WritablePoint
@@ -9,11 +10,11 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface WritablePoint extends IObj, Point
-{
+public interface WritablePoint extends IObj, Point {
 	public static final String CONTRACT = "obix:WritablePoint";
 
-	public static final String writePointContract = "<op name='writePoint' in='" + WritePointIn.CONTRACT + "' out='" + Point.CONTRACT + "'/>";
+	public static final String writePointContract = "<op name='writePoint' in='" + WritePointIn.CONTRACT + "' out='"
+			+ Point.CONTRACT + "'/>";
 
 	public Op writePoint();
 

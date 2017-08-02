@@ -32,10 +32,10 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.virtual;
 
-import obix.Obj;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.PumpActuatorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.VirtualConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.simulation.HVACSimulationImpl;
+import obix.Obj;
 
 public class PumpActuatorImplVirtual extends PumpActuatorImpl {
 	private VirtualConnector virtualConnector;
@@ -50,11 +50,9 @@ public class PumpActuatorImplVirtual extends PumpActuatorImpl {
 
 		if (HVACSimulationImpl.instance != null) {
 			if (this.getHref().getPath().toLowerCase().contains("heat")) {
-				HVACSimulationImpl.instance.setHeatPumpActive(this.value()
-						.get() > 0);
+				HVACSimulationImpl.instance.setHeatPumpActive(this.value().get() > 0);
 			} else if (this.getHref().getPath().toLowerCase().contains("cool")) {
-				HVACSimulationImpl.instance.setCoolPumpActive(this.value()
-						.get() > 0);
+				HVACSimulationImpl.instance.setCoolPumpActive(this.value().get() > 0);
 			}
 		}
 	}

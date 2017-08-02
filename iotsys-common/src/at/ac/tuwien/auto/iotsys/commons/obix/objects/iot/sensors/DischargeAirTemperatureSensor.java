@@ -33,11 +33,13 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface DischargeAirTemperatureSensor extends Sensor{
-	public static final String TEMP_DISCHARGE_AIR_CONTRACT_NAME="tempDischargeAir";
-	public static final String TEMP_DISCHARGE_AIR_CONTRACT_HREF="tempDischargeAir";
-	
-	public static final String CONTRACT="iot:DischargeAirTemperatureSensor";
-	public static final String TEMP_DISCHARGE_AIR_CONTRACT = "<real name='"+TEMP_DISCHARGE_AIR_CONTRACT_NAME+"' href='"+TEMP_DISCHARGE_AIR_CONTRACT_HREF+"' val='0'/>";
+public interface DischargeAirTemperatureSensor extends Sensor {
+	public static final String TEMP_DISCHARGE_AIR_CONTRACT_NAME = "tempDischargeAir";
+	public static final String TEMP_DISCHARGE_AIR_CONTRACT_HREF = "tempDischargeAir";
+
+	public static final String CONTRACT = "iot:DischargeAirTemperatureSensor";
+	public static final String TEMP_DISCHARGE_AIR_CONTRACT = "<real name='" + TEMP_DISCHARGE_AIR_CONTRACT_NAME
+			+ "' href='" + TEMP_DISCHARGE_AIR_CONTRACT_HREF + "' val='0'/>";
+
 	public Real tempDischargeAirValue();
 }

@@ -35,81 +35,89 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams;
 import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.util.Measure_Unit;
 
 public class SimpleTelegram {
-	
+
 	private long timeStamp;
-//	private double power;
-//	private Measure_Unit powerUnit;
+	// private double power;
+	// private Measure_Unit powerUnit;
 	private double energy;
 	private Measure_Unit energyUnit;
 	private double volume;
 	private Measure_Unit volumeUnit;
-	
+
 	public SimpleTelegram() {
 		timeStamp = new java.util.Date().getTime();
 	}
-	
+
 	public SimpleTelegram(long _timeStamp) {
 		timeStamp = _timeStamp;
 	}
-	
-	public SimpleTelegram(double volume, Measure_Unit volumeUnit, double energy,
-			Measure_Unit energyUnit) {
+
+	public SimpleTelegram(double volume, Measure_Unit volumeUnit, double energy, Measure_Unit energyUnit) {
 		super();
 		timeStamp = new java.util.Date().getTime();
-//		this.power = power;
-//		this.powerUnit = powerUnit;
+		// this.power = power;
+		// this.powerUnit = powerUnit;
 		this.volume = volume;
 		this.volumeUnit = volumeUnit;
 		this.energy = energy;
 		this.energyUnit = energyUnit;
 	}
-	
+
 	public long getTimeStamp() {
 		return timeStamp;
 	}
+
 	public void setTimeStamp(long timeStamp) {
 		this.timeStamp = timeStamp;
 	}
-//	public double getPower() {
-//		return power;
-//	}
-//	public void setPower(double power) {
-//		this.power = power;
-//	}
-//	public Measure_Unit getPowerUnit() {
-//		return powerUnit;
-//	}
-//	public void setPowerUnit(Measure_Unit powerUnit) {
-//		this.powerUnit = powerUnit;
-//	}
+
+	// public double getPower() {
+	// return power;
+	// }
+	// public void setPower(double power) {
+	// this.power = power;
+	// }
+	// public Measure_Unit getPowerUnit() {
+	// return powerUnit;
+	// }
+	// public void setPowerUnit(Measure_Unit powerUnit) {
+	// this.powerUnit = powerUnit;
+	// }
 	public double getEnergy() {
 		return energy;
 	}
+
 	public void setEnergy(double energy) {
 		this.energy = energy;
 	}
+
 	public Measure_Unit getEnergyUnit() {
 		return energyUnit;
 	}
+
 	public void setEnergyUnit(Measure_Unit energyUnit) {
 		this.energyUnit = energyUnit;
 	}
+
 	public double getVolume() {
 		return volume;
 	}
+
 	public void setVolume(double volume) {
 		this.volume = volume;
 	}
+
 	public Measure_Unit getVolumeUnit() {
 		return volumeUnit;
 	}
+
 	public void setVolumeUnit(Measure_Unit volumeUnit) {
 		this.volumeUnit = volumeUnit;
 	}
-	
+
 	public void debugOutput() {
 		System.out.println("-----------SimpleTelegram----------");
-//		System.out.println("Power: " + this.power + " " + this.powerUnit);
+		// System.out.println("Power: " + this.power + " " + this.powerUnit);
 		System.out.println("Energy: " + this.energy + " " + this.energyUnit);
 		System.out.println("Volume: " + this.volume + " " + this.volumeUnit);
 	}

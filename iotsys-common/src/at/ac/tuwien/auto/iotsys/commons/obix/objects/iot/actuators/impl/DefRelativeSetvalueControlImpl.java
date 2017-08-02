@@ -39,8 +39,7 @@ import obix.Int;
 import obix.Obj;
 import obix.Uri;
 
-public class DefRelativeSetvalueControlImpl extends ActuatorImpl implements
-		DefRelativeSetvalueControl {
+public class DefRelativeSetvalueControlImpl extends ActuatorImpl implements DefRelativeSetvalueControl {
 
 	// relative setvalue control
 	protected Obj relativSetvalueControl = new Obj();
@@ -54,8 +53,7 @@ public class DefRelativeSetvalueControlImpl extends ActuatorImpl implements
 		relativSetvalueControlDimmingDirectionValue.setWritable(true);
 		Uri relativSetvalueControlDimmingDirectionValueUri = new Uri(
 				DefRelativeSetvalueControl.RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_HREF);
-		relativSetvalueControlDimmingDirectionValue
-				.setHref(relativSetvalueControlDimmingDirectionValueUri);
+		relativSetvalueControlDimmingDirectionValue.setHref(relativSetvalueControlDimmingDirectionValueUri);
 		relativSetvalueControlDimmingDirectionValue
 				.setName(DefRelativeSetvalueControl.RELATIV_SETVALUE_CONTROL_DIMMING_DIRECTION_CONTRACT_NAME);
 		add(relativSetvalueControlDimmingDirectionValue);
@@ -63,13 +61,11 @@ public class DefRelativeSetvalueControlImpl extends ActuatorImpl implements
 		relativSetvalueControlDimmingStepValue.setWritable(true);
 		Uri relativSetvalueControlDimmingStepValueUri = new Uri(
 				DefRelativeSetvalueControl.RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_HREF);
-		relativSetvalueControlDimmingStepValue
-				.setHref(relativSetvalueControlDimmingStepValueUri);
+		relativSetvalueControlDimmingStepValue.setHref(relativSetvalueControlDimmingStepValueUri);
 		relativSetvalueControlDimmingStepValue
 				.setName(DefRelativeSetvalueControl.RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_NAME);
 		relativSetvalueControlDimmingStepValue
-				.setUnit(new Uri(
-						DefRelativeSetvalueControl.RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_UNIT));
+				.setUnit(new Uri(DefRelativeSetvalueControl.RELATIV_SETVALUE_CONTROL_DIMMING_STEP_CONTRACT_UNIT));
 		add(relativSetvalueControlDimmingStepValue);
 
 	}

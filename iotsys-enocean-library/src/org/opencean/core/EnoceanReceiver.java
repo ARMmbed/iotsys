@@ -4,6 +4,6 @@ import org.opencean.core.packets.BasicPacket;
 
 public interface EnoceanReceiver {
 
-    void receivePacket(BasicPacket packet);
+	void receivePacket(BasicPacket packet);
 
 }

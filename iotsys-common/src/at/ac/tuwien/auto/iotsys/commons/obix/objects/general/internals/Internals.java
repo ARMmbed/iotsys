@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.internals;
 
 import obix.List;
 
-public interface Internals
-{
+public interface Internals {
 	public List enums();
 
 	public List units();

@@ -25,8 +25,7 @@ package at.ac.tuwien.auto.calimero.knxnetip.servicetype;
  * 
  * @author B. Malinowsky
  */
-public final class ErrorCodes
-{
+public final class ErrorCodes {
 	// common error codes
 
 	/**
@@ -36,13 +35,15 @@ public final class ErrorCodes
 	public static final short NO_ERROR = 0x00;
 
 	/**
-	 * Error code: The requested type of host protocol is not supported by the device.
+	 * Error code: The requested type of host protocol is not supported by the
+	 * device.
 	 * <p>
 	 */
 	public static final short HOST_PROTOCOL_TYPE = 0x01;
 
 	/**
-	 * Error code: The requested protocol version is not supported by the device.
+	 * Error code: The requested protocol version is not supported by the
+	 * device.
 	 * <p>
 	 */
 	public static final short VERSION_NOT_SUPPORTED = 0x02;
@@ -68,7 +69,8 @@ public final class ErrorCodes
 	public static final short CONNECTION_OPTION = 0x23;
 
 	/**
-	 * Error code: The server could not accept a new connection, maximum reached.
+	 * Error code: The server could not accept a new connection, maximum
+	 * reached.
 	 * <p>
 	 */
 	public static final short NO_MORE_CONNECTIONS = 0x24;
@@ -82,28 +84,28 @@ public final class ErrorCodes
 	// connection state response error codes
 
 	/**
-	 * Error code: The server device could not find an active data connection with the
-	 * specified ID.
+	 * Error code: The server device could not find an active data connection
+	 * with the specified ID.
 	 * <p>
 	 */
 	public static final short CONNECTION_ID = 0x21;
 
 	/**
-	 * Error code: The server detected an error concerning the data connection with the
-	 * specified ID.
+	 * Error code: The server detected an error concerning the data connection
+	 * with the specified ID.
 	 * <p>
 	 */
 	public static final short DATA_CONNECTION = 0x26;
 
 	/**
-	 * Error code: The server detected an error concerning the KNX subsystem connection
-	 * with the specified ID.
+	 * Error code: The server detected an error concerning the KNX subsystem
+	 * connection with the specified ID.
 	 * <p>
 	 */
 	public static final short KNX_CONNECTION = 0x27;
 
-	private ErrorCodes()
-	{}
+	private ErrorCodes() {
+	}
 
 	/**
 	 * Returns a brief description message for an error code.
@@ -111,11 +113,11 @@ public final class ErrorCodes
 	 * For now, only common error codes are translated.<br>
 	 * On unknown error code, the string "unknown error code" is returned.
 	 * 
-	 * @param code error code to lookup the description
+	 * @param code
+	 *            error code to lookup the description
 	 * @return string representation of error code
 	 */
-	public static String getErrorMessage(int code)
-	{
+	public static String getErrorMessage(int code) {
 		switch (code) {
 		case NO_ERROR:
 			return "success";

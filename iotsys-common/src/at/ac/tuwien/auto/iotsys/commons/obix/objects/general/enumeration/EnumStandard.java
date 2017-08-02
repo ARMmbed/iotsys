@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration;
 
 import obix.contracts.Range;
 
-public interface EnumStandard extends Range
-{
+public interface EnumStandard extends Range {
 	public static final String HREF = "/enums/standard";
 
 	public static final String KEY_KNX = "knx";

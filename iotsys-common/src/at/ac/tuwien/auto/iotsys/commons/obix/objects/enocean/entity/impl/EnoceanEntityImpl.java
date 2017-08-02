@@ -34,22 +34,20 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl;
 
 import java.util.ArrayList;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPT;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.impl.EnoceanDPTImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.EnoceanEntity;
 import obix.Contract;
 import obix.List;
 import obix.Obj;
 import obix.Str;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPT;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.impl.EnoceanDPTImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.EnoceanEntity;
 
-public class EnoceanEntityImpl extends Obj implements EnoceanEntity
-{
+public class EnoceanEntityImpl extends Obj implements EnoceanEntity {
 	protected List list;
 	protected ArrayList<EnoceanDPT> datapoints;
 
-	public EnoceanEntityImpl(String name, String displayName, String display, String manufacturer)
-	{
+	public EnoceanEntityImpl(String name, String displayName, String display, String manufacturer) {
 		super();
 
 		this.setName(name);
@@ -58,22 +56,19 @@ public class EnoceanEntityImpl extends Obj implements EnoceanEntity
 		this.setIs(new Contract(EnoceanEntity.CONTRACT));
 		this.setHidden(true);
 
-		if (manufacturer != null)
-		{
+		if (manufacturer != null) {
 			Str man = new Str();
 			man.setName("manufacturer");
 			man.setHref(new Uri("manufacturer"));
 			man.set(manufacturer);
 			this.add(man);
-		}		
+		}
 	}
 
-	public void addDatapoint(EnoceanDPTImpl datapoint)
-	{
-		if (this.datapoints == null)
-		{
+	public void addDatapoint(EnoceanDPTImpl datapoint) {
+		if (this.datapoints == null) {
 			this.list = new List("datapoints", new Contract(new String[] { "obix:ref", EnoceanDPT.CONTRACT }));
-			this.list.setHref(new Uri("datapoints"));						
+			this.list.setHref(new Uri("datapoints"));
 			this.add(this.list);
 
 			this.datapoints = new ArrayList<EnoceanDPT>();
@@ -81,10 +76,10 @@ public class EnoceanEntityImpl extends Obj implements EnoceanEntity
 
 		this.list.add(datapoint);
 		this.list.add(datapoint.getReference());
-		
-		for (Obj child:datapoint.list()){
-			this.add(child);				
+
+		for (Obj child : datapoint.list()) {
+			this.add(child);
 		}
-		this.datapoints.add(datapoint);		
+		this.datapoints.add(datapoint);
 	}
 }

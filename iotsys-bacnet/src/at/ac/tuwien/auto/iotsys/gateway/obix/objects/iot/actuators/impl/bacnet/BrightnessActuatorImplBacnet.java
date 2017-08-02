@@ -22,11 +22,6 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.bacnet;
 
-import obix.Obj;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.BrightnessActuatorImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
-
 import com.serotonin.bacnet4j.exception.BACnetException;
 import com.serotonin.bacnet4j.exception.PropertyValueException;
 import com.serotonin.bacnet4j.type.Encodable;
@@ -35,15 +30,18 @@ import com.serotonin.bacnet4j.type.primitive.ObjectIdentifier;
 import com.serotonin.bacnet4j.type.primitive.Real;
 import com.serotonin.bacnet4j.type.primitive.UnsignedInteger;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.BrightnessActuatorImpl;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
+import obix.Obj;
 
-public class BrightnessActuatorImplBacnet extends BrightnessActuatorImpl{
+public class BrightnessActuatorImplBacnet extends BrightnessActuatorImpl {
 	private int deviceID;
 	private ObjectIdentifier objectIdentifier;
 	private PropertyIdentifier propertyIdentifier;
 	private BACnetConnector bacnetConnector;
 
-	public BrightnessActuatorImplBacnet(BACnetConnector bacnetConnector,
-			BacnetDataPointInfo dataPointInfo ) {
+	public BrightnessActuatorImplBacnet(BACnetConnector bacnetConnector, BacnetDataPointInfo dataPointInfo) {
 		this.deviceID = dataPointInfo.getDeviceIdentifier();
 		this.objectIdentifier = dataPointInfo.getObjectIdentifier();
 		this.propertyIdentifier = dataPointInfo.getPropertyIdentifier();
@@ -52,11 +50,11 @@ public class BrightnessActuatorImplBacnet extends BrightnessActuatorImpl{
 
 	public void refreshObject() {
 		try {
-			Encodable property = bacnetConnector.readProperty(deviceID, objectIdentifier,propertyIdentifier);
-			
-			if(property instanceof Real){
+			Encodable property = bacnetConnector.readProperty(deviceID, objectIdentifier, propertyIdentifier);
+
+			if (property instanceof Real) {
 				value.set((int) ((Real) property).floatValue());
-			}		
+			}
 		} catch (BACnetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -65,13 +63,14 @@ public class BrightnessActuatorImplBacnet extends BrightnessActuatorImpl{
 			e.printStackTrace();
 		}
 	}
-	
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.		
+
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
 		super.writeObject(input);
-		
+
 		try {
-			bacnetConnector.writeProperty(deviceID, objectIdentifier, propertyIdentifier, new Real((float) this.value().get()), new UnsignedInteger(10));
+			bacnetConnector.writeProperty(deviceID, objectIdentifier, propertyIdentifier,
+					new Real((float) this.value().get()), new UnsignedInteger(10));
 		} catch (BACnetException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

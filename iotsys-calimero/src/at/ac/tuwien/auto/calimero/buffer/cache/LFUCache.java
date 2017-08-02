@@ -30,25 +30,25 @@ import java.util.TreeMap;
  * 
  * @author B. Malinowsky
  */
-public class LFUCache extends ExpiringCache
-{
+public class LFUCache extends ExpiringCache {
 	private final TreeMap tree;
 	private int maxSize;
 	private long hits;
 	private long misses;
-	
+
 	/**
 	 * Creates a new LFU cache.
 	 * <p>
 	 * Optionally, a maximum cache size and an expiring time can be specified.
 	 * 
-	 * @param cacheSize maximum number of {@link CacheObject}s in the cache, or
-	 *        0 for no maximum
-	 * @param timeToExpire time in seconds for cache objects to stay valid,
-	 *        or 0 for no expiring
+	 * @param cacheSize
+	 *            maximum number of {@link CacheObject}s in the cache, or 0 for
+	 *            no maximum
+	 * @param timeToExpire
+	 *            time in seconds for cache objects to stay valid, or 0 for no
+	 *            expiring
 	 */
-	public LFUCache(int cacheSize, int timeToExpire)
-	{
+	public LFUCache(int cacheSize, int timeToExpire) {
 		super(timeToExpire);
 		if (cacheSize > 0)
 			maxSize = cacheSize;
@@ -62,8 +62,7 @@ public class LFUCache extends ExpiringCache
 	 * new {@link #put(CacheObject)} is required for that object to apply the
 	 * timestamp and keep the cache in a consistent state.
 	 */
-	public synchronized void put(CacheObject obj)
-	{
+	public synchronized void put(CacheObject obj) {
 		// ensure sweeping is on if we have expiring objects
 		startSweeper();
 		final Object old = map.remove(obj.getKey());
@@ -76,79 +75,81 @@ public class LFUCache extends ExpiringCache
 		tree.put(obj, obj);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#get(java.lang.Object)
 	 */
-	public synchronized CacheObject get(Object key)
-	{
+	public synchronized CacheObject get(Object key) {
 		final CacheObject o = (CacheObject) map.get(key);
 		if (o != null) {
 			tree.remove(o);
 			updateAccess(o);
 			tree.put(o, o);
 			++hits;
-		}
-		else
+		} else
 			++misses;
 		return o;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#remove(java.lang.Object)
 	 */
-	public synchronized void remove(Object key)
-	{
+	public synchronized void remove(Object key) {
 		final Object o = map.remove(key);
 		if (o != null)
 			tree.remove(o);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#clear()
 	 */
-	public synchronized void clear()
-	{
+	public synchronized void clear() {
 		stopSweeper();
 		map.clear();
 		tree.clear();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#statistic()
 	 */
-	public synchronized Statistic statistic()
-	{
+	public synchronized Statistic statistic() {
 		return new StatisticImpl(hits, misses);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.ExpiringCache#notifyRemoved(
 	 * tuwien.auto.calimero.buffer.cache.CacheObject)
 	 */
-	protected final void notifyRemoved(CacheObject obj)
-	{
+	protected final void notifyRemoved(CacheObject obj) {
 		tree.remove(obj);
 	}
-	
-	private static void updateAccess(CacheObject obj)
-	{
+
+	private static void updateAccess(CacheObject obj) {
 		obj.incCount();
 		obj.setUsage(obj.getCount());
 		// obj.setUsage(obj.getUsage() >> 1 | (1 << 30));
 	}
 
-	private void ensureSizeLimits()
-	{
+	private void ensureSizeLimits() {
 		if (maxSize > 0)
 			while (map.size() >= maxSize)
 				remove(((CacheObject) tree.firstKey()).getKey());
 	}
 
-	private static class LFUObjectCompare implements Comparator
-	{
-		LFUObjectCompare() {}
-		public int compare(Object o1, Object o2)
-		{
+	private static class LFUObjectCompare implements Comparator {
+		LFUObjectCompare() {
+		}
+
+		public int compare(Object o1, Object o2) {
 			final CacheObject cmp1 = (CacheObject) o1;
 			final CacheObject cmp2 = (CacheObject) o2;
 			if (cmp1.getUsage() > cmp2.getUsage())

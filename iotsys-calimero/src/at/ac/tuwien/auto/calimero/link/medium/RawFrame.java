@@ -22,15 +22,16 @@ package at.ac.tuwien.auto.calimero.link.medium;
 /**
  * Base interface used for raw network frames.
  * <p>
- * A raw frame is a KNX message in a KNX network sent on a particular communication
- * medium, built up and consisting of medium specific parts within the frame.
+ * A raw frame is a KNX message in a KNX network sent on a particular
+ * communication medium, built up and consisting of medium specific parts within
+ * the frame.
  * <p>
- * Subtypes should offer decoding of message parts up to OSI layer 4 (TPDU) if possible.
+ * Subtypes should offer decoding of message parts up to OSI layer 4 (TPDU) if
+ * possible.
  * 
  * @author B. Malinowsky
  */
-public interface RawFrame
-{
+public interface RawFrame {
 	// NYI TP0 communication medium frame format
 	// NYI RF communication medium frame format
 

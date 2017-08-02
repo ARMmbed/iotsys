@@ -6,8 +6,7 @@ import obix.Obj;
 import obix.Uri;
 import obix.contracts.Dimension;
 
-public class DimensionImpl extends Obj implements Dimension
-{
+public class DimensionImpl extends Obj implements Dimension {
 
 	private Int kg = new Int("kg");
 	private Int m = new Int("m");
@@ -17,8 +16,7 @@ public class DimensionImpl extends Obj implements Dimension
 	private Int mol = new Int("mol");
 	private Int cd = new Int("cd");
 
-	public DimensionImpl(int kg, int m, int sec, int K, int A, int mol, int cd)
-	{
+	public DimensionImpl(int kg, int m, int sec, int K, int A, int mol, int cd) {
 		setIs(new Contract(Dimension.CONTRACT));
 
 		this.kg.set(kg, false);
@@ -46,50 +44,42 @@ public class DimensionImpl extends Obj implements Dimension
 		add(this.cd);
 	}
 
-	public DimensionImpl()
-	{
+	public DimensionImpl() {
 		this(0, 0, 0, 0, 0, 0, 0);
 	}
 
 	@Override
-	public Int kg()
-	{
+	public Int kg() {
 		return kg;
 	}
 
 	@Override
-	public Int m()
-	{
+	public Int m() {
 		return m;
 	}
 
 	@Override
-	public Int sec()
-	{
+	public Int sec() {
 		return sec;
 	}
 
 	@Override
-	public Int K()
-	{
+	public Int K() {
 		return K;
 	}
 
 	@Override
-	public Int A()
-	{
+	public Int A() {
 		return A;
 	}
 
 	@Override
-	public Int mol()
-	{
+	public Int mol() {
 		return mol;
 	}
 
 	@Override
-	public Int cd()
-	{
+	public Int cd() {
 		return cd;
 	}
 

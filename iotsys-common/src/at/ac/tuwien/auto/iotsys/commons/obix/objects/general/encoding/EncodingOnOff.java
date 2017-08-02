@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding;
 
 import obix.contracts.Range;
 
-public interface EncodingOnOff extends Range
-{
+public interface EncodingOnOff extends Range {
 	public static final String HREF = "/encodings/onoff";
 
 	public static final String KEY_ON = "on";

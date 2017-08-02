@@ -30,11 +30,12 @@ import at.ac.tuwien.auto.calimero.exception.KNXException;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 
 /**
- * Extended process listener interface with additional group read event handler methods,
- * as well as basic ASDU type translation capabilities.
+ * Extended process listener interface with additional group read event handler
+ * methods, as well as basic ASDU type translation capabilities.
  * <p>
- * This listener contains predefined methods equal to the ones in the ProcessCommunicator
- * interface to convert received ASDUs into common java data types.<br>
+ * This listener contains predefined methods equal to the ones in the
+ * ProcessCommunicator interface to convert received ASDUs into common java data
+ * types.<br>
  * Usage example for group reads from datapoints with DPT main number 1:<br>
  * 
  * <pre>
@@ -59,100 +60,110 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * @author B. Malinowsky
  * @see ProcessCommunicator
  */
-public abstract class ProcessListenerEx implements ProcessListener
-{
+public abstract class ProcessListenerEx implements ProcessListener {
 	/**
-	 * Indicates that a KNX group read request message was received from the KNX network.
+	 * Indicates that a KNX group read request message was received from the KNX
+	 * network.
 	 * <p>
 	 * 
-	 * @param e process event object
+	 * @param e
+	 *            process event object
 	 */
 	public abstract void groupReadRequest(ProcessEvent e);
 
 	/**
-	 * Indicates that a KNX group read response message was received from the KNX network.
+	 * Indicates that a KNX group read response message was received from the
+	 * KNX network.
 	 * <p>
 	 * 
-	 * @param e process event object
+	 * @param e
+	 *            process event object
 	 */
 	public abstract void groupReadResponse(ProcessEvent e);
 
 	/**
-	 * Returns the ASDU of the received process event as boolean datapoint value.
+	 * Returns the ASDU of the received process event as boolean datapoint
+	 * value.
 	 * <p>
 	 * This method has to be invoked manually by the user (either in
 	 * {@link #groupReadResponse(ProcessEvent)} or
-	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the received
-	 * datapoint type.
+	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the
+	 * received datapoint type.
 	 * 
-	 * @param e the process event with the ASDU to translate
+	 * @param e
+	 *            the process event with the ASDU to translate
 	 * @return the received value of type boolean
-	 * @throws KNXFormatException on not supported or not available boolean DPT
+	 * @throws KNXFormatException
+	 *             on not supported or not available boolean DPT
 	 */
-	public boolean asBool(ProcessEvent e) throws KNXFormatException
-	{
+	public boolean asBool(ProcessEvent e) throws KNXFormatException {
 		final DPTXlatorBoolean t = new DPTXlatorBoolean(DPTXlatorBoolean.DPT_BOOL);
 		t.setData(e.getASDU());
 		return t.getValueBoolean();
 	}
 
 	/**
-	 * Returns the ASDU of the received process event as unsigned 8 Bit datapoint value.
+	 * Returns the ASDU of the received process event as unsigned 8 Bit
+	 * datapoint value.
 	 * <p>
 	 * This method has to be invoked manually by the user (either in
 	 * {@link #groupReadResponse(ProcessEvent)} or
-	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the received
-	 * datapoint type.
+	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the
+	 * received datapoint type.
 	 * 
-	 * @param e the process event with the ASDU to translate
-	 * @param scale see {@link ProcessCommunicator#readUnsigned(
-	 *        at.ac.tuwien.auto.calimero2.GroupAddress, String)}
+	 * @param e
+	 *            the process event with the ASDU to translate
+	 * @param scale
+	 *            see
+	 *            {@link ProcessCommunicator#readUnsigned( at.ac.tuwien.auto.calimero2.GroupAddress, String)}
 	 * @return the received value of type 8 Bit unsigned
-	 * @throws KNXFormatException on not supported or not available 8 Bit unsigned DPT
+	 * @throws KNXFormatException
+	 *             on not supported or not available 8 Bit unsigned DPT
 	 */
-	public short asUnsigned(ProcessEvent e, String scale) throws KNXFormatException
-	{
+	public short asUnsigned(ProcessEvent e, String scale) throws KNXFormatException {
 		final DPTXlator8BitUnsigned t = new DPTXlator8BitUnsigned(scale);
 		t.setData(e.getASDU());
 		return t.getValueUnsigned();
 	}
 
 	/**
-	 * Returns the ASDU of the received process event as 3 Bit controlled datapoint value.
+	 * Returns the ASDU of the received process event as 3 Bit controlled
+	 * datapoint value.
 	 * <p>
 	 * This method has to be invoked manually by the user (either in
 	 * {@link #groupReadResponse(ProcessEvent)} or
-	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the received
-	 * datapoint type.
+	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the
+	 * received datapoint type.
 	 * 
-	 * @param e the process event with the ASDU to translate
+	 * @param e
+	 *            the process event with the ASDU to translate
 	 * @return the received value of type 3 Bit controlled
-	 * @throws KNXFormatException on not supported or not available 3 Bit controlled DPT
+	 * @throws KNXFormatException
+	 *             on not supported or not available 3 Bit controlled DPT
 	 */
-	public byte asControl(ProcessEvent e) throws KNXFormatException
-	{
-		final DPTXlator3BitControlled t = new DPTXlator3BitControlled(
-			DPTXlator3BitControlled.DPT_CONTROL_DIMMING);
+	public byte asControl(ProcessEvent e) throws KNXFormatException {
+		final DPTXlator3BitControlled t = new DPTXlator3BitControlled(DPTXlator3BitControlled.DPT_CONTROL_DIMMING);
 		t.setData(e.getASDU());
 		return t.getValueSigned();
 	}
 
 	/**
-	 * Returns the ASDU of the received process event as 2 byte KNX float datapoint value.
+	 * Returns the ASDU of the received process event as 2 byte KNX float
+	 * datapoint value.
 	 * <p>
 	 * This method has to be invoked manually by the user (either in
 	 * {@link #groupReadResponse(ProcessEvent)} or
-	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the received
-	 * datapoint type.
+	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the
+	 * received datapoint type.
 	 * 
-	 * @param e the process event with the ASDU to translate
+	 * @param e
+	 *            the process event with the ASDU to translate
 	 * @return the received value of type float
-	 * @throws KNXFormatException on not supported or not available float DPT
+	 * @throws KNXFormatException
+	 *             on not supported or not available float DPT
 	 */
-	public float asFloat(ProcessEvent e) throws KNXFormatException
-	{
-		final DPTXlator2ByteFloat t = new DPTXlator2ByteFloat(
-			DPTXlator2ByteFloat.DPT_TEMPERATURE_DIFFERENCE);
+	public float asFloat(ProcessEvent e) throws KNXFormatException {
+		final DPTXlator2ByteFloat t = new DPTXlator2ByteFloat(DPTXlator2ByteFloat.DPT_TEMPERATURE_DIFFERENCE);
 		t.setData(e.getASDU());
 		return t.getValueFloat();
 	}
@@ -160,45 +171,49 @@ public abstract class ProcessListenerEx implements ProcessListener
 	/**
 	 * Returns the ASDU of the received process event as string datapoint value.
 	 * <p>
-	 * The used character set is ISO-8859-1 (Latin 1), with an allowed string length of 14
-	 * characters.
+	 * The used character set is ISO-8859-1 (Latin 1), with an allowed string
+	 * length of 14 characters.
 	 * <p>
 	 * This method has to be invoked manually by the user (either in
 	 * {@link #groupReadResponse(ProcessEvent)} or
-	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the received
-	 * datapoint type.
+	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the
+	 * received datapoint type.
 	 * 
-	 * @param e the process event with the ASDU to translate
+	 * @param e
+	 *            the process event with the ASDU to translate
 	 * @return the received value of type String
-	 * @throws KNXFormatException on not supported or not available ISO-8859-1 DPT
+	 * @throws KNXFormatException
+	 *             on not supported or not available ISO-8859-1 DPT
 	 */
-	public String asString(ProcessEvent e) throws KNXFormatException
-	{
+	public String asString(ProcessEvent e) throws KNXFormatException {
 		final DPTXlatorString t = new DPTXlatorString(DPTXlatorString.DPT_STRING_8859_1);
 		t.setData(e.getASDU());
 		return t.getValue();
 	}
 
 	/**
-	 * Returns the ASDU of the received process event as datapoint value of the requested
-	 * DPT in String representation.
+	 * Returns the ASDU of the received process event as datapoint value of the
+	 * requested DPT in String representation.
 	 * <p>
 	 * This method has to be invoked manually by the user (either in
 	 * {@link #groupReadResponse(ProcessEvent)} or
-	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the received
-	 * datapoint type.
+	 * {@link ProcessListener#groupWrite(ProcessEvent)}), depending on the
+	 * received datapoint type.
 	 * 
-	 * @param e the process event with the ASDU to translate
-	 * @param dptMainNumber datapoint type main number, number >= 0; use 0 to infer
-	 *        translator type from <code>dptID</code> argument only
-	 * @param dptID datapoint type ID for selecting a particular kind of value translation
+	 * @param e
+	 *            the process event with the ASDU to translate
+	 * @param dptMainNumber
+	 *            datapoint type main number, number >= 0; use 0 to infer
+	 *            translator type from <code>dptID</code> argument only
+	 * @param dptID
+	 *            datapoint type ID for selecting a particular kind of value
+	 *            translation
 	 * @return the received value of the requested type as String representation
-	 * @throws KNXException on not supported or not available DPT
+	 * @throws KNXException
+	 *             on not supported or not available DPT
 	 * @see TranslatorTypes#createTranslator(int, String)
 	 */
-	public String asString(ProcessEvent e, int dptMainNumber, String dptID)
-		throws KNXException
-	{
+	public String asString(ProcessEvent e, int dptMainNumber, String dptID) throws KNXException {
 		final DPTXlator t = TranslatorTypes.createTranslator(dptMainNumber, dptID);
 		t.setData(e.getASDU());
 		return t.getValue();

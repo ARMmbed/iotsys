@@ -28,64 +28,68 @@ import java.io.OutputStream;
  * 
  * @author B. Malinowsky
  */
-class PortOutputStream extends OutputStream
-{
+class PortOutputStream extends OutputStream {
 	private final SerialCom p;
 
 	/**
 	 * Creates a new output stream for <code>port</code>.
 	 * <p>
-	 * @param port open port for output
+	 * 
+	 * @param port
+	 *            open port for output
 	 */
-	public PortOutputStream(SerialCom port)
-	{
+	public PortOutputStream(SerialCom port) {
 		p = port;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.OutputStream#write(int)
 	 */
-	public void write(int b) throws IOException
-	{
+	public void write(int b) throws IOException {
 		p.write(b);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.OutputStream#write(byte[])
 	 */
-	public void write(byte[] b) throws IOException
-	{
+	public void write(byte[] b) throws IOException {
 		if (b == null)
 			throw new NullPointerException();
 		p.writeBytes(b, 0, b.length);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.OutputStream#write(byte[], int, int)
 	 */
-	public void write(byte[] b, int off, int len) throws IOException
-	{
+	public void write(byte[] b, int off, int len) throws IOException {
 		if (b == null)
 			throw new NullPointerException();
-		if ((off < 0) || (off > b.length) || (len < 0) || ((off + len) > b.length)
-			|| ((off + len) < 0))
+		if ((off < 0) || (off > b.length) || (len < 0) || ((off + len) > b.length) || ((off + len) < 0))
 			throw new IndexOutOfBoundsException();
 		p.writeBytes(b, off, len);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.OutputStream#flush()
 	 */
-	public void flush() throws IOException
-	{
+	public void flush() throws IOException {
 		super.flush();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.io.OutputStream#close()
 	 */
-	public void close() throws IOException
-	{
+	public void close() throws IOException {
 		super.flush();
 		super.close();
 	}

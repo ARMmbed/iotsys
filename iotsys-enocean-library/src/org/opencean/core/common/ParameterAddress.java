@@ -9,15 +9,15 @@ package org.opencean.core.common;
  */
 public interface ParameterAddress {
 
-    String getParameterId();
+	String getParameterId();
 
-    String getDeviceId();
+	String getDeviceId();
 
-    String getDeviceAsString();
+	String getDeviceAsString();
 
-    String getChannelId();
+	String getChannelId();
 
-    String getChannelAsString();
+	String getChannelAsString();
 
-    String getAsString();
+	String getAsString();
 }

@@ -4,4 +4,3 @@ public class RfidWatchdog {
 	public void notifyWatchDog(String tag) {
 	}
 }
-

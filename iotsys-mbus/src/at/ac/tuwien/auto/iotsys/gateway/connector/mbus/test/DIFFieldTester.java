@@ -38,21 +38,21 @@ public class DIFFieldTester {
 
 	public static void main(String[] args) {
 		String difField = "F3";
-		
+
 		DIFTelegramField difTel = new DIFTelegramField();
 		difTel.addFieldPart(difField);
 		difTel.parse();
 		difTel.clearTelegramPart();
-		
+
 		difField = "73";
 		difTel.addFieldPart(difField);
 		difTel.parse();
 		difTel.clearTelegramPart();
-		
+
 		difField = "00";
 		difTel.addFieldPart(difField);
 		difTel.parse();
 		difTel.clearTelegramPart();
-		
+
 	}
 }

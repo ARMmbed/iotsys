@@ -42,12 +42,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
-import obix.Contract;
-import obix.List;
-import obix.Obj;
-import obix.Obj.TranslationAttribute;
-import obix.Uri;
-
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.apache.commons.io.FileUtils;
@@ -74,9 +68,13 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl.ViewFunct
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl.ViewTopologyImpl;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.gateway.obix.objects.knx.datapoint.impl.DataPointInit;
+import obix.Contract;
+import obix.List;
+import obix.Obj;
+import obix.Obj.TranslationAttribute;
+import obix.Uri;
 
-public class KNXDeviceLoaderETSImpl implements DeviceLoader
-{
+public class KNXDeviceLoaderETSImpl implements DeviceLoader {
 	private static Logger log = Logger.getLogger(KNXDeviceLoaderETSImpl.class.getName());
 
 	private XMLConfiguration devicesConfig;
@@ -84,15 +82,12 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 
 	private ArrayList<String> myObjects = new ArrayList<String>();
 
-	public void unZip(String zipFile, String outputFolder)
-	{
+	public void unZip(String zipFile, String outputFolder) {
 		byte[] buffer = new byte[1024];
 
-		try
-		{
+		try {
 			File folder = new File(outputFolder);
-			if (!folder.exists())
-			{
+			if (!folder.exists()) {
 				folder.mkdir();
 			}
 
@@ -100,8 +95,7 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 
 			ZipEntry ze = zis.getNextEntry();
 
-			while (ze != null)
-			{
+			while (ze != null) {
 
 				String fileName = ze.getName();
 				File newFile = new File(outputFolder + File.separator + fileName);
@@ -113,8 +107,7 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 				FileOutputStream fos = new FileOutputStream(newFile);
 
 				int len;
-				while ((len = zis.read(buffer)) > 0)
-				{
+				while ((len = zis.read(buffer)) > 0) {
 					fos.write(buffer, 0, len);
 				}
 
@@ -125,18 +118,14 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 			zis.closeEntry();
 			zis.close();
 
-		}
-		catch (IOException ex)
-		{
+		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
 	}
 
-	public ArrayList<Connector> initDevices(ObjectBroker objectBroker)
-	{
+	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		log.info("KNX ETS device loader starting. - connectorsConfig: " + connectorsConfig);
 		setConfiguration(connectorsConfig);
-		
 
 		ArrayList<Connector> connectors = new ArrayList<Connector>();
 
@@ -145,13 +134,11 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 
 		int connectorsSize = 0;
 
-		if (knxConnectors != null)
-		{
+		if (knxConnectors != null) {
 			connectorsSize = 1;
 		}
 
-		if (knxConnectors instanceof Collection<?>)
-		{
+		if (knxConnectors instanceof Collection<?>) {
 			connectorsSize = ((Collection<?>) knxConnectors).size();
 		}
 
@@ -160,12 +147,12 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 		networks.setName("networks");
 		networks.setOf(new Contract(Network.CONTRACT));
 		networks.setHref(new Uri("/networks"));
-				
+
 		boolean networkEnabled = false;
-		
-		for (int connector = 0; connector < connectorsSize; connector++)
-		{
-			HierarchicalConfiguration subConfig = connectorsConfig.configurationAt("knx-ets.connector(" + connector + ")");
+
+		for (int connector = 0; connector < connectorsSize; connector++) {
+			HierarchicalConfiguration subConfig = connectorsConfig
+					.configurationAt("knx-ets.connector(" + connector + ")");
 
 			// String connectorName = subConfig.getString("name");
 			String routerIP = subConfig.getString("router.ip");
@@ -179,17 +166,15 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 
 			Boolean enableHistories = subConfig.getBoolean("historyEnabled", false);
 
-			if (enabled)
-			{
-				if (!networkEnabled)
-				{
+			if (enabled) {
+				if (!networkEnabled) {
 					objectBroker.addObj(networks, true);
 					networkEnabled = true;
 				}
 				File file = new File(knxProj);
 
-				if (!file.exists() || file.isDirectory() || !file.getName().endsWith(".knxproj") || file.getName().length() < 8)
-				{
+				if (!file.exists() || file.isDirectory() || !file.getName().endsWith(".knxproj")
+						|| file.getName().length() < 8) {
 					log.warning("KNX project file " + knxProj + " is not a valid KNX project file.");
 					continue;
 				}
@@ -198,54 +183,51 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 
 				File projDir = new File(projDirName);
 
-				if (!projDir.exists() || forceRefresh)
-				{
+				if (!projDir.exists() || forceRefresh) {
 					log.info("Expanding " + knxProj + " into directory " + projDirName);
 					unZip(knxProj, projDirName);
 				}
 
-				String directory =  "./" + knxProj.substring(knxProj.indexOf("/")+ 1).replaceFirst(".knxproj", "");
+				String directory = "./" + knxProj.substring(knxProj.indexOf("/") + 1).replaceFirst(".knxproj", "");
 
-				// now the unpacked ETS project should be available in the directory
-				String transformFileName =  knxProj.replaceFirst(".knxproj", "") + "/" + file.getName().replaceFirst(".knxproj", "") + ".xml";
-				
+				// now the unpacked ETS project should be available in the
+				// directory
+				String transformFileName = knxProj.replaceFirst(".knxproj", "") + "/"
+						+ file.getName().replaceFirst(".knxproj", "") + ".xml";
+
 				File transformFile = new File(transformFileName);
 
-				if (!transformFile.exists() || forceRefresh)
-				{
+				if (!transformFile.exists() || forceRefresh) {
 					log.info("Transforming ETS configuration.");
-//					System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+					// System.setProperty("javax.xml.transform.TransformerFactory",
+					// "net.sf.saxon.TransformerFactoryImpl");
 					// Create a transform factory instance.
 					TransformerFactory tfactory = TransformerFactory.newInstance();
 
 					// Create a transformer for the stylesheet.
 					Transformer transformer;
 
-					try
-					{
-						if ("5".equals(System.getProperty("ETS_VERSION"))){
+					try {
+						if ("5".equals(System.getProperty("ETS_VERSION"))) {
 							transformer = tfactory.newTransformer(new StreamSource("knx-config/stylesheet_knx_12.xsl"));
 						} else {
 							transformer = tfactory.newTransformer(new StreamSource("knx-config/stylesheet_knx.xsl"));
 						}
-						Collection<File> listFiles = FileUtils.listFiles(projDir, FileFilterUtils.nameFileFilter("0.xml"), new IOFileFilter()
-						{
+						Collection<File> listFiles = FileUtils.listFiles(projDir,
+								FileFilterUtils.nameFileFilter("0.xml"), new IOFileFilter() {
 
-							@Override
-							public boolean accept(File file)
-							{
-								return true;
-							}
+									@Override
+									public boolean accept(File file) {
+										return true;
+									}
 
-							@Override
-							public boolean accept(File dir, String name)
-							{
-								return true;
-							}
+									@Override
+									public boolean accept(File dir, String name) {
+										return true;
+									}
 
-						});
-						if (listFiles.size() != 1)
-						{
+								});
+						if (listFiles.size() != 1) {
 							log.severe("Found no or more than one 0.xml file in " + projDirName);
 							continue;
 						}
@@ -253,29 +235,23 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 						log.info("Transforming with directory parameter set to " + directory);
 
 						transformer.setParameter("directory", directory);
-						transformer.transform(new StreamSource(listFiles.iterator().next().getAbsoluteFile()), new StreamResult(transformFileName));
+						transformer.transform(new StreamSource(listFiles.iterator().next().getAbsoluteFile()),
+								new StreamResult(transformFileName));
 
 						log.info("Transformation completed and result written to: " + transformFileName);
-					}
-					catch (TransformerConfigurationException e)
-					{
+					} catch (TransformerConfigurationException e) {
+						e.printStackTrace();
+					} catch (TransformerException e) {
 						e.printStackTrace();
 					}
-					catch (TransformerException e)
-					{
-						e.printStackTrace();
-					}					
 				}
 
-				try
-				{
+				try {
 					devicesConfig = new XMLConfiguration(transformFileName);
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					log.log(Level.SEVERE, e.getMessage(), e);
 				}
-				
+
 				KNXConnector knxConnector = new KNXConnector(routerIP, routerPort, localIP);
 
 				connect(knxConnector);
@@ -289,24 +265,18 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 		return connectors;
 	}
 
-	private void connect(KNXConnector knxConnector)
-	{
-		try
-		{
+	private void connect(KNXConnector knxConnector) {
+		try {
 			knxConnector.connect();
-		}
-		catch (UnknownHostException e)
-		{
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
-		}
-		catch (KNXException e)
-		{
+		} catch (KNXException e) {
 			e.printStackTrace();
 		}
 	}
 
-	private void initNetworks(KNXConnector knxConnector, ObjectBroker objectBroker, Obj networks, boolean enableGroupComm, boolean enableHistories)
-	{
+	private void initNetworks(KNXConnector knxConnector, ObjectBroker objectBroker, Obj networks,
+			boolean enableGroupComm, boolean enableHistories) {
 		// Maps
 		Hashtable<String, EntityImpl> entityById = new Hashtable<String, EntityImpl>();
 		Hashtable<String, DatapointImpl> datapointById = new Hashtable<String, DatapointImpl>();
@@ -320,66 +290,66 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 		parseGroupAddressConfig(devicesConfig.configurationAt("views.functional"), groupAddressByDatapointID);
 
 		// Network
-		NetworkImpl n = new NetworkImpl(devicesConfig.getString("[@id]"), arrayToString(devicesConfig.getStringArray("[@name]")), arrayToString(devicesConfig.getStringArray("[@description]")), devicesConfig.getString("[@standard]"));
+		NetworkImpl n = new NetworkImpl(devicesConfig.getString("[@id]"),
+				arrayToString(devicesConfig.getStringArray("[@name]")),
+				arrayToString(devicesConfig.getStringArray("[@description]")), devicesConfig.getString("[@standard]"));
 		networks.add(n);
 		networks.add(n.getReference());
 		objectBroker.addObj(n, true);
 
 		// Entities
-		parseEntites(knxConnector, objectBroker, entityById, datapointById, n, referenceById, groupAddressByDatapointID, enableGroupComm, enableHistories);
+		parseEntites(knxConnector, objectBroker, entityById, datapointById, n, referenceById, groupAddressByDatapointID,
+				enableGroupComm, enableHistories);
 
 		// Views
 		Object building = devicesConfig.getProperty("views.building.part[@id]");
-		if (building != null)
-		{
+		if (building != null) {
 			objectBroker.addObj(n.getBuilding(), true);
-			parseBuildingView(devicesConfig.configurationAt("views.building"), n.getBuilding(), n, objectBroker, entityById);
+			parseBuildingView(devicesConfig.configurationAt("views.building"), n.getBuilding(), n, objectBroker,
+					entityById);
 		}
 
 		Object functional = devicesConfig.getProperty("views.functional.group[@id]");
-		if (functional != null)
-		{
+		if (functional != null) {
 			objectBroker.addObj(n.getFunctional(), true);
-			parseFunctionalView(devicesConfig.configurationAt("views.functional"), n.getFunctional(), n, objectBroker, entityById, datapointById, knxConnector, groupAddressByDatapointID);
+			parseFunctionalView(devicesConfig.configurationAt("views.functional"), n.getFunctional(), n, objectBroker,
+					entityById, datapointById, knxConnector, groupAddressByDatapointID);
 		}
 
 		Object domains = devicesConfig.getProperty("views.domains.domain[@id]");
-		if (domains != null)
-		{
+		if (domains != null) {
 			objectBroker.addObj(n.getDomains(), true);
-			parseDomainView(devicesConfig.configurationAt("views.domains"), n.getDomains(), n, objectBroker, entityById, datapointById);
+			parseDomainView(devicesConfig.configurationAt("views.domains"), n.getDomains(), n, objectBroker, entityById,
+					datapointById);
 		}
 
 		Object topologies = devicesConfig.getProperty("views.topology.area[@id]");
-		if (topologies != null)
-		{
+		if (topologies != null) {
 			objectBroker.addObj(n.getTopology(), true);
-			parseTopologyView(devicesConfig.configurationAt("views.topology"), n.getTopology(), n, objectBroker, entityById, datapointById, referenceById);
+			parseTopologyView(devicesConfig.configurationAt("views.topology"), n.getTopology(), n, objectBroker,
+					entityById, datapointById, referenceById);
 		}
 	}
 
-	private void parseReferences(Hashtable<String, String> referenceById)
-	{
-		for (int i = 0; i < sizeOfConfiguration(devicesConfig.getProperty("references.reference.[@id]")); i++)
-		{
+	private void parseReferences(Hashtable<String, String> referenceById) {
+		for (int i = 0; i < sizeOfConfiguration(devicesConfig.getProperty("references.reference.[@id]")); i++) {
 			String id = devicesConfig.getString("references.reference(" + i + ").[@id]");
 			String name = arrayToString(devicesConfig.getStringArray("references.reference(" + i + ").[@name]"));
 			referenceById.put(id, name);
 		}
 	}
 
-	private void parseGroupAddressConfig(HierarchicalConfiguration groupConfig, Hashtable<String, String> groupAddressByDatapointId)
-	{
+	private void parseGroupAddressConfig(HierarchicalConfiguration groupConfig,
+			Hashtable<String, String> groupAddressByDatapointId) {
 		// if there are no group elements return
-		for (int groupsIdx = 0; groupsIdx < sizeOfConfiguration(groupConfig.getProperty("group.[@id]")); groupsIdx++)
-		{
+		for (int groupsIdx = 0; groupsIdx < sizeOfConfiguration(groupConfig.getProperty("group.[@id]")); groupsIdx++) {
 			String groupAddress = groupConfig.getString("group(" + groupsIdx + ").[@address]");
 
 			// find instance elements for this group
 			HierarchicalConfiguration concreteGroup = groupConfig.configurationAt("group(" + groupsIdx + ")");
 
-			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(concreteGroup.getProperty("instance.[@id]")); instanceIdx++)
-			{
+			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(
+					concreteGroup.getProperty("instance.[@id]")); instanceIdx++) {
 				String instanceId = concreteGroup.getString("instance(" + instanceIdx + ").[@id]");
 				log.info("Mapping instanceID: " + instanceId + " to " + groupAddress);
 
@@ -392,12 +362,15 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 		}
 	}
 
-	private void parseEntites(KNXConnector knxConnector, ObjectBroker objectBroker, Hashtable<String, EntityImpl> entityById, Hashtable<String, DatapointImpl> datapointById, NetworkImpl n, Hashtable<String, String> resourceById, Hashtable<String, String> groupAddressByDatapointID, boolean enableGroupComm, boolean enableHistories)
-	{
-		for (int entityIdx = 0; entityIdx < sizeOfConfiguration(devicesConfig.getProperty("entities.entity[@id]")); entityIdx++)
-		{
+	private void parseEntites(KNXConnector knxConnector, ObjectBroker objectBroker,
+			Hashtable<String, EntityImpl> entityById, Hashtable<String, DatapointImpl> datapointById, NetworkImpl n,
+			Hashtable<String, String> resourceById, Hashtable<String, String> groupAddressByDatapointID,
+			boolean enableGroupComm, boolean enableHistories) {
+		for (int entityIdx = 0; entityIdx < sizeOfConfiguration(
+				devicesConfig.getProperty("entities.entity[@id]")); entityIdx++) {
 			// Entity
-			HierarchicalConfiguration entityConfig = devicesConfig.configurationAt("entities.entity(" + entityIdx + ")");
+			HierarchicalConfiguration entityConfig = devicesConfig
+					.configurationAt("entities.entity(" + entityIdx + ")");
 
 			String entityId = entityConfig.getString("[@id]");
 			String entityName = arrayToString(entityConfig.getStringArray("[@name]"));
@@ -405,34 +378,34 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 			String entityOrderNumber = entityConfig.getString("[@orderNumber]");
 			String entityManufacturerId = entityConfig.getString("[@manufacturerId]");
 
-			EntityImpl entity = new EntityImpl(entityId, entityName, entityDescription, resourceById.get(entityManufacturerId), entityOrderNumber);
+			EntityImpl entity = new EntityImpl(entityId, entityName, entityDescription,
+					resourceById.get(entityManufacturerId), entityOrderNumber);
 			entityById.put(entityId, entity);
 			n.getEntities().addEntity(entity);
 			objectBroker.addObj(entity, true);
 
 			// Translations
-			for (int transIdx = 0; transIdx < sizeOfConfiguration(entityConfig.getProperty("translations.translation[@language]")); transIdx++)
-			{
-				HierarchicalConfiguration transConfig = entityConfig.configurationAt("translations.translation(" + transIdx + ")");
+			for (int transIdx = 0; transIdx < sizeOfConfiguration(
+					entityConfig.getProperty("translations.translation[@language]")); transIdx++) {
+				HierarchicalConfiguration transConfig = entityConfig
+						.configurationAt("translations.translation(" + transIdx + ")");
 
 				String language = transConfig.getString("[@language]");
 				String attribute = transConfig.getString("[@attribute]");
 				String value = arrayToString(transConfig.getStringArray("[@value]"));
 
-				try
-				{
+				try {
 					entity.addTranslation(language, attribute, value);
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					log.warning(e.getMessage());
 				}
 			}
 
 			// DPs
-			for (int datapointIdx = 0; datapointIdx < sizeOfConfiguration(entityConfig.getProperty("datapoints.datapoint[@id]")); datapointIdx++)
-			{
-				HierarchicalConfiguration datapointConfig = entityConfig.configurationAt("datapoints.datapoint(" + datapointIdx + ")");
+			for (int datapointIdx = 0; datapointIdx < sizeOfConfiguration(
+					entityConfig.getProperty("datapoints.datapoint[@id]")); datapointIdx++) {
+				HierarchicalConfiguration datapointConfig = entityConfig
+						.configurationAt("datapoints.datapoint(" + datapointIdx + ")");
 
 				String dataPointName = arrayToString(datapointConfig.getStringArray("[@name]"));
 				String dataPointTypeIds = datapointConfig.getString("[@datapointTypeIds]");
@@ -440,50 +413,49 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 				String dataPointDescription = arrayToString(datapointConfig.getStringArray("[@description]"));
 				String dataPointWriteFlag = datapointConfig.getString("[@writeFlag]");
 				String dataPointReadFlag = datapointConfig.getString("[@readFlag]");
-				// String dataPointPriority = datapointConfig.getString("[@priority]");
-				// String dataPointCommunicationFlag = datapointConfig.getString("[@communicationFlag]");
-				// String dataPointReadOnInitFlag = datapointConfig.getString("[@readOnInitFlag]");
-				// String dataPointTransmitFlag = datapointConfig.getString("[@transmitFlag]");
-				// String updateFlag = datapointConfig.getString("[@updateFlag]");
+				// String dataPointPriority =
+				// datapointConfig.getString("[@priority]");
+				// String dataPointCommunicationFlag =
+				// datapointConfig.getString("[@communicationFlag]");
+				// String dataPointReadOnInitFlag =
+				// datapointConfig.getString("[@readOnInitFlag]");
+				// String dataPointTransmitFlag =
+				// datapointConfig.getString("[@transmitFlag]");
+				// String updateFlag =
+				// datapointConfig.getString("[@updateFlag]");
 
 				// use only the first DPTS
-				if (dataPointTypeIds.indexOf(" ") >= 0)
-				{
+				if (dataPointTypeIds.indexOf(" ") >= 0) {
 					dataPointTypeIds = dataPointTypeIds.substring(0, dataPointTypeIds.indexOf(" "));
 				}
 
 				log.info("Found data point type id: " + dataPointTypeIds);
-				String clazzName = "at.ac.tuwien.auto.iotsys.gateway.obix.objects.knx.datapoint.impl." + dataPointTypeIds.replace('-', '_') + "_ImplKnx";
+				String clazzName = "at.ac.tuwien.auto.iotsys.gateway.obix.objects.knx.datapoint.impl."
+						+ dataPointTypeIds.replace('-', '_') + "_ImplKnx";
 				Class<?> clazz = null;
 
-				try
-				{
+				try {
 					log.info("Loading: " + clazzName);
 					clazz = Class.forName(clazzName);
-				}
-				catch (ClassNotFoundException e)
-				{
-					log.warning(clazzName + " not found. Cannot instantiate according sub data point type. Trying fallback to generic main type.");
+				} catch (ClassNotFoundException e) {
+					log.warning(clazzName
+							+ " not found. Cannot instantiate according sub data point type. Trying fallback to generic main type.");
 					int firstIndexOf = dataPointTypeIds.indexOf('-');
-					int secondIndexOf = dataPointTypeIds.indexOf('-', firstIndexOf+1);
-					clazzName = "at.ac.tuwien.auto.iotsys.gateway.obix.objects.knx.datapoint.impl." + "DPT_" + dataPointTypeIds.substring(firstIndexOf+1, secondIndexOf) + "_ImplKnx"; //
-					
-					try
-					{
+					int secondIndexOf = dataPointTypeIds.indexOf('-', firstIndexOf + 1);
+					clazzName = "at.ac.tuwien.auto.iotsys.gateway.obix.objects.knx.datapoint.impl." + "DPT_"
+							+ dataPointTypeIds.substring(firstIndexOf + 1, secondIndexOf) + "_ImplKnx"; //
+
+					try {
 						log.info("Loading: " + clazzName);
 						clazz = Class.forName(clazzName);
-					}
-					catch (ClassNotFoundException e1)
-					{
+					} catch (ClassNotFoundException e1) {
 						e1.printStackTrace();
 						log.warning(clazzName + " not found. Cannot instantiate according main data point type.");
 					}
 				}
 
-				try
-				{
-					if (clazz != null)
-					{
+				try {
+					if (clazz != null) {
 						Constructor<?> constructor = clazz.getConstructor(KNXConnector.class, DataPointInit.class);
 						Object[] object = new Object[2];
 						object[0] = knxConnector;
@@ -491,10 +463,13 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 						DataPointInit dptInit = new DataPointInit();
 						dptInit.setDisplay(dataPointDescription);
 						dptInit.setDisplayName(dataPointName);
-						dptInit.setReadable(EnumsImpl.getInstance().getEnum(EnumEnabled.HREF).getBool(dataPointReadFlag));
+						dptInit.setReadable(
+								EnumsImpl.getInstance().getEnum(EnumEnabled.HREF).getBool(dataPointReadFlag));
 						dptInit.setName(dataPointId);
-						dptInit.setGroupAddress(new GroupAddress(Integer.parseInt(groupAddressByDatapointID.get(dataPointId))));
-						dptInit.setWritable(EnumsImpl.getInstance().getEnum(EnumEnabled.HREF).getBool(dataPointWriteFlag));
+						dptInit.setGroupAddress(
+								new GroupAddress(Integer.parseInt(groupAddressByDatapointID.get(dataPointId))));
+						dptInit.setWritable(
+								EnumsImpl.getInstance().getEnum(EnumEnabled.HREF).getBool(dataPointWriteFlag));
 
 						object[1] = dptInit;
 						DatapointImpl dataPoint = (DatapointImpl) constructor.newInstance(object);
@@ -502,68 +477,52 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 						datapointById.put(dataPointId, dataPoint);
 						entity.addDatapoint(dataPoint);
 
-						if(enableGroupComm)
+						if (enableGroupComm)
 							objectBroker.enableGroupComm(dataPoint);
-						if(enableHistories)
+						if (enableHistories)
 							objectBroker.addHistoryToDatapoints(dataPoint);
 						objectBroker.addObj(dataPoint, true);
 
 						// Search for child "value"
 						Obj dpValue = dataPoint.get("value");
-						if (dpValue != null)
-						{
+						if (dpValue != null) {
 							dpValue.setDisplayName(dataPointDescription);
 						}
 
 						// Translations (DP)
-						for (int transIdx = 0; transIdx < sizeOfConfiguration(datapointConfig.getProperty("translations.translation[@language]")); transIdx++)
-						{
-							HierarchicalConfiguration transConfig = datapointConfig.configurationAt("translations.translation(" + transIdx + ")");
+						for (int transIdx = 0; transIdx < sizeOfConfiguration(
+								datapointConfig.getProperty("translations.translation[@language]")); transIdx++) {
+							HierarchicalConfiguration transConfig = datapointConfig
+									.configurationAt("translations.translation(" + transIdx + ")");
 
 							String language = transConfig.getString("[@language]");
 							String attribute = transConfig.getString("[@attribute]");
 							String value = arrayToString(transConfig.getStringArray("[@value]"));
 
-							try
-							{
+							try {
 								dataPoint.addTranslation(language, attribute, value);
 
 								// translation for DisplayName of value
-								if (attribute.toLowerCase().trim().equals("description") && dpValue != null)
-								{
+								if (attribute.toLowerCase().trim().equals("description") && dpValue != null) {
 									dpValue.addTranslation(language, TranslationAttribute.displayName, value);
 								}
-							}
-							catch (Exception e)
-							{
+							} catch (Exception e) {
 								log.warning(e.getMessage());
 							}
 						}
 					}
-				}
-				catch (NoSuchMethodException e)
-				{
+				} catch (NoSuchMethodException e) {
 					log.warning(clazzName + " no such method. Cannot instantiate according datapoint.");
-				}
-				catch (SecurityException e)
-				{
+				} catch (SecurityException e) {
 					log.warning(clazzName + " security exception. Cannot instantiate according datapoint.");
-				}
-				catch (InstantiationException e)
-				{
+				} catch (InstantiationException e) {
 					log.warning(clazzName + " instantiation exception. Cannot instantiate according datapoint.");
-				}
-				catch (IllegalAccessException e)
-				{
+				} catch (IllegalAccessException e) {
 					log.warning(clazzName + " illegal access exception. Cannot instantiate according datapoint.");
-				}
-				catch (IllegalArgumentException e)
-				{
+				} catch (IllegalArgumentException e) {
 					log.warning(clazzName + " illegal argument exception. Cannot instantiate according datapoint.");
 					e.printStackTrace();
-				}
-				catch (InvocationTargetException e)
-				{
+				} catch (InvocationTargetException e) {
 					log.warning(clazzName + " invocation target exception. Cannot instantiate according datapoint.");
 					e.printStackTrace();
 				}
@@ -571,10 +530,9 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 		}
 	}
 
-	private void parseBuildingView(HierarchicalConfiguration partConfig, Obj parent, Network n, ObjectBroker objectBroker, Hashtable<String, EntityImpl> entityById)
-	{
-		for (int partsIdx = 0; partsIdx < sizeOfConfiguration(partConfig.getProperty("part.[@id]")); partsIdx++)
-		{
+	private void parseBuildingView(HierarchicalConfiguration partConfig, Obj parent, Network n,
+			ObjectBroker objectBroker, Hashtable<String, EntityImpl> entityById) {
+		for (int partsIdx = 0; partsIdx < sizeOfConfiguration(partConfig.getProperty("part.[@id]")); partsIdx++) {
 			String partId = partConfig.getString("part(" + partsIdx + ").[@id]");
 			String partName = arrayToString(partConfig.getStringArray("part(" + partsIdx + ").[@name]"));
 			String partDescription = arrayToString(partConfig.getStringArray("part(" + partsIdx + ").[@description]"));
@@ -595,8 +553,8 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 			// add instances to part
 			HierarchicalConfiguration concretePart = partConfig.configurationAt("part(" + partsIdx + ")");
 
-			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(concretePart.getProperty("instance.[@id]")); instanceIdx++)
-			{
+			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(
+					concretePart.getProperty("instance.[@id]")); instanceIdx++) {
 				String instanceId = concretePart.getString("instance(" + instanceIdx + ").[@id]");
 				Obj instance = part.addInstance(entityById.get(instanceId));
 				objectBroker.addObj(instance);
@@ -608,13 +566,15 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 		}
 	}
 
-	private void parseFunctionalView(HierarchicalConfiguration groupConfig, Obj parent, Network n, ObjectBroker objectBroker, Hashtable<String, EntityImpl> entityById, Hashtable<String, DatapointImpl> datapointById, KNXConnector knxConnector, Hashtable<String, String> groupAddressByDatapointId)
-	{
-		for (int groupsIdx = 0; groupsIdx < sizeOfConfiguration(groupConfig.getProperty("group.[@id]")); groupsIdx++)
-		{
+	private void parseFunctionalView(HierarchicalConfiguration groupConfig, Obj parent, Network n,
+			ObjectBroker objectBroker, Hashtable<String, EntityImpl> entityById,
+			Hashtable<String, DatapointImpl> datapointById, KNXConnector knxConnector,
+			Hashtable<String, String> groupAddressByDatapointId) {
+		for (int groupsIdx = 0; groupsIdx < sizeOfConfiguration(groupConfig.getProperty("group.[@id]")); groupsIdx++) {
 			String groupId = groupConfig.getString("group(" + groupsIdx + ").[@id]");
 			String groupName = arrayToString(groupConfig.getStringArray("group(" + groupsIdx + ").[@name]"));
-			String groupDescription = arrayToString(groupConfig.getStringArray("group(" + groupsIdx + ").[@description]"));
+			String groupDescription = arrayToString(
+					groupConfig.getStringArray("group(" + groupsIdx + ").[@description]"));
 			long groupAddress = groupConfig.getLong("group(" + groupsIdx + ").[@address]");
 
 			GroupImpl group = new GroupImpl(groupId, groupName, groupDescription, groupAddress);
@@ -632,22 +592,20 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 			// add instances to part
 			HierarchicalConfiguration concreteGroup = groupConfig.configurationAt("group(" + groupsIdx + ")");
 
-			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(concreteGroup.getProperty("instance.[@id]")); instanceIdx++)
-			{
+			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(
+					concreteGroup.getProperty("instance.[@id]")); instanceIdx++) {
 				String instanceId = concreteGroup.getString("instance(" + instanceIdx + ").[@id]");
 				String connector = concreteGroup.getString("instance(" + instanceIdx + ").[@connector]");
 
-				try
-				{
+				try {
 					DatapointImpl dp = datapointById.get(instanceId);
-					if(dp == null){
+					if (dp == null) {
 						log.warning("No datapoint type found for instance: " + instanceId);
 						continue;
 					}
 					Class<?> clazz = dp.getClass();
 
-					if (clazz != null)
-					{
+					if (clazz != null) {
 						Constructor<?> constructor = clazz.getConstructor(KNXConnector.class, DataPointInit.class);
 						Object[] object = new Object[2];
 						object[0] = knxConnector;
@@ -656,7 +614,8 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 						dptInit.setName("function");
 						dptInit.setReadable(dp.isValueReadable());
 						dptInit.setWritable(dp.isValueWritable());
-						dptInit.setGroupAddress(new GroupAddress(Integer.parseInt(groupAddressByDatapointId.get(instanceId))));
+						dptInit.setGroupAddress(
+								new GroupAddress(Integer.parseInt(groupAddressByDatapointId.get(instanceId))));
 
 						object[1] = dptInit;
 						DatapointImpl dataPoint = (DatapointImpl) constructor.newInstance(object);
@@ -664,9 +623,7 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 						group.addFunction(dataPoint);
 						objectBroker.addObj(dataPoint, true);
 					}
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					e.printStackTrace();
 				}
 
@@ -674,17 +631,20 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 			}
 
 			// recursively add more parts
-			parseFunctionalView(concreteGroup, group, n, objectBroker, entityById, datapointById, knxConnector, groupAddressByDatapointId);
+			parseFunctionalView(concreteGroup, group, n, objectBroker, entityById, datapointById, knxConnector,
+					groupAddressByDatapointId);
 		}
 	}
 
-	private void parseDomainView(HierarchicalConfiguration domainConfig, Obj parent, Network n, ObjectBroker objectBroker, Hashtable<String, EntityImpl> entityById, Hashtable<String, DatapointImpl> datapointById)
-	{
-		for (int domainIdx = 0; domainIdx < sizeOfConfiguration(domainConfig.getProperty("domain.[@id]")); domainIdx++)
-		{
+	private void parseDomainView(HierarchicalConfiguration domainConfig, Obj parent, Network n,
+			ObjectBroker objectBroker, Hashtable<String, EntityImpl> entityById,
+			Hashtable<String, DatapointImpl> datapointById) {
+		for (int domainIdx = 0; domainIdx < sizeOfConfiguration(
+				domainConfig.getProperty("domain.[@id]")); domainIdx++) {
 			String domainId = domainConfig.getString("domain(" + domainIdx + ").[@id]");
 			String domainName = arrayToString(domainConfig.getStringArray("domain(" + domainIdx + ").[@name]"));
-			String domainDescription = arrayToString(domainConfig.getStringArray("domain(" + domainIdx + ").[@description]"));
+			String domainDescription = arrayToString(
+					domainConfig.getStringArray("domain(" + domainIdx + ").[@description]"));
 
 			DomainImpl domain = new DomainImpl(domainId, domainName, domainDescription);
 
@@ -701,8 +661,8 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 			// add instances to part
 			HierarchicalConfiguration concreteDomain = domainConfig.configurationAt("domain(" + domainIdx + ")");
 
-			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(concreteDomain.getProperty("instance.[@id]")); instanceIdx++)
-			{
+			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(
+					concreteDomain.getProperty("instance.[@id]")); instanceIdx++) {
 				String instanceId = concreteDomain.getString("instance(" + instanceIdx + ").[@id]");
 				Obj addInstance = domain.addInstance(entityById.get(instanceId));
 				objectBroker.addObj(addInstance, true);
@@ -713,10 +673,10 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 		}
 	}
 
-	private void parseTopologyView(HierarchicalConfiguration areaConfig, Obj parent, Network n, ObjectBroker objectBroker, Hashtable<String, EntityImpl> entityById, Hashtable<String, DatapointImpl> datapointById, Hashtable<String, String> resourceById)
-	{
-		for (int areaIdx = 0; areaIdx < sizeOfConfiguration(areaConfig.getProperty("area.[@id]")); areaIdx++)
-		{
+	private void parseTopologyView(HierarchicalConfiguration areaConfig, Obj parent, Network n,
+			ObjectBroker objectBroker, Hashtable<String, EntityImpl> entityById,
+			Hashtable<String, DatapointImpl> datapointById, Hashtable<String, String> resourceById) {
+		for (int areaIdx = 0; areaIdx < sizeOfConfiguration(areaConfig.getProperty("area.[@id]")); areaIdx++) {
 			String areaId = areaConfig.getString("area(" + areaIdx + ").[@id]");
 			String areaName = arrayToString(areaConfig.getStringArray("area(" + areaIdx + ").[@name]"));
 			String areaDescription = arrayToString(areaConfig.getStringArray("area(" + areaIdx + ").[@description]"));
@@ -724,8 +684,7 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 			long areaAddress = areaConfig.getLong("area(" + areaIdx + ").[@address]");
 
 			String areaMediaType = null;
-			if (areaMediaTypeId != null)
-			{
+			if (areaMediaTypeId != null) {
 				areaMediaType = resourceById.get(areaMediaTypeId);
 			}
 
@@ -744,8 +703,8 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 			// add instances to part
 			HierarchicalConfiguration concreteArea = areaConfig.configurationAt("area(" + areaIdx + ")");
 
-			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(concreteArea.getProperty("instance.[@id]")); instanceIdx++)
-			{
+			for (int instanceIdx = 0; instanceIdx < sizeOfConfiguration(
+					concreteArea.getProperty("instance.[@id]")); instanceIdx++) {
 				String instanceId = concreteArea.getString("instance(" + instanceIdx + ").[@id]");
 				long address = concreteArea.getLong("instance(" + instanceIdx + ").[@address]");
 
@@ -759,14 +718,11 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 		}
 	}
 
-	private String arrayToString(String[] array)
-	{
+	private String arrayToString(String[] array) {
 		StringBuilder dataPointNameBuilder = new StringBuilder();
-		for (int i = 0; i < array.length; i++)
-		{
+		for (int i = 0; i < array.length; i++) {
 			dataPointNameBuilder.append(array[i]);
-			if (i < array.length - 1)
-			{
+			if (i < array.length - 1) {
 				dataPointNameBuilder.append(", ");
 			}
 		}
@@ -774,47 +730,36 @@ public class KNXDeviceLoaderETSImpl implements DeviceLoader
 		return dataPointNameBuilder.toString();
 	}
 
-	private int sizeOfConfiguration(Object configuration)
-	{
+	private int sizeOfConfiguration(Object configuration) {
 		int size = 0;
 
-		if (configuration != null)
-		{
+		if (configuration != null) {
 			size = 1;
 		}
 
-		if (configuration instanceof Collection<?>)
-		{
+		if (configuration instanceof Collection<?>) {
 			size = ((Collection<?>) configuration).size();
 		}
 		return size;
 	}
 
 	@Override
-	public void removeDevices(ObjectBroker objectBroker)
-	{
-		synchronized (myObjects)
-		{
-			for (String href : myObjects)
-			{
+	public void removeDevices(ObjectBroker objectBroker) {
+		synchronized (myObjects) {
+			for (String href : myObjects) {
 				objectBroker.removeObj(href);
 			}
 		}
 	}
 
 	@Override
-	public void setConfiguration(XMLConfiguration connectorsConfig)
-	{
+	public void setConfiguration(XMLConfiguration connectorsConfig) {
 		this.connectorsConfig = connectorsConfig;
-		if (connectorsConfig == null)
-		{
-			try
-			{
+		if (connectorsConfig == null) {
+			try {
 				log.info("Loading XML configuration from " + DEVICE_CONFIGURATION_LOCATION);
 				this.connectorsConfig = new XMLConfiguration(DEVICE_CONFIGURATION_LOCATION);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				log.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}

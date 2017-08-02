@@ -37,6 +37,9 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import at.ac.tuwien.auto.iotsys.commons.persistent.HistoryDbImpl;
+import at.ac.tuwien.auto.iotsys.commons.persistent.models.DbHistoryFeedRecord;
+import at.ac.tuwien.auto.iotsys.obix.FeedFilter;
 import obix.Abstime;
 import obix.Bool;
 import obix.Feed;
@@ -45,39 +48,36 @@ import obix.Obj;
 import obix.Real;
 import obix.Str;
 import obix.contracts.HistoryFilter;
-import at.ac.tuwien.auto.iotsys.commons.persistent.HistoryDbImpl;
-import at.ac.tuwien.auto.iotsys.commons.persistent.models.DbHistoryFeedRecord;
-import at.ac.tuwien.auto.iotsys.obix.FeedFilter;
 
 public class HistoryFilterImpl extends Obj implements HistoryFilter, FeedFilter {
-	
+
 	private Int limit = new Int();
 	private Abstime start = new Abstime();
 	private Abstime end = new Abstime();
-	
+
 	public static final String HISTORY_FILTER_CONTRACT = "obix:HistoryFilter";
-	
+
 	public HistoryFilterImpl() {
 		add(limit);
 		add(start);
 		add(end);
 	}
-	
+
 	public HistoryFilterImpl(Obj filter) {
 		this();
-		
+
 		if (filter instanceof HistoryFilter) {
 			HistoryFilter histFilter = (HistoryFilter) filter;
 			limit.set(histFilter.limit());
 			start.set(histFilter.start());
 			end.set(histFilter.end());
-			
+
 			limit.setNull(histFilter.limit().isNull());
 			start.setNull(histFilter.start().isNull());
 			end.setNull(histFilter.end().isNull());
 		}
 	}
-	
+
 	public Int limit() {
 		return limit;
 	}
@@ -93,42 +93,41 @@ public class HistoryFilterImpl extends Obj implements HistoryFilter, FeedFilter 
 	@Override
 	public List<Obj> query(Feed feed) {
 		ArrayList<HistoryRecordImpl> records = filterRecords(feed.getEvents());
-		
-		if (limit.get() > records.size()){
+
+		if (limit.get() > records.size()) {
 			// fetching records from db;
-			List<DbHistoryFeedRecord> dbrecords = HistoryDbImpl.getInstance().getHistoryFeed(feed.getFullContextPath(), start.get(), end.get(), (int)limit.get());
-			// this list is time-descended due to the use of "limit", which is in opposite direction to records list.
-			for (int i = dbrecords.size() - 1; i >= 0; i--){
+			List<DbHistoryFeedRecord> dbrecords = HistoryDbImpl.getInstance().getHistoryFeed(feed.getFullContextPath(),
+					start.get(), end.get(), (int) limit.get());
+			// this list is time-descended due to the use of "limit", which is
+			// in opposite direction to records list.
+			for (int i = dbrecords.size() - 1; i >= 0; i--) {
 				DbHistoryFeedRecord r = dbrecords.get(i);
 				Abstime time = new Abstime(r.getTime());
 				HistoryRecordImpl historyRecordImpl = null;
 				switch (r.getType()) {
 				case "int":
-					historyRecordImpl = new HistoryRecordImpl(new Int(
-							(int)r.getVal()), time);
+					historyRecordImpl = new HistoryRecordImpl(new Int((int) r.getVal()), time);
 					break;
 				case "real":
-					historyRecordImpl = new HistoryRecordImpl(new Real(
-							(double)r.getVal()), time);
+					historyRecordImpl = new HistoryRecordImpl(new Real((double) r.getVal()), time);
 					break;
 				case "str":
-					historyRecordImpl = new HistoryRecordImpl(new Str(
-							(String)r.getVal()), time);
+					historyRecordImpl = new HistoryRecordImpl(new Str((String) r.getVal()), time);
 					break;
 				case "bool":
-					historyRecordImpl = new HistoryRecordImpl(new Bool(
-							(boolean)r.getVal()), time);
+					historyRecordImpl = new HistoryRecordImpl(new Bool((boolean) r.getVal()), time);
 					break;
 				default:
 					break;
 				}
-				records.add(dbrecords.size() -1 - i, historyRecordImpl);
+				records.add(dbrecords.size() - 1 - i, historyRecordImpl);
 			}
 		}
-		
+
 		while (limit.get() > 0 & records.size() > limit.get())
-			records.remove(0);// remove the latest or oldest? records.size()-1 or 0
-		
+			records.remove(0);// remove the latest or oldest? records.size()-1
+								// or 0
+
 		return new ArrayList<Obj>(records);
 	}
 
@@ -136,14 +135,13 @@ public class HistoryFilterImpl extends Obj implements HistoryFilter, FeedFilter 
 	public List<Obj> poll(List<Obj> events) {
 		ArrayList<HistoryRecordImpl> records = filterRecords(events);
 		Collections.reverse(records);
-		
+
 		while (limit.get() > 0 & records.size() > limit.get())
-			records.remove(records.size()-1);
-		
+			records.remove(records.size() - 1);
+
 		return new ArrayList<Obj>(records);
 	}
-	
-	
+
 	private ArrayList<HistoryRecordImpl> filterRecords(List<Obj> events) {
 		ArrayList<HistoryRecordImpl> filteredRecords = new ArrayList<HistoryRecordImpl>();
 
@@ -155,13 +153,13 @@ public class HistoryFilterImpl extends Obj implements HistoryFilter, FeedFilter 
 				return r1.timestamp().compareTo(r2.timestamp());
 			}
 		});
-		
+
 		for (Obj event : events) {
 			if (!(event instanceof HistoryRecordImpl))
 				continue;
-			
+
 			HistoryRecordImpl record = (HistoryRecordImpl) event;
-			
+
 			if (start.get() != end.get()) {
 				if (!start.isNull() && record.timestamp().get() < start.get()) {
 					continue;
@@ -174,7 +172,7 @@ public class HistoryFilterImpl extends Obj implements HistoryFilter, FeedFilter 
 
 			filteredRecords.add(record);
 		}
-		
+
 		return filteredRecords;
 	}
 

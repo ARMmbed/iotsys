@@ -28,50 +28,59 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  *
  */
 public class User extends CouchDbDocument {
-	
+
 	@JsonProperty("_id")
 	String name;
 	String password;
 	String salt;
 	String role;
-	
-	public User(){}
-	
-	public User(String n, String p, String r){
+
+	public User() {
+	}
+
+	public User(String n, String p, String r) {
 		this.name = n;
 		this.password = p;
 		this.role = r;
 	}
-	
+
 	@JsonProperty("_id")
 	public String getName() {
 		return name;
 	}
+
 	@JsonProperty("_id")
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getRole() {
 		return role;
 	}
+
 	public void setRole(String role) {
 		this.role = role;
 	}
+
 	public String getSalt() {
 		return salt;
 	}
+
 	public void setSalt(String salt) {
 		this.salt = salt;
 	}
+
 	@Override
-	public String toString(){
-		return "{\"password\":\"" + password +"\",\"salt\":\"" + salt + "\",\"_id\":\"" + name + "\"}";
+	public String toString() {
+		return "{\"password\":\"" + password + "\",\"salt\":\"" + salt + "\",\"_id\":\"" + name + "\"}";
 	}
-	
+
 }

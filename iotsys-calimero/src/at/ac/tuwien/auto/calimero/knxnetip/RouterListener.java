@@ -24,23 +24,25 @@ import at.ac.tuwien.auto.calimero.KNXListener;
 /**
  * A listener for use with a {@link KNXnetIPRouter}.
  * <p>
- * In routing mode, it is possible that indications sent with KNXnetIPRouter might be
- * looped back by the network stack and received again through a registered listener in
+ * In routing mode, it is possible that indications sent with KNXnetIPRouter
+ * might be looped back by the network stack and received again through a
+ * registered listener in
  * {@link KNXListener#frameReceived(at.ac.tuwien.auto.calimero2.FrameEvent)}.<br>
  * Background: a platform's network interface has the option to send multicast
- * datagrams back to the local socket of the sender; setting the socket's loopback mode is
- * only considered as request and does not have to be followed rigorously.<br>
+ * datagrams back to the local socket of the sender; setting the socket's
+ * loopback mode is only considered as request and does not have to be followed
+ * rigorously.<br>
  * 
  * @author B. Malinowsky
  * @see KNXnetIPRouter
  */
-public interface RouterListener extends KNXListener
-{
+public interface RouterListener extends KNXListener {
 	/**
 	 * Informs about the loss of messages in the KNXnet/IP router.
 	 * <p>
 	 * 
-	 * @param e event with lost message information
+	 * @param e
+	 *            event with lost message information
 	 */
 	void lostMessage(LostMessageEvent e);
 }

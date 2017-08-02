@@ -34,82 +34,80 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams;
 
 import java.util.Arrays;
 
-import org.apache.commons.lang.ArrayUtils;
-
 import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.body.TelegramBody;
 import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.header.TelegramHeader;
-import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.util.Converter;
 
 public class Telegram {
 
 	private TelegramHeader header;
 	private TelegramBody body;
-	
+
 	public Telegram() {
 		this.header = new TelegramHeader();
 		this.body = new TelegramBody();
 	}
-	
+
 	public Telegram(TelegramHeader header, TelegramBody body) {
 		super();
 		this.header = header;
 		this.body = body;
 	}
-	
+
 	public void createTelegram(String telegram) {
 		this.createTelegram(telegram.split(" "));
 	}
-	
+
 	public void createTelegram(String[] telegram) {
-		int headerLength = TelegramHeader.headerLength;	
-		String[] firstHeader =  Arrays.copyOfRange(telegram, 0, headerLength);
-		String[] resultHeader = Arrays.copyOf(firstHeader, headerLength+2);
-		System.arraycopy(Arrays.copyOfRange(telegram, telegram.length - 2, telegram.length), 0, resultHeader, headerLength, 2);
+		int headerLength = TelegramHeader.headerLength;
+		String[] firstHeader = Arrays.copyOfRange(telegram, 0, headerLength);
+		String[] resultHeader = Arrays.copyOf(firstHeader, headerLength + 2);
+		System.arraycopy(Arrays.copyOfRange(telegram, telegram.length - 2, telegram.length), 0, resultHeader,
+				headerLength, 2);
 		this.header.createTelegramHeader(Arrays.copyOfRange(resultHeader, 0, resultHeader.length));
-		this.body.createTelegramBody(Arrays.copyOfRange(telegram, headerLength, telegram.length-2));
+		this.body.createTelegramBody(Arrays.copyOfRange(telegram, headerLength, telegram.length - 2));
 	}
 
 	public TelegramHeader getHeader() {
 		return header;
 	}
-	
+
 	public void setHeader(TelegramHeader header) {
 		this.header = header;
 	}
-	
+
 	public TelegramBody getBody() {
 		return body;
 	}
-	
+
 	public void setBody(TelegramBody body) {
 		this.body = body;
 	}
-	
+
 	public void parse() {
 		this.body.parse();
 	}
-	
+
 	public void debugOutput() {
-		if(this.header != null) {
+		if (this.header != null) {
 			this.header.debugOutput();
 		}
-		if(this.body != null) {
+		if (this.body != null) {
 			this.body.debugOutput();
 		}
-	}	
-	
-	public String getIdNr() {	
+	}
+
+	public String getIdNr() {
 		return this.getBody().getIdNr();
 	}
-	
-//	public String getPowerValue() {
-//		return this.getBody().getPowerValue();
-//	}
-	
+
+	// public String getPowerValue() {
+	// return this.getBody().getPowerValue();
+	// }
+
 	public String getEnergyValue() {
 		return this.getBody().getEnergyValue();
 	}
-	
+
 	public String getVolumeValue() {
 		return this.getBody().getVolumeValue();
 	}

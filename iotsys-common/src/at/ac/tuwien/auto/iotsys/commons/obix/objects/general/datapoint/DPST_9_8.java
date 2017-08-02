@@ -31,7 +31,6 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint;
 
-public interface DPST_9_8 extends DPT_9
-{
+public interface DPST_9_8 extends DPT_9 {
 	public static final String CONTRACT = "knx:DPST-9-8";
 }

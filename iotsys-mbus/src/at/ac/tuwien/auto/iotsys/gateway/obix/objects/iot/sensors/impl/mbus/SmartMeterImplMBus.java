@@ -43,35 +43,35 @@ public class SmartMeterImplMBus extends SmartMeterImpl {
 	protected final Logger log = Logger.getLogger(SmartMeterImplMBus.class.getName());
 	private MBusConnector connector;
 	private String idNr;
-	
-	public SmartMeterImplMBus(MBusConnector connector, String idNr){
-		this.connector = connector;		
-		this.idNr = idNr;		
+
+	public SmartMeterImplMBus(MBusConnector connector, String idNr) {
+		this.connector = connector;
+		this.idNr = idNr;
 	}
-	
-	public void createWatchDog(){
-		this.connector.addWatchDog(idNr, new MBusWatchDog(){
+
+	public void createWatchDog() {
+		this.connector.addWatchDog(idNr, new MBusWatchDog() {
 
 			@Override
 			public void notifyWatchDog(double volume, double energy) {
 				volumeValue.set(volume);
-				energyValue.set(energy);				
+				energyValue.set(energy);
 			}
-			
+
 			@Override
 			public void notifyWatchDog(SimpleTelegram telegram) {
-			}			
+			}
 		});
-	}	
-	
-	@Override 
-	public void refreshObject(){
-		log.info("Refresh object called.");
-		
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void refreshObject() {
+		log.info("Refresh object called.");
+
+	}
+
+	@Override
+	public void initialize() {
 		super.initialize();
 		createWatchDog();
 	}

@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint;
 
 import obix.Bool;
 
-public interface DPT_1 extends DataPoint
-{
+public interface DPT_1 extends DataPoint {
 	public static final String CONTRACT = "knx:DPT-1";
 
 	public Bool value();

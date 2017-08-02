@@ -24,9 +24,9 @@ import com.serotonin.bacnet4j.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
 public interface ExceptionListener {
-    void unimplementedVendorService(UnsignedInteger vendorId, UnsignedInteger serviceNumber, ByteQueue queue);
+	void unimplementedVendorService(UnsignedInteger vendorId, UnsignedInteger serviceNumber, ByteQueue queue);
 
-    void receivedException(Exception e);
+	void receivedException(Exception e);
 
-    void receivedThrowable(Throwable t);
+	void receivedThrowable(Throwable t);
 }

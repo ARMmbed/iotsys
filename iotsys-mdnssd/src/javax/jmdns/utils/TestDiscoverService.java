@@ -19,8 +19,9 @@ public class TestDiscoverService {
 	public static void main(String[] args) throws UnknownHostException, IOException {
 		JmDNS jmdns = JmDNS.create(InetAddress.getByName(PropertiesLoader.getInstance().getProperties()
 				.getProperty("iotsys.gateway.authNsAddr6", "fe80::acbc:b659:71db:5cb7%20")));
-		jmdns.addServiceListener("_obix._soap." + PropertiesLoader.getInstance().getProperties()
-				.getProperty("iotsys.gateway.authDomain", "local."), new SampleListener());
+		jmdns.addServiceListener("_obix._soap."
+				+ PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.authDomain", "local."),
+				new SampleListener());
 	}
 
 	static class SampleListener implements ServiceListener {
@@ -38,7 +39,8 @@ public class TestDiscoverService {
 
 		@Override
 		public void serviceResolved(ServiceEvent event) {
-			/// Only when DNS records other than PTR (SRV, AAAA, TXT) are found then serviceResolved is called.
+			/// Only when DNS records other than PTR (SRV, AAAA, TXT) are found
+			/// then serviceResolved is called.
 			System.out.println("Service resolved: " + event.getInfo());
 		}
 	}

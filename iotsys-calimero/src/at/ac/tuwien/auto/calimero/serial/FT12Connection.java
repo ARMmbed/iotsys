@@ -38,17 +38,15 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
 import at.ac.tuwien.auto.calimero.log.LogManager;
 import at.ac.tuwien.auto.calimero.log.LogService;
 
-
 /**
  * Connection based on the FT1.2 protocol for communication with a BCU2 device.
  * <p>
- * Currently, one log service is provided for all connection instances, with the log
- * service named "FT1.2".
+ * Currently, one log service is provided for all connection instances, with the
+ * log service named "FT1.2".
  * 
  * @author B. Malinowsky
  */
-public class FT12Connection
-{
+public class FT12Connection {
 	/**
 	 * State of communication: in idle state, no error, ready to send.
 	 * <p>
@@ -62,8 +60,8 @@ public class FT12Connection
 	public static final int CLOSED = 1;
 
 	/**
-	 * Status code of communication: waiting for acknowledge after send, no error, not
-	 * ready to send.
+	 * Status code of communication: waiting for acknowledge after send, no
+	 * error, not ready to send.
 	 * <p>
 	 */
 	public static final int ACK_PENDING = 2;
@@ -95,7 +93,8 @@ public class FT12Connection
 	private static final int EXCHANGE_TIMEOUT = 512;
 	// limit for retransmissions of discarded frames
 	private static final int REPEAT_LIMIT = 3;
-	// maximum time between two frame characters, minimum time to indicate error [Bits]
+	// maximum time between two frame characters, minimum time to indicate error
+	// [Bits]
 	private static final int IDLE_TIMEOUT = 33;
 
 	// frame delimiter characters
@@ -106,16 +105,15 @@ public class FT12Connection
 	// for now, a static log service should be sufficient, since we assume
 	// usage of physical ports for peripheral devices only, which are limited
 	// to at most 2 interfaces on common devices
-	private static final LogService logger =
-		LogManager.getManager().getLogService("FT1.2");
-	
+	private static final LogService logger = LogManager.getManager().getLogService("FT1.2");
+
 	// adapter for used serial I/O library
 	// - on ME CDC platforms with CommConnection available, holds an
 	// instance of type CommConnection
 	// - on internal serial port access, SerialCom adapter is used
 	// - or some external serial I/O library adapter (e.g. rxtx)
 	private LibraryAdapter adapter;
-	
+
 	private String port;
 	private InputStream is;
 	private OutputStream os;
@@ -132,74 +130,64 @@ public class FT12Connection
 	private final List listeners = new ArrayList();
 	private List listenersCopy = new ArrayList();
 
-	private static class CommConnectionAdapter extends LibraryAdapter
-	{
+	private static class CommConnectionAdapter extends LibraryAdapter {
 		private Object conn;
 		private InputStream is;
 		private OutputStream os;
-		
-		CommConnectionAdapter(String portID, int baudrate) throws KNXException
-		{
+
+		CommConnectionAdapter(String portID, int baudrate) throws KNXException {
 			open(portID, baudrate);
 		}
 
-		public void close() throws IOException
-		{
+		public void close() throws IOException {
 			try {
 				invoke(conn, "close", null);
-			}
-			catch (final InvocationTargetException e) {
+			} catch (final InvocationTargetException e) {
 				if (e.getCause() instanceof IOException)
 					throw (IOException) e.getCause();
+			} catch (final Exception e) {
 			}
-			catch (final Exception e) {}
 		}
 
-		public InputStream getInputStream()
-		{
+		public InputStream getInputStream() {
 			return is;
 		}
 
-		public OutputStream getOutputStream()
-		{
+		public OutputStream getOutputStream() {
 			return os;
 		}
 
-		private void open(String portID, int baudrate) throws KNXException
-		{
+		private void open(String portID, int baudrate) throws KNXException {
 			Object cc = null;
 			try {
 				final Class connector = Class.forName("javax.microedition.io.Connector");
-				cc = invoke(connector, "open", new String[] { "comm:" + portID
-					+ ";baudrate=" + baudrate
-					+ ";bitsperchar=8;stopbits=1;parity=even;autocts=off;autorts=off" });
+				cc = invoke(connector, "open", new String[] { "comm:" + portID + ";baudrate=" + baudrate
+						+ ";bitsperchar=8;stopbits=1;parity=even;autocts=off;autorts=off" });
 				is = (InputStream) invoke(cc, "openInputStream", null);
 				os = (OutputStream) invoke(cc, "openOutputStream", null);
 				conn = cc;
 				return;
-			}
-			catch (final ClassNotFoundException e) {
-				throw new KNXException("Connector factory not found, " +
-					"no ME CDC environment");
-			}
-			catch (final SecurityException e) {
+			} catch (final ClassNotFoundException e) {
+				throw new KNXException("Connector factory not found, " + "no ME CDC environment");
+			} catch (final SecurityException e) {
 				logger.error("CommConnection access denied", e);
-			}
-			catch (final InvocationTargetException e) {
+			} catch (final InvocationTargetException e) {
 				logger.error("CommConnection: " + e.getCause().getMessage());
 			}
-			// NoSuchMethodException, IllegalAccessException, IllegalArgumentException
-			catch (final Exception e) {}
+			// NoSuchMethodException, IllegalAccessException,
+			// IllegalArgumentException
+			catch (final Exception e) {
+			}
 			try {
 				invoke(cc, "close", null);
 				is.close();
 				os.close();
+			} catch (final Exception mainlyNPE) {
 			}
-			catch (final Exception mainlyNPE) {}
 			throw new KNXException("failed to open CommConnection");
 		}
 	}
-	
+
 	/**
 	 * Creates a new connection to a BCU2 using the FT1.2 protocol.
 	 * <p>
@@ -207,13 +195,15 @@ public class FT12Connection
 	 * {@link FT12Connection#FT12Connection(String)}.<br>
 	 * The baud rate is set to 19200.
 	 * 
-	 * @param portNumber port number of the serial communication port to use; mapped to
-	 *        the default port identifier using this number (device and platform specific)
-	 * @throws KNXException on port not found or access error, initializing port settings
-	 *         failed, if reset of BCU2 failed
+	 * @param portNumber
+	 *            port number of the serial communication port to use; mapped to
+	 *            the default port identifier using this number (device and
+	 *            platform specific)
+	 * @throws KNXException
+	 *             on port not found or access error, initializing port settings
+	 *             failed, if reset of BCU2 failed
 	 */
-	public FT12Connection(int portNumber) throws KNXException
-	{
+	public FT12Connection(int portNumber) throws KNXException {
 		this(defaultPortPrefix() + portNumber, DEFAULT_BAUDRATE);
 	}
 
@@ -222,34 +212,36 @@ public class FT12Connection
 	 * <p>
 	 * The baud rate is set to 19200.
 	 * 
-	 * @param portID port identifier of the serial communication port to use
-	 * @throws KNXException on port not found or access error, initializing port settings
-	 *         failed, if reset of BCU2 failed
+	 * @param portID
+	 *            port identifier of the serial communication port to use
+	 * @throws KNXException
+	 *             on port not found or access error, initializing port settings
+	 *             failed, if reset of BCU2 failed
 	 */
-	public FT12Connection(String portID) throws KNXException
-	{
+	public FT12Connection(String portID) throws KNXException {
 		this(portID, DEFAULT_BAUDRATE);
 	}
 
 	/**
-	 * Creates a new connection to a BCU2 using the FT1.2 protocol, and set the baud rate
-	 * for communication.
+	 * Creates a new connection to a BCU2 using the FT1.2 protocol, and set the
+	 * baud rate for communication.
 	 * <p>
-	 * If the requested baud rate is not supported, it may get substituted with a valid
-	 * baud rate by default.
+	 * If the requested baud rate is not supported, it may get substituted with
+	 * a valid baud rate by default.
 	 * 
-	 * @param portID port identifier of the serial communication port to use
-	 * @param baudrate baud rate to use for communication, 0 &lt; baud rate
-	 * @throws KNXException on port not found or access error, initializing port settings
-	 *         failed, if reset of BCU2 failed
+	 * @param portID
+	 *            port identifier of the serial communication port to use
+	 * @param baudrate
+	 *            baud rate to use for communication, 0 &lt; baud rate
+	 * @throws KNXException
+	 *             on port not found or access error, initializing port settings
+	 *             failed, if reset of BCU2 failed
 	 */
-	public FT12Connection(String portID, int baudrate) throws KNXException
-	{
+	public FT12Connection(String portID, int baudrate) throws KNXException {
 		open(portID, baudrate);
 		try {
 			sendReset();
-		}
-		catch (final KNXAckTimeoutException e) {
+		} catch (final KNXAckTimeoutException e) {
 			close(false, "acknowledge timeout on sending reset");
 			throw e;
 		}
@@ -258,20 +250,20 @@ public class FT12Connection
 	/**
 	 * Attempts to gets the available serial communication ports on the host.
 	 * <p>
-	 * At first, the Java system property "microedition.commports" is queried. If there is
-	 * no property with that key, and Calimero itself has access to serial ports,
-	 * the lowest 10 ports numbers are enumerated and checked if present.<br>
+	 * At first, the Java system property "microedition.commports" is queried.
+	 * If there is no property with that key, and Calimero itself has access to
+	 * serial ports, the lowest 10 ports numbers are enumerated and checked if
+	 * present.<br>
 	 * The empty array is returned if no ports are discovered.
 	 * 
 	 * @return array of strings with found port IDs
 	 */
-	public static String[] getPortIdentifiers()
-	{
+	public static String[] getPortIdentifiers() {
 		String ports = null;
 		try {
 			ports = System.getProperty("microedition.commports");
+		} catch (final SecurityException e) {
 		}
-		catch (final SecurityException e) {}
 		if (ports != null) {
 			final StringTokenizer st = new StringTokenizer(ports, ",");
 			final String[] portIDs = new String[st.countTokens()];
@@ -292,23 +284,22 @@ public class FT12Connection
 	}
 
 	/**
-	 * Adds the specified event listener <code>l</code> to receive events from this
-	 * connection.
+	 * Adds the specified event listener <code>l</code> to receive events from
+	 * this connection.
 	 * <p>
 	 * If <code>l</code> was already added as listener, no action is performed.
 	 * 
-	 * @param l the listener to add
+	 * @param l
+	 *            the listener to add
 	 */
-	public void addConnectionListener(KNXListener l)
-	{
+	public void addConnectionListener(KNXListener l) {
 		if (l == null)
 			return;
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
 				listenersCopy = new ArrayList(listeners);
-			}
-			else
+			} else
 				logger.warn("event listener already registered");
 		}
 	}
@@ -317,12 +308,13 @@ public class FT12Connection
 	 * Removes the specified event listener <code>l</code>, so it does no longer
 	 * receive events from this connection.
 	 * <p>
-	 * If <code>l</code> was not added in the first place, no action is performed.
+	 * If <code>l</code> was not added in the first place, no action is
+	 * performed.
 	 * 
-	 * @param l the listener to remove
+	 * @param l
+	 *            the listener to remove
 	 */
-	public void removeConnectionListener(KNXListener l)
-	{
+	public void removeConnectionListener(KNXListener l) {
 		synchronized (listeners) {
 			if (listeners.remove(l))
 				listenersCopy = new ArrayList(listeners);
@@ -332,12 +324,12 @@ public class FT12Connection
 	/**
 	 * Returns the port identifier used in this connection.
 	 * <p>
-	 * After the connection is closed, the returned ID will always be the empty string.
+	 * After the connection is closed, the returned ID will always be the empty
+	 * string.
 	 * 
 	 * @return port ID as string, or empty string
 	 */
-	public final String getPortID()
-	{
+	public final String getPortID() {
 		return state == CLOSED ? "" : port;
 	}
 
@@ -345,10 +337,10 @@ public class FT12Connection
 	 * Sets a new baud rate for this connection.
 	 * <p>
 	 * 
-	 * @param baud requested baud rate [Bit/s], 0 &lt; baud rate
+	 * @param baud
+	 *            requested baud rate [Bit/s], 0 &lt; baud rate
 	 */
-	public void setBaudrate(int baud)
-	{
+	public void setBaudrate(int baud) {
 		adapter.setBaudRate(baud);
 	}
 
@@ -359,8 +351,7 @@ public class FT12Connection
 	 * 
 	 * @return baud rate in Bit/s
 	 */
-	public final int getBaudRate()
-	{
+	public final int getBaudRate() {
 		return adapter.getBaudRate();
 	}
 
@@ -369,40 +360,41 @@ public class FT12Connection
 	 * 
 	 * @return state enumeration
 	 */
-	public final int getState()
-	{
+	public final int getState() {
 		return state;
 	}
 
 	/**
 	 * Sends an EMI frame to the BCU2 connected with this endpoint.
 	 * <p>
-	 * In blocking mode, all necessary retransmissions of the sent frame will be done
-	 * automatically according to the protocol specification (i.e. in case of timeout).
-	 * <br>
-	 * If a communication failure occurs on the port, {@link #close()} is called. A send
-	 * timeout does not lead to closing of this connection.<br>
-	 * In blocking send mode, on successfully receiving a confirmation, all listeners are
-	 * guaranteed to get notified before this method returns. The communication state (see
-	 * {@link #getState()}) is reset to {@link #OK} when the notification completed, so
-	 * to prevent another send call from a listener.
+	 * In blocking mode, all necessary retransmissions of the sent frame will be
+	 * done automatically according to the protocol specification (i.e. in case
+	 * of timeout). <br>
+	 * If a communication failure occurs on the port, {@link #close()} is
+	 * called. A send timeout does not lead to closing of this connection.<br>
+	 * In blocking send mode, on successfully receiving a confirmation, all
+	 * listeners are guaranteed to get notified before this method returns. The
+	 * communication state (see {@link #getState()}) is reset to {@link #OK}
+	 * when the notification completed, so to prevent another send call from a
+	 * listener.
 	 * 
-	 * @param frame EMI message to send, length of frame &lt; 256 bytes
-	 * @param blocking <code>true</code> to block for confirmation (ACK),
-	 *        <code>false</code> to immediately return after send
-	 * @throws KNXAckTimeoutException in <code>blocking</code> mode, if a timeout
-	 *         regarding the acknowledge message was encountered
-	 * @throws KNXPortClosedException if no communication was established in the
-	 *         first place or communication was closed
+	 * @param frame
+	 *            EMI message to send, length of frame &lt; 256 bytes
+	 * @param blocking
+	 *            <code>true</code> to block for confirmation (ACK),
+	 *            <code>false</code> to immediately return after send
+	 * @throws KNXAckTimeoutException
+	 *             in <code>blocking</code> mode, if a timeout regarding the
+	 *             acknowledge message was encountered
+	 * @throws KNXPortClosedException
+	 *             if no communication was established in the first place or
+	 *             communication was closed
 	 */
-	public void send(byte[] frame, boolean blocking) throws KNXAckTimeoutException,
-		KNXPortClosedException
-	{
+	public void send(byte[] frame, boolean blocking) throws KNXAckTimeoutException, KNXPortClosedException {
 		boolean ack = false;
 		try {
 			for (int i = 0; i <= REPEAT_LIMIT; ++i) {
-				logger.trace("sending FT1.2 frame, " + (blocking ? "" : "non-")
-					+ "blocking, attempt " + (i + 1));
+				logger.trace("sending FT1.2 frame, " + (blocking ? "" : "non-") + "blocking, attempt " + (i + 1));
 				sendData(frame);
 				if (!blocking || waitForAck()) {
 					ack = true;
@@ -414,8 +406,7 @@ public class FT12Connection
 				state = OK;
 			if (!ack)
 				throw new KNXAckTimeoutException("no acknowledge reply received");
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			close(false, e.getMessage());
 			throw new KNXPortClosedException(e.getMessage());
 		}
@@ -425,17 +416,15 @@ public class FT12Connection
 	 * Ends communication with the BCU2 as specified by the FT1.2 protocol.
 	 * <p>
 	 * The BCU is always switched back into normal mode.<br>
-	 * All registered event listeners get notified. The close event is the last event the
-	 * listeners receive. <br>
+	 * All registered event listeners get notified. The close event is the last
+	 * event the listeners receive. <br>
 	 * If this connection endpoint is already closed, no action is performed.
 	 */
-	public void close()
-	{
+	public void close() {
 		close(true, "requested by client");
 	}
 
-	private void close(boolean user, String reason)
-	{
+	private void close(boolean user, String reason) {
 		if (state == CLOSED)
 			return;
 		logger.info("close serial port " + port + " - " + reason);
@@ -446,15 +435,13 @@ public class FT12Connection
 			is.close();
 			os.close();
 			adapter.close();
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			logger.warn("failed to close all serial I/O resources", e);
 		}
 		fireConnectionClosed(user, reason);
 	}
-	
-	private void open(String portID, int baudrate) throws KNXException
-	{
+
+	private void open(String portID, int baudrate) throws KNXException {
 		adapter = createAdapter(portID, baudrate);
 		port = portID;
 		is = adapter.getInputStream();
@@ -465,15 +452,13 @@ public class FT12Connection
 		logger.info("access supported, opened serial port " + portID);
 	}
 
-	private LibraryAdapter createAdapter(String portID, int baudrate) throws KNXException
-	{
+	private LibraryAdapter createAdapter(String portID, int baudrate) throws KNXException {
 		// check for ME CDC platform and available serial communication port
 		// protocol support for communication ports is optional in CDC
 		logger.info("try ME CDC support for serial ports (CommConnection)");
 		try {
 			return new CommConnectionAdapter(portID, baudrate);
-		}
-		catch (final KNXException e) {
+		} catch (final KNXException e) {
 			logger.warn("ME CDC access to serial port failed", e);
 		}
 
@@ -486,24 +471,23 @@ public class FT12Connection
 			conn = new SerialCom(portID);
 			conn.setBaudRate(baudrate);
 			calcTimeouts(conn.getBaudRate());
-			// In Windows Embedded CE, the read interval timeout starts immediately
+			// In Windows Embedded CE, the read interval timeout starts
+			// immediately
 			conn.setTimeouts(new SerialCom.Timeouts(idleTimeout, 0, 0, 0, 0));
 			conn.setParity(SerialCom.PARITY_EVEN);
 			conn.setControl(SerialCom.STOPBITS, SerialCom.ONE_STOPBIT);
 			conn.setControl(SerialCom.DATABITS, 8);
 			conn.setControl(SerialCom.FLOWCTRL, SerialCom.FLOWCTRL_NONE);
-			logger.info("setup serial port: baudrate " + conn.getBaudRate()
-				+ ", parity even, databits " + conn.getControl(SerialCom.DATABITS)
-				+ ", stopbits " + conn.getControl(SerialCom.STOPBITS) + ", timeouts "
-				+ conn.getTimeouts());
+			logger.info("setup serial port: baudrate " + conn.getBaudRate() + ", parity even, databits "
+					+ conn.getControl(SerialCom.DATABITS) + ", stopbits " + conn.getControl(SerialCom.STOPBITS)
+					+ ", timeouts " + conn.getTimeouts());
 			return conn;
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			if (conn != null)
 				try {
 					conn.close();
+				} catch (final IOException ignore) {
 				}
-				catch (final IOException ignore) {}
 			logger.warn("native access to serial port failed", e);
 		}
 
@@ -511,34 +495,26 @@ public class FT12Connection
 		logger.info("try rxtx library support for serial ports");
 		try {
 			final Class c = Class.forName("tuwien.auto.calimero.serial.RxtxAdapter");
-			return (LibraryAdapter) c.getConstructors()[0].newInstance(new Object[] {
-				portID, new Integer(baudrate) });
-		}
-		catch (final ClassNotFoundException e) {
+			return (LibraryAdapter) c.getConstructors()[0].newInstance(new Object[] { portID, new Integer(baudrate) });
+		} catch (final ClassNotFoundException e) {
 			logger.warn("rxtx library adapter not found");
-		}
-		catch (final SecurityException e) {
+		} catch (final SecurityException e) {
 			logger.error("rxtx library adapter access denied", e);
-		}
-		catch (final InvocationTargetException e) {
+		} catch (final InvocationTargetException e) {
 			logger.error("initalizing rxtx serial port", e.getCause());
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			// InstantiationException, NoSuchMethodException,
 			// IllegalAccessException, IllegalArgumentException
 			logger.warn("rxtx access to serial port failed", e);
-		}
-		catch (final NoClassDefFoundError e) {
+		} catch (final NoClassDefFoundError e) {
 			logger.error("no rxtx library classes found", e);
 		}
 		throw new KNXException("can not open serial port " + portID);
 	}
-	
-	private void sendReset() throws KNXPortClosedException, KNXAckTimeoutException
-	{
+
+	private void sendReset() throws KNXPortClosedException, KNXAckTimeoutException {
 		try {
-			final byte[] reset =
-				new byte[] { START_FIXED, INITIATOR | RESET, INITIATOR | RESET, END };
+			final byte[] reset = new byte[] { START_FIXED, INITIATOR | RESET, INITIATOR | RESET, END };
 			for (int i = 0; i <= REPEAT_LIMIT; ++i) {
 				logger.trace("send reset to BCU");
 				state = ACK_PENDING;
@@ -547,21 +523,17 @@ public class FT12Connection
 				if (waitForAck())
 					return;
 			}
-			throw new KNXAckTimeoutException(
-				"resetting BCU failed (no acknowledge reply received)");
-		}
-		catch (final IOException e) {
+			throw new KNXAckTimeoutException("resetting BCU failed (no acknowledge reply received)");
+		} catch (final IOException e) {
 			close(false, e.getMessage());
 			throw new KNXPortClosedException(e.getMessage());
-		}
-		finally {
+		} finally {
 			sendFrameCount = FRAMECOUNT_BIT;
 			rcvFrameCount = FRAMECOUNT_BIT;
 		}
 	}
 
-	private void sendData(byte[] data) throws IOException, KNXPortClosedException
-	{
+	private void sendData(byte[] data) throws IOException, KNXPortClosedException {
 		if (data.length > 255)
 			throw new KNXIllegalArgumentException("data length > 255 bytes");
 		if (state == CLOSED)
@@ -577,20 +549,18 @@ public class FT12Connection
 			buf[i++] = data[k];
 		buf[i++] = checksum(buf, 4, data.length + 1);
 		buf[i++] = END;
-		
+
 		state = ACK_PENDING;
 		os.write(buf);
 		os.flush();
 	}
 
-	private void sendAck() throws IOException
-	{
+	private void sendAck() throws IOException {
 		os.write(ACK);
 		os.flush();
 	}
 
-	private boolean waitForAck()
-	{
+	private boolean waitForAck() {
 		long remaining = exchangeTimeout;
 		final long now = System.currentTimeMillis();
 		final long end = now + remaining;
@@ -598,31 +568,28 @@ public class FT12Connection
 			while (state == ACK_PENDING && remaining > 0) {
 				try {
 					lock.wait(remaining);
+				} catch (final InterruptedException e) {
 				}
-				catch (final InterruptedException e) {}
 				remaining = end - System.currentTimeMillis();
 			}
 		}
 		return remaining > 0;
 	}
 
-	private void fireConnectionClosed(boolean user, String reason)
-	{
+	private void fireConnectionClosed(boolean user, String reason) {
 		final CloseEvent ce = new CloseEvent(this, user, reason);
 		for (final Iterator i = listenersCopy.iterator(); i.hasNext();) {
 			final KNXListener l = (KNXListener) i.next();
 			try {
 				l.connectionClosed(ce);
-			}
-			catch (final RuntimeException e) {
+			} catch (final RuntimeException e) {
 				removeConnectionListener(l);
 				logger.error("removed event listener", e);
 			}
 		}
 	}
 
-	private void calcTimeouts(int baudrate)
-	{
+	private void calcTimeouts(int baudrate) {
 		// with some serial driver/BCU/OS combinations, the calculated
 		// timeouts are just too short, so add some milliseconds just as it fits
 		// this little extra time usually doesn't hurt
@@ -631,34 +598,28 @@ public class FT12Connection
 		exchangeTimeout = Math.round((1000f * EXCHANGE_TIMEOUT) / baudrate) + xTolerance;
 		idleTimeout = Math.round((1000f * IDLE_TIMEOUT) / baudrate) + iTolerance;
 	}
-	
-	private static byte checksum(byte[] data, int offset, int length)
-	{
+
+	private static byte checksum(byte[] data, int offset, int length) {
 		byte chk = 0;
 		for (int i = 0; i < length; ++i)
 			chk += data[offset + i];
 		return chk;
 	}
 
-	private static String defaultPortPrefix()
-	{
-		return System.getProperty("os.name").toLowerCase().indexOf("windows") > -1
-			? "\\\\.\\COM" : "/dev/ttyS";
+	private static String defaultPortPrefix() {
+		return System.getProperty("os.name").toLowerCase().indexOf("windows") > -1 ? "\\\\.\\COM" : "/dev/ttyS";
 	}
 
-	private final class Receiver extends Thread
-	{
+	private final class Receiver extends Thread {
 		private volatile boolean quit;
 		private int lastChecksum;
-		
-		Receiver()
-		{
+
+		Receiver() {
 			super("FT1.2 receiver");
 			setDaemon(true);
 		}
-	
-		public void run()
-		{
+
+		public void run() {
 			try {
 				while (!quit) {
 					final int c = is.read();
@@ -669,65 +630,59 @@ public class FT12Connection
 									state = OK;
 									lock.notify();
 								}
-						}
-						else if (c == START)
+						} else if (c == START)
 							readFrame();
 						else if (c == START_FIXED)
 							readShortFrame();
 						else
-							logger.trace("received unexpected start byte 0x" +
-								Integer.toHexString(c) + " - ignored");
+							logger.trace("received unexpected start byte 0x" + Integer.toHexString(c) + " - ignored");
 					}
 				}
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 				if (!quit)
 					close(false, "receiver communication failure");
 			}
 		}
-	
-		void quit()
-		{
+
+		void quit() {
 			quit = true;
 			interrupt();
 			if (currentThread() == this)
 				return;
 			try {
 				join(50);
+			} catch (final InterruptedException e) {
 			}
-			catch (final InterruptedException e) {}
 		}
-	
-		private boolean readShortFrame() throws IOException
-		{
+
+		private boolean readShortFrame() throws IOException {
 			final byte[] buf = new byte[3];
 			if (is.read(buf) == 3 && buf[0] == buf[1] && (buf[2] & 0xff) == END) {
-				// for our purposes (reset and status), FRAMECOUNT_VALID is never set
+				// for our purposes (reset and status), FRAMECOUNT_VALID is
+				// never set
 				if ((buf[0] & 0x30) == 0) {
 					sendAck();
 					final int fc = buf[0] & 0x0f;
-					logger.trace("received " + (fc == RESET ? "reset" : fc == REQ_STATUS
-						? "status" : "unknown function code "));
+					logger.trace("received "
+							+ (fc == RESET ? "reset" : fc == REQ_STATUS ? "status" : "unknown function code "));
 					return true;
 				}
 			}
 			return false;
 		}
-		
-		private boolean readFrame() throws IOException
-		{
+
+		private boolean readFrame() throws IOException {
 			final int len = is.read();
 			final byte[] buf = new byte[len + 4];
 			// read rest of frame, check header, ctrl, and end tag
 			final int read = is.read(buf);
-			if (read == (len + 4) && (buf[0] & 0xff) == len
-				&& (buf[1] & 0xff) == START && (buf[len + 3] & 0xff) == END) {
+			if (read == (len + 4) && (buf[0] & 0xff) == len && (buf[1] & 0xff) == START
+					&& (buf[len + 3] & 0xff) == END) {
 				final byte chk = buf[buf.length - 2];
 				if (!checkCtrlField(buf[2] & 0xff, chk))
 					;
 				else if (checksum(buf, 2, len) != chk)
-					logger.warn("invalid checksum in frame "
-						+ DataUnitBuilder.toHex(buf, " "));
+					logger.warn("invalid checksum in frame " + DataUnitBuilder.toHex(buf, " "));
 				else {
 					sendAck();
 					lastChecksum = chk;
@@ -739,15 +694,12 @@ public class FT12Connection
 					fireFrameReceived(ldata);
 					return true;
 				}
-			}
-			else
-				logger.warn("invalid frame, discarded " + read + " bytes: "
-					+ DataUnitBuilder.toHex(buf, " "));
+			} else
+				logger.warn("invalid frame, discarded " + read + " bytes: " + DataUnitBuilder.toHex(buf, " "));
 			return false;
 		}
-		
-		private boolean checkCtrlField(int c, byte chk)
-		{
+
+		private boolean checkCtrlField(int c, byte chk) {
 			if ((c & (DIR_FROM_BAU | INITIATOR)) != (DIR_FROM_BAU | INITIATOR)) {
 				logger.warn("unexpected ctrl field 0x" + Integer.toHexString(c));
 				return false;
@@ -756,8 +708,7 @@ public class FT12Connection
 				if ((c & FRAMECOUNT_BIT) != rcvFrameCount) {
 					// ignore repeated frame
 					if (chk == lastChecksum) {
-						logger.trace("framecount and checksum indicate a repeated " +
-							"frame - ignored");
+						logger.trace("framecount and checksum indicate a repeated " + "frame - ignored");
 						return false;
 					}
 					// protocol discrepancy (merten instabus coupler)
@@ -769,22 +720,22 @@ public class FT12Connection
 				return false;
 			return true;
 		}
-	
+
 		/**
-		 * Fires a frame received event ({@link KNXListener#frameReceived(FrameEvent)})
-		 * for the supplied EMI2 <code>frame</code>.
+		 * Fires a frame received event
+		 * ({@link KNXListener#frameReceived(FrameEvent)}) for the supplied EMI2
+		 * <code>frame</code>.
 		 * 
-		 * @param frame the EMI2 L-data frame to generate the event for
+		 * @param frame
+		 *            the EMI2 L-data frame to generate the event for
 		 */
-		private void fireFrameReceived(byte[] frame)
-		{
+		private void fireFrameReceived(byte[] frame) {
 			final FrameEvent fe = new FrameEvent(this, frame);
 			for (final Iterator i = listenersCopy.iterator(); i.hasNext();) {
 				final KNXListener l = (KNXListener) i.next();
 				try {
 					l.frameReceived(fe);
-				}
-				catch (final RuntimeException e) {
+				} catch (final RuntimeException e) {
 					removeConnectionListener(l);
 					logger.error("removed event listener", e);
 				}

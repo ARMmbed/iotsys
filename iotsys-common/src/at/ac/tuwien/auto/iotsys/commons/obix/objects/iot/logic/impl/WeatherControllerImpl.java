@@ -34,18 +34,18 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.impl;
 
 import java.util.logging.Logger;
 
-import obix.Bool;
-import obix.Contract;
-import obix.Int;
-import obix.Obj;
-import obix.Real;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBrokerHelper;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.WeatherController;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.UpcomingWeather;
 import at.ac.tuwien.auto.iotsys.obix.observer.Observer;
 import at.ac.tuwien.auto.iotsys.obix.observer.Subject;
+import obix.Bool;
+import obix.Contract;
+import obix.Int;
+import obix.Obj;
+import obix.Real;
+import obix.Uri;
 
 public class WeatherControllerImpl extends Obj implements WeatherController {
 	private static final Logger log = Logger.getLogger(WeatherControllerImpl.class.getName());
@@ -61,11 +61,11 @@ public class WeatherControllerImpl extends Obj implements WeatherController {
 	private boolean windowOpen = false;
 
 	private final String UPCOMING_LINK = "weather-forecast/vienna/upcoming";
-	
+
 	private final String WARNING_LINK = "networks/siemens_koffer_iotsys/entities/text_display_up_587_01/1/datapoints/function_2_warning_message/value";
 	private final String ALARM_LINK = "networks/siemens_koffer_iotsys/entities/text_display_up_587_01/1/datapoints/function_3_alarm_message/value";
 	private final String LINK_WINDOW_OPEN = "/EnOcean/window/value";
-	
+
 	public WeatherControllerImpl() {
 		objectBroker = ObjectBrokerHelper.getInstance();
 
@@ -81,22 +81,21 @@ public class WeatherControllerImpl extends Obj implements WeatherController {
 
 	@Override
 	public void writeObject(Obj input) {
-		
+
 		String resourceUriPath = "";
 		if (input.getHref() == null) {
-			resourceUriPath = input.getInvokedHref().substring(
-					input.getInvokedHref().lastIndexOf('/') + 1);
+			resourceUriPath = input.getInvokedHref().substring(input.getInvokedHref().lastIndexOf('/') + 1);
 		} else {
 			resourceUriPath = input.getHref().get();
 
 		}
-		
+
 		if (input instanceof Bool) {
 
 			if ("enabled".equals(resourceUriPath)) {
 				enabled.set(((Bool) input).get());
-				
-				if(enabled.get() && !observersAttached){
+
+				if (enabled.get() && !observersAttached) {
 					attachObservers();
 				}
 			}
@@ -139,48 +138,48 @@ public class WeatherControllerImpl extends Obj implements WeatherController {
 			});
 
 		}
-		
+
 		objectBroker.pullObj(new Uri(LINK_WINDOW_OPEN), false).attach(new Observer() {
 
-				@Override
-				public void update(Object state) {
-					// TODO Auto-generated method stub
-					if (state instanceof Bool) {
-						windowOpen = ((Bool) state).get();
-						doControl();
-					}
-
+			@Override
+			public void update(Object state) {
+				// TODO Auto-generated method stub
+				if (state instanceof Bool) {
+					windowOpen = ((Bool) state).get();
+					doControl();
 				}
 
-				@Override
-				public void setSubject(Subject object) {
-					// TODO Auto-generated method stub
+			}
 
-				}
+			@Override
+			public void setSubject(Subject object) {
+				// TODO Auto-generated method stub
 
-				@Override
-				public Subject getSubject() {
-					// TODO Auto-generated method stub
-					return null;
-				}
+			}
 
-			});
-		
+			@Override
+			public Subject getSubject() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+		});
+
 	}
 
 	private void doControl() {
-	
+
 		if (enabled.get()) {
 			log.info("Weather controller checking!");
-			if(curWindSpeed > 7 && !windowOpen){
+			if (curWindSpeed > 7 && !windowOpen) {
 				// make warning
 				ObjectBrokerHelper.getInstance().pullObj(new Uri(WARNING_LINK), false).writeObject(new Bool(true));
 			}
-			if(curWindSpeed > 7 && windowOpen){
+			if (curWindSpeed > 7 && windowOpen) {
 				// make alarm
 				ObjectBrokerHelper.getInstance().pullObj(new Uri(ALARM_LINK), false).writeObject(new Bool(true));
 			}
-		} 
+		}
 	}
 
 	@Override

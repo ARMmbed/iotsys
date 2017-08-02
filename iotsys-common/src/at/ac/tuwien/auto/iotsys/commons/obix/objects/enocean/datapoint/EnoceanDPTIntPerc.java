@@ -31,7 +31,6 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint;
 
-public interface EnoceanDPTIntPerc extends EnoceanDPTInt
-{
+public interface EnoceanDPTIntPerc extends EnoceanDPTInt {
 	public static final String CONTRACT = "enocean:DPTIntPercentage";
 }

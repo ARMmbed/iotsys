@@ -28,11 +28,14 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.models.WriteableObject;
  *
  */
 public interface WriteableObjectDb {
-	
+
 	public void persistWritingObject(String href, String dataStream);
+
 	public String getObjectDataStream(String href);
+
 	public List<WriteableObject> getPersistedObjects();
+
 	public WriteableObject getPersistedObject(String href);
-	
+
 	public void compactDb();
 }

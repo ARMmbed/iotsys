@@ -8,30 +8,19 @@
 package an.util;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.FileNameMap;
-import java.net.JarURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLDecoder;
 import java.util.Enumeration;
 import java.util.Set;
-import java.util.jar.JarEntry;
-import java.util.jar.JarFile;
 import java.util.logging.Logger;
 
 public class PackageUtil {
-	
+
 	private static Logger log = Logger.getLogger(PackageUtil.class.getName());
-	
-	public static void findClassesByPackage(String pkgName,
-			boolean includeSubPackages, Set<Class<?>> result)
+
+	public static void findClassesByPackage(String pkgName, boolean includeSubPackages, Set<Class<?>> result)
 			throws IOException, ClassNotFoundException {
-		Thread.currentThread().setContextClassLoader(
-				PackageUtil.class.getClassLoader());
+		Thread.currentThread().setContextClassLoader(PackageUtil.class.getClassLoader());
 		ClassLoader loader = Thread.currentThread().getContextClassLoader();
 
 		String path = pkgName.replace('.', '/');
@@ -42,133 +31,84 @@ public class PackageUtil {
 		qualifiedNameBuilder.append('.');
 		int qualifiedNamePrefixLength = qualifiedNameBuilder.length();
 
-		
-		
-		String[] classList = { "CombiningAlgorithms", "CommonFunctions",
-				"DateTimeFunctions", "HighOrderBagFunctions",
-				"LogicalFunctions", "MatchFunctions", "NumberFunctions",
-				"StringFunctions", "XPathFunctions" };
+		String[] classList = { "CombiningAlgorithms", "CommonFunctions", "DateTimeFunctions", "HighOrderBagFunctions",
+				"LogicalFunctions", "MatchFunctions", "NumberFunctions", "StringFunctions", "XPathFunctions" };
 		String packageName = path;
-		
+
 		log.finer("Be aware of adding new XACML Functions ;-), I hardcoded the functionlist.");
-		
+
 		for (String className : classList) {
 			Class<?> clazz = Class.forName(pkgName + "." + className);
 			if (!clazz.isAnnotation() && !clazz.isInterface()) {
 				result.add(clazz);
 			}
 		}
-/*
-		while (urls.hasMoreElements()) {
-			URL pkgUrl = urls.nextElement();
-
-			System.out.println(pkgUrl.toString());
-
-			String urlString = URLDecoder.decode(pkgUrl.getFile(), "UTF-8");
-			String protocol = pkgUrl.getProtocol().toLowerCase();
-
-			if ("file".equals(protocol)) {
-
-				File pkgDir = new File(urlString);
-				if (pkgDir.isDirectory()) {
-					if (includeSubPackages) {
-						findClassNamesRecursive(pkgDir, result,
-								qualifiedNameBuilder, qualifiedNamePrefixLength);
-					} else {
-						for (String fileName : pkgDir.list()) {
-							String simpleClassName = fixClassName(fileName);
-							if (simpleClassName != null) {
-								qualifiedNameBuilder
-										.setLength(qualifiedNamePrefixLength);
-								qualifiedNameBuilder.append(simpleClassName);
-								Class<?> clazz = Class
-										.forName(qualifiedNameBuilder
-												.toString());
-								if (!clazz.isInterface()
-										&& !clazz.isAnnotation()) {
-									result.add(clazz);
-								}
-							}
-						}
-					}
-				}
-			} else if ("jar".equals(protocol)) {
-				// somehow the connection has no close method and can NOT be
-				// disposed
-				// JarURLConnection connection = (JarURLConnection)
-				// pkgUrl.openConnection();
-
-				JarFile jarFile = new JarFile(urlString);
-				// JarFile jarFile = connection.getJarFile();
-				Enumeration<JarEntry> jarEntryEnumeration = jarFile.entries();
-				while (jarEntryEnumeration.hasMoreElements()) {
-					JarEntry jarEntry = jarEntryEnumeration.nextElement();
-					String absoluteFileName = jarEntry.getName();
-					if (absoluteFileName.endsWith(".class")) {
-						if (absoluteFileName.startsWith("/")) {
-							absoluteFileName.substring(1);
-						}
-						// special treatment for WAR files...
-						// "WEB-INF/lib/" entries should be opened directly in
-						// contained jar
-						if (absoluteFileName.startsWith("WEB-INF/classes/")) {
-							// "WEB-INF/classes/".length() == 16
-							absoluteFileName = absoluteFileName.substring(16);
-						}
-
-						boolean accept = true;
-						if (absoluteFileName.startsWith(pathWithPrefix)) {
-							String qualifiedName = absoluteFileName.replace(
-									'/', '.');
-							if (!includeSubPackages) {
-								int index = absoluteFileName.indexOf('/',
-										qualifiedNamePrefixLength + 1);
-								if (index != -1) {
-									accept = false;
-								}
-							}
-
-							if (accept) {
-								String className = fixClassName(qualifiedName);
-								if (className != null) {
-									Class<?> clazz = Class.forName(className);
-									if (!clazz.isInterface()
-											&& !clazz.isAnnotation()) {
-										result.add(clazz);
-									}
-								}
-							}
-						}
-					}
-				}
-			} else {
-				throw new IllegalArgumentException("Unsupported protocol : "
-						+ protocol);
-			}
-		}
-		*/
+		/*
+		 * while (urls.hasMoreElements()) { URL pkgUrl = urls.nextElement();
+		 * 
+		 * System.out.println(pkgUrl.toString());
+		 * 
+		 * String urlString = URLDecoder.decode(pkgUrl.getFile(), "UTF-8");
+		 * String protocol = pkgUrl.getProtocol().toLowerCase();
+		 * 
+		 * if ("file".equals(protocol)) {
+		 * 
+		 * File pkgDir = new File(urlString); if (pkgDir.isDirectory()) { if
+		 * (includeSubPackages) { findClassNamesRecursive(pkgDir, result,
+		 * qualifiedNameBuilder, qualifiedNamePrefixLength); } else { for
+		 * (String fileName : pkgDir.list()) { String simpleClassName =
+		 * fixClassName(fileName); if (simpleClassName != null) {
+		 * qualifiedNameBuilder .setLength(qualifiedNamePrefixLength);
+		 * qualifiedNameBuilder.append(simpleClassName); Class<?> clazz = Class
+		 * .forName(qualifiedNameBuilder .toString()); if (!clazz.isInterface()
+		 * && !clazz.isAnnotation()) { result.add(clazz); } } } } } } else if
+		 * ("jar".equals(protocol)) { // somehow the connection has no close
+		 * method and can NOT be // disposed // JarURLConnection connection =
+		 * (JarURLConnection) // pkgUrl.openConnection();
+		 * 
+		 * JarFile jarFile = new JarFile(urlString); // JarFile jarFile =
+		 * connection.getJarFile(); Enumeration<JarEntry> jarEntryEnumeration =
+		 * jarFile.entries(); while (jarEntryEnumeration.hasMoreElements()) {
+		 * JarEntry jarEntry = jarEntryEnumeration.nextElement(); String
+		 * absoluteFileName = jarEntry.getName(); if
+		 * (absoluteFileName.endsWith(".class")) { if
+		 * (absoluteFileName.startsWith("/")) { absoluteFileName.substring(1); }
+		 * // special treatment for WAR files... // "WEB-INF/lib/" entries
+		 * should be opened directly in // contained jar if
+		 * (absoluteFileName.startsWith("WEB-INF/classes/")) { //
+		 * "WEB-INF/classes/".length() == 16 absoluteFileName =
+		 * absoluteFileName.substring(16); }
+		 * 
+		 * boolean accept = true; if
+		 * (absoluteFileName.startsWith(pathWithPrefix)) { String qualifiedName
+		 * = absoluteFileName.replace( '/', '.'); if (!includeSubPackages) { int
+		 * index = absoluteFileName.indexOf('/', qualifiedNamePrefixLength + 1);
+		 * if (index != -1) { accept = false; } }
+		 * 
+		 * if (accept) { String className = fixClassName(qualifiedName); if
+		 * (className != null) { Class<?> clazz = Class.forName(className); if
+		 * (!clazz.isInterface() && !clazz.isAnnotation()) { result.add(clazz);
+		 * } } } } } } } else { throw new
+		 * IllegalArgumentException("Unsupported protocol : " + protocol); } }
+		 */
 	}
 
-	private static void findClassNamesRecursive(File pkgDir,
-			Set<Class<?>> result, StringBuilder qualifiedNameBuilder,
+	private static void findClassNamesRecursive(File pkgDir, Set<Class<?>> result, StringBuilder qualifiedNameBuilder,
 			int qualifiedNamePrefixLength) throws ClassNotFoundException {
 		for (File childFile : pkgDir.listFiles()) {
 			String fileName = childFile.getName();
 			if (childFile.isDirectory()) {
 				qualifiedNameBuilder.setLength(qualifiedNamePrefixLength);
-				StringBuilder subBuilder = new StringBuilder(
-						qualifiedNameBuilder);
+				StringBuilder subBuilder = new StringBuilder(qualifiedNameBuilder);
 				subBuilder.append(fileName);
 				subBuilder.append('.');
-				findClassNamesRecursive(childFile, result, subBuilder,
-						subBuilder.length());
+				findClassNamesRecursive(childFile, result, subBuilder, subBuilder.length());
 			} else {
 				String simpleClassName = fixClassName(fileName);
 				if (simpleClassName != null) {
 					qualifiedNameBuilder.setLength(qualifiedNamePrefixLength);
 					qualifiedNameBuilder.append(simpleClassName);
-					Class<?> clazz = Class.forName(qualifiedNameBuilder
-							.toString());
+					Class<?> clazz = Class.forName(qualifiedNameBuilder.toString());
 					if (!clazz.isInterface() && !clazz.isAnnotation()) {
 						result.add(clazz);
 					}
@@ -180,8 +120,7 @@ public class PackageUtil {
 	private static String fixClassName(String fileName) {
 		if (fileName.endsWith(".class")) {
 			// remove extension (".class".length() == 6)
-			String nameWithoutExtension = fileName.substring(0,
-					fileName.length() - 6);
+			String nameWithoutExtension = fileName.substring(0, fileName.length() - 6);
 			// handle inner classes...
 			/*
 			 * int lastDollar = nameWithoutExtension.lastIndexOf('$'); if

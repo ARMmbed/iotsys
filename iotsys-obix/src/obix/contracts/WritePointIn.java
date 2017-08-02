@@ -1,6 +1,7 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
+import obix.Obj;
 
 /**
  * WritePointIn
@@ -9,8 +10,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface WritePointIn extends IObj
-{
+public interface WritePointIn extends IObj {
 	public static final String CONTRACT = "obix:WritePointIn";
 
 	public Obj value();

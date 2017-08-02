@@ -38,13 +38,17 @@ public class ParseBodyPayloadTest {
 
 	public static void main(String[] args) {
 		String payload = "0C 05 14 00 00 00 0C 13 13 20 00 00 0B 22 01 24 03 04 6D 12 0B D3 12 32 6C 00 00 0C 78 43 53 93 07 06 FD 0C F2 03 01 00 F6 01 0D FD 0B 05 31 32 4D 46 57 01 FD 0E 00 4C 05 14 00 00 00 4C 13 13 20 00 00 42 6C BF 1C 0F 37 FD 17 00 00 00 00 00 00 00 00 02 7A 25 00 02 78 25 00";
-		//String payload = "0C 05 14 00 00 00 0C 13 13 20 00 00 0B 22 01 24 03 04 6D 12 0B D3 12 32 6C 00 00 0C 78 43 53 93 07 06 FD 0C F2 03 01 00 F6 01 0D FD 0B 0C 31 32 33 34 35 36 37 38 39 4D 46 57 01 FD 0E 00 4C 05 14 00 00 00 4C 13 13 20 00 00 42 6C BF 1C 0F 37 FD 17 00 00 00 00 00 00 00 00 02 7A 25 00 02 78 25 00";
-		
+		// String payload = "0C 05 14 00 00 00 0C 13 13 20 00 00 0B 22 01 24 03
+		// 04 6D 12 0B D3 12 32 6C 00 00 0C 78 43 53 93 07 06 FD 0C F2 03 01 00
+		// F6 01 0D FD 0B 0C 31 32 33 34 35 36 37 38 39 4D 46 57 01 FD 0E 00 4C
+		// 05 14 00 00 00 4C 13 13 20 00 00 42 6C BF 1C 0F 37 FD 17 00 00 00 00
+		// 00 00 00 00 02 7A 25 00 02 78 25 00";
+
 		TelegramBodyPayload tBody = new TelegramBodyPayload();
-		
+
 		tBody.createTelegramBodyPayload(payload.split(" "));
 		tBody.setTelegramBodyPayload(payload.split(" "));
-			
+
 		tBody.parse();
 		tBody.debugOutput();
 	}

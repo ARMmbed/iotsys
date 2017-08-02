@@ -22,24 +22,24 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.bacnet.impl;
 
-import obix.Contract;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.bacnet.BinaryValue;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
+import obix.Contract;
 
 public class BinaryValueImpl extends BinaryBacnetObj implements BinaryValue {
 	public BinaryValueImpl(BACnetConnector bacnetConnector, BacnetDataPointInfo dataPointInfo) {
 		super(bacnetConnector, dataPointInfo);
-		
+
 		setIs(new Contract(BinaryValue.CONTRACT));
 		value().setWritable(true);
 	}
-	
 
 	@Override
 	protected void refreshWritable() {
 		// Value Objects are writable if Out_Of_Service is True
-		// or if Present_Value is commandable (PriorityArray and RelinquishDefault exist)
+		// or if Present_Value is commandable (PriorityArray and
+		// RelinquishDefault exist)
 		value().setWritable(isOutOfService() || isValueCommandable());
 	}
 }

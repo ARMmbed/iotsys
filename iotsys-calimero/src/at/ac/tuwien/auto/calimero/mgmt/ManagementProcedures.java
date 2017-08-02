@@ -28,8 +28,7 @@ package at.ac.tuwien.auto.calimero.mgmt;
  * 
  * @author B. Malinowsky
  */
-public interface ManagementProcedures
-{
+public interface ManagementProcedures {
 	// TODO implement memory write as an example? we would have to check max
 	// allowed APDU length first then split up memory block into chunks
 }

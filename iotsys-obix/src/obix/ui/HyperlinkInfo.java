@@ -1,160 +1,141 @@
 /*
  * This code licensed to public domain
  */
-package obix.ui;  
+package obix.ui;
 
 import obix.Uri;
 import obix.ui.views.ErrorView;
 
 /**
- * HyperlinkInfo specified information to perform a hyperlink
- * and manages the lifecycle of a hyperlink.
+ * HyperlinkInfo specified information to perform a hyperlink and manages the
+ * lifecycle of a hyperlink.
  *
- * @author    Brian Frank
- * @creation  13 Sept 05
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @creation 13 Sept 05
+ * @version $Revision$ $Date$
  */
-public class HyperlinkInfo
-{                         
+public class HyperlinkInfo {
 
-////////////////////////////////////////////////////////////////
-// Construction
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Construction
+	////////////////////////////////////////////////////////////////
 
-  public HyperlinkInfo(String uriStr, boolean addToHistory)
-  {                                                    
-    this.uriStr = uriStr;
-    this.addToHistory = addToHistory;
-  }
+	public HyperlinkInfo(String uriStr, boolean addToHistory) {
+		this.uriStr = uriStr;
+		this.addToHistory = addToHistory;
+	}
 
-  public HyperlinkInfo(String uriStr)
-  {         
-    this(uriStr, true);                                                    
-  }                              
+	public HyperlinkInfo(String uriStr) {
+		this(uriStr, true);
+	}
 
-////////////////////////////////////////////////////////////////
-// Process
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Process
+	////////////////////////////////////////////////////////////////
 
-  public void hyperlink(Shell shell)
-    throws Exception
-  {                                          
-    this.shell = shell;    
-    closeCurrentViews();
-    try
-    {          
-      views = ViewRegistry.toBuiltin(shell, uriStr);
-      if (views == null)
-      {                   
-        toUri();
-        toSession();    
-        toResponse();    
-        toViews();
-      }
-    }
-    catch(Throwable e)
-    {
-      e.printStackTrace();    
-      views = new View[] { new ErrorView(shell, e) };
-    }
-    if (addToHistory) shell.history.append(uriStr);
-    updateUi();
-  }         
+	public void hyperlink(Shell shell) throws Exception {
+		this.shell = shell;
+		closeCurrentViews();
+		try {
+			views = ViewRegistry.toBuiltin(shell, uriStr);
+			if (views == null) {
+				toUri();
+				toSession();
+				toResponse();
+				toViews();
+			}
+		} catch (Throwable e) {
+			e.printStackTrace();
+			views = new View[] { new ErrorView(shell, e) };
+		}
+		if (addToHistory)
+			shell.history.append(uriStr);
+		updateUi();
+	}
 
-////////////////////////////////////////////////////////////////
-// Close Current Views
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Close Current Views
+	////////////////////////////////////////////////////////////////
 
-  void closeCurrentViews()
-  {                      
-    if (shell.views == null) return;
-    if (shell.views.views == null) return;
-      
-    View[] views = shell.views.views;
-    for (int i=0; i<views.length; ++i)
-    {                                                   
-      View view = views[i];
-      try
-      {                    
-        view.closing();
-      }
-      catch(Exception e)
-      {
-        System.out.println("ERROR: Closing " + view.name);
-      }
-    }
-  }
+	void closeCurrentViews() {
+		if (shell.views == null)
+			return;
+		if (shell.views.views == null)
+			return;
 
-////////////////////////////////////////////////////////////////
-// To Uri
-////////////////////////////////////////////////////////////////
+		View[] views = shell.views.views;
+		for (int i = 0; i < views.length; ++i) {
+			View view = views[i];
+			try {
+				view.closing();
+			} catch (Exception e) {
+				System.out.println("ERROR: Closing " + view.name);
+			}
+		}
+	}
 
-  void toUri()
-  {                      
-    // build uri based on what was typed in 
-    uri = new Uri(uriStr);
-    uri.checkAbsolute();                    
-        
-    // show calculated uri actually being used
-    uriStr = uri.toString();
-  }
+	////////////////////////////////////////////////////////////////
+	// To Uri
+	////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////
-// To Session
-////////////////////////////////////////////////////////////////
+	void toUri() {
+		// build uri based on what was typed in
+		uri = new Uri(uriStr);
+		uri.checkAbsolute();
 
-  void toSession()  
-    throws Exception
-  {             
-    session = UiSession.make(shell, uri);
-    if (session == null)
-      throw new RuntimeException("User canceled open session dialog");
-  }
+		// show calculated uri actually being used
+		uriStr = uri.toString();
+	}
 
-////////////////////////////////////////////////////////////////
-// To Response
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// To Session
+	////////////////////////////////////////////////////////////////
 
-  void toResponse()  
-    throws Exception
-  {                                                
-//    boolean verbose = shell.commands.verbose.isSelected();
-    resp = session.request(uri);
-  }
+	void toSession() throws Exception {
+		session = UiSession.make(shell, uri);
+		if (session == null)
+			throw new RuntimeException("User canceled open session dialog");
+	}
 
-////////////////////////////////////////////////////////////////
-// To View
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// To Response
+	////////////////////////////////////////////////////////////////
 
-  void toViews()  
-    throws Exception
-  {                                                
-    views = ViewRegistry.viewsFor(shell, resp);         
-  }
+	void toResponse() throws Exception {
+		// boolean verbose = shell.commands.verbose.isSelected();
+		resp = session.request(uri);
+	}
 
-////////////////////////////////////////////////////////////////
-// Update UI
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// To View
+	////////////////////////////////////////////////////////////////
 
-  void updateUi()
-  {                
-    shell.commands.save.setEnabled(false);
-    shell.commands.update();
-    shell.locator.update(uriStr); 
-    shell.setViewPane(new ViewPane(shell, uri, views));    
-    shell.status(uriStr);
-  }
+	void toViews() throws Exception {
+		views = ViewRegistry.viewsFor(shell, resp);
+	}
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Update UI
+	////////////////////////////////////////////////////////////////
 
-  String uriStr;              // ctor
-  boolean addToHistory;       // ctor
-  Shell shell;                // hyperlink()
-  Uri uri;                    // toUri() 
-  UiSession session;          // toSession()
-  UiSession.Response resp;    // toResponse()
-  View[] views;               // toViews() (or on catch)
+	void updateUi() {
+		shell.commands.save.setEnabled(false);
+		shell.commands.update();
+		shell.locator.update(uriStr);
+		shell.setViewPane(new ViewPane(shell, uri, views));
+		shell.status(uriStr);
+	}
+
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	String uriStr; // ctor
+	boolean addToHistory; // ctor
+	Shell shell; // hyperlink()
+	Uri uri; // toUri()
+	UiSession session; // toSession()
+	UiSession.Response resp; // toResponse()
+	View[] views; // toViews() (or on catch)
 
 }

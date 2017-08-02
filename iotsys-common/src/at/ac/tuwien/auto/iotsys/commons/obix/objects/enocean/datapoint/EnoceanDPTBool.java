@@ -33,9 +33,8 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint;
 
 import obix.Bool;
 
-public interface EnoceanDPTBool extends EnoceanDPT
-{
+public interface EnoceanDPTBool extends EnoceanDPT {
 	public static final String CONTRACT = "enocean:DPTBool";
-	
+
 	public Bool value();
 }

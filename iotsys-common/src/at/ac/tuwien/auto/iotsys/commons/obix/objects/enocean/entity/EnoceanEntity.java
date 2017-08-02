@@ -33,7 +33,6 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity;
 
 import obix.IObj;
 
-public interface EnoceanEntity extends IObj
-{
+public interface EnoceanEntity extends IObj {
 	public static final String CONTRACT = "enocean:Entity";
 }

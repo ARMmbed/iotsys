@@ -31,42 +31,35 @@ import java.util.Map;
  * 
  * @author B. Malinowsky
  */
-final class References
-{
+final class References {
 	// TODO allow to add/remove user defined entities
-	
+
 	// entities predefined in XML:
 	// char | entity ref | num ref | hex ref
-	// &      &amp;        &#38;     &#x26;
-	// <      &lt;         &#60;     &#x3C;
-	// >      &gt;         &#62;     &#x3E;
-	// "      &quot;       &#34;     &#x22;
-	// '      &apos;       &#39;     &#x27;
+	// & &amp; &#38; &#x26;
+	// < &lt; &#60; &#x3C;
+	// > &gt; &#62; &#x3E;
+	// " &quot; &#34; &#x22;
+	// ' &apos; &#39; &#x27;
 
 	// substitution table
-	private static final String[][] entityTable = {
-		{ "&amp;", "&#38;", "&#x26;", "&" },
-		{ "&lt;", "&#60;", "&#x3C;", "<" },
-		{ "&gt;", "&#62;", "&#x3E;", ">" },
-		{ "&quot;", "&#34;", "&#x22;", "\"" },
-		{ "&apos;", "&#39;", "&#x27;", "'" },
-	};
+	private static final String[][] entityTable = { { "&amp;", "&#38;", "&#x26;", "&" },
+			{ "&lt;", "&#60;", "&#x3C;", "<" }, { "&gt;", "&#62;", "&#x3E;", ">" },
+			{ "&quot;", "&#34;", "&#x22;", "\"" }, { "&apos;", "&#39;", "&#x27;", "'" }, };
 	// references to entity mapping
 	private static final Map map;
-	
-	static
-	{
+
+	static {
 		map = new HashMap(25);
 		for (int i = 0; i < 5; ++i)
 			for (int k = 0; k < 3; ++k)
 				map.put(entityTable[i][k], entityTable[i][3]);
 	}
-	
-	private References()
-	{}
 
-	static String replaceFromRef(String text)
-	{
+	private References() {
+	}
+
+	static String replaceFromRef(String text) {
 		final StringBuffer mod = new StringBuffer(text.length());
 		int pos = 0;
 		int oldpos = 0;
@@ -88,9 +81,8 @@ final class References
 		return text;
 	}
 
-	static String replaceWithRef(String text)
-	{
-		final StringBuffer mod = new StringBuffer((int)(1.5f * text.length()));
+	static String replaceWithRef(String text) {
+		final StringBuffer mod = new StringBuffer((int) (1.5f * text.length()));
 		for (int i = 0; i < text.length(); ++i) {
 			final char c = text.charAt(i);
 			if (c == '&')
@@ -108,10 +100,9 @@ final class References
 		}
 		return mod.toString();
 	}
-	
+
 	// wrapper for reference replacement
-	static String replace(String text, boolean toReference)
-	{
+	static String replace(String text, boolean toReference) {
 		return toReference ? replaceWithRef(text) : replaceFromRef(text);
 	}
 }

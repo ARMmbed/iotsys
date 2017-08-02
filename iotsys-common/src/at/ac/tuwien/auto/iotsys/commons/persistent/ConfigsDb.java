@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.ektorp.DocumentOperationResult;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Device;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author Nam Giang - zang at kaist dot ac dot kr
@@ -35,49 +35,86 @@ import com.fasterxml.jackson.databind.JsonNode;
 public interface ConfigsDb {
 
 	public List<JsonNode> getAllConnectors();
+
 	public List<JsonNode> getConnectors(String technology);
+
 	public JsonNode getConnector(String connectorId);
+
 	public JsonNode getConnectorByName(String connectorName);
+
 	public int countConnectors();
+
 	public int countConnectorsByTechnology(String technology);
+
 	public void addConnector(Connector c) throws Exception;
+
 	public List<DocumentOperationResult> addBulkConnectors(List<Connector> cs) throws Exception;
+
 	public void updateConnector(Connector c);
+
 	public void deleteConnector(Connector c);
+
 	public void deleteConnector(String connectorName);
+
 	public void deleteAllConnectors(String technology);
-	
+
 	public List<Device> getAllDevices();
+
 	public List<Device> getDevices(String connectorId);
+
 	public Device getDevice(String id);
+
 	public int countDevices();
+
 	public int countDevicesByTechnology(String technology);
+
 	public void addDevice(Device d);
+
 	public void addBulkDevices(List<Device> ds);
+
 	public void updateDevice(Device d);
+
 	public void deleteDevice(Device d);
+
 	public void deleteDevice(String id);
+
 	public void deleteAllDevices(String connectorName);
-	
+
 	public String getDeviceLoader(int no);
+
 	public int getDeviceLoader(String name);
+
 	public String[] getAllDeviceLoader();
+
 	public void addDeviceLoader(String deviceLoader) throws Exception;
+
 	public void addBulkDeviceLoaders(List<String> ds) throws Exception;
+
 	public void deleteDeviceLoader(int no);
+
 	public void deleteDeviceLoader(String deviceLoader);
+
 	public void deleteAllDeviceLoader();
+
 	public void updateDeviceLoader(int no, String deviceLoader);
+
 	public void updateDeviceLoader(String oldDeviceLoader, String newDeviceLoader);
-	
+
 	public void clear();
+
 	public void prepareDevice(String connectorName, Device d);
+
 	public void prepareDeviceLoader(String deviceLoaderName);
+
 	public void prepareConnectors(List<Connector> connectors);
+
 	public void migrate(List<Connector> connectors);
+
 	public void migrate();
+
 	public boolean isMigrating();
+
 	public void setMigrating(boolean migrating);
-	
+
 	public void compactDb();
 }

@@ -28,15 +28,15 @@ import at.ac.tuwien.auto.calimero.CloseEvent;
  * @author B. Malinowsky
  * @see PropertyAdapter
  */
-public interface PropertyAdapterListener
-{
+public interface PropertyAdapterListener {
 	/**
 	 * The adapter is closed.
 	 * <p>
-	 * This notification is primary for detecting a disconnection initiated by the
-	 * remote endpoint.
+	 * This notification is primary for detecting a disconnection initiated by
+	 * the remote endpoint.
 	 * 
-	 * @param e close event object
+	 * @param e
+	 *            close event object
 	 */
 	void adapterClosed(CloseEvent e);
 }

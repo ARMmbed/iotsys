@@ -24,20 +24,20 @@ import com.serotonin.bacnet4j.apdu.Error;
 import com.serotonin.bacnet4j.type.constructed.BACnetError;
 
 public class ErrorAPDUException extends BACnetException {
-    private static final long serialVersionUID = -1;
+	private static final long serialVersionUID = -1;
 
-    private final Error apdu;
+	private final Error apdu;
 
-    public ErrorAPDUException(Error apdu) {
-        super(apdu.toString());
-        this.apdu = apdu;
-    }
+	public ErrorAPDUException(Error apdu) {
+		super(apdu.toString());
+		this.apdu = apdu;
+	}
 
-    public Error getApdu() {
-        return apdu;
-    }
+	public Error getApdu() {
+		return apdu;
+	}
 
-    public BACnetError getBACnetError() {
-        return apdu.getError().getError();
-    }
+	public BACnetError getBACnetError() {
+		return apdu.getError().getError();
+	}
 }

@@ -32,12 +32,12 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.virtual;
 
-import obix.Obj;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.FanSpeedActuatorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.VirtualConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.simulation.HVACSimulationImpl;
+import obix.Obj;
 
-public class FanSpeedActuatorImplVirtual extends FanSpeedActuatorImpl{
+public class FanSpeedActuatorImplVirtual extends FanSpeedActuatorImpl {
 	private VirtualConnector virtualConnector;
 
 	public FanSpeedActuatorImplVirtual(VirtualConnector virtualConnector) {
@@ -48,8 +48,7 @@ public class FanSpeedActuatorImplVirtual extends FanSpeedActuatorImpl{
 	public void writeObject(Obj obj) {
 		super.writeObject(obj);
 
-
-		if(HVACSimulationImpl.instance != null)
+		if (HVACSimulationImpl.instance != null)
 			HVACSimulationImpl.instance.setFanInActive(this.enabled().get() && this.fanSpeedSetpointValue().get() > 0);
 
 	}

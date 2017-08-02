@@ -34,40 +34,40 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl;
 
 import java.util.logging.Logger;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.TemperatureControlActuator;
 import obix.Bool;
 import obix.Contract;
 import obix.Obj;
 import obix.Real;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.TemperatureControlActuator;
 
-public class TemperatureControlActuatorImpl extends ActuatorImpl implements TemperatureControlActuator{
+public class TemperatureControlActuatorImpl extends ActuatorImpl implements TemperatureControlActuator {
 	protected Real actualValue = new Real(0);
 	protected Real targetValue = new Real(0);
 	protected Real actualTargetValue = new Real(0);
 	protected Bool active = new Bool(false);
-	
+
 	private static final Logger log = Logger.getLogger(TemperatureControlActuatorImpl.class.getName());
-	
-	public TemperatureControlActuatorImpl(){
+
+	public TemperatureControlActuatorImpl() {
 		this.setIs(new Contract(TemperatureControlActuatorImpl.CONTRACT));
-		
+
 		actualValue.setName(TemperatureControlActuator.ACTUAL_VALUE_NAME);
 		actualValue.setHref(new Uri(TemperatureControlActuator.ACTUAL_VALUE_HREF));
 		actualValue.setUnit(new Uri(TemperatureControlActuator.ACTUAL_VALUE_UNIT));
-		
+
 		targetValue.setName(TemperatureControlActuator.TARGET_VALUE_NAME);
 		targetValue.setHref(new Uri(TemperatureControlActuator.TARGET_VALUE_HREF));
 		targetValue.setUnit(new Uri(TemperatureControlActuator.TARGET_VALUE_UNIT));
 		targetValue.setWritable(true);
-		
+
 		actualTargetValue.setName(TemperatureControlActuator.ACTUAL_TARGET_VALUE_NAME);
 		actualTargetValue.setHref(new Uri(TemperatureControlActuator.ACTUAL_TARGET_VALUE_HREF));
 		actualTargetValue.setUnit(new Uri(TemperatureControlActuator.ACTUAL_TARGET_VALUE_UNIT));
-		
+
 		active.setName(TemperatureControlActuator.ACTIVE_NAME);
 		active.setHref(new Uri(TemperatureControlActuator.ACTIVE_HREF));
-			
+
 		this.add(actualValue);
 		this.add(targetValue);
 		this.add(actualTargetValue);
@@ -75,17 +75,17 @@ public class TemperatureControlActuatorImpl extends ActuatorImpl implements Temp
 	}
 
 	@Override
-	public Real actualValue() {	
+	public Real actualValue() {
 		return actualValue;
 	}
 
 	@Override
-	public Real targetValue() {		
+	public Real targetValue() {
 		return targetValue;
 	}
 
 	@Override
-	public Real actualTargetValue() {		
+	public Real actualTargetValue() {
 		return actualTargetValue;
 	}
 
@@ -93,17 +93,16 @@ public class TemperatureControlActuatorImpl extends ActuatorImpl implements Temp
 	public Bool active() {
 		return active;
 	}
-	
+
 	@Override
-	public void writeObject(Obj input){
-		if(input instanceof TemperatureControlActuator){
+	public void writeObject(Obj input) {
+		if (input instanceof TemperatureControlActuator) {
 			TemperatureControlActuator in = (TemperatureControlActuator) input;
 			log.finer("Writing on TemperatureControl: " + in);
 			targetValue.set(in.targetValue().get());
-		}	
-		else if(input instanceof Real){
+		} else if (input instanceof Real) {
 			// can only write on target value
-			Real in =  (Real) input;
+			Real in = (Real) input;
 			targetValue.set(in.get());
 		}
 	}

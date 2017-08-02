@@ -36,29 +36,34 @@ import obix.Obj;
 
 public class HistoryHelper {
 	public static final int HISTORY_COUNT_DEFAULT = 10;
-	
+
 	/**
-	 * Adds the history to all value data points (bool, real, int) of an oBIX object
-	 * This method required the passed oBIX object to be completely initialized (href,...)
+	 * Adds the history to all value data points (bool, real, int) of an oBIX
+	 * object This method required the passed oBIX object to be completely
+	 * initialized (href,...)
+	 * 
 	 * @param obj
 	 */
-	public static void addHistoryToDatapoints(Obj obj){
-		addHistoryToDatapoints(obj, HISTORY_COUNT_DEFAULT);	
+	public static void addHistoryToDatapoints(Obj obj) {
+		addHistoryToDatapoints(obj, HISTORY_COUNT_DEFAULT);
 	}
-	
+
 	/**
-	 * Adds the history to all value data points (bool, real, int) of an oBIX object
-	 * This method required the passed oBIX object to be completely initialized (href,...)
+	 * Adds the history to all value data points (bool, real, int) of an oBIX
+	 * object This method required the passed oBIX object to be completely
+	 * initialized (href,...)
+	 * 
 	 * @param obj
-	 * @param countMax 
+	 * @param countMax
 	 */
-	public static void addHistoryToDatapoints(Obj obj, int countMax){
-		//if(obj.isInt() || obj.isStr() || obj.isBool() || obj.isReal()){
-			new HistoryImpl(obj, countMax);
-		//}
-		
-		for(Obj child : obj.list()) {
-			if (child.isHidden()) continue;
+	public static void addHistoryToDatapoints(Obj obj, int countMax) {
+		// if(obj.isInt() || obj.isStr() || obj.isBool() || obj.isReal()){
+		new HistoryImpl(obj, countMax);
+		// }
+
+		for (Obj child : obj.list()) {
+			if (child.isHidden())
+				continue;
 			addHistoryToDatapoints(child, countMax);
 		}
 	}

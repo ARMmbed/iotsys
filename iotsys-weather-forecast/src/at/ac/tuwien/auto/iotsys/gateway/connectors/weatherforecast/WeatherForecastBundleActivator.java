@@ -43,7 +43,6 @@ import org.osgi.framework.ServiceReference;
 
 import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
-import at.ac.tuwien.auto.iotsys.commons.persistent.ConfigsDbImpl;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 
 public class WeatherForecastBundleActivator implements BundleActivator, ServiceListener {
@@ -69,7 +68,7 @@ public class WeatherForecastBundleActivator implements BundleActivator, ServiceL
 				ObjectBroker objectBroker = (ObjectBroker) context.getService(serviceReference);
 				connectors = deviceLoader.initDevices(objectBroker);
 				objectBroker.addConnectors(connectors);
-				
+
 				registered = true;
 			}
 
@@ -115,7 +114,7 @@ public class WeatherForecastBundleActivator implements BundleActivator, ServiceL
 						try {
 							connectors = deviceLoader.initDevices(objectBroker);
 							objectBroker.addConnectors(connectors);
-							
+
 							registered = true;
 						} catch (Exception e) {
 							e.printStackTrace();
@@ -123,6 +122,6 @@ public class WeatherForecastBundleActivator implements BundleActivator, ServiceL
 					}
 				}
 			}
-		} 
+		}
 	}
 }

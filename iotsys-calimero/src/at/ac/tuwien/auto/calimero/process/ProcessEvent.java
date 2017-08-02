@@ -24,7 +24,6 @@ import java.util.EventObject;
 import at.ac.tuwien.auto.calimero.GroupAddress;
 import at.ac.tuwien.auto.calimero.IndividualAddress;
 
-
 /**
  * Contains information about a process message event.
  * <p>
@@ -32,33 +31,37 @@ import at.ac.tuwien.auto.calimero.IndividualAddress;
  * @author B. Malinowsky
  * @see ProcessCommunicator
  */
-public class ProcessEvent extends EventObject
-{
+public class ProcessEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 
 	private final IndividualAddress src;
 	private final GroupAddress dst;
-	// We provide the ASDU only to avoid the need of masking out the service code in
-	// the user application (the service code is implicitly known through the context
+	// We provide the ASDU only to avoid the need of masking out the service
+	// code in
+	// the user application (the service code is implicitly known through the
+	// context
 	// of the called method anyway).
-	// Nevertheless, if the service code should be of interest at some time, we will
+	// Nevertheless, if the service code should be of interest at some time, we
+	// will
 	// just add a getter method for it to this event.
 	private final byte[] asdu;
 
 	/**
-	 * Creates a new process event with the KNX message source address, destination
-	 * address and ASDU.
+	 * Creates a new process event with the KNX message source address,
+	 * destination address and ASDU.
 	 * <p>
 	 * 
-	 * @param source the receiving process communicator
-	 * @param src KNX source individual address of message
-	 * @param dst KNX destination address of message
-	 * @param asdu byte array with application layer service data unit (ASDU), no copy is
-	 *        created
+	 * @param source
+	 *            the receiving process communicator
+	 * @param src
+	 *            KNX source individual address of message
+	 * @param dst
+	 *            KNX destination address of message
+	 * @param asdu
+	 *            byte array with application layer service data unit (ASDU), no
+	 *            copy is created
 	 */
-	public ProcessEvent(Object source, IndividualAddress src, GroupAddress dst,
-		byte[] asdu)
-	{
+	public ProcessEvent(Object source, IndividualAddress src, GroupAddress dst, byte[] asdu) {
 		super(source);
 		this.src = src;
 		this.dst = dst;
@@ -71,8 +74,7 @@ public class ProcessEvent extends EventObject
 	 * 
 	 * @return address as IndividualAddress
 	 */
-	public final IndividualAddress getSourceAddr()
-	{
+	public final IndividualAddress getSourceAddr() {
 		return src;
 	}
 
@@ -82,8 +84,7 @@ public class ProcessEvent extends EventObject
 	 * 
 	 * @return address as GroupAddress
 	 */
-	public final GroupAddress getDestination()
-	{
+	public final GroupAddress getDestination() {
 		return dst;
 	}
 
@@ -93,8 +94,7 @@ public class ProcessEvent extends EventObject
 	 * 
 	 * @return copy of ASDU as byte array
 	 */
-	public final byte[] getASDU()
-	{
+	public final byte[] getASDU() {
 		return (byte[]) asdu.clone();
 	}
 }

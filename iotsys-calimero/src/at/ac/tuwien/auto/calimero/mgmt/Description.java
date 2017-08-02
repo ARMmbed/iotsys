@@ -22,20 +22,20 @@ package at.ac.tuwien.auto.calimero.mgmt;
 /**
  * Holds description information of a KNX interface object property.
  * <p>
- * The supported description information and the expected description structure layout is
- * according to the application layer property description read service.<br>
- * This Description type also supports the property object type and the number of current
- * elements.
+ * The supported description information and the expected description structure
+ * layout is according to the application layer property description read
+ * service.<br>
+ * This Description type also supports the property object type and the number
+ * of current elements.
  * <p>
- * When used together with local device management, not all description information will
- * be available.
+ * When used together with local device management, not all description
+ * information will be available.
  * <p>
  * Objects of this type are immutable.
  * 
  * @author B. Malinowsky
  */
-public final class Description
-{
+public final class Description {
 	private final short oindex;
 	private final short otype;
 	private final short id;
@@ -55,12 +55,13 @@ public final class Description
 	 * The description structure layout of <code>data</code> is according to the
 	 * application layer property description read service.
 	 * 
-	 * @param objType interface object type the property belongs to
-	 * @param data byte array containing property description, starting at
-	 *        <code>data[0]</code>
+	 * @param objType
+	 *            interface object type the property belongs to
+	 * @param data
+	 *            byte array containing property description, starting at
+	 *            <code>data[0]</code>
 	 */
-	public Description(int objType, byte[] data)
-	{
+	public Description(int objType, byte[] data) {
 		otype = (short) objType;
 		oindex = (short) (data[0] & 0xff);
 		id = (short) (data[1] & 0xff);
@@ -73,40 +74,52 @@ public final class Description
 	}
 
 	/**
-	 * Creates a new description object for a property out of a data byte array, together
-	 * with object type and number of current elements.
+	 * Creates a new description object for a property out of a data byte array,
+	 * together with object type and number of current elements.
 	 * <p>
 	 * 
-	 * @param objType interface object type the property belongs to
-	 * @param currentElements current number of elements in the property
-	 * @param data byte array holding the description information, the structure is
-	 *        according to the ASDU of a property description service response
+	 * @param objType
+	 *            interface object type the property belongs to
+	 * @param currentElements
+	 *            current number of elements in the property
+	 * @param data
+	 *            byte array holding the description information, the structure
+	 *            is according to the ASDU of a property description service
+	 *            response
 	 */
-	public Description(int objType, int currentElements, byte[] data)
-	{
+	public Description(int objType, int currentElements, byte[] data) {
 		this(objType, data);
 		currElems = currentElements;
 	}
 
 	/**
-	 * Creates a new description object for a property using the given parameters.
+	 * Creates a new description object for a property using the given
+	 * parameters.
 	 * <p>
 	 * 
-	 * @param objIndex index of the object in the device, starting with 0
-	 * @param objType interface object type the property belongs to
-	 * @param pid property identifier, a 6 Bit identifier
-	 * @param propIndex property index in the object, starting with 0
-	 * @param pdt property data type
-	 * @param writeEnable specifies if the property is write-enabled or read only
-	 * @param currentElements current number of elements in the property
-	 * @param maxElements maximum number of elements allowed in the property
-	 * @param readLevel read access level, 0 &lt;= level &lt;= 15
-	 * @param writeLevel write access level, 0 &lt;= level &lt;= 15
+	 * @param objIndex
+	 *            index of the object in the device, starting with 0
+	 * @param objType
+	 *            interface object type the property belongs to
+	 * @param pid
+	 *            property identifier, a 6 Bit identifier
+	 * @param propIndex
+	 *            property index in the object, starting with 0
+	 * @param pdt
+	 *            property data type
+	 * @param writeEnable
+	 *            specifies if the property is write-enabled or read only
+	 * @param currentElements
+	 *            current number of elements in the property
+	 * @param maxElements
+	 *            maximum number of elements allowed in the property
+	 * @param readLevel
+	 *            read access level, 0 &lt;= level &lt;= 15
+	 * @param writeLevel
+	 *            write access level, 0 &lt;= level &lt;= 15
 	 */
-	public Description(int objIndex, int objType, int pid, int propIndex, int pdt,
-		boolean writeEnable, int currentElements, int maxElements, int readLevel,
-		int writeLevel)
-	{
+	public Description(int objIndex, int objType, int pid, int propIndex, int pdt, boolean writeEnable,
+			int currentElements, int maxElements, int readLevel, int writeLevel) {
 		otype = (short) objType;
 		oindex = (short) objIndex;
 		id = (short) pid;
@@ -125,8 +138,7 @@ public final class Description
 	 * 
 	 * @return the object index
 	 */
-	public short getObjectIndex()
-	{
+	public short getObjectIndex() {
 		return oindex;
 	}
 
@@ -135,8 +147,7 @@ public final class Description
 	 * 
 	 * @return the object type
 	 */
-	public int getObjectType()
-	{
+	public int getObjectType() {
 		return otype;
 	}
 
@@ -146,8 +157,7 @@ public final class Description
 	 * 
 	 * @return the property index
 	 */
-	public short getPropIndex()
-	{
+	public short getPropIndex() {
 		return pindex;
 	}
 
@@ -157,20 +167,19 @@ public final class Description
 	 * 
 	 * @return the PID
 	 */
-	public short getPID()
-	{
+	public short getPID() {
 		return id;
 	}
 
 	/**
 	 * Returns the property data type.
 	 * <p>
-	 * With local device management, the PDT is not available and -1 is returned.
+	 * With local device management, the PDT is not available and -1 is
+	 * returned.
 	 * 
 	 * @return the PDT or -1 for no PDT
 	 */
-	public byte getPDT()
-	{
+	public byte getPDT() {
 		return pdt;
 	}
 
@@ -180,44 +189,43 @@ public final class Description
 	 * 
 	 * @return current elements
 	 */
-	public int getCurrentElements()
-	{
+	public int getCurrentElements() {
 		return currElems;
 	}
 
 	/**
 	 * Returns the maximum number of elements allowed in the property.
 	 * <p>
-	 * With local device management, this attribute is not available and 0 is returned.
+	 * With local device management, this attribute is not available and 0 is
+	 * returned.
 	 * 
 	 * @return maximum elements, or 0
 	 */
-	public int getMaxElements()
-	{
+	public int getMaxElements() {
 		return maxElems;
 	}
 
 	/**
 	 * Returns the read access level for the property.
 	 * <p>
-	 * The level is between 0 (maximum access rights) and 15 (minimum access rights).
+	 * The level is between 0 (maximum access rights) and 15 (minimum access
+	 * rights).
 	 * 
 	 * @return the read level as 4 bit value
 	 */
-	public byte getReadLevel()
-	{
+	public byte getReadLevel() {
 		return rLevel;
 	}
 
 	/**
 	 * Returns the write access level for the property.
 	 * <p>
-	 * The level is between 0 (maximum access rights) and 15 (minimum access rights).
+	 * The level is between 0 (maximum access rights) and 15 (minimum access
+	 * rights).
 	 * 
 	 * @return the write level as 4 bit value
 	 */
-	public byte getWriteLevel()
-	{
+	public byte getWriteLevel() {
 		return wLevel;
 	}
 
@@ -227,8 +235,7 @@ public final class Description
 	 * 
 	 * @return <code>true</code> if write enabled, <code>false</code> otherwise
 	 */
-	public boolean isWriteEnabled()
-	{
+	public boolean isWriteEnabled() {
 		return write;
 	}
 
@@ -238,25 +245,21 @@ public final class Description
 	 * 
 	 * @return a string representation of the description
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return "OT " + otype + " OI " + oindex + " PID " + id + " PI " + pindex + " PDT "
-			+ (pdt == -1 ? "-" : Integer.toString(getPDT())) + ", elements (curr/max) "
-			+ currElems + "/" + maxElems + ", access level (r/w) " + rLevel + "/"
-			+ wLevel + (write ? " write-enabled" : " read-only");
+				+ (pdt == -1 ? "-" : Integer.toString(getPDT())) + ", elements (curr/max) " + currElems + "/" + maxElems
+				+ ", access level (r/w) " + rLevel + "/" + wLevel + (write ? " write-enabled" : " read-only");
 	}
 
 	// set 2 or 4 byte data array with element count, big endian
-	void setCurrentElements(byte[] data)
-	{
+	void setCurrentElements(byte[] data) {
 		int elems = 0;
 		for (int i = 0; i < data.length; ++i)
 			elems = elems << 8 | data[i] & 0xff;
 		currElems = elems;
 	}
 
-	void setPDT(int type)
-	{
+	void setPDT(int type) {
 		pdt = (byte) type;
 	}
 }

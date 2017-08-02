@@ -25,29 +25,27 @@ import at.ac.tuwien.auto.calimero.cemi.CEMI;
 import at.ac.tuwien.auto.calimero.cemi.CEMIFactory;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 
-
 /**
  * Represents a routing indication for routing services.
  * <p>
- * The data format contained in routing messages is cEMI. It is used to send a cEMI
- * message over IP networks. The routing indication service is unconfirmed.
+ * The data format contained in routing messages is cEMI. It is used to send a
+ * cEMI message over IP networks. The routing indication service is unconfirmed.
  * <p>
  * Objects of this type are immutable.
  * 
  * @author B. Malinowsky
  */
-public class RoutingIndication extends ServiceType
-{
+public class RoutingIndication extends ServiceType {
 	private final CEMI cemi;
 
 	/**
 	 * Creates a routing indication carrying the given cEMI frame.
 	 * <p>
 	 * 
-	 * @param frame cEMI frame to be routed over IP networks
+	 * @param frame
+	 *            cEMI frame to be routed over IP networks
 	 */
-	public RoutingIndication(CEMI frame)
-	{
+	public RoutingIndication(CEMI frame) {
 		super(KNXnetIPHeader.ROUTING_IND);
 		cemi = CEMIFactory.copy(frame);
 	}
@@ -56,14 +54,16 @@ public class RoutingIndication extends ServiceType
 	 * Creates a routing indication out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing a indication structure
-	 * @param offset start offset of indication in <code>data</code>
-	 * @param length length in bytes of whole indication structure
-	 * @throws KNXFormatException if the contained cEMI frame could not be created
+	 * @param data
+	 *            byte array containing a indication structure
+	 * @param offset
+	 *            start offset of indication in <code>data</code>
+	 * @param length
+	 *            length in bytes of whole indication structure
+	 * @throws KNXFormatException
+	 *             if the contained cEMI frame could not be created
 	 */
-	public RoutingIndication(byte[] data, int offset, int length)
-		throws KNXFormatException
-	{
+	public RoutingIndication(byte[] data, int offset, int length) throws KNXFormatException {
 		super(KNXnetIPHeader.ROUTING_IND);
 		cemi = CEMIFactory.create(data, offset, length);
 	}
@@ -74,25 +74,27 @@ public class RoutingIndication extends ServiceType
 	 * 
 	 * @return a cEMI type
 	 */
-	public final CEMI getCEMI()
-	{
+	public final CEMI getCEMI() {
 		return CEMIFactory.copy(cemi);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
-	short getStructLength()
-	{
+	short getStructLength() {
 		return cemi.getStructLength();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
-	 *      (java.io.ByteArrayOutputStream)
+	 * (java.io.ByteArrayOutputStream)
 	 */
-	byte[] toByteArray(ByteArrayOutputStream os)
-	{
+	byte[] toByteArray(ByteArrayOutputStream os) {
 		final byte[] buf = cemi.toByteArray();
 		os.write(buf, 0, buf.length);
 		return os.toByteArray();

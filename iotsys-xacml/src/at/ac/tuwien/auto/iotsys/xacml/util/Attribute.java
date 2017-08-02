@@ -4,11 +4,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * <Attribute xmlns="urn:oasis:names:tc:xacml:2.0:context:schema:os"
- * AttributeId="urn:tuwien:auto:smartwebgrid:subject:role"
- * DataType="http://www.w3.org/2001/XMLSchema#string" Issuer="redhatPdpEntity">
- * <AttributeValue
- * xmlns="urn:oasis:names:tc:xacml:2.0:context:schema:os">SERVICE_CONSUMER
+ * <Attribute xmlns="urn:oasis:names:tc:xacml:2.0:context:schema:os" AttributeId
+ * ="urn:tuwien:auto:smartwebgrid:subject:role" DataType=
+ * "http://www.w3.org/2001/XMLSchema#string" Issuer="redhatPdpEntity">
+ * <AttributeValue xmlns=
+ * "urn:oasis:names:tc:xacml:2.0:context:schema:os">SERVICE_CONSUMER
  * </AttributeValue> </Attribute>
  * 
  * @author tom
@@ -39,8 +39,9 @@ public class Attribute extends AbstractNode {
 	 * Attribute {@link org.w3c.dom.Element} which encapsulates an
 	 * AttributeValue.
 	 * 
-	 * @param {@link org.w3c.dom.Document} reference which is used to create an
-	 *        {@link org.w3c.dom.Element}
+	 * @param {@link
+	 * 			org.w3c.dom.Document} reference which is used to create an
+	 *            {@link org.w3c.dom.Element}
 	 * @return document with appended Attribute Element.
 	 */
 	public Document getDocument(Document doc) {
@@ -60,10 +61,8 @@ public class Attribute extends AbstractNode {
 			attribute.setAttribute("Issuer", issuer);
 		}
 		attribute.setAttribute("xmlns", URN_XACML_CONTEXT);
-		
 
-		Element attributeValue = doc.createElementNS(URN_XACML_CONTEXT,
-				"AttributeValue");
+		Element attributeValue = doc.createElementNS(URN_XACML_CONTEXT, "AttributeValue");
 		attributeValue.setTextContent(value);
 		attributeValue.setAttribute("xmlns", URN_XACML_CONTEXT);
 

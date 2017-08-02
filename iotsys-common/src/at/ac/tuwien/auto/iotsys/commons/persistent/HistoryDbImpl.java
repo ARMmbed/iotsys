@@ -33,22 +33,21 @@ public class HistoryDbImpl implements HistoryDb {
 
 	private static final Logger log = Logger.getLogger(HistoryDbImpl.class.getName());
 	private static HistoryDb INSTANCE;
-	
-	public static HistoryDb getInstance(){
-		INSTANCE = HistoryDbRepo.getInstance(); 
+
+	public static HistoryDb getInstance() {
+		INSTANCE = HistoryDbRepo.getInstance();
 		if (INSTANCE == null)
 			INSTANCE = new HistoryDbImpl();
 		return INSTANCE;
 	}
-	
+
 	@Override
 	public DbHistoryFeedRecord getObject(String href) {
 		return null;
 	}
 
 	@Override
-	public List<DbHistoryFeedRecord> getLatestHistoryFeed(String href,
-			int number) {
+	public List<DbHistoryFeedRecord> getLatestHistoryFeed(String href, int number) {
 		return new ArrayList<DbHistoryFeedRecord>();
 	}
 
@@ -68,8 +67,7 @@ public class HistoryDbImpl implements HistoryDb {
 	}
 
 	@Override
-	public List<DbHistoryFeedRecord> getHistoryFeed(String href, long start,
-			long end, int limit) {
+	public List<DbHistoryFeedRecord> getHistoryFeed(String href, long start, long end, int limit) {
 		return new ArrayList<DbHistoryFeedRecord>();
 	}
 

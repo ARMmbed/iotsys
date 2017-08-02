@@ -6,10 +6,10 @@ import org.opencean.core.packets.BasicPacket;
 
 public class PowerActuatorSerializer implements EEPSerializer {
 
-    @Override
-    public BasicPacket createPacket(EnoceanParameterAddress parameterAddress, Value value) {
+	@Override
+	public BasicPacket createPacket(EnoceanParameterAddress parameterAddress, Value value) {
 
-        return null;
-    }
+		return null;
+	}
 
 }

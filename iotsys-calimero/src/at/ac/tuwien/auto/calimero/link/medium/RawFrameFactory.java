@@ -28,29 +28,31 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * 
  * @author B. Malinowsky
  */
-public final class RawFrameFactory
-{
-	private RawFrameFactory()
-	{}
+public final class RawFrameFactory {
+	private RawFrameFactory() {
+	}
 
 	/**
-	 * Creates a raw frame out of a byte array for the specified communication medium.
+	 * Creates a raw frame out of a byte array for the specified communication
+	 * medium.
 	 * <p>
-	 * This method just invokes one of the other medium type specific creation methods
-	 * according the given medium type.
+	 * This method just invokes one of the other medium type specific creation
+	 * methods according the given medium type.
 	 * 
-	 * @param mediumType KNX communication medium, one of the media types declared in
-	 *        {@link KNXMediumSettings}
-	 * @param data byte array containing the raw frame structure
-	 * @param offset start offset of frame structure in <code>data</code>, 0 &lt;=
-	 *        offset &lt; <code>data.length</code>
+	 * @param mediumType
+	 *            KNX communication medium, one of the media types declared in
+	 *            {@link KNXMediumSettings}
+	 * @param data
+	 *            byte array containing the raw frame structure
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, 0 &lt;=
+	 *            offset &lt; <code>data.length</code>
 	 * @return the created raw frame for the specified medium
-	 * @throws KNXFormatException on unknown/not supported KNX medium or no valid frame
-	 *         structure
+	 * @throws KNXFormatException
+	 *             on unknown/not supported KNX medium or no valid frame
+	 *             structure
 	 */
-	public static RawFrame create(int mediumType, byte[] data, int offset)
-		throws KNXFormatException
-	{
+	public static RawFrame create(int mediumType, byte[] data, int offset) throws KNXFormatException {
 		switch (mediumType) {
 		case KNXMediumSettings.MEDIUM_TP0:
 			throw new KNXFormatException("TP0 raw frame not supported yet");
@@ -71,14 +73,16 @@ public final class RawFrameFactory
 	 * Creates a raw frame out of a byte array for the TP1 communication medium.
 	 * <p>
 	 * 
-	 * @param data byte array containing the TP1 raw frame structure
-	 * @param offset start offset of frame structure in <code>data</code>, 0 &lt;=
-	 *        offset &lt; <code>data.length</code>
+	 * @param data
+	 *            byte array containing the TP1 raw frame structure
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, 0 &lt;=
+	 *            offset &lt; <code>data.length</code>
 	 * @return the created TP1 raw frame
-	 * @throws KNXFormatException on no valid frame structure
+	 * @throws KNXFormatException
+	 *             on no valid frame structure
 	 */
-	public static RawFrame createTP1(byte[] data, int offset) throws KNXFormatException
-	{
+	public static RawFrame createTP1(byte[] data, int offset) throws KNXFormatException {
 		final int ctrl = data[offset] & 0xff;
 		// parse control field and check if valid
 		if ((ctrl & 0x10) == 0x10) {
@@ -92,34 +96,40 @@ public final class RawFrameFactory
 	}
 
 	/**
-	 * Creates a raw frame out of a byte array for the PL110 communication medium.
+	 * Creates a raw frame out of a byte array for the PL110 communication
+	 * medium.
 	 * <p>
 	 * 
-	 * @param data byte array containing the PL110 raw frame structure
-	 * @param offset start offset of frame structure in <code>data</code>, 0 &lt;=
-	 *        offset &lt; <code>data.length</code>
+	 * @param data
+	 *            byte array containing the PL110 raw frame structure
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, 0 &lt;=
+	 *            offset &lt; <code>data.length</code>
 	 * @return the created PL110 raw frame
-	 * @throws KNXFormatException on no valid frame structure
+	 * @throws KNXFormatException
+	 *             on no valid frame structure
 	 */
-	public static RawFrame createPL110(byte[] data, int offset) throws KNXFormatException
-	{
+	public static RawFrame createPL110(byte[] data, int offset) throws KNXFormatException {
 		if ((data[0] & 0x10) == 0x10)
 			return new PL110LData(data, offset);
 		return new PL110Ack(data, offset);
 	}
 
 	/**
-	 * Creates a raw frame out of a byte array for the PL132 communication medium.
+	 * Creates a raw frame out of a byte array for the PL132 communication
+	 * medium.
 	 * <p>
 	 * 
-	 * @param data byte array containing the PL132 raw frame structure
-	 * @param offset start offset of frame structure in <code>data</code>, 0 &lt;=
-	 *        offset &lt; <code>data.length</code>
+	 * @param data
+	 *            byte array containing the PL132 raw frame structure
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, 0 &lt;=
+	 *            offset &lt; <code>data.length</code>
 	 * @return the created PL132 raw frame
-	 * @throws KNXFormatException on no valid frame structure
+	 * @throws KNXFormatException
+	 *             on no valid frame structure
 	 */
-	public static RawFrame createPL132(byte[] data, int offset) throws KNXFormatException
-	{
+	public static RawFrame createPL132(byte[] data, int offset) throws KNXFormatException {
 		if (data.length - offset == 2)
 			return new PL132Ack(data, offset);
 		return new PL132LData(data, offset);

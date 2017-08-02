@@ -31,16 +31,15 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.DimensionImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.UnitImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitBeaufort;
+import obix.Uri;
 
-public class UnitBeaufortImpl extends UnitImpl implements UnitBeaufort
-{
-	public UnitBeaufortImpl()
-	{
-		super("beaufort", "wind speed (Bft)", new Uri(UnitBeaufort.HREF), "Bft", 1, 0, new DimensionImpl(0, 0, 0, 0, 0, 0, 0));
+public class UnitBeaufortImpl extends UnitImpl implements UnitBeaufort {
+	public UnitBeaufortImpl() {
+		super("beaufort", "wind speed (Bft)", new Uri(UnitBeaufort.HREF), "Bft", 1, 0,
+				new DimensionImpl(0, 0, 0, 0, 0, 0, 0));
 
 		// Translations
 		addTranslation("de", TranslationAttribute.displayName, "Windgeschwindigkeit (Bft)");

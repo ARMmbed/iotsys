@@ -41,16 +41,10 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import obix.Obj;
-import obix.Uri;
-import obix.io.BinObixEncoder;
-import obix.io.ObixEncoder;
-
 import org.json.JSONException;
 import org.openexi.proc.common.EXIOptionsException;
 import org.openexi.proc.common.GrammarOptions;
 import org.openexi.proc.grammars.GrammarCache;
-
 import org.openexi.sax.Transmogrifier;
 import org.openexi.sax.TransmogrifierException;
 import org.openexi.schema.EXISchema;
@@ -58,6 +52,10 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
+import obix.Obj;
+import obix.Uri;
+import obix.io.BinObixEncoder;
+import obix.io.ObixEncoder;
 
 /**
  * Export oBIX objects as XML documents for evaluation.
@@ -88,9 +86,8 @@ public class EvaluationGenerateContracts {
 	private boolean makeJSON;
 	private boolean makeObixBinary;
 
-	public EvaluationGenerateContracts(ObjectBroker objectBroker,
-			boolean makeExi, boolean makeXml, boolean makeExiSchemaInformed,
-			boolean makeJSON, boolean makeObixBinary) {
+	public EvaluationGenerateContracts(ObjectBroker objectBroker, boolean makeExi, boolean makeXml,
+			boolean makeExiSchemaInformed, boolean makeJSON, boolean makeObixBinary) {
 		this.objectBroker = objectBroker;
 		this.makeExi = makeExi;
 		this.makeXml = makeXml;
@@ -111,13 +108,11 @@ public class EvaluationGenerateContracts {
 		Obj o = new Obj();
 		o = getContractObj(href);
 
-		System.out.println("File name  XML Object: " + fileName + "_"
-				+ objectXmlExtentionOut);
+		System.out.println("File name  XML Object: " + fileName + "_" + objectXmlExtentionOut);
 		System.out.println(ObixEncoder.toString(o));
 
 		if (o.getParent() == null) {
-			writeFile(ObixEncoder.toString(o), fileName + "_"
-					+ objectXmlExtentionOut);
+			writeFile(ObixEncoder.toString(o), fileName + "_" + objectXmlExtentionOut);
 		}
 		if (o.size() > 0) {
 			String fileNameKid = fileName;
@@ -125,28 +120,24 @@ public class EvaluationGenerateContracts {
 			Obj[] kids = o.list();
 			for (int i = 0; i < o.size(); i++) {
 				if (kids[i].getHref() != null) {
-					System.out.println("File name  XML DP: " + fileNameKid
-							+ "_" + kids[i].getHref() + "_"
+					System.out.println("File name  XML DP: " + fileNameKid + "_" + kids[i].getHref() + "_"
 							+ dataPointXmlExtentionOut);
-					writeFile(ObixEncoder.toString(kids[i]), fileNameKid + "_"
-							+ kids[i].getHref() + "_"
-							+ dataPointXmlExtentionOut);
+					writeFile(ObixEncoder.toString(kids[i]),
+							fileNameKid + "_" + kids[i].getHref() + "_" + dataPointXmlExtentionOut);
 				}
 			}
 		}
 	}
-	
+
 	public void encodeObixBinaryFromObject(String href, String fileName) {
 		Obj o = new Obj();
 		o = getContractObj(href);
 
-		System.out.println("File name  oBIX Binary Object: " + fileName + "_"
-				+ objectObixBinaryExtentionOut);
+		System.out.println("File name  oBIX Binary Object: " + fileName + "_" + objectObixBinaryExtentionOut);
 		System.out.println(ObixEncoder.toString(o));
 
 		if (o.getParent() == null) {
-			writeBinaryFile(BinObixEncoder.toBytes(o), fileName + "_"
-					+ objectObixBinaryExtentionOut);
+			writeBinaryFile(BinObixEncoder.toBytes(o), fileName + "_" + objectObixBinaryExtentionOut);
 		}
 		if (o.size() > 0) {
 			String fileNameKid = fileName;
@@ -154,25 +145,22 @@ public class EvaluationGenerateContracts {
 			Obj[] kids = o.list();
 			for (int i = 0; i < o.size(); i++) {
 				if (kids[i].getHref() != null) {
-					System.out.println("File name  oBIX DP: " + fileNameKid
-							+ "_" + kids[i].getHref() + "_"
+					System.out.println("File name  oBIX DP: " + fileNameKid + "_" + kids[i].getHref() + "_"
 							+ dataPointObixBinaryExtentionOut);
-					writeBinaryFile(BinObixEncoder.toBytes(kids[i]), fileNameKid + "_"
-							+ kids[i].getHref() + "_"
-							+ dataPointObixBinaryExtentionOut);
+					writeBinaryFile(BinObixEncoder.toBytes(kids[i]),
+							fileNameKid + "_" + kids[i].getHref() + "_" + dataPointObixBinaryExtentionOut);
 				}
 			}
 		}
 	}
-	
+
 	public void encodeJsonFromObject(String href, String fileName) {
 		Obj o = new Obj();
 		o = getContractObj(href);
 
 		if (o.getParent() == null) {
 			try {
-				writeFile(JsonUtil.fromXMLtoJSON(ObixEncoder.toString(o)), fileName + "_"
-						+ objectJSONExtentionOut);
+				writeFile(JsonUtil.fromXMLtoJSON(ObixEncoder.toString(o)), fileName + "_" + objectJSONExtentionOut);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -183,13 +171,11 @@ public class EvaluationGenerateContracts {
 			Obj[] kids = o.list();
 			for (int i = 0; i < o.size(); i++) {
 				if (kids[i].getHref() != null) {
-					System.out.println("File name  JSON DP: " + fileNameKid
-							+ "_" + kids[i].getHref() + "_"
+					System.out.println("File name  JSON DP: " + fileNameKid + "_" + kids[i].getHref() + "_"
 							+ dataPointJSONExtentionOut);
 					try {
-						writeFile(JsonUtil.fromXMLtoJSON(ObixEncoder.toString(kids[i])), fileNameKid + "_"
-								+ kids[i].getHref() + "_"
-								+ dataPointJSONExtentionOut);
+						writeFile(JsonUtil.fromXMLtoJSON(ObixEncoder.toString(kids[i])),
+								fileNameKid + "_" + kids[i].getHref() + "_" + dataPointJSONExtentionOut);
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -210,7 +196,7 @@ public class EvaluationGenerateContracts {
 		}
 
 	}
-	
+
 	public void writeBinaryFile(byte[] data, String destination) {
 
 		File outputFile = new File(destination);
@@ -226,13 +212,12 @@ public class EvaluationGenerateContracts {
 
 	public void encodeExiformObject(String href, String fileName) {
 		Obj o = new Obj();
-			
+
 		o = getContractObj(href);
 
-		if (o.getParent() == null) {			
+		if (o.getParent() == null) {
 			try {
-				encodeEXI(ObixEncoder.toString(o), fileName + "_"
-						+ objectExiExtentionOut);			
+				encodeEXI(ObixEncoder.toString(o), fileName + "_" + objectExiExtentionOut);
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
@@ -258,9 +243,8 @@ public class EvaluationGenerateContracts {
 					// fileNameKid+"_"+kids[i].getHref()+"_"+dataPointExtentionOut;
 					// System.out.println(fileNameKid+"_"+kids[i].getHref()+"_"+dataPointExiExtentionOut);
 					try {
-						encodeEXI(ObixEncoder.toString(kids[i]), fileNameKid
-								+ "_" + kids[i].getHref() + "_"
-								+ dataPointExiExtentionOut);
+						encodeEXI(ObixEncoder.toString(kids[i]),
+								fileNameKid + "_" + kids[i].getHref() + "_" + dataPointExiExtentionOut);
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -304,13 +288,11 @@ public class EvaluationGenerateContracts {
 			System.out.println("Obj is Parent");
 			System.out.println("Obj is: " + o.getIs());
 
-			// System.out.println("File name  Object: "+fileNameObject);
-			System.out.println("File name  EXI Object: " + fileName + "_"
-					+ objectExiSchemaExtentionOut);
+			// System.out.println("File name Object: "+fileNameObject);
+			System.out.println("File name  EXI Object: " + fileName + "_" + objectExiSchemaExtentionOut);
 
 			try {
-				encodeExiSchema(ObixEncoder.toString(o), fileName + "_"
-						+ objectExiSchemaExtentionOut);
+				encodeExiSchema(ObixEncoder.toString(o), fileName + "_" + objectExiSchemaExtentionOut);
 				// encodeEXI(ObixEncoder.toString(o),
 				// contractDirectory+"/"+fileNameObject);
 				// contractDirectory+"/"+destinationFile
@@ -340,9 +322,8 @@ public class EvaluationGenerateContracts {
 					// fileNameKid+"_"+kids[i].getHref()+"_"+dataPointExtentionOut;
 					// System.out.println(fileNameKid+"_"+kids[i].getHref()+"_"+dataPointExiExtentionOut);
 					try {
-						encodeExiSchema(ObixEncoder.toString(kids[i]), fileNameKid
-								+ "_" + kids[i].getHref() + "_"
-								+ dataPointExiSchemaExtentionOut);
+						encodeExiSchema(ObixEncoder.toString(kids[i]),
+								fileNameKid + "_" + kids[i].getHref() + "_" + dataPointExiSchemaExtentionOut);
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -399,46 +380,32 @@ public class EvaluationGenerateContracts {
 				if (kids[i].getHref() != null) {
 					System.out.println("Kids href: " + kids[i].getHref());
 
-					fileName = kids[i]
-							.getIs()
-							.toString()
-							.substring(
-									kids[i].getIs().toString().indexOf(":") + 1);
+					fileName = kids[i].getIs().toString().substring(kids[i].getIs().toString().indexOf(":") + 1);
 					System.out
-							.println(kids[i]
-									.getIs()
-									.toString()
-									.substring(
-											kids[i].getIs().toString()
-													.indexOf(":") + 1));
+							.println(kids[i].getIs().toString().substring(kids[i].getIs().toString().indexOf(":") + 1));
 					if (makeExi) {
-						encodeExiformObject(kids[i].getHref().toString(),
-								contractExiDirectory + "/" + fileName);
+						encodeExiformObject(kids[i].getHref().toString(), contractExiDirectory + "/" + fileName);
 					}
 					if (makeXml) {
 
-						System.out.println("contract kids: "
-								+ kids[i].getHref().toString());
-						System.out.println("contract director+filename: "
-								+ contractXmlDirectory + "/" + fileName);
+						System.out.println("contract kids: " + kids[i].getHref().toString());
+						System.out.println("contract director+filename: " + contractXmlDirectory + "/" + fileName);
 
-						getXMLObject(kids[i].getHref().toString(),
-								contractXmlDirectory + "/" + fileName);
+						getXMLObject(kids[i].getHref().toString(), contractXmlDirectory + "/" + fileName);
 					}
 
 					if (makeExiSchemaInformed) {
 						encodeExiSchemaFromObject(kids[i].getHref().toString(),
 								contractExiSchemaDirectory + "/" + fileName);
 					}
-					
-					if(makeObixBinary){
+
+					if (makeObixBinary) {
 						encodeObixBinaryFromObject(kids[i].getHref().toString(),
 								contractObixBinaryDirectory + "/" + fileName);
 					}
-					
-					if(makeJSON){
-						encodeJsonFromObject(kids[i].getHref().toString(),
-								contractJsonDirectory + "/" + fileName);
+
+					if (makeJSON) {
+						encodeJsonFromObject(kids[i].getHref().toString(), contractJsonDirectory + "/" + fileName);
 					}
 					// encodeExiformObject("/airdamper")
 				}
@@ -446,9 +413,8 @@ public class EvaluationGenerateContracts {
 		}
 	}
 
-	public static void encodeEXI(String source, String destinationFile)
-			throws FileNotFoundException, IOException, ClassNotFoundException,
-			TransmogrifierException, EXIOptionsException {
+	public static void encodeEXI(String source, String destinationFile) throws FileNotFoundException, IOException,
+			ClassNotFoundException, TransmogrifierException, EXIOptionsException {
 		// StringWriter stringWriter = new StringWriter();
 		// destinationFile = contractDirectory+"/"+destinationFile;
 
@@ -484,8 +450,7 @@ public class EvaluationGenerateContracts {
 			transmogrifier.setOutputStream(out);
 
 			// 6. Encode the input stream.
-			transmogrifier.encode(new InputSource(new ByteArrayInputStream(
-					source.getBytes())));
+			transmogrifier.encode(new InputSource(new ByteArrayInputStream(source.getBytes())));
 		}
 
 		// 7. Verify that the streams are closed.
@@ -497,9 +462,8 @@ public class EvaluationGenerateContracts {
 		}
 	}
 
-	public static void encodeExiSchema(String source, String destinationFile)
-			throws FileNotFoundException, IOException, ClassNotFoundException,
-			TransmogrifierException, EXIOptionsException {
+	public static void encodeExiSchema(String source, String destinationFile) throws FileNotFoundException, IOException,
+			ClassNotFoundException, TransmogrifierException, EXIOptionsException {
 		System.out.println(destinationFile);
 
 		FileInputStream in = null;
@@ -531,10 +495,8 @@ public class EvaluationGenerateContracts {
 			int firstSpace = source.indexOf(' '); // first space of the first
 													// element
 			StringBuffer buffer = new StringBuffer(source);
-			buffer.insert(firstSpace + 1,
-					"xmlns=\"http://obix.org/ns/schema/1.1\" ");
+			buffer.insert(firstSpace + 1, "xmlns=\"http://obix.org/ns/schema/1.1\" ");
 			source = buffer.toString();
-			
 
 			// 4. Set the configuration options in the Transmogrifier. Later
 			// examples will show more possible settings.
@@ -544,8 +506,7 @@ public class EvaluationGenerateContracts {
 			transmogrifier.setOutputStream(out);
 
 			// 6. Encode the input stream.
-			transmogrifier.encode(new InputSource(new ByteArrayInputStream(
-					source.getBytes())));
+			transmogrifier.encode(new InputSource(new ByteArrayInputStream(source.getBytes())));
 			fis.close();
 		}
 
@@ -555,8 +516,7 @@ public class EvaluationGenerateContracts {
 				in.close();
 			if (out != null)
 				out.close();
-			
-			
+
 		}
 
 	}

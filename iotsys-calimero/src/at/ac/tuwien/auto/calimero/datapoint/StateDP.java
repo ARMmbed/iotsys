@@ -33,26 +33,26 @@ import at.ac.tuwien.auto.calimero.xml.KNXMLException;
 import at.ac.tuwien.auto.calimero.xml.XMLReader;
 import at.ac.tuwien.auto.calimero.xml.XMLWriter;
 
-
 /**
  * Represents a state based KNX datapoint.
  * <p>
- * State based datapoint interaction leads to transitions between states (so a datapoint
- * value associated to a certain datapoint represents a particular state over an amount of
- * time). The state of such a datapoint can be updated/invalidated by different (i.e. more
- * than one) KNX group addresses. An address marked as updating the state of this
- * datapoint will allow KNX indication and response messages with that destination address
- * to set a new datapoint state value. An address marked as invalidating the state of this
- * datapoint will allow KNX indication messages with that destination address to delete
- * any state value information of the datapoint.<br>
- * This datapoint does not check for mutually exclusive containment of an address in one
- * of those both categories. The behavior when adding a KNX group address to both updating
- * and invalidating the datapoint state is undefined.<br>
+ * State based datapoint interaction leads to transitions between states (so a
+ * datapoint value associated to a certain datapoint represents a particular
+ * state over an amount of time). The state of such a datapoint can be
+ * updated/invalidated by different (i.e. more than one) KNX group addresses. An
+ * address marked as updating the state of this datapoint will allow KNX
+ * indication and response messages with that destination address to set a new
+ * datapoint state value. An address marked as invalidating the state of this
+ * datapoint will allow KNX indication messages with that destination address to
+ * delete any state value information of the datapoint.<br>
+ * This datapoint does not check for mutually exclusive containment of an
+ * address in one of those both categories. The behavior when adding a KNX group
+ * address to both updating and invalidating the datapoint state is
+ * undefined.<br>
  * 
  * @author B. Malinowsky
  */
-public class StateDP extends Datapoint
-{
+public class StateDP extends Datapoint {
 	private static final String TAG_EXPIRATION = "expiration";
 	private static final String ATTR_TIMEOUT = "timeout";
 	private static final String TAG_UPDATING = "updatingAddresses";
@@ -60,56 +60,67 @@ public class StateDP extends Datapoint
 
 	// list of group addresses, whose .ind messages invalidate the data point
 	private final List invalidating;
-	// list of group addresses, whose .ind and .res messages update the data point
+	// list of group addresses, whose .ind and .res messages update the data
+	// point
 	private final List updating;
-	// timeout in seconds, how long a set state value stays valid since reception
+	// timeout in seconds, how long a set state value stays valid since
+	// reception
 	private volatile int timeout;
 
 	/**
 	 * Creates a new state based datapoint with a name.
 	 * <p>
 	 * 
-	 * @param main the group address used to identify this datapoint
-	 * @param name user defined datapoint name
+	 * @param main
+	 *            the group address used to identify this datapoint
+	 * @param name
+	 *            user defined datapoint name
 	 */
-	public StateDP(GroupAddress main, String name)
-	{
+	public StateDP(GroupAddress main, String name) {
 		super(main, name, true);
 		invalidating = Collections.synchronizedList(new ArrayList());
 		updating = Collections.synchronizedList(new ArrayList());
 	}
 
 	/**
-	 * Creates a new datapoint with a name and specifies datapoint translation type.
+	 * Creates a new datapoint with a name and specifies datapoint translation
+	 * type.
 	 * <p>
 	 * 
-	 * @param main the group address used to identify this datapoint
-	 * @param name user defined datapoint name
-	 * @param mainNumber main number of the data type used for translation of a datapoint
-	 *        value; if the used <code>dptID</code> argument unambiguously identifies a
-	 *        DPT translator, main number might be left 0
-	 * @param dptID the datapoint type ID used for translation in a DPT translator
+	 * @param main
+	 *            the group address used to identify this datapoint
+	 * @param name
+	 *            user defined datapoint name
+	 * @param mainNumber
+	 *            main number of the data type used for translation of a
+	 *            datapoint value; if the used <code>dptID</code> argument
+	 *            unambiguously identifies a DPT translator, main number might
+	 *            be left 0
+	 * @param dptID
+	 *            the datapoint type ID used for translation in a DPT translator
 	 */
-	public StateDP(GroupAddress main, String name, int mainNumber, String dptID)
-	{
+	public StateDP(GroupAddress main, String name, int mainNumber, String dptID) {
 		this(main, name);
 		setDPT(mainNumber, dptID);
 	}
 
 	/**
-	 * Creates a new state based datapoint and adds invalidating and updating addresses.
+	 * Creates a new state based datapoint and adds invalidating and updating
+	 * addresses.
 	 * <p>
 	 * 
-	 * @param main the group address used to identify this datapoint
-	 * @param name user defined datapoint name
-	 * @param invalidatingAddresses KNX group addresses, whose indication messages
-	 *        invalidate this datapoint state
-	 * @param updatingAddresses KNX group addresses, whose indication and response
-	 *        messages lead to an update of this datapoint state
+	 * @param main
+	 *            the group address used to identify this datapoint
+	 * @param name
+	 *            user defined datapoint name
+	 * @param invalidatingAddresses
+	 *            KNX group addresses, whose indication messages invalidate this
+	 *            datapoint state
+	 * @param updatingAddresses
+	 *            KNX group addresses, whose indication and response messages
+	 *            lead to an update of this datapoint state
 	 */
-	public StateDP(GroupAddress main, String name, Collection invalidatingAddresses,
-		Collection updatingAddresses)
-	{
+	public StateDP(GroupAddress main, String name, Collection invalidatingAddresses, Collection updatingAddresses) {
 		super(main, name, true);
 		invalidating = Collections.synchronizedList(new ArrayList(invalidatingAddresses));
 		checkGAs(invalidating);
@@ -120,40 +131,43 @@ public class StateDP extends Datapoint
 	/**
 	 * Creates a new state based datapoint from XML input.
 	 * <p>
-	 * If the current XML element position is no start tag, the next element tag is read.
-	 * The datapoint element is then expected to be the current element in the reader.
+	 * If the current XML element position is no start tag, the next element tag
+	 * is read. The datapoint element is then expected to be the current element
+	 * in the reader.
 	 * 
-	 * @param r a XML reader
-	 * @throws KNXMLException if the XML element is no datapoint or could not be read
-	 *         correctly
+	 * @param r
+	 *            a XML reader
+	 * @throws KNXMLException
+	 *             if the XML element is no datapoint or could not be read
+	 *             correctly
 	 */
-	public StateDP(XMLReader r) throws KNXMLException
-	{
+	public StateDP(XMLReader r) throws KNXMLException {
 		super(r);
 		if (!isStateBased())
-			throw new KNXMLException("no state based KNX datapoint element", null, r
-				.getLineNumber());
+			throw new KNXMLException("no state based KNX datapoint element", null, r.getLineNumber());
 		invalidating = Collections.synchronizedList(new ArrayList());
 		updating = Collections.synchronizedList(new ArrayList());
 		doLoad(r);
 	}
 
 	/**
-	 * Sets the expiration timeout for datapoint state values related to this datapoint.
+	 * Sets the expiration timeout for datapoint state values related to this
+	 * datapoint.
 	 * <p>
-	 * This timeout specifies how long a local datapoint value is considered valid since
-	 * it was received or got updated the last time inside Calimero.<br>
-	 * When working with state values related to this datapoint, this timeout should be
-	 * queried using {@link #getExpirationTimeout()} to check whether there is a timeout
-	 * set, and a value can still be considered valid / up to date. An expired state value
-	 * is not intended to be used anymore, it should be discarded and requested/updated
-	 * from the KNX network.<br>
+	 * This timeout specifies how long a local datapoint value is considered
+	 * valid since it was received or got updated the last time inside
+	 * Calimero.<br>
+	 * When working with state values related to this datapoint, this timeout
+	 * should be queried using {@link #getExpirationTimeout()} to check whether
+	 * there is a timeout set, and a value can still be considered valid / up to
+	 * date. An expired state value is not intended to be used anymore, it
+	 * should be discarded and requested/updated from the KNX network.<br>
 	 * A timeout of 0 indicates no timeout limit set.
 	 * 
-	 * @param timeout timeout in seconds, 0 for no timeout limit
+	 * @param timeout
+	 *            timeout in seconds, 0 for no timeout limit
 	 */
-	public final void setExpirationTimeout(int timeout)
-	{
+	public final void setExpirationTimeout(int timeout) {
 		this.timeout = timeout;
 	}
 
@@ -165,32 +179,32 @@ public class StateDP extends Datapoint
 	 * 
 	 * @return timeout in seconds, 0 for no timeout set
 	 */
-	public final int getExpirationTimeout()
-	{
+	public final int getExpirationTimeout() {
 		return timeout;
 	}
 
 	/**
-	 * Adds a group address to this datapoint to indicate that KNX messages with that
-	 * address are allowed to alter the associated datapoint state (i.e. a state value
-	 * related to this datapoint).
+	 * Adds a group address to this datapoint to indicate that KNX messages with
+	 * that address are allowed to alter the associated datapoint state (i.e. a
+	 * state value related to this datapoint).
 	 * <p>
-	 * A group address can be marked as updating a state or invalidating a state. An
-	 * address is added at most once to each category.
+	 * A group address can be marked as updating a state or invalidating a
+	 * state. An address is added at most once to each category.
 	 * 
-	 * @param a the KNX group address to add
-	 * @param isUpdating <code>true</code> to mark the address as updating this
-	 *        datapoint state, <code>false</code> to mark it as state invalidating
+	 * @param a
+	 *            the KNX group address to add
+	 * @param isUpdating
+	 *            <code>true</code> to mark the address as updating this
+	 *            datapoint state, <code>false</code> to mark it as state
+	 *            invalidating
 	 */
-	public final void add(GroupAddress a, boolean isUpdating)
-	{
+	public final void add(GroupAddress a, boolean isUpdating) {
 		if (getMainAddress().equals(a))
 			throw new KNXIllegalArgumentException("address equals datapoint main address");
 		if (isUpdating) {
 			if (!updating.contains(a))
 				updating.add(a);
-		}
-		else {
+		} else {
 			if (!invalidating.contains(a))
 				invalidating.add(a);
 		}
@@ -199,15 +213,17 @@ public class StateDP extends Datapoint
 	/**
 	 * Removes a state updating/invalidating group address from this datapoint.
 	 * <p>
-	 * The group address is no longer contained in the corresponding updating/invalidating
-	 * category.
+	 * The group address is no longer contained in the corresponding
+	 * updating/invalidating category.
 	 * 
-	 * @param a the KNX group address to remove
-	 * @param fromUpdating <code>true</code> to remove from updating this datapoint
-	 *        state, <code>false</code> to remove from invalidating this datapoint state
+	 * @param a
+	 *            the KNX group address to remove
+	 * @param fromUpdating
+	 *            <code>true</code> to remove from updating this datapoint
+	 *            state, <code>false</code> to remove from invalidating this
+	 *            datapoint state
 	 */
-	public final void remove(GroupAddress a, boolean fromUpdating)
-	{
+	public final void remove(GroupAddress a, boolean fromUpdating) {
 		if (fromUpdating)
 			updating.remove(a);
 		else
@@ -215,61 +231,66 @@ public class StateDP extends Datapoint
 	}
 
 	/**
-	 * Returns the collection of KNX group addresses which are allowed to alter the state
-	 * of this datapoint.
+	 * Returns the collection of KNX group addresses which are allowed to alter
+	 * the state of this datapoint.
 	 * <p>
 	 * 
-	 * @param updatingAddresses <code>true</code> if the updating addresses should be
-	 *        returned, <code>false</code> for the invalidating addresses
-	 * @return an unmodifiable collection with entries of type {@link GroupAddress}
+	 * @param updatingAddresses
+	 *            <code>true</code> if the updating addresses should be
+	 *            returned, <code>false</code> for the invalidating addresses
+	 * @return an unmodifiable collection with entries of type
+	 *         {@link GroupAddress}
 	 */
-	public Collection getAddresses(boolean updatingAddresses)
-	{
-		return Collections.unmodifiableCollection(updatingAddresses ? updating
-			: invalidating);
+	public Collection getAddresses(boolean updatingAddresses) {
+		return Collections.unmodifiableCollection(updatingAddresses ? updating : invalidating);
 	}
 
 	/**
 	 * Returns whether KNX indication messages with destination group address
-	 * <code>a</code> will invalidate the associated datapoint state of this datapoint.
+	 * <code>a</code> will invalidate the associated datapoint state of this
+	 * datapoint.
 	 * <p>
 	 * 
-	 * @param a the address to check
+	 * @param a
+	 *            the address to check
 	 * @return <code>true</code> iff address is invalidating, <code>false</code>
 	 *         otherwise
 	 */
-	public final boolean isInvalidating(GroupAddress a)
-	{
+	public final boolean isInvalidating(GroupAddress a) {
 		return invalidating.contains(a);
 	}
 
 	/**
-	 * Returns whether KNX indication or response messages with destination address
-	 * <code>a</code> will update the associated datapoint state of this datapoint.
+	 * Returns whether KNX indication or response messages with destination
+	 * address <code>a</code> will update the associated datapoint state of this
+	 * datapoint.
 	 * <p>
 	 * 
-	 * @param a the address to check
-	 * @return <code>true</code> iff address is updating, <code>false</code> otherwise
+	 * @param a
+	 *            the address to check
+	 * @return <code>true</code> iff address is updating, <code>false</code>
+	 *         otherwise
 	 */
-	public final boolean isUpdating(GroupAddress a)
-	{
+	public final boolean isUpdating(GroupAddress a) {
 		return updating.contains(a);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.Datapoint#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return "state DP " + super.toString();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.Datapoint#doLoad(
 	 * tuwien.auto.calimero.xml.XMLReader)
 	 */
-	void doLoad(XMLReader r) throws KNXMLException
-	{
+	void doLoad(XMLReader r) throws KNXMLException {
 		boolean main = false;
 		while (r.getPosition() == XMLReader.START_TAG) {
 			final String tag = r.getCurrent().getName();
@@ -278,13 +299,10 @@ public class StateDP extends Datapoint
 				if (a != null)
 					try {
 						timeout = Integer.decode(a).intValue();
+					} catch (final NumberFormatException e) {
+						throw new KNXMLException("malformed attribute timeout, " + a, null, r.getLineNumber());
 					}
-					catch (final NumberFormatException e) {
-						throw new KNXMLException("malformed attribute timeout, " + a,
-							null, r.getLineNumber());
-					}
-			}
-			else if (tag.equals(TAG_UPDATING))
+			} else if (tag.equals(TAG_UPDATING))
 				while (r.read() == XMLReader.START_TAG)
 					updating.add(new GroupAddress(r));
 			else if (tag.equals(TAG_INVALIDATING))
@@ -293,23 +311,22 @@ public class StateDP extends Datapoint
 			else if (!main) {
 				super.doLoad(r);
 				main = true;
-			}
-			else
+			} else
 				throw new KNXMLException("invalid element", tag, r.getLineNumber());
 			r.read();
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.Datapoint#doSave(
 	 * tuwien.auto.calimero.xml.XMLWriter)
 	 */
-	void doSave(XMLWriter w) throws KNXMLException
-	{
+	void doSave(XMLWriter w) throws KNXMLException {
 		// <expiration timeout=int />
-		w.writeEmptyElement(TAG_EXPIRATION, Arrays
-			.asList(new Attribute[] { new Attribute(ATTR_TIMEOUT, Integer
-				.toString(timeout)) }));
+		w.writeEmptyElement(TAG_EXPIRATION,
+				Arrays.asList(new Attribute[] { new Attribute(ATTR_TIMEOUT, Integer.toString(timeout)) }));
 		w.writeElement(TAG_UPDATING, Collections.EMPTY_LIST, null);
 		synchronized (updating) {
 			for (final Iterator i = updating.iterator(); i.hasNext();)
@@ -325,8 +342,7 @@ public class StateDP extends Datapoint
 	}
 
 	// iteration not synchronized
-	private void checkGAs(List l)
-	{
+	private void checkGAs(List l) {
 		for (final Iterator i = l.iterator(); i.hasNext();)
 			if (!(i.next() instanceof GroupAddress))
 				throw new KNXIllegalArgumentException("not a group address list");

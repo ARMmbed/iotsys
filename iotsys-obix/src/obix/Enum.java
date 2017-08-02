@@ -10,8 +10,7 @@ package obix;
  * @creation 27 Apr 05
  * @version $Revision$ $Date$
  */
-public class Enum extends Val
-{
+public class Enum extends Val {
 
 	// //////////////////////////////////////////////////////////////
 	// Constructor
@@ -20,8 +19,7 @@ public class Enum extends Val
 	/**
 	 * Construct named Enum with specified value.
 	 */
-	public Enum(String name, String val)
-	{
+	public Enum(String name, String val) {
 		super(name);
 		set(val, false);
 	}
@@ -29,16 +27,14 @@ public class Enum extends Val
 	/**
 	 * Construct unnamed Enum with specified value.
 	 */
-	public Enum(String val)
-	{
+	public Enum(String val) {
 		set(val, false);
 	}
 
 	/**
 	 * Construct unnamed Enum with value of ""
 	 */
-	public Enum()
-	{
+	public Enum() {
 		set("", false);
 	}
 
@@ -49,32 +45,28 @@ public class Enum extends Val
 	/**
 	 * Get value as string key.
 	 */
-	public String get()
-	{
+	public String get() {
 		return val;
 	}
 
 	/**
 	 * Set value as string key.
 	 */
-	public void set(String val)
-	{
+	public void set(String val) {
 		this.set(val, true);
 	}
 
 	/**
 	 * Set value as string key and consider notify-flag.
 	 */
-	public void set(String val, boolean notify)
-	{
+	public void set(String val, boolean notify) {
 		if (val == null)
 			throw new IllegalArgumentException("val cannot be null");
 
 		String oldVal = this.val;
 		this.val = val;
 
-		if (notify && !this.val.equals(oldVal))
-		{
+		if (notify && !this.val.equals(oldVal)) {
 			notifyObservers();
 		}
 	}
@@ -82,8 +74,7 @@ public class Enum extends Val
 	/**
 	 * Set to value of another Enum
 	 */
-	public void set(Obj obj)
-	{
+	public void set(Obj obj) {
 		if (!(obj instanceof Enum))
 			return;
 		set(((Enum) obj).get());
@@ -96,58 +87,53 @@ public class Enum extends Val
 	/**
 	 * Return "enum".
 	 */
-	public String getElement()
-	{
+	public String getElement() {
 		return "enum";
 	}
 
 	/**
 	 * Return BinObix.ENUM.
 	 */
-	public int getBinCode()
-	{
+	public int getBinCode() {
 		return obix.io.BinObix.ENUM;
 	}
 
 	/**
 	 * Return if specified Val has equivalent enum value.
 	 */
-	public boolean valEquals(Val that)
-	{
+	public boolean valEquals(Val that) {
 		if (that instanceof Enum)
 			return ((Enum) that).val == val;
 		return false;
 	}
 
 	/**
-	 * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+	 * Compares this object with the specified object for order. Returns a
+	 * negative integer, zero, or a positive integer as this object is less
+	 * than, equal to, or greater than the specified object.
 	 */
-	public int compareTo(Object that)
-	{
+	public int compareTo(Object that) {
 		return val.compareTo(((Enum) that).val);
 	}
 
 	/**
 	 * Encode the value as a string
 	 */
-	public String encodeVal()
-	{
+	public String encodeVal() {
 		return val;
 	}
 
 	/**
 	 * Decode the value from a string.
 	 */
-	public void decodeVal(String val) throws Exception
-	{
+	public void decodeVal(String val) throws Exception {
 		set(val);
 	}
 
 	/**
 	 * Encode the value as a Java code literal to pass to the constructor.
 	 */
-	public String encodeJava()
-	{
+	public String encodeJava() {
 		return '"' + val + '"';
 	}
 
@@ -158,16 +144,14 @@ public class Enum extends Val
 	/**
 	 * Get the range facet or null if unspecified.
 	 */
-	public Uri getRange()
-	{
+	public Uri getRange() {
 		return range;
 	}
 
 	/**
 	 * Set the range facet.
 	 */
-	public void setRange(Uri range)
-	{
+	public void setRange(Uri range) {
 		this.range = range;
 	}
 
@@ -178,16 +162,11 @@ public class Enum extends Val
 	private String val;
 	private Uri range;
 
-	public void writeObject(Obj input)
-	{
-		if (this.getParent() != null)
-		{
+	public void writeObject(Obj input) {
+		if (this.getParent() != null) {
 			this.getParent().writeObject(input);
-		}
-		else
-		{
-			if (input instanceof obix.Enum)
-			{
+		} else {
+			if (input instanceof obix.Enum) {
 				this.set(((obix.Enum) input).get());
 			}
 		}

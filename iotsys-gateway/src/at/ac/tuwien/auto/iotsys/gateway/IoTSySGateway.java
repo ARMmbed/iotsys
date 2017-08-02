@@ -68,15 +68,14 @@ import at.ac.tuwien.auto.iotsys.xacml.pdp.PDPInterceptorSettings;
  * 
  */
 public class IoTSySGateway {
-	
+
 	private ObjectBroker objectBroker;
 
 	private InterceptorBroker interceptorBroker;
 
 	private boolean osgiEnvironment = false;
 
-	private static final Logger log = Logger.getLogger(IoTSySGateway.class
-			.getName());
+	private static final Logger log = Logger.getLogger(IoTSySGateway.class.getName());
 
 	private ObixServer obixServer = null;
 
@@ -104,10 +103,10 @@ public class IoTSySGateway {
 		// init contracts
 		ContractInit.init();
 
-		final String httpPort = PropertiesLoader.getInstance().getProperties()
-				.getProperty("iotsys.gateway.http.port", "8080");
-		final String httpsPort = PropertiesLoader.getInstance().getProperties()
-				.getProperty("iotsys.gateway.https.port", "8443");
+		final String httpPort = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.http.port",
+				"8080");
+		final String httpsPort = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.https.port",
+				"8443");
 
 		log.info("HTTP-Port: " + httpPort);
 
@@ -115,12 +114,8 @@ public class IoTSySGateway {
 		objectBroker = ObjectBrokerImpl.getInstance();
 		obixServer = new ObixServerImpl(objectBroker);
 
-		boolean enableServiceDiscovery = Boolean
-				.parseBoolean(PropertiesLoader
-						.getInstance()
-						.getProperties()
-						.getProperty("iotsys.gateway.servicediscovery.enabled",
-								"false"));
+		boolean enableServiceDiscovery = Boolean.parseBoolean(PropertiesLoader.getInstance().getProperties()
+				.getProperty("iotsys.gateway.servicediscovery.enabled", "false"));
 		// set object broker to a shared global variable
 		ObjectBrokerHelper.setInstance(objectBroker);
 
@@ -164,17 +159,15 @@ public class IoTSySGateway {
 		}
 
 		if (objectBroker.getMDnsResolver() != null) {
-			log.info("No of records built: "
-					+ objectBroker.getMDnsResolver().getNumberOfRecord());
+			log.info("No of records built: " + objectBroker.getMDnsResolver().getNumberOfRecord());
 		} else {
 			log.info("No MDNS resolver service found.");
 		}
 
 		interceptorBroker = InterceptorBrokerImpl.getInstance();
 		// initialize interceptor broker
-		boolean enableXacml = Boolean.parseBoolean(PropertiesLoader
-				.getInstance().getProperties()
-				.getProperty("iotsys.gateway.xacml", "false"));
+		boolean enableXacml = Boolean.parseBoolean(
+				PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.xacml", "false"));
 
 		log.info("XACML module enabled: " + enableXacml);
 		if (enableXacml && !isOsgiEnvironment()) {
@@ -182,23 +175,17 @@ public class IoTSySGateway {
 			try {
 				// load PDP interceptor if available on class path
 				// load settings for remote pdp
-				boolean remotePdp = Boolean
-						.parseBoolean(PropertiesLoader
-								.getInstance()
-								.getProperties()
-								.getProperty("iotsys.gateway.xacml.remotePDP",
-										"false"));
+				boolean remotePdp = Boolean.parseBoolean(PropertiesLoader.getInstance().getProperties()
+						.getProperty("iotsys.gateway.xacml.remotePDP", "false"));
 				// PDPInterceptorSettings.getInstance().setRemotePdp(remotePdp);
 
-				String remotePdpWsdl = PropertiesLoader.getInstance()
-						.getProperties()
+				String remotePdpWsdl = PropertiesLoader.getInstance().getProperties()
 						.getProperty("iotsys.gateway.xacml.remotePDPWsdl", "");
 				// PDPInterceptorSettings.getInstance().setRemotePdpWsdl(remotePdpWsdl);
 				Class pdpSettingsClazz = null;
 
 				try {
-					pdpSettingsClazz = Class
-							.forName("at.ac.tuwien.auto.iotsys.xacml.pdp.PDPInterceptorSettings");
+					pdpSettingsClazz = Class.forName("at.ac.tuwien.auto.iotsys.xacml.pdp.PDPInterceptorSettings");
 					log.info("Class found: " + pdpSettingsClazz.getName());
 				} catch (ClassNotFoundException e2) {
 					e2.printStackTrace();
@@ -208,10 +195,8 @@ public class IoTSySGateway {
 
 					Method getInstance;
 					try {
-						getInstance = pdpSettingsClazz
-								.getDeclaredMethod("getInstance");
-						PDPInterceptorSettings settings = (PDPInterceptorSettings) getInstance
-								.invoke(null, null);
+						getInstance = pdpSettingsClazz.getDeclaredMethod("getInstance");
+						PDPInterceptorSettings settings = (PDPInterceptorSettings) getInstance.invoke(null, null);
 						settings.setRemotePdpWsdl(remotePdpWsdl);
 						settings.setRemotePdp(remotePdp);
 					} catch (NoSuchMethodException e) {
@@ -230,8 +215,7 @@ public class IoTSySGateway {
 
 				Class clazz = null;
 				try {
-					clazz = Class
-							.forName("at.ac.tuwien.auto.iotsys.xacml.pdp.PDPInterceptor");
+					clazz = Class.forName("at.ac.tuwien.auto.iotsys.xacml.pdp.PDPInterceptor");
 				} catch (ClassNotFoundException e1) {
 					e1.printStackTrace();
 				}
@@ -257,31 +241,21 @@ public class IoTSySGateway {
 
 		new CoAPServer(obixServer);
 
-		boolean enableSecurity = Boolean.parseBoolean(PropertiesLoader
-				.getInstance().getProperties()
-				.getProperty("iotsys.gateway.security.enable", "false"));
+		boolean enableSecurity = Boolean.parseBoolean(
+				PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.security.enable", "false"));
 
 		if (enableSecurity) {
 			tomcat = new Thread(new Runnable() {
 
-				boolean enableClientCert = Boolean
-						.parseBoolean(PropertiesLoader
-								.getInstance()
-								.getProperties()
-								.getProperty(
-										"iotsys.gateway.security.clientCert",
-										"false"));
-				boolean enableAuth = Boolean.parseBoolean(PropertiesLoader
-						.getInstance()
-						.getProperties()
-						.getProperty("iotsys.gateway.security.authentication",
-								"false"));
+				boolean enableClientCert = Boolean.parseBoolean(PropertiesLoader.getInstance().getProperties()
+						.getProperty("iotsys.gateway.security.clientCert", "false"));
+				boolean enableAuth = Boolean.parseBoolean(PropertiesLoader.getInstance().getProperties()
+						.getProperty("iotsys.gateway.security.authentication", "false"));
 
 				@Override
 				public void run() {
 					try {
-						new TomcatServer(Integer.parseInt(httpsPort),
-								enableClientCert, enableAuth, obixServer);
+						new TomcatServer(Integer.parseInt(httpsPort), enableClientCert, enableAuth, obixServer);
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -299,8 +273,7 @@ public class IoTSySGateway {
 				@Override
 				public void run() {
 					try {
-						new TomcatServerNoSecurity(Integer.parseInt(httpPort),
-								obixServer);
+						new TomcatServerNoSecurity(Integer.parseInt(httpPort), obixServer);
 					} catch (NumberFormatException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -334,24 +307,16 @@ public class IoTSySGateway {
 	}
 
 	public static void main(String[] args) {
-		
+
 		final IoTSySGateway iotsys = new IoTSySGateway();
-		boolean enableServiceDiscovery = Boolean
-				.parseBoolean(PropertiesLoader
-						.getInstance()
-						.getProperties()
-						.getProperty("iotsys.gateway.servicediscovery.enabled",
-								"false"));
+		boolean enableServiceDiscovery = Boolean.parseBoolean(PropertiesLoader.getInstance().getProperties()
+				.getProperty("iotsys.gateway.servicediscovery.enabled", "false"));
 
 		if (enableServiceDiscovery) {
 			try {
-				Named n = (Named) Class.forName(
-						"at.ac.tuwien.auto.iotsys.mdnssd.NamedImpl")
-						.newInstance();
-				Class mc = Class
-						.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
-				MdnsResolver m = (MdnsResolver) mc.getDeclaredMethod(
-						"getInstance", null).invoke(null, null);
+				Named n = (Named) Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.NamedImpl").newInstance();
+				Class mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
+				MdnsResolver m = (MdnsResolver) mc.getDeclaredMethod("getInstance", null).invoke(null, null);
 
 				n.startNamedService();
 				iotsys.setMdnsResolver(m);

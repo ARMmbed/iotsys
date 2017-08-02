@@ -16,8 +16,7 @@ import java.util.StringTokenizer;
  * @creation 27 Apr 05
  * @version $Revision$ $Date$
  */
-public class Uri extends Val
-{
+public class Uri extends Val {
 
 	// //////////////////////////////////////////////////////////////
 	// Construction
@@ -26,8 +25,7 @@ public class Uri extends Val
 	/**
 	 * Construct named Uri with specified value.
 	 */
-	public Uri(String name, String val)
-	{
+	public Uri(String name, String val) {
 		super(name);
 		set(val);
 	}
@@ -35,16 +33,14 @@ public class Uri extends Val
 	/**
 	 * Construct unnamed Uri with specified value.
 	 */
-	public Uri(String val)
-	{
+	public Uri(String val) {
 		set(val);
 	}
 
 	/**
 	 * Construct unnamed Uri with value of ""
 	 */
-	public Uri()
-	{
+	public Uri() {
 		set("");
 	}
 
@@ -53,40 +49,35 @@ public class Uri extends Val
 	// //////////////////////////////////////////////////////////////
 
 	/**
-	 * Normalize this uri against the specified absolute base uri to produce an absolute uri.
+	 * Normalize this uri against the specified absolute base uri to produce an
+	 * absolute uri.
 	 */
-	public Uri normalize(Uri base)
-	{
-		if (base == null)
-		{
+	public Uri normalize(Uri base) {
+		if (base == null) {
 			return null;
 		}
 
-		try
-		{
+		try {
 			if (val.startsWith("obix:") || val.startsWith("knx:"))
 				return this;
 
 			base.checkAbsolute();
 			URL url = new URL(new URL(base.val), val);
-			if (!base.val.endsWith("/"))
-			{
+			if (!base.val.endsWith("/")) {
 				url = new URL(new URL(base.val + "/"), val);
 			}
 
 			return new Uri(url.toString());
-		}
-		catch (MalformedURLException e)
-		{
+		} catch (MalformedURLException e) {
 			throw new RuntimeException("Cannot normalize " + base.val + " + " + val);
 		}
 	}
 
 	/**
-	 * Return if this uri is a well formed absolute uri including scheme://authority/path
+	 * Return if this uri is a well formed absolute uri including
+	 * scheme://authority/path
 	 */
-	public boolean isAbsolute()
-	{
+	public boolean isAbsolute() {
 		parse();
 		return abs;
 	}
@@ -94,8 +85,7 @@ public class Uri extends Val
 	/**
 	 * Convenience for !isAbsolute()
 	 */
-	public boolean isRelative()
-	{
+	public boolean isRelative() {
 		parse();
 		return !abs;
 	}
@@ -103,8 +93,7 @@ public class Uri extends Val
 	/**
 	 * Throw a IllegalStateException if this uri is not absolute.
 	 */
-	public void checkAbsolute()
-	{
+	public void checkAbsolute() {
 		parse();
 		if (!abs)
 			throw new IllegalStateException("Uri is not absolute: " + val);
@@ -113,25 +102,25 @@ public class Uri extends Val
 	/**
 	 * Return if this uri starts with "#"
 	 */
-	public boolean isFragment()
-	{
+	public boolean isFragment() {
 		return val.startsWith("#");
 	}
 
 	/**
-	 * Get the authority http://host:port/ or null if relative. This is slightly different semanatics than java.net.URL where authority doesn't include the scheme (in this API that is called address).
+	 * Get the authority http://host:port/ or null if relative. This is slightly
+	 * different semanatics than java.net.URL where authority doesn't include
+	 * the scheme (in this API that is called address).
 	 */
-	public String getAuthority()
-	{
+	public String getAuthority() {
 		parse();
 		return auth;
 	}
 
 	/**
-	 * Convenience for new Uri(getAuthority(). This method can only be used on absolute uris.
+	 * Convenience for new Uri(getAuthority(). This method can only be used on
+	 * absolute uris.
 	 */
-	public Uri getAuthorityUri()
-	{
+	public Uri getAuthorityUri() {
 		parse();
 		checkAbsolute();
 		return new Uri(auth);
@@ -140,17 +129,17 @@ public class Uri extends Val
 	/**
 	 * Get protocol scheme of uri or null if relative.
 	 */
-	public String getScheme()
-	{
+	public String getScheme() {
 		parse();
 		return scheme;
 	}
 
 	/**
-	 * Return if the specified uri is contained within this this base uri. Since paths and queries should be treated as opaque, this method really only makes sense when this uri is an authority uri used for scoping.
+	 * Return if the specified uri is contained within this this base uri. Since
+	 * paths and queries should be treated as opaque, this method really only
+	 * makes sense when this uri is an authority uri used for scoping.
 	 */
-	public boolean contains(Uri uri)
-	{
+	public boolean contains(Uri uri) {
 		checkAbsolute();
 		if (uri.isRelative())
 			return true;
@@ -158,10 +147,12 @@ public class Uri extends Val
 	}
 
 	/**
-	 * Get the host name and port number as an internet address in the format host:port. If port is -1 then this simply the hostname. This method equates to java.net.URL.getAuthority() - this API uses the term authority to include scheme name.
+	 * Get the host name and port number as an internet address in the format
+	 * host:port. If port is -1 then this simply the hostname. This method
+	 * equates to java.net.URL.getAuthority() - this API uses the term authority
+	 * to include scheme name.
 	 */
-	public String getAddress()
-	{
+	public String getAddress() {
 		parse();
 		return addr;
 	}
@@ -169,8 +160,7 @@ public class Uri extends Val
 	/**
 	 * Get the host name or null if relative.
 	 */
-	public String getHost()
-	{
+	public String getHost() {
 		parse();
 		return host;
 	}
@@ -178,8 +168,7 @@ public class Uri extends Val
 	/**
 	 * Get the port number of -1 if undefined.
 	 */
-	public int getPort()
-	{
+	public int getPort() {
 		parse();
 		return port;
 	}
@@ -187,8 +176,7 @@ public class Uri extends Val
 	/**
 	 * Get the path.
 	 */
-	public String getPath()
-	{
+	public String getPath() {
 		parse();
 		return path;
 	}
@@ -196,8 +184,7 @@ public class Uri extends Val
 	/**
 	 * Get the query identified via "?" or null if none.
 	 */
-	public Query getQuery()
-	{
+	public Query getQuery() {
 		parse();
 		return query;
 	}
@@ -205,48 +192,41 @@ public class Uri extends Val
 	/**
 	 * Get the fragment identified via "#" or null if none.
 	 */
-	public String getFragment()
-	{
+	public String getFragment() {
 		parse();
 		return frag;
 	}
 
 	/**
-	 * Get this uri as a java.net.URL. This method only works if the uri is absolute!
+	 * Get this uri as a java.net.URL. This method only works if the uri is
+	 * absolute!
 	 */
-	public URL toURL()
-	{
+	public URL toURL() {
 		checkAbsolute();
-		try
-		{
+		try {
 			return new URL(val);
-		}
-		catch (MalformedURLException e)
-		{
+		} catch (MalformedURLException e) {
 			throw new RuntimeException("Invalid url: " + val);
 		}
 	}
 
 	/**
-	 * If the path section of this uri is a slash separated hierarchy, then return the parent uri. Return null if it doesn't make sense for this uri.
+	 * If the path section of this uri is a slash separated hierarchy, then
+	 * return the parent uri. Return null if it doesn't make sense for this uri.
 	 */
-	public Uri parent()
-	{
+	public Uri parent() {
 		parse();
 		if (path.length() <= 1)
 			return null;
 		int lastSlash = path.lastIndexOf('/', path.length() - 2);
 		if (lastSlash < 0)
 			return null;
-		if (lastSlash == 0)
-		{
+		if (lastSlash == 0) {
 			if (auth != null)
 				return new Uri(auth);
 			else
 				return null;
-		}
-		else
-		{
+		} else {
 			if (auth != null)
 				return new Uri(auth + path.substring(1, lastSlash));
 			else
@@ -261,28 +241,23 @@ public class Uri extends Val
 	/**
 	 * Uri.Query is used to model the name/value pairs of the query section.
 	 */
-	public static class Query
-	{
-		Query(String str)
-		{
+	public static class Query {
+		Query(String str) {
 			this.str = str;
 		}
 
-		public String[] keys()
-		{
+		public String[] keys() {
 			return (String[]) keys.toArray(new String[keys.size()]);
 		}
 
-		public String get(String key, String def)
-		{
+		public String get(String key, String def) {
 			String val = (String) map.get(key);
 			if (val == null)
 				return def;
 			return val;
 		}
 
-		public String toString()
-		{
+		public String toString() {
 			return str;
 		}
 
@@ -292,75 +267,62 @@ public class Uri extends Val
 	}
 
 	/**
-	 * Parse a query string formated as "name=val&name=val...". If null is passed, return null.
+	 * Parse a query string formated as "name=val&name=val...". If null is
+	 * passed, return null.
 	 */
-	public static Query parseQuery(String str)
-	{
+	public static Query parseQuery(String str) {
 		if (str == null)
 			return null;
 		Query q = new Query(str);
-		try
-		{
+		try {
 			StringTokenizer st = new StringTokenizer(str, "&");
-			while (st.hasMoreTokens())
-			{
+			while (st.hasMoreTokens()) {
 				String tok = st.nextToken();
 				int eq = tok.indexOf('=');
 				String key, val;
-				if (eq < 0)
-				{
+				if (eq < 0) {
 					key = tok;
 					val = "true";
-				}
-				else
-				{
+				} else {
 					key = tok.substring(0, eq);
 					val = tok.substring(eq + 1);
 				}
 				q.keys.add(key);
 				q.map.put(key, val);
 			}
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 		}
 		return q;
 	}
 
 	/**
-	 * Create a new Uri which is ensured to have the specified name/value pair removed from the query.
+	 * Create a new Uri which is ensured to have the specified name/value pair
+	 * removed from the query.
 	 */
-	public Uri removeQueryParam(String key)
-	{
+	public Uri removeQueryParam(String key) {
 		return addQueryParam(key, null);
 	}
 
 	/**
-	 * Create a new Uri which is ensured to have the specified name/value pair included in the query.
+	 * Create a new Uri which is ensured to have the specified name/value pair
+	 * included in the query.
 	 */
-	public Uri addQueryParam(String key, String value)
-	{
+	public Uri addQueryParam(String key, String value) {
 		StringBuffer newq = new StringBuffer();
 		boolean found = false;
 
 		Query q = getQuery();
-		if (q != null)
-		{
+		if (q != null) {
 			String[] keys = q.keys();
-			for (int i = 0; i < keys.length; ++i)
-			{
-				if (keys[i].equals(key))
-				{
-					if (value != null)
-					{
+			for (int i = 0; i < keys.length; ++i) {
+				if (keys[i].equals(key)) {
+					if (value != null) {
 						if (newq.length() > 0)
 							newq.append('&');
 						newq.append(key).append('=').append(value);
 					}
 					found = true;
-				}
-				else
-				{
+				} else {
 					if (newq.length() > 0)
 						newq.append('&');
 					newq.append(keys[i]).append('=').append(q.get(keys[i], null));
@@ -368,8 +330,7 @@ public class Uri extends Val
 			}
 		}
 
-		if (!found && value != null)
-		{
+		if (!found && value != null) {
 			if (newq.length() > 0)
 				newq.append('&');
 			newq.append(key).append('=').append(value);
@@ -388,17 +349,14 @@ public class Uri extends Val
 	/**
 	 * Ensure this uri's components are parsed into field.
 	 */
-	private void parse()
-	{
-		try
-		{
+	private void parse() {
+		try {
 			if (parsed)
 				return;
 
 			// be nice to work with URI which I believe supports
 			// relative URIs, but not available until 1.5
-			try
-			{
+			try {
 				URL url = new URL(val);
 				abs = true;
 				scheme = url.getProtocol();
@@ -409,30 +367,24 @@ public class Uri extends Val
 				path = url.getPath();
 				query = parseQuery(url.getQuery());
 				frag = url.getRef();
-			}
-			catch (MalformedURLException e)
-			{
+			} catch (MalformedURLException e) {
 				// must be relative
 				this.abs = false;
 				path = val;
 				int pound = path.indexOf('#');
-				if (pound >= 0)
-				{
+				if (pound >= 0) {
 					frag = path.substring(pound + 1);
 					path = path.substring(0, pound);
 				}
 				int qmark = path.indexOf('?');
-				if (qmark >= 0)
-				{
+				if (qmark >= 0) {
 					query = parseQuery(path.substring(qmark + 1));
 					path = path.substring(0, qmark);
 				}
 			}
 
 			parsed = true;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new RuntimeException("Invalid uri: " + val);
 		}
 	}
@@ -444,24 +396,23 @@ public class Uri extends Val
 	/**
 	 * Return if this Uri contains a reference to its target Obj.
 	 */
-	public boolean isResolved()
-	{
+	public boolean isResolved() {
 		return resolved != null;
 	}
 
 	/**
-	 * If this Uri is resolved then return the Obj it references. If unresolved then return null. Resolved Uris are typically used with local internal fragment Uris.
+	 * If this Uri is resolved then return the Obj it references. If unresolved
+	 * then return null. Resolved Uris are typically used with local internal
+	 * fragment Uris.
 	 */
-	public Obj getResolved()
-	{
+	public Obj getResolved() {
 		return resolved;
 	}
 
 	/**
 	 * Set the resolved Obj this Uri references.
 	 */
-	public void setResolved(Obj resolved)
-	{
+	public void setResolved(Obj resolved) {
 		this.resolved = resolved;
 	}
 
@@ -472,16 +423,14 @@ public class Uri extends Val
 	/**
 	 * Get value as a string.
 	 */
-	public String get()
-	{
+	public String get() {
 		return val;
 	}
 
 	/**
 	 * Set value.
 	 */
-	public void set(String val)
-	{
+	public void set(String val) {
 		if (val == null)
 			throw new IllegalArgumentException("val cannot be null");
 		this.parsed = false;
@@ -491,8 +440,7 @@ public class Uri extends Val
 	/**
 	 * Set to value of another Uri
 	 */
-	public void set(Obj obj)
-	{
+	public void set(Obj obj) {
 		if (!(obj instanceof Uri))
 			return;
 		set(((Uri) obj).get());
@@ -505,58 +453,53 @@ public class Uri extends Val
 	/**
 	 * Return "uri".
 	 */
-	public String getElement()
-	{
+	public String getElement() {
 		return "uri";
 	}
 
 	/**
 	 * Return BinObix.URI.
 	 */
-	public int getBinCode()
-	{
+	public int getBinCode() {
 		return obix.io.BinObix.URI;
 	}
 
 	/**
 	 * Return if specified Val has equivalent uri string value.
 	 */
-	public boolean valEquals(Val that)
-	{
+	public boolean valEquals(Val that) {
 		if (that instanceof Uri)
 			return ((Uri) that).val.equals(val);
 		return false;
 	}
 
 	/**
-	 * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+	 * Compares this object with the specified object for order. Returns a
+	 * negative integer, zero, or a positive integer as this object is less
+	 * than, equal to, or greater than the specified object.
 	 */
-	public int compareTo(Object that)
-	{
+	public int compareTo(Object that) {
 		return val.compareTo(((Uri) that).val);
 	}
 
 	/**
 	 * Encode the value as a string
 	 */
-	public String encodeVal()
-	{
+	public String encodeVal() {
 		return val;
 	}
 
 	/**
 	 * Decode the value from a string.
 	 */
-	public void decodeVal(String val) throws Exception
-	{
+	public void decodeVal(String val) throws Exception {
 		set(val);
 	}
 
 	/**
 	 * Encode the value as a Java code literal to pass to the constructor.
 	 */
-	public String encodeJava()
-	{
+	public String encodeJava() {
 		return '"' + val + '"';
 	}
 

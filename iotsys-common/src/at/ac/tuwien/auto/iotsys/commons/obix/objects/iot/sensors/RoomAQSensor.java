@@ -34,11 +34,13 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface RoomAQSensor extends Sensor{
-	public static final String AQ_ROOM_CONTRACT_NAME="aqRoom";
-	public static final String AQ_ROOM_CONTRACT_HREF="aqRoom";
-	
-	public static final String CONTRACT="iot:RoomAQSensor";
-	public static final String AQ_ROOM_CONTRACT = "<real name='"+RoomAQSensor.AQ_ROOM_CONTRACT_NAME+"' href='"+RoomAQSensorConstants.AQ_ROOM_CONTRACT_HREF+"' val='0'/>";
-	public Real aqRoomValue(); 
+public interface RoomAQSensor extends Sensor {
+	public static final String AQ_ROOM_CONTRACT_NAME = "aqRoom";
+	public static final String AQ_ROOM_CONTRACT_HREF = "aqRoom";
+
+	public static final String CONTRACT = "iot:RoomAQSensor";
+	public static final String AQ_ROOM_CONTRACT = "<real name='" + RoomAQSensor.AQ_ROOM_CONTRACT_NAME + "' href='"
+			+ RoomAQSensorConstants.AQ_ROOM_CONTRACT_HREF + "' val='0'/>";
+
+	public Real aqRoomValue();
 }

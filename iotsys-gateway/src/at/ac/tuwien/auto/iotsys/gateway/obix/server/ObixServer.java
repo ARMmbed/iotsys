@@ -32,25 +32,25 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.server;
 
-import java.net.*;
+import java.net.URI;
 
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.persistent.UIDb;
 import obix.Obj;
 
-public interface ObixServer
-{
+public interface ObixServer {
 	/**
-	 *  Constant name for the default used protocol type by obix Server.   
+	 * Constant name for the default used protocol type by obix Server.
 	 */
-	public static final String DEFAULT_OBIX_URL_PROTOCOL ="http";
-	
+	public static final String DEFAULT_OBIX_URL_PROTOCOL = "http";
+
 	public String getIPv6LinkedHref(String ipv6Address);
+
 	public boolean containsIPv6(String ipv6Address);
-	
+
 	/**
-	 * The object specified via the URI is read by pulling it from the object broker, if the
-	 * user has the right to do so.
+	 * The object specified via the URI is read by pulling it from the object
+	 * broker, if the user has the right to do so.
 	 * 
 	 * @param href
 	 *            URI of the object to be read.
@@ -71,6 +71,7 @@ public interface ObixServer
 	 * @return XML representation of the written object.
 	 */
 	public Obj writeObj(URI href, String xmlStream);
+
 	public Obj applyObj(URI uri, String dataStream);
 
 	/**
@@ -84,14 +85,16 @@ public interface ObixServer
 	 * @return XML representation of the output parameters of the operation.
 	 */
 	public Obj invokeOp(URI href, String xmlStream);
-	
+
 	/**
-	 * Get the absolute normalized path of this referred object.
-	 * Returns null if this object doesn't exist.
+	 * Get the absolute normalized path of this referred object. Returns null if
+	 * this object doesn't exist.
 	 */
 	public String getNormalizedPath(String href);
-	
+
 	public String getCoRELinks();
+
 	public ObjectBroker getObjectBroker();
+
 	public UIDb getUidb();
 }

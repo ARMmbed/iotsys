@@ -31,21 +31,18 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingPressedReleased;
 import obix.Contract;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingPressedReleased;
 
-public class EncodingPressedReleasedImpl extends EncodingImpl implements EncodingPressedReleased
-{
-	public EncodingPressedReleasedImpl()
-	{
+public class EncodingPressedReleasedImpl extends EncodingImpl implements EncodingPressedReleased {
+	public EncodingPressedReleasedImpl() {
 		super(new Uri(EncodingPressedReleased.HREF));
 
 		this.setOf(new Contract("obix:bool"));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		BoolElement pressed = new BoolElement(EncodingPressedReleased.KEY_PRESSED, "Pressed", true);
 		BoolElement released = new BoolElement(EncodingPressedReleased.KEY_RELEASED, "Released", false);
 

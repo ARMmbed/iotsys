@@ -24,18 +24,16 @@ import java.util.EventObject;
 import at.ac.tuwien.auto.calimero.cemi.CEMI;
 import at.ac.tuwien.auto.calimero.cemi.CEMIFactory;
 
-
 /**
  * Event to communicate the arrival of a new cEMI or EMI2 frame.
  * <p>
- * Depending on the type of frame supplied on creation of a new frame event, either
- * {@link #getFrame()} or {@link #getFrameBytes()} has to be used to retrieve the
- * associated frame.
+ * Depending on the type of frame supplied on creation of a new frame event,
+ * either {@link #getFrame()} or {@link #getFrameBytes()} has to be used to
+ * retrieve the associated frame.
  * 
  * @see KNXListener
  */
-public class FrameEvent extends EventObject
-{
+public class FrameEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 
 	private final CEMI c;
@@ -45,11 +43,12 @@ public class FrameEvent extends EventObject
 	 * Creates a new frame event for <code>frame</code>.
 	 * <p>
 	 * 
-	 * @param source the creator of this event
-	 * @param frame cEMI frame
+	 * @param source
+	 *            the creator of this event
+	 * @param frame
+	 *            cEMI frame
 	 */
-	public FrameEvent(Object source, CEMI frame)
-	{
+	public FrameEvent(Object source, CEMI frame) {
 		super(source);
 		c = frame;
 		b = null;
@@ -59,35 +58,34 @@ public class FrameEvent extends EventObject
 	 * Creates a new frame event for <code>frame</code>.
 	 * <p>
 	 * 
-	 * @param source the creator of this event
-	 * @param frame EMI2 L-data frame
+	 * @param source
+	 *            the creator of this event
+	 * @param frame
+	 *            EMI2 L-data frame
 	 */
-	public FrameEvent(Object source, byte[] frame)
-	{
+	public FrameEvent(Object source, byte[] frame) {
 		super(source);
 		b = frame;
 		c = null;
 	}
-	
+
 	/**
 	 * Returns the cEMI frame, if supplied at event creation.
 	 * <p>
 	 * 
 	 * @return cEMI frame object, or <code>null</code>
 	 */
-	public final CEMI getFrame()
-	{
+	public final CEMI getFrame() {
 		return CEMIFactory.copy(c);
 	}
-	
+
 	/**
 	 * Returns the frame as byte array, if supplied at event creation.
 	 * <p>
 	 * 
 	 * @return copy of frame as byte array, or <code>null</code>
 	 */
-	public final byte[] getFrameBytes()
-	{
+	public final byte[] getFrameBytes() {
 		return b != null ? (byte[]) b.clone() : null;
 	}
 }

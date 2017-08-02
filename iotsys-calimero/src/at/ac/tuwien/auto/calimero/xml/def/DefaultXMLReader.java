@@ -28,17 +28,16 @@ import at.ac.tuwien.auto.calimero.xml.Element;
 import at.ac.tuwien.auto.calimero.xml.KNXMLException;
 import at.ac.tuwien.auto.calimero.xml.XMLReader;
 
-
 /**
  * Default XML reader implementation of the XMLReader interface.
  * <p>
- * Does not add any feature not already documented in the implemented interface.<br>
+ * Does not add any feature not already documented in the implemented
+ * interface.<br>
  * This reader is not thread safe.
  * 
  * @author B. Malinowsky
  */
-public class DefaultXMLReader implements XMLReader
-{
+public class DefaultXMLReader implements XMLReader {
 	private Reader r;
 	private boolean closeReader;
 	private Element elem;
@@ -50,42 +49,45 @@ public class DefaultXMLReader implements XMLReader
 	 * Creates a new XML reader.
 	 * <p>
 	 */
-	public DefaultXMLReader()
-	{}
+	public DefaultXMLReader() {
+	}
 
 	/**
 	 * Creates a new XML reader with input <code>r</code>.
 	 * <p>
-	 * The {@link Reader} should already be buffered or wrapped with a buffered reader, if
-	 * necessary (e.g. when reading from a file).
+	 * The {@link Reader} should already be buffered or wrapped with a buffered
+	 * reader, if necessary (e.g. when reading from a file).
 	 * 
-	 * @param r a {@link Reader} for input
-	 * @param close <code>true</code> to close <code>r</code> if XML reader is closed,
-	 *        <code>false</code> otherwise
+	 * @param r
+	 *            a {@link Reader} for input
+	 * @param close
+	 *            <code>true</code> to close <code>r</code> if XML reader is
+	 *            closed, <code>false</code> otherwise
 	 * @see XMLReader#setInput(Reader, boolean)
 	 */
-	public DefaultXMLReader(Reader r, boolean close)
-	{
+	public DefaultXMLReader(Reader r, boolean close) {
 		reset();
 		setInput(r, close);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLReader#setInput(java.io.Reader, boolean)
 	 */
-	public void setInput(Reader input, boolean close)
-	{
+	public void setInput(Reader input, boolean close) {
 		if (r != null)
 			reset();
 		r = input;
 		closeReader = close;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLReader#read()
 	 */
-	public int read() throws KNXMLException
-	{
+	public int read() throws KNXMLException {
 		while (canRead()) {
 			// init line counter on first read
 			if (line == 0)
@@ -108,8 +110,7 @@ public class DefaultXMLReader implements XMLReader
 			final String name = splitOnSpace(str);
 			if (name.charAt(0) == '/') {
 				if (!name.substring(1).equals(openElems.peek()))
-					throw new KNXMLException("element end tag does not match start tag",
-						name.substring(1), line);
+					throw new KNXMLException("element end tag does not match start tag", name.substring(1), line);
 				elem = new DefaultElement((String) openElems.pop());
 				pos = END_TAG;
 				return pos;
@@ -127,11 +128,14 @@ public class DefaultXMLReader implements XMLReader
 		return pos;
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.xml.XMLReader#complete(tuwien.auto.calimero.xml.Element)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.xml.XMLReader#complete(tuwien.auto.calimero.xml.
+	 * Element)
 	 */
-	public void complete(Element e) throws KNXMLException
-	{
+	public void complete(Element e) throws KNXMLException {
 		if (e.isEmptyElementTag())
 			return;
 		final int index = openElems.lastIndexOf(e.getName());
@@ -158,16 +162,14 @@ public class DefaultXMLReader implements XMLReader
 				final String tag = end.substring(1).trim();
 				// got end tag?
 				if (!tag.equals(openElems.peek()))
-					throw new KNXMLException("element end tag does not match start tag",
-						tag, line);
+					throw new KNXMLException("element end tag does not match start tag", tag, line);
 				openElems.pop();
 				if (tag.equals(e.getName())) {
 					e.setCharacterData(content.toString());
 					pos = END_TAG;
 					return;
 				}
-			}
-			else if (end.length() > 0)
+			} else if (end.length() > 0)
 				// don't push empty element tags
 				if (end.charAt(end.length() - 1) != '/') {
 					final String tag = splitOnSpace(end);
@@ -178,56 +180,56 @@ public class DefaultXMLReader implements XMLReader
 		throw new KNXMLException("end of XML input with elements left open", end, line);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLReader#getCurrent()
 	 */
-	public final Element getCurrent()
-	{
+	public final Element getCurrent() {
 		return elem;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLReader#getPosition()
 	 */
-	public final int getPosition()
-	{
+	public final int getPosition() {
 		return pos;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLReader#getLineNumber()
 	 */
-	public final int getLineNumber()
-	{
+	public final int getLineNumber() {
 		return line;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLReader#close()
 	 */
-	public void close() throws KNXMLException
-	{
+	public void close() throws KNXMLException {
 		if (closeReader)
 			try {
 				r.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 				throw new KNXMLException(e.getMessage());
 			}
 	}
 
-	private boolean canRead()
-	{
+	private boolean canRead() {
 		try {
 			return r.ready();
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			return false;
 		}
 	}
 
-	private String read(char delimiter) throws KNXMLException
-	{
+	private String read(char delimiter) throws KNXMLException {
 		final StringBuffer buf = new StringBuffer(50);
 		try {
 			boolean cr = false;
@@ -242,16 +244,14 @@ public class DefaultXMLReader implements XMLReader
 				if (!cr)
 					buf.append((char) c);
 			}
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException(e.getMessage(), buf.toString(), line);
 		}
 		return buf.toString();
 	}
 
 	// adds all available attributes to current element
-	private void extractAttributes(String attributes)
-	{
+	private void extractAttributes(String attributes) {
 		String s = attributes.trim();
 		if (s.length() > 0 && s.charAt(s.length() - 1) == '/')
 			elem.setEmptyElementTag(true);
@@ -271,16 +271,14 @@ public class DefaultXMLReader implements XMLReader
 				final int end = value.indexOf(s.charAt(0));
 				if (end >= 0)
 					value = value.substring(0, end);
-				elem
-					.addAttribute(new Attribute(att, References.replace(value, false)));
+				elem.addAttribute(new Attribute(att, References.replace(value, false)));
 			}
 			final int i = s.indexOf(quote ? s.charAt(0) : ' ', 1);
 			s = i == -1 ? "" : s.substring(i + 1);
 		}
 	}
 
-	private boolean readCDATASection(String s, StringBuffer buf) throws KNXMLException
-	{
+	private boolean readCDATASection(String s, StringBuffer buf) throws KNXMLException {
 		if (!s.startsWith("![CDATA["))
 			return false;
 		buf.append(s.substring(8));
@@ -294,10 +292,9 @@ public class DefaultXMLReader implements XMLReader
 		buf.delete(buf.length() - 2, buf.length());
 		return true;
 	}
-	
+
 	// checks if '<' marks begin of a comment, and if so skips over it
-	private boolean skipComment(String s) throws KNXMLException
-	{
+	private boolean skipComment(String s) throws KNXMLException {
 		if (s.startsWith("!--")) {
 			String comment = s;
 			while (canRead() && !comment.endsWith("--"))
@@ -307,24 +304,21 @@ public class DefaultXMLReader implements XMLReader
 		return false;
 	}
 
-	private boolean skipInstruction(String tag)
-	{
+	private boolean skipInstruction(String tag) {
 		// is this a processing instruction
 		if (tag.charAt(0) == '?' && tag.charAt(tag.length() - 1) == '?')
 			return true;
 		return false;
 	}
 
-	private String splitOnSpace(String s)
-	{
+	private String splitOnSpace(String s) {
 		for (int i = 0; i < s.length(); ++i)
 			if (Character.isSpaceChar(s.charAt(i)))
 				return s.substring(0, i);
 		return s;
 	}
 
-	private void reset()
-	{
+	private void reset() {
 		elem = null;
 		openElems.clear();
 		pos = START_DOC;

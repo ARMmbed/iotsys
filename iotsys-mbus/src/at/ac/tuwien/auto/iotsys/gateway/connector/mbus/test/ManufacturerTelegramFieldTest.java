@@ -35,18 +35,18 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.mbus.test;
 import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.body.ManufacturerTelegramField;
 
 public class ManufacturerTelegramFieldTest {
-	
+
 	public static void main(String[] args) {
 		ManufacturerTelegramField field = new ManufacturerTelegramField();
 		field.addFieldParts("93 15".split(" "));
 		field.parse();
 		System.out.println("ParsedValue: " + field.getParsedValue());
-		
+
 		field.clearTelegramPart();
 		field.addFieldParts("24 23".split(" "));
 		field.parse();
 		System.out.println("ParsedValue: " + field.getParsedValue());
-		
+
 		field.clearTelegramPart();
 		field.addFieldParts("65 32".split(" "));
 		field.parse();

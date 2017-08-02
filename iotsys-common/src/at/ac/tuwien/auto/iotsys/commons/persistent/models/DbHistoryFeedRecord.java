@@ -25,14 +25,15 @@ import org.ektorp.support.CouchDbDocument;
  * @author Nam Giang - zang at kaist dot ac dot kr
  *
  */
-public class DbHistoryFeedRecord extends CouchDbDocument{
+public class DbHistoryFeedRecord extends CouchDbDocument {
 	private String href;
 	private Object val;
 	private String type;
 	private long time;
-	
-	public DbHistoryFeedRecord(){}
-	
+
+	public DbHistoryFeedRecord() {
+	}
+
 	public DbHistoryFeedRecord(String href, long time, String type, String val) {
 		this.href = href;
 		this.type = type;
@@ -55,28 +56,35 @@ public class DbHistoryFeedRecord extends CouchDbDocument{
 			break;
 		}
 	}
-	
+
 	public String getHref() {
 		return href;
 	}
+
 	public void setHref(String href) {
 		this.href = href;
 	}
+
 	public Object getVal() {
 		return val;
 	}
+
 	public void setVal(Object val) {
 		this.val = val;
 	}
+
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
 	public long getTime() {
 		return time;
 	}
+
 	public void setTime(long time) {
 		this.time = time;
 	}

@@ -41,7 +41,7 @@ import obix.Status;
 import obix.Uri;
 import obix.contracts.HistoryRollupIn;
 
-public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
+public class HistoryRollupInImpl extends Obj implements HistoryRollupIn {
 
 	public static final String HISTORY_ROLLUPIN_CONTRACT = "obix:HistoryRollupIn";
 
@@ -78,7 +78,7 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void setHref(Uri href) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -90,7 +90,7 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void setIs(Contract is) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -204,25 +204,25 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void setBool(boolean val) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setInt(long val) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setReal(double val) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setStr(String val) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -240,7 +240,7 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void setDisplay(String display) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -258,7 +258,7 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void setDisplayName(String displayName) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -270,7 +270,7 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void setIcon(Uri icon) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -282,7 +282,7 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void setStatus(Status status) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -294,7 +294,7 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void setNull(boolean isNull) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -306,13 +306,13 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void setWritable(boolean writable) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void setWritable(boolean writable, boolean recursive) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -348,19 +348,19 @@ public class HistoryRollupInImpl extends Obj implements HistoryRollupIn{
 	@Override
 	public void remove(Obj kid) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void replace(Obj oldObj, Obj newObj) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void removeThis() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override

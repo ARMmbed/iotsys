@@ -34,16 +34,16 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 
 import obix.Bool;
 
-public interface HeatPumpActuator extends Actuator{
+public interface HeatPumpActuator extends Actuator {
 	public static final String CONTRACT = "iot:HeatPump";
-	
+
 	public static final String DISABLED_NAME = "disabled";
 	public static final String DISABLED_HREF = "disabled";
-	
+
 	public static final String TARGET_VALUE_INFLUENCE_NAME = "targetValueInfluence";
 	public static final String TARGET_VALUE_INFLUENCE_HREF = "targetValueInfluence";
-	
+
 	public Bool disabled();
-	
+
 	public Bool targetValueInfluence();
 }

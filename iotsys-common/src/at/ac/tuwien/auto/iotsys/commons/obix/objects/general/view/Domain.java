@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view;
 
 import obix.IObj;
 
-public interface Domain extends IObj
-{
+public interface Domain extends IObj {
 	public static final String CONTRACT = "knx:Domain";
 	public static final String CONTRACT_INSTANCE = "knx:InstanceDomain";
 }

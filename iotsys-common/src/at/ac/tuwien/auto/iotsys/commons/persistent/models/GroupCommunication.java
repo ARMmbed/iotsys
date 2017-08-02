@@ -32,14 +32,15 @@ public class GroupCommunication {
 	@JsonProperty("_id")
 	String href;
 	List<String> groups;
-	
-	public GroupCommunication(){}
-	
-	public GroupCommunication(String href){
+
+	public GroupCommunication() {
+	}
+
+	public GroupCommunication(String href) {
 		this.href = href;
 	}
 
-	public GroupCommunication(String href, List<String> groups){
+	public GroupCommunication(String href, List<String> groups) {
 		this.href = href;
 		this.groups = groups;
 	}
@@ -59,5 +60,5 @@ public class GroupCommunication {
 	public void setGroups(List<String> groups) {
 		this.groups = groups;
 	}
-	
+
 }

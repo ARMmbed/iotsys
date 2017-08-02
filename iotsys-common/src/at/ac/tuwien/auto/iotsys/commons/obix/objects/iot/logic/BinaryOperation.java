@@ -36,28 +36,33 @@ import obix.Bool;
 import obix.IObj;
 import obix.Real;
 
-public interface BinaryOperation extends IObj{
+public interface BinaryOperation extends IObj {
 	public static final String BIN_OP_ADD = "+";
 	public static final String BIN_OP_SUB = "-";
 	public static final String BIN_OP_MUL = "*";
 	public static final String BIN_OP_DIV = "/";
 	public static final String BIN_OP_MOD = "%";
-	
+
 	public static final String CONTRACT = "iot:BinaryOperation";
-	
+
 	public static final String input1Contract = "<real name='input1' href='input1' val='0'/>";
+
 	public Real input1();
-	
+
 	public static final String input2Contract = "<real name='input2' href='input2' val='0'/>";
+
 	public Real input2();
-	
+
 	public static final String resultContract = "<real name='result' href='result' val='0'/>";
+
 	public Real result();
-	
+
 	public static final String enabledContract = "<bool name='enabled' href='enable' val='false'/>";
+
 	public Bool enabled();
-	
+
 	public static final String operationTypeContract = "<enum name='operationType' href='operationType' range='/enums/operationTypes'/>";
-	public obix.Enum operationType();	
+
+	public obix.Enum operationType();
 
 }

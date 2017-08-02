@@ -21,8 +21,6 @@ package at.ac.tuwien.auto.iotsys.commons.persistent.models;
 
 import org.ektorp.support.CouchDbDocument;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 /**
  * @author Nam Giang - zang at kaist dot ac dot kr
  *
@@ -31,13 +29,16 @@ public class WriteableObject extends CouchDbDocument {
 
 	String href;
 	String dataStream;
-	
-	public WriteableObject(){}
-	public WriteableObject(String href){
+
+	public WriteableObject() {
+	}
+
+	public WriteableObject(String href) {
 		this.href = href;
 		setId(href);
 	}
-	public WriteableObject(String href, String dataStream){
+
+	public WriteableObject(String href, String dataStream) {
 		this(href);
 		this.dataStream = dataStream;
 	}

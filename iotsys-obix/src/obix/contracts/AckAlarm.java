@@ -1,6 +1,9 @@
 package obix.contracts;
 
-import obix.*;
+import obix.Abstime;
+import obix.IObj;
+import obix.Op;
+import obix.Str;
 
 /**
  * AckAlarm
@@ -9,8 +12,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface AckAlarm extends IObj, Alarm
-{
+public interface AckAlarm extends IObj, Alarm {
 	public static final String CONTRACT = "obix:AckAlarm";
 
 	public static final String ackTimestampContract = "<abstime name='ackTimestamp' val='1969-12-31T19:00:00.000-05:00' null='true'/>";
@@ -21,7 +23,8 @@ public interface AckAlarm extends IObj, Alarm
 
 	public Str ackUser();
 
-	public static final String ackContract = "<op name='ack' in='" + AckAlarmIn.CONTRACT + "' out='" + AckAlarmOut.CONTRACT + "'/>";
+	public static final String ackContract = "<op name='ack' in='" + AckAlarmIn.CONTRACT + "' out='"
+			+ AckAlarmOut.CONTRACT + "'/>";
 
 	public Op ack();
 

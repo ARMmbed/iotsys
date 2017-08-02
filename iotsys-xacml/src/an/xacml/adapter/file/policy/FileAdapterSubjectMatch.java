@@ -6,15 +6,16 @@ import an.xacml.XACMLElement;
 import an.xacml.policy.SubjectMatch;
 
 public class FileAdapterSubjectMatch extends FileAdapterTargetElementMatch {
-    public static final String ELEMENT_NAME = "SubjectMatch";
-    public FileAdapterSubjectMatch(Element elem) throws Exception {
-        initializeTargetElement(elem, SubjectMatch.class);
-    }
+	public static final String ELEMENT_NAME = "SubjectMatch";
 
-    public FileAdapterSubjectMatch(XACMLElement engineElem) throws Exception {
-        if (engineElem.getElementName() == null) {
-            engineElem.setElementName(ELEMENT_NAME);
-        }
-        initializeTargetElement(engineElem);
-    }
+	public FileAdapterSubjectMatch(Element elem) throws Exception {
+		initializeTargetElement(elem, SubjectMatch.class);
+	}
+
+	public FileAdapterSubjectMatch(XACMLElement engineElem) throws Exception {
+		if (engineElem.getElementName() == null) {
+			engineElem.setElementName(ELEMENT_NAME);
+		}
+		initializeTargetElement(engineElem);
+	}
 }

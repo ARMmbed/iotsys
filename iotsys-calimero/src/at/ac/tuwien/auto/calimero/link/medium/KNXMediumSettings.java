@@ -24,13 +24,13 @@ import at.ac.tuwien.auto.calimero.IndividualAddress;
 /**
  * Container for device and medium specific settings for the KNX network.
  * <p>
- * Used by a KNX link interface to obtain medium/device information necessary to handle
- * communication with the KNX network based on the particular communication medium.
+ * Used by a KNX link interface to obtain medium/device information necessary to
+ * handle communication with the KNX network based on the particular
+ * communication medium.
  * 
  * @author B. Malinowsky
  */
-public abstract class KNXMediumSettings
-{
+public abstract class KNXMediumSettings {
 	// medium codes are equal to the ones specified in KNXnet/IP
 
 	/**
@@ -70,11 +70,12 @@ public abstract class KNXMediumSettings
 	 * Creates a new container for KNX device/medium settings.
 	 * <p>
 	 * 
-	 * @param device individual device address to use as source address in KNX messages,
-	 *        specifying <code>null</code> uses the individual address 0.0.0
+	 * @param device
+	 *            individual device address to use as source address in KNX
+	 *            messages, specifying <code>null</code> uses the individual
+	 *            address 0.0.0
 	 */
-	protected KNXMediumSettings(IndividualAddress device)
-	{
+	protected KNXMediumSettings(IndividualAddress device) {
 		dev = device != null ? device : new IndividualAddress(0);
 	}
 
@@ -82,10 +83,11 @@ public abstract class KNXMediumSettings
 	 * Sets the device individual address.
 	 * <p>
 	 * 
-	 * @param device individual address to use as new source address in KNX messages
+	 * @param device
+	 *            individual address to use as new source address in KNX
+	 *            messages
 	 */
-	public final synchronized void setDeviceAddress(IndividualAddress device)
-	{
+	public final synchronized void setDeviceAddress(IndividualAddress device) {
 		dev = device;
 	}
 
@@ -95,20 +97,19 @@ public abstract class KNXMediumSettings
 	 * 
 	 * @return individual address
 	 */
-	public final synchronized IndividualAddress getDeviceAddress()
-	{
+	public final synchronized IndividualAddress getDeviceAddress() {
 		return dev;
 	}
 
 	/**
-	 * Returns the KNX medium type identifier specifying the communication medium this
-	 * setting object is for.
+	 * Returns the KNX medium type identifier specifying the communication
+	 * medium this setting object is for.
 	 * <p>
 	 * 
 	 * @return KNX medium type ID
 	 */
 	public abstract short getMedium();
-	
+
 	/**
 	 * Returns a textual representation of the KNX medium type.
 	 * <p>
@@ -116,8 +117,7 @@ public abstract class KNXMediumSettings
 	 * @return KNX medium as string
 	 * @see #getMedium()
 	 */
-	public String getMediumString()
-	{
+	public String getMediumString() {
 		switch (getMedium()) {
 		case MEDIUM_TP0:
 			return "TP0";
@@ -133,12 +133,13 @@ public abstract class KNXMediumSettings
 			return "unknown";
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return getMediumString() + " medium device " + dev;
 	}
 }

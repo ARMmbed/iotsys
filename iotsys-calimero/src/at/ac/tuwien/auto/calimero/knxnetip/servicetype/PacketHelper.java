@@ -23,28 +23,26 @@ import java.io.ByteArrayOutputStream;
 
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 
-
 /**
  * Little helpers to handle KNXnet/IP packets and service types.
  * <p>
  * 
  * @author B. Malinowsky
  */
-public final class PacketHelper
-{
-	private PacketHelper()
-	{}
+public final class PacketHelper {
+	private PacketHelper() {
+	}
 
 	/**
-	 * Creates a packet with a KNXnet/IP message header v1.0, containing the specified
-	 * service <code>type</code>, and generates the corresponding byte representation
-	 * of this structure.
+	 * Creates a packet with a KNXnet/IP message header v1.0, containing the
+	 * specified service <code>type</code>, and generates the corresponding byte
+	 * representation of this structure.
 	 * 
-	 * @param type service type to pack
+	 * @param type
+	 *            service type to pack
 	 * @return the packet as byte array
 	 */
-	public static byte[] toPacket(ServiceType type)
-	{
+	public static byte[] toPacket(ServiceType type) {
 		final KNXnetIPHeader h = new KNXnetIPHeader(type.svcType, type.getStructLength());
 		final ByteArrayOutputStream os = new ByteArrayOutputStream(h.getTotalLength());
 		os.write(h.toByteArray(), 0, h.getStructLength());
@@ -56,44 +54,50 @@ public final class PacketHelper
 	 * information from the KNXnet/IP header.
 	 * <p>
 	 * 
-	 * @param h KNXnet/IP header associated with <code>data</code>
-	 * @param data byte array containing the data following the KNXnet/IP header in the
-	 *        message structure
-	 * @param offset offset into <code>data</code> pointing at the begin of usable data
+	 * @param h
+	 *            KNXnet/IP header associated with <code>data</code>
+	 * @param data
+	 *            byte array containing the data following the KNXnet/IP header
+	 *            in the message structure
+	 * @param offset
+	 *            offset into <code>data</code> pointing at the begin of usable
+	 *            data
 	 * @return the new service request
-	 * @throws KNXFormatException on failure creating request, for example if data buffer
-	 *         is too short for the request, on unsupported service type or connection
-	 *         header structure
+	 * @throws KNXFormatException
+	 *             on failure creating request, for example if data buffer is
+	 *             too short for the request, on unsupported service type or
+	 *             connection header structure
 	 */
-	public static ServiceRequest getServiceRequest(KNXnetIPHeader h, byte[] data,
-		int offset) throws KNXFormatException
-	{
-		return new ServiceRequest(h.getServiceType(), data, offset, h.getTotalLength()
-			- h.getStructLength());
+	public static ServiceRequest getServiceRequest(KNXnetIPHeader h, byte[] data, int offset)
+			throws KNXFormatException {
+		return new ServiceRequest(h.getServiceType(), data, offset, h.getTotalLength() - h.getStructLength());
 	}
-	
+
 	/**
 	 * Internal use only.
 	 * <p>
 	 * Creates a new service request using the <code>data</code> byte array and
 	 * information from the KNXnet/IP header, but leaves out the cEMI part.<br>
-	 * This helper will not try to create the cEMI structure contained in the data part,
-	 * i.e. the returned service request is incomplete and {@link ServiceRequest#getCEMI()}
-	 * returns <code>null</code>. The service request must not be used for the creation
-	 * of KNXnet/IP packets.
+	 * This helper will not try to create the cEMI structure contained in the
+	 * data part, i.e. the returned service request is incomplete and
+	 * {@link ServiceRequest#getCEMI()} returns <code>null</code>. The service
+	 * request must not be used for the creation of KNXnet/IP packets.
 	 * 
-	 * @param h KNXnet/IP header associated with <code>data</code>
-	 * @param data byte array containing the data following the KNXnet/IP header in the
-	 *        message structure
-	 * @param offset offset into <code>data</code> pointing at the begin of usable data
+	 * @param h
+	 *            KNXnet/IP header associated with <code>data</code>
+	 * @param data
+	 *            byte array containing the data following the KNXnet/IP header
+	 *            in the message structure
+	 * @param offset
+	 *            offset into <code>data</code> pointing at the begin of usable
+	 *            data
 	 * @return the new empty service request
-	 * @throws KNXFormatException if the data buffer is too short for the request or
-	 *         unsupported connection header structure
+	 * @throws KNXFormatException
+	 *             if the data buffer is too short for the request or
+	 *             unsupported connection header structure
 	 */
-	public static ServiceRequest getEmptyServiceRequest(KNXnetIPHeader h, byte[] data,
-		int offset) throws KNXFormatException
-	{
-		return new ServiceRequest(h.getServiceType(), data, offset, h.getTotalLength()
-			- h.getStructLength(), null);
+	public static ServiceRequest getEmptyServiceRequest(KNXnetIPHeader h, byte[] data, int offset)
+			throws KNXFormatException {
+		return new ServiceRequest(h.getServiceType(), data, offset, h.getTotalLength() - h.getStructLength(), null);
 	}
 }

@@ -32,26 +32,28 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.sensors.impl.coap;
 
-//import java.util.logging.Logger;
-
-import ch.ethz.inf.vs.californium.coap.Response;
-import ch.ethz.inf.vs.californium.coap.ResponseHandler;
-
-import obix.Obj;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.IndoorBrightnessSensorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
 
+//import java.util.logging.Logger;
+
+import ch.ethz.inf.vs.californium.coap.Response;
+import ch.ethz.inf.vs.californium.coap.ResponseHandler;
+import obix.Obj;
+
 public class IndoorBrightnessSensorImplCoap extends IndoorBrightnessSensorImpl implements IoTSySDevice {
-	//private static final Logger log = Logger.getLogger(IndoorBrightnessSensorImplCoap.class.getName());
-	
+	// private static final Logger log =
+	// Logger.getLogger(IndoorBrightnessSensorImplCoap.class.getName());
+
 	private CoapConnector coapConnector;
-	private String busAddress; 
+	private String busAddress;
 	private boolean isObserved;
 	private boolean shouldObserve;
 	private boolean forwardGroupAddress;
-	
-	public IndoorBrightnessSensorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve, boolean forwardGroupAddress){
+
+	public IndoorBrightnessSensorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve,
+			boolean forwardGroupAddress) {
 		// technology specific initialization
 		this.coapConnector = coapConnector;
 		this.busAddress = busAddress;
@@ -59,50 +61,52 @@ public class IndoorBrightnessSensorImplCoap extends IndoorBrightnessSensorImpl i
 		this.shouldObserve = shouldObserve;
 		this.forwardGroupAddress = forwardGroupAddress;
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
-		if(shouldObserve)
+		if (shouldObserve)
 			addWatchDog();
 	}
-	
-	
-	public void addWatchDog(){
+
+	public void addWatchDog() {
 		coapConnector.createWatchDog(busAddress, ROOM_ILLUMINATION_CONTRACT_HREF, new ResponseHandler() {
-			public void handleResponse(Response response) {	
+			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-				
-				if(payload.equals("") || payload.equals("TooManyObservers")) return;
-				
-				if(payload.startsWith("Added")) {
+
+				if (payload.equals("") || payload.equals("TooManyObservers"))
+					return;
+
+				if (payload.startsWith("Added")) {
 					isObserved = true;
 					return;
 				}
-				
-				double temp = Double.parseDouble( CoapConnector.extractAttribute("real", "val", payload));
-				IndoorBrightnessSensorImplCoap.this.roomIlluminationValue().set(temp); 
+
+				double temp = Double.parseDouble(CoapConnector.extractAttribute("real", "val", payload));
+				IndoorBrightnessSensorImplCoap.this.roomIlluminationValue().set(temp);
 
 			}
-		});	
+		});
 	}
-	
+
 	@Override
-	public void writeObject(Obj input){
-		//Sensor not writable
+	public void writeObject(Obj input) {
+		// Sensor not writable
 	}
-	
+
 	@Override
-	public void refreshObject(){
-		//value is the protected instance variable of the base class (TemperatureSensorImpl)
-		if(roomIlluminationValue != null && !isObserved){
+	public void refreshObject() {
+		// value is the protected instance variable of the base class
+		// (TemperatureSensorImpl)
+		if (roomIlluminationValue != null && !isObserved) {
 			Double value = coapConnector.readDouble(busAddress, ROOM_ILLUMINATION_CONTRACT_HREF);
-			
-			// this calls the implementation of the base class, which triggers also
-			// oBIX services (e.g. watches, history) and CoAP observe!			
-			this.roomIlluminationValue().set(value); 
-		}	
+
+			// this calls the implementation of the base class, which triggers
+			// also
+			// oBIX services (e.g. watches, history) and CoAP observe!
+			this.roomIlluminationValue().set(value);
+		}
 	}
 
 	@Override

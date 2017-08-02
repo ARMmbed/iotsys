@@ -12,7 +12,7 @@ public class DefaultFeedFilter implements FeedFilter {
 		Collections.reverse(events);
 		return events;
 	}
-	
+
 	public List<Obj> poll(List<Obj> events) {
 		return events;
 	}

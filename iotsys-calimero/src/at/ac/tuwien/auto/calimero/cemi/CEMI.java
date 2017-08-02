@@ -23,20 +23,19 @@ package at.ac.tuwien.auto.calimero.cemi;
  * Common External Message Interface (cEMI).
  * <p>
  * Acts as basic interface to the cEMI ADT.<br>
- * The cEMI message format aims to be a frame structure for KNX information transport,
- * independent of various KNX media.
+ * The cEMI message format aims to be a frame structure for KNX information
+ * transport, independent of various KNX media.
  * 
  * @author Bernhard Erb
  * @author B. Malinowsky
  */
-public interface CEMI
-{
+public interface CEMI {
 	/**
 	 * Returns the payload carried in this cEMI message.
 	 * <p>
-	 * In general, the payload refers to that content of a cEMI frame, which is not
-	 * interpreted nor parsed by the different types of cEMI. See the corresponding
-	 * subtypes for a more specific description.
+	 * In general, the payload refers to that content of a cEMI frame, which is
+	 * not interpreted nor parsed by the different types of cEMI. See the
+	 * corresponding subtypes for a more specific description.
 	 * 
 	 * @return subset of frame data as byte array
 	 */
@@ -45,8 +44,8 @@ public interface CEMI
 	/**
 	 * Returns the cEMI message code.
 	 * <p>
-	 * The codes of the different cEMI message types can be looked up in the according
-	 * subtype implementations.
+	 * The codes of the different cEMI message types can be looked up in the
+	 * according subtype implementations.
 	 * 
 	 * @return the message code byte
 	 */

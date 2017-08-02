@@ -10,8 +10,7 @@ package obix;
  * @creation 30 Mar 06
  * @version $Revision$ $Date$
  */
-public class Err extends Obj
-{
+public class Err extends Obj {
 
 	// //////////////////////////////////////////////////////////////
 	// Construction
@@ -20,16 +19,14 @@ public class Err extends Obj
 	/**
 	 * Construct named Err.
 	 */
-	public Err(String name)
-	{
+	public Err(String name) {
 		super(name);
 	}
 
 	/**
 	 * Construct unnamed Err.
 	 */
-	public Err()
-	{
+	public Err() {
 	}
 
 	// //////////////////////////////////////////////////////////////
@@ -39,16 +36,14 @@ public class Err extends Obj
 	/**
 	 * Return "err".
 	 */
-	public String getElement()
-	{
+	public String getElement() {
 		return "err";
 	}
 
 	/**
 	 * Return BinObix.ERR.
 	 */
-	public int getBinCode()
-	{
+	public int getBinCode() {
 		return obix.io.BinObix.ERR;
 	}
 
@@ -59,8 +54,7 @@ public class Err extends Obj
 	/**
 	 * Format the error for human display.
 	 */
-	public String format()
-	{
+	public String format() {
 		// TODO - displayName, is, etc
 		dump();
 		return this.toDisplay();

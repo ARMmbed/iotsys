@@ -20,31 +20,32 @@
 package at.ac.tuwien.auto.calimero.exception;
 
 /**
- * Thrown to indicate that a timeout occurred while waiting for an acknowledge response.
+ * Thrown to indicate that a timeout occurred while waiting for an acknowledge
+ * response.
  * <p>
  * 
  * @author B. Malinowsky
  */
-public class KNXAckTimeoutException extends KNXTimeoutException
-{
+public class KNXAckTimeoutException extends KNXTimeoutException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new <code>KNXAckTimeoutException</code> without a detail message.
-	 * <p>
-	 */
-	public KNXAckTimeoutException()
-	{}
-
-	/**
-	 * Constructs a new <code>KNXAckTimeoutException</code> with the specified detail
+	 * Constructs a new <code>KNXAckTimeoutException</code> without a detail
 	 * message.
 	 * <p>
-	 * 
-	 * @param s the detail message
 	 */
-	public KNXAckTimeoutException(String s)
-	{
+	public KNXAckTimeoutException() {
+	}
+
+	/**
+	 * Constructs a new <code>KNXAckTimeoutException</code> with the specified
+	 * detail message.
+	 * <p>
+	 * 
+	 * @param s
+	 *            the detail message
+	 */
+	public KNXAckTimeoutException(String s) {
 		super(s);
 	}
 }

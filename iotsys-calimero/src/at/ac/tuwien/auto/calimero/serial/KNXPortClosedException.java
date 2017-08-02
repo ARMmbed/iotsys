@@ -27,8 +27,7 @@ import at.ac.tuwien.auto.calimero.exception.KNXException;
  * 
  * @author B. Malinowsky
  */
-public class KNXPortClosedException extends KNXException
-{
+public class KNXPortClosedException extends KNXException {
 	private static final long serialVersionUID = 1L;
 
 	private final String id;
@@ -38,8 +37,7 @@ public class KNXPortClosedException extends KNXException
 	 * message.
 	 * <p>
 	 */
-	public KNXPortClosedException()
-	{
+	public KNXPortClosedException() {
 		id = null;
 	}
 
@@ -48,10 +46,10 @@ public class KNXPortClosedException extends KNXException
 	 * detail message.
 	 * <p>
 	 * 
-	 * @param s the detail message
+	 * @param s
+	 *            the detail message
 	 */
-	public KNXPortClosedException(String s)
-	{
+	public KNXPortClosedException(String s) {
 		super(s);
 		id = null;
 	}
@@ -61,11 +59,12 @@ public class KNXPortClosedException extends KNXException
 	 * detail message and the serial port identifier.
 	 * <p>
 	 * 
-	 * @param s the detail message
-	 * @param portID serial port identifier of the closed port
+	 * @param s
+	 *            the detail message
+	 * @param portID
+	 *            serial port identifier of the closed port
 	 */
-	public KNXPortClosedException(String s, String portID)
-	{
+	public KNXPortClosedException(String s, String portID) {
 		super(s);
 		id = portID;
 	}
@@ -76,8 +75,7 @@ public class KNXPortClosedException extends KNXException
 	 * 
 	 * @return port ID as string, or <code>null</code> if no port ID specified
 	 */
-	public final String getPortID()
-	{
+	public final String getPortID() {
 		return id;
 	}
 }

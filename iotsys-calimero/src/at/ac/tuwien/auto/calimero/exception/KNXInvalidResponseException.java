@@ -20,34 +20,34 @@
 package at.ac.tuwien.auto.calimero.exception;
 
 /**
- * Thrown to indicate a message format mismatch of a response sent by a remote endpoint.
+ * Thrown to indicate a message format mismatch of a response sent by a remote
+ * endpoint.
  * <p>
- * Particularly, if received data from the network is parsed and the structure read does
- * not match.
+ * Particularly, if received data from the network is parsed and the structure
+ * read does not match.
  * 
  * @author B. Malinowsky
  */
-public class KNXInvalidResponseException extends KNXRemoteException
-{
+public class KNXInvalidResponseException extends KNXRemoteException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new <code>KNXInvalidResponseException</code> without a detail
-	 * message.
-	 * <p>
-	 */
-	public KNXInvalidResponseException()
-	{}
-
-	/**
-	 * Constructs a new <code>KNXInvalidResponseException</code> with the specified
+	 * Constructs a new <code>KNXInvalidResponseException</code> without a
 	 * detail message.
 	 * <p>
-	 * 
-	 * @param s the detail message
 	 */
-	public KNXInvalidResponseException(String s)
-	{
+	public KNXInvalidResponseException() {
+	}
+
+	/**
+	 * Constructs a new <code>KNXInvalidResponseException</code> with the
+	 * specified detail message.
+	 * <p>
+	 * 
+	 * @param s
+	 *            the detail message
+	 */
+	public KNXInvalidResponseException(String s) {
 		super(s);
 	}
 }

@@ -2,6 +2,8 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects;
 
 import java.util.List;
 
+import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
+import at.ac.tuwien.auto.iotsys.obix.OperationHandler;
 import obix.Contract;
 import obix.Feed;
 import obix.Int;
@@ -12,52 +14,49 @@ import obix.contracts.Alarm;
 import obix.contracts.AlarmFilter;
 import obix.contracts.AlarmQueryOut;
 import obix.contracts.AlarmSubject;
-import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
-import at.ac.tuwien.auto.iotsys.obix.OperationHandler;
 
 public class AlarmSubjectImpl extends Obj implements AlarmSubject {
 	private static AlarmSubject defaultSubject;
 	private static int alarmID = 0;
-	
+
 	private ObjectBroker broker;
 	private Int count;
 	private Op query;
 	private Feed feed;
 	private static obix.List alarmdb;
-	
+
 	/**
 	 * @return the default instance of an AlarmSubject
 	 */
 	public static AlarmSubject defaultAlarmSubject() {
 		return defaultSubject;
 	}
-	
+
 	public static void setDefaultAlarmSubject(AlarmSubject subject) {
 		defaultSubject = subject;
 	}
-	
-	
+
 	public AlarmSubjectImpl(final ObjectBroker broker) {
 		this.broker = broker;
-		
+
 		this.setHref(new Uri("alarms"));
 		this.setIs(new Contract(AlarmSubject.CONTRACT));
-		
+
 		if (alarmdb == null) {
 			alarmdb = new obix.List("alarmdb", new Contract(Alarm.CONTRACT));
 			alarmdb.setHref(new Uri("alarmdb"));
-			
+
 			broker.addObj(alarmdb, false);
 		}
-		
+
 		add(count());
 		add(query());
 		add(feed());
-		
+
 		if (defaultSubject == null)
 			defaultSubject = this;
 	}
-	
+
 	public Int count() {
 		if (count == null) {
 			count = new Int("count");
@@ -90,17 +89,17 @@ public class AlarmSubjectImpl extends Obj implements AlarmSubject {
 
 	public synchronized void addAlarm(final Alarm alarm) {
 		AlarmImpl alarmObj = (AlarmImpl) alarm;
-		
+
 		alarmObj.setHref(new Uri(String.valueOf(alarmID++)));
 		alarmdb.add(alarmObj);
 		alarmObj.setHref(new Uri(alarmObj.getFullContextPath()));
-		
+
 		feed.addEvent((Obj) alarm);
-		count.set(count.get()+1);
-		
-		broker.addObj((Obj)alarm, false);
+		count.set(count.get() + 1);
+
+		broker.addObj((Obj) alarm, false);
 	}
-	
+
 	public Obj query(Obj in) {
 		AlarmFilterImpl filter = new AlarmFilterImpl(in);
 		List<Obj> results = filter.query(feed);

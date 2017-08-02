@@ -27,12 +27,12 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * 
  * @author B. Malinowsky
  */
-public class TP1Ack extends RawAckBase
-{
+public class TP1Ack extends RawAckBase {
 	/**
 	 * Acknowledge type busy.
 	 * <p>
-	 * The remote data link layer does not have resources to process the request.
+	 * The remote data link layer does not have resources to process the
+	 * request.
 	 * 
 	 * @see #getAckType()
 	 */
@@ -51,13 +51,15 @@ public class TP1Ack extends RawAckBase
 	 * Creates a new TP1 acknowledge frame out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing the acknowledge frame
-	 * @param offset start offset of frame structure in <code>data</code>, offset &gt;=
-	 *        0
-	 * @throws KNXFormatException if no valid acknowledge frame was found
+	 * @param data
+	 *            byte array containing the acknowledge frame
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, offset
+	 *            &gt;= 0
+	 * @throws KNXFormatException
+	 *             if no valid acknowledge frame was found
 	 */
-	public TP1Ack(byte[] data, int offset) throws KNXFormatException
-	{
+	public TP1Ack(byte[] data, int offset) throws KNXFormatException {
 		final int ctrl = data[offset] & 0xff;
 		if ((ctrl & 0x33) != 0x00)
 			throw new KNXFormatException("no TP1 ACK frame, invalid control field", ctrl);
@@ -73,11 +75,12 @@ public class TP1Ack extends RawAckBase
 			throw new KNXFormatException("no valid acknowledge code", ctrl);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.medium.RawAckBase#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return ack == BUSY ? "BUSY" : ack == NAK_BUSY ? "NAK-BUSY" : super.toString();
 	}
 }

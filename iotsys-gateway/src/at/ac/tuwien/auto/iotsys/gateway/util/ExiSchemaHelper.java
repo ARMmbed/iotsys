@@ -35,7 +35,6 @@ package at.ac.tuwien.auto.iotsys.gateway.util;
 import java.io.DataOutputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 
 import org.openexi.schema.EXISchema;
 import org.openexi.scomp.EXISchemaFactory;
@@ -48,20 +47,20 @@ import org.xml.sax.InputSource;
  */
 public class ExiSchemaHelper {
 	public static void main(String[] args) {
-	
-			fromXSDtoESD("res/obix.xsd", "res/obix.esd");
-	
+
+		fromXSDtoESD("res/obix.xsd", "res/obix.esd");
+
 	}
 
-	public static void fromXSDtoESD(String xsdFileName, String esdFileName)  {
-		FileInputStream fis=null;
+	public static void fromXSDtoESD(String xsdFileName, String esdFileName) {
+		FileInputStream fis = null;
 		InputSource is;
 		EXISchema schema;
 		EXISchemaFactory factory;
 		FileOutputStream fos = null;
 		DataOutputStream dos = null;
 
-		try{
+		try {
 			fis = new FileInputStream(xsdFileName);
 			is = new InputSource(fis);
 			// Process a new schema.
@@ -76,32 +75,27 @@ public class ExiSchemaHelper {
 			fos.close();
 			dos.close();
 			fis.close();
-		}		
-		catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 }
 
-class EXISchemaFactoryExceptionHandlerSample implements
-		EXISchemaFactoryErrorHandler {
+class EXISchemaFactoryExceptionHandlerSample implements EXISchemaFactoryErrorHandler {
 	public EXISchemaFactoryExceptionHandlerSample() {
 		super();
 	}
 
-	public void warning(EXISchemaFactoryException eXISchemaFactoryException)
-			throws EXISchemaFactoryException {
+	public void warning(EXISchemaFactoryException eXISchemaFactoryException) throws EXISchemaFactoryException {
 		eXISchemaFactoryException.printStackTrace();
 	}
 
-	public void error(EXISchemaFactoryException eXISchemaFactoryException)
-			throws EXISchemaFactoryException {
+	public void error(EXISchemaFactoryException eXISchemaFactoryException) throws EXISchemaFactoryException {
 		eXISchemaFactoryException.printStackTrace();
 	}
 
-	public void fatalError(EXISchemaFactoryException eXISchemaFactoryException)
-			throws EXISchemaFactoryException {
+	public void fatalError(EXISchemaFactoryException eXISchemaFactoryException) throws EXISchemaFactoryException {
 		eXISchemaFactoryException.printStackTrace();
 	}
 }

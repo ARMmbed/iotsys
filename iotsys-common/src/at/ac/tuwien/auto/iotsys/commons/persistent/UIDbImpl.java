@@ -35,8 +35,8 @@ public class UIDbImpl implements UIDb {
 	private static UIDb INSTANCE;
 	private static final Logger log = Logger.getLogger(UIDbImpl.class.getName());
 
-	public static UIDb getInstance(){
-		INSTANCE = UIDbRepo.getInstance(); 
+	public static UIDb getInstance() {
+		INSTANCE = UIDbRepo.getInstance();
 		if (INSTANCE == null)
 			INSTANCE = new UIDbImpl();
 		return INSTANCE;
@@ -51,7 +51,7 @@ public class UIDbImpl implements UIDb {
 	@Override
 	public void updateBulkKeyValue(Map<String, String> uiKeyValues) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -63,19 +63,19 @@ public class UIDbImpl implements UIDb {
 	@Override
 	public void addUser(User u) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void deleteUser(String name) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void updateUser(String name, User u) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -89,9 +89,11 @@ public class UIDbImpl implements UIDb {
 	@Override
 	public boolean authenticateUser(String name, String password) {
 		// DB not found, proceed with bootstrap account iotsys/s3cret
-		String bootstrapUser = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.security.bootstrapUser", "iotsys");
-		String bootstrapPassword = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.security.bootstrapPassword", "s3cret");
-		
+		String bootstrapUser = PropertiesLoader.getInstance().getProperties()
+				.getProperty("iotsys.gateway.security.bootstrapUser", "iotsys");
+		String bootstrapPassword = PropertiesLoader.getInstance().getProperties()
+				.getProperty("iotsys.gateway.security.bootstrapPassword", "s3cret");
+
 		if (!name.equals(bootstrapUser))
 			return false;
 		if (!password.equals(bootstrapPassword))

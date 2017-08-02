@@ -31,15 +31,13 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.DimensionImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.UnitImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitMeter;
+import obix.Uri;
 
-public class UnitMeterImpl extends UnitImpl implements UnitMeter
-{
-	public UnitMeterImpl()
-	{
+public class UnitMeterImpl extends UnitImpl implements UnitMeter {
+	public UnitMeterImpl() {
 		super("meter", "meter (m)", new Uri(UnitMeter.HREF), "m", 1, 0, new DimensionImpl(0, 1, 0, 0, 0, 0, 0));
 
 		// Translations

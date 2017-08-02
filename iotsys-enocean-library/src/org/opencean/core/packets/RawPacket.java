@@ -5,44 +5,44 @@ import org.opencean.core.utils.ByteArray;
 
 public class RawPacket {
 
-    private Header header;
+	private Header header;
 
-    private Payload payload;
+	private Payload payload;
 
-    public RawPacket() {
-    }
+	public RawPacket() {
+	}
 
-    public RawPacket(Header header, Payload payload) {
-        this.header = header;
-        this.payload = payload;
-    }
+	public RawPacket(Header header, Payload payload) {
+		this.header = header;
+		this.payload = payload;
+	}
 
-    public void readHeader(ProtocolConnector connector) {
-        header = Header.from(connector);
-    }
+	public void readHeader(ProtocolConnector connector) {
+		header = Header.from(connector);
+	}
 
-    public void readPayload(ProtocolConnector connector) {
-        payload = Payload.from(header, connector);
-    }
+	public void readPayload(ProtocolConnector connector) {
+		payload = Payload.from(header, connector);
+	}
 
-    public byte[] toBytes() {
-        ByteArray bytes = new ByteArray();
-        bytes.addBytes(header.toBytes());
-        bytes.addBytes(payload.toBytes());
-        return bytes.getArray();
-    }
+	public byte[] toBytes() {
+		ByteArray bytes = new ByteArray();
+		bytes.addBytes(header.toBytes());
+		bytes.addBytes(payload.toBytes());
+		return bytes.getArray();
+	}
 
-    public Header getHeader() {
-        return header;
-    }
+	public Header getHeader() {
+		return header;
+	}
 
-    public Payload getPayload() {
-        return payload;
-    }
+	public Payload getPayload() {
+		return payload;
+	}
 
-    @Override
-    public String toString() {
-        return new ByteArray(toBytes()).toString();
-    }
+	@Override
+	public String toString() {
+		return new ByteArray(toBytes()).toString();
+	}
 
 }

@@ -22,32 +22,31 @@ package at.ac.tuwien.auto.calimero.knxnetip;
 import at.ac.tuwien.auto.calimero.exception.KNXException;
 
 /**
- * Thrown to indicate an illegal operation due to a closed KNXnet/IP communication
- * connection.
+ * Thrown to indicate an illegal operation due to a closed KNXnet/IP
+ * communication connection.
  * 
  * @author B. Malinowsky
  */
-public class KNXConnectionClosedException extends KNXException
-{
+public class KNXConnectionClosedException extends KNXException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new <code>KNXConnectionClosedException</code> without a detail
-	 * message.
-	 * <p>
-	 */
-	public KNXConnectionClosedException()
-	{}
-
-	/**
-	 * Constructs a new <code>KNXConnectionClosedException</code> with the specified
+	 * Constructs a new <code>KNXConnectionClosedException</code> without a
 	 * detail message.
 	 * <p>
-	 * 
-	 * @param s the detail message
 	 */
-	public KNXConnectionClosedException(String s)
-	{
+	public KNXConnectionClosedException() {
+	}
+
+	/**
+	 * Constructs a new <code>KNXConnectionClosedException</code> with the
+	 * specified detail message.
+	 * <p>
+	 * 
+	 * @param s
+	 *            the detail message
+	 */
+	public KNXConnectionClosedException(String s) {
 		super(s);
 	}
 }

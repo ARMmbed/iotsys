@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view;
 
 import obix.IObj;
 
-public interface ViewBuilding extends IObj
-{
+public interface ViewBuilding extends IObj {
 	public static final String CONTRACT = "knx:ViewBuilding";
 	public static final String HREF = "views/building";
 }

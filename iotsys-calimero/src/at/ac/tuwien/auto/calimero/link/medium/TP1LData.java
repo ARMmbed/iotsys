@@ -26,7 +26,6 @@ import at.ac.tuwien.auto.calimero.IndividualAddress;
 import at.ac.tuwien.auto.calimero.Priority;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 
-
 /**
  * L-data frame format on TP1 communication medium.
  * <p>
@@ -34,24 +33,24 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * 
  * @author B. Malinowsky
  */
-public class TP1LData extends RawFrameBase
-{
+public class TP1LData extends RawFrameBase {
 	private static final int MIN_LENGTH = 7;
 
 	/**
 	 * Creates a new L-data frame out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing the L-data frame
-	 * @param offset start offset of frame structure in <code>data</code>, offset &gt;=
-	 *        0
-	 * @throws KNXFormatException if length of data too short for frame, on no valid frame
-	 *         structure
+	 * @param data
+	 *            byte array containing the L-data frame
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, offset
+	 *            &gt;= 0
+	 * @throws KNXFormatException
+	 *             if length of data too short for frame, on no valid frame
+	 *             structure
 	 */
-	public TP1LData(byte[] data, int offset) throws KNXFormatException
-	{
-		final ByteArrayInputStream is =
-			new ByteArrayInputStream(data, offset, data.length - offset);
+	public TP1LData(byte[] data, int offset) throws KNXFormatException {
+		final ByteArrayInputStream is = new ByteArrayInputStream(data, offset, data.length - offset);
 		final int avail = is.available();
 		if (avail < MIN_LENGTH)
 			throw new KNXFormatException("data too short for L-data frame", avail);
@@ -76,8 +75,7 @@ public class TP1LData extends RawFrameBase
 			len = npci;
 			if (len == 255)
 				throw new KNXFormatException("escape-code in length field not supported");
-		}
-		else {
+		} else {
 			hopcount = (npci & 0x70) >> 4;
 			setDestination(addr, (npci & 0x80) != 0);
 			len = npci & 0x0f;
@@ -88,11 +86,12 @@ public class TP1LData extends RawFrameBase
 		fcs = is.read();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.medium.RawFrameBase#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return super.toString() + ", tpdu " + DataUnitBuilder.toHex(tpdu, " ");
 	}
 }

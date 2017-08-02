@@ -1,59 +1,56 @@
 /*
  * This code licensed to public domain
  */
-package obix.ui.fields;  
+package obix.ui.fields;
 
-import java.awt.*;
-import javax.swing.*;
-import obix.*;
-import obix.ui.*;  
+import java.awt.BorderLayout;
+
+import javax.swing.JTextField;
+
+import obix.Obj;
+import obix.Str;
+import obix.ui.ObjField;
 
 /**
  * StrField
  *
- * @author    Brian Frank
- * @creation  26 Sept 05
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @creation 26 Sept 05
+ * @version $Revision$ $Date$
  */
-public class StrField
-  extends ObjField
-{                   
+public class StrField extends ObjField {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Constructor
+	////////////////////////////////////////////////////////////////
 
-  public StrField()
-  {
-    add(textField, BorderLayout.CENTER); 
-    registerForChanged(textField);
-  }
+	public StrField() {
+		add(textField, BorderLayout.CENTER);
+		registerForChanged(textField);
+	}
 
-////////////////////////////////////////////////////////////////
-// Methods
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
 
-  protected void doSetEditable(boolean editable)
-  { 
-    textField.setEditable(editable);
-  }
+	protected void doSetEditable(boolean editable) {
+		textField.setEditable(editable);
+	}
 
-  protected void doLoad(Obj val)
-  {                       
-    Str v = (Str)val;              
-    textField.setText(v.get());
-  }
-  
-  protected void doSave(Obj val)
-  {         
-    Str v = (Str)val;       
-    v.set(textField.getText());
-  }
+	protected void doLoad(Obj val) {
+		Str v = (Str) val;
+		textField.setText(v.get());
+	}
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+	protected void doSave(Obj val) {
+		Str v = (Str) val;
+		v.set(textField.getText());
+	}
 
-  JTextField textField = new JTextField("", 50);
- 
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	JTextField textField = new JTextField("", 50);
+
 }

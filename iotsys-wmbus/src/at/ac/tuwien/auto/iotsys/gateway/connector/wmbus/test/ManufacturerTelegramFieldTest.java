@@ -35,13 +35,13 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.test;
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.header.ManufacturerTelegramField;
 
 public class ManufacturerTelegramFieldTest {
-	
+
 	public static void main(String[] args) {
 		ManufacturerTelegramField field = new ManufacturerTelegramField();
 		field.addFieldParts("93 15".split(" "));
 		field.parse();
 		System.out.println("ParsedValue: " + field.getParsedValue());
-		
+
 		field.clearTelegramPart();
 		field.addFieldParts("24 23".split(" "));
 		field.parse();

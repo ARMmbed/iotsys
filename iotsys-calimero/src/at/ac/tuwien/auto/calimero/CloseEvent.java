@@ -23,20 +23,18 @@ import java.util.EventObject;
 
 import at.ac.tuwien.auto.calimero.link.event.LinkListener;
 
-
 /**
- * Informs about the closing of a previously established communication with the KNX
- * network.
+ * Informs about the closing of a previously established communication with the
+ * KNX network.
  * <p>
- * In general, the source of the event is the connection object or network link to be
- * closed.
+ * In general, the source of the event is the connection object or network link
+ * to be closed.
  * 
  * @author B. Malinowsky
  * @see LinkListener
  * @see KNXListener
  */
-public class CloseEvent extends EventObject
-{
+public class CloseEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 
 	private final boolean user;
@@ -46,29 +44,30 @@ public class CloseEvent extends EventObject
 	 * Creates a new close event object.
 	 * <p>
 	 * 
-	 * @param source the communication object to be closed
-	 * @param userRequest <code>true</code> if the closing was requested by the user of
-	 *        the object, <code>false</code> otherwise (for example, a close initiated by
-	 *        a remote server)
-	 * @param reason brief description of the reason leading to the close event
+	 * @param source
+	 *            the communication object to be closed
+	 * @param userRequest
+	 *            <code>true</code> if the closing was requested by the user of
+	 *            the object, <code>false</code> otherwise (for example, a close
+	 *            initiated by a remote server)
+	 * @param reason
+	 *            brief description of the reason leading to the close event
 	 */
-	public CloseEvent(Object source, boolean userRequest, String reason)
-	{
+	public CloseEvent(Object source, boolean userRequest, String reason) {
 		super(source);
 		user = userRequest;
 		msg = reason;
 	}
 
 	/**
-	 * Returns whether the close event was initiated by the user of the communication
-	 * object.
+	 * Returns whether the close event was initiated by the user of the
+	 * communication object.
 	 * <p>
 	 * 
 	 * @return <code>true</code> if close is user requested, <code>false</code>
 	 *         otherwise
 	 */
-	public final boolean isUserRequest()
-	{
+	public final boolean isUserRequest() {
 		return user;
 	}
 
@@ -78,8 +77,7 @@ public class CloseEvent extends EventObject
 	 * 
 	 * @return reason as string
 	 */
-	public final String getReason()
-	{
+	public final String getReason() {
 		return msg;
 	}
 }

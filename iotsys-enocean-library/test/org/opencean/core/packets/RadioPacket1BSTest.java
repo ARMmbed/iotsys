@@ -36,37 +36,32 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.opencean.core.packets.BasicPacket;
-import org.opencean.core.packets.Header;
-import org.opencean.core.packets.Payload;
-import org.opencean.core.packets.RadioPacket;
-import org.opencean.core.packets.RawPacket;
 import org.opencean.core.utils.Bits;
 
 public class RadioPacket1BSTest {
 
-    @Test
-    public void testRadioPacket1BSparse() {
-    	BasicPacket packet = createRawPacket((byte)0x01);
-    	if (packet instanceof RadioPacket1BS) {
+	@Test
+	public void testRadioPacket1BSparse() {
+		BasicPacket packet = createRawPacket((byte) 0x01);
+		if (packet instanceof RadioPacket1BS) {
 			RadioPacket1BS radioPacket1BS = (RadioPacket1BS) packet;
-            boolean contactbit = Bits.isBitSet(radioPacket1BS.getDataByte(), 0);
-            boolean learnbit = !Bits.isBitSet(radioPacket1BS.getDataByte(), 3); 
-            		            
-            assertEquals(true, contactbit);
-            assertEquals(true, learnbit);		            
-        } else{
-        	Assert.fail();
-        }    	
-    }
-    
-    private BasicPacket createRawPacket(byte dataByte) {
-        Header header = new Header(RadioPacket.PACKET_TYPE, (short) 7, (byte) 0);
-        Payload payload = new Payload();
-        payload.setData(new byte[] { RadioPacket1BS.RADIO_TYPE, dataByte, 0, 0, 0, 0, (byte) 0x00 });
-        RawPacket rawPacket = new RawPacket(header, payload);
-        BasicPacket basicPacket = new RadioPacket1BS(rawPacket);
-        return basicPacket;
-    }
+			boolean contactbit = Bits.isBitSet(radioPacket1BS.getDataByte(), 0);
+			boolean learnbit = !Bits.isBitSet(radioPacket1BS.getDataByte(), 3);
+
+			assertEquals(true, contactbit);
+			assertEquals(true, learnbit);
+		} else {
+			Assert.fail();
+		}
+	}
+
+	private BasicPacket createRawPacket(byte dataByte) {
+		Header header = new Header(RadioPacket.PACKET_TYPE, (short) 7, (byte) 0);
+		Payload payload = new Payload();
+		payload.setData(new byte[] { RadioPacket1BS.RADIO_TYPE, dataByte, 0, 0, 0, 0, (byte) 0x00 });
+		RawPacket rawPacket = new RawPacket(header, payload);
+		BasicPacket basicPacket = new RadioPacket1BS(rawPacket);
+		return basicPacket;
+	}
 
 }

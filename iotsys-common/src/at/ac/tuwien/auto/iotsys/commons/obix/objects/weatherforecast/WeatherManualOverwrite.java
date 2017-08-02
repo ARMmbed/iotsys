@@ -10,6 +10,6 @@ public interface WeatherManualOverwrite {
 
 	public static final String NAME_OFF = "off";
 	public static final String NAME_STORM_WARNING = "Storm warning";
-	public static final String NAME_STORM_ALARM  = "Storm alarm";
-	
+	public static final String NAME_STORM_ALARM = "Storm alarm";
+
 }

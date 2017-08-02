@@ -31,21 +31,18 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingOnOff;
 import obix.Contract;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingOnOff;
 
-public class EncodingOnOffImpl extends EncodingImpl implements EncodingOnOff
-{
-	public EncodingOnOffImpl()
-	{
+public class EncodingOnOffImpl extends EncodingImpl implements EncodingOnOff {
+	public EncodingOnOffImpl() {
 		super(new Uri(EncodingOnOff.HREF));
 
 		this.setOf(new Contract("obix:bool"));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		BoolElement on = new BoolElement(EncodingOnOff.KEY_ON, "On", true);
 		BoolElement off = new BoolElement(EncodingOnOff.KEY_OFF, "Off", false);
 

@@ -10,14 +10,14 @@ import java.util.logging.Logger;
 import obix.asm.ObixAssembler;
 
 /**
- * ContractRegistry serves a central database for mapping contract URIs to Contract definitions.
+ * ContractRegistry serves a central database for mapping contract URIs to
+ * Contract definitions.
  * 
  * @author Brian Frank
  * @creation 27 Apr 05
  * @version $Revision$ $Date$
  */
-public class ContractRegistry
-{
+public class ContractRegistry {
 	private static final Logger log = Logger.getLogger(ContractRegistry.class.getName());
 
 	// //////////////////////////////////////////////////////////////
@@ -27,24 +27,21 @@ public class ContractRegistry
 	/**
 	 * Convenience for <code>toClass(base, contract).newInstance()<code>.
 	 */
-	public static Obj toObj(Class<?> base, Contract contract)
-	{
-		try
-		{
+	public static Obj toObj(Class<?> base, Contract contract) {
+		try {
 			return (Obj) toClass(base, contract).newInstance();
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.toString());
 		}
 	}
 
 	/**
-	 * Lookup a Class which best supports the specified contract (set of URIs). The returned class will be subclassed from base and implement any interfaces registered for URIs in the specified contract list.
+	 * Lookup a Class which best supports the specified contract (set of URIs).
+	 * The returned class will be subclassed from base and implement any
+	 * interfaces registered for URIs in the specified contract list.
 	 */
-	public static Class<?> toClass(Class<?> base, Contract contract)
-	{
+	public static Class<?> toClass(Class<?> base, Contract contract) {
 		// short circuit if contract is null/empty; we also
 		// never created "typed" version of Ref because it
 		// would be confusing (consider the Lobby.about Ref
@@ -68,47 +65,42 @@ public class ContractRegistry
 
 		// if we didn't find a class, then try to compile
 		// one for this contract list
-		try
-		{
+		try {
 			cls = compile(base, contract);
-			if (cls == null)
-			{
+			if (cls == null) {
 				cache.put(key, NotFound);
 				return base;
 			}
 
 			cache.put(key, cls);
 			return cls;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new RuntimeException("Cannot compile contract: " + key, e);
 		}
 	}
 
 	/**
-	 * Search for a registered interface for each URI in the contract list. Then dynamically assemble the bytecode for a class which implements all the interfaces.
+	 * Search for a registered interface for each URI in the contract list. Then
+	 * dynamically assemble the bytecode for a class which implements all the
+	 * interfaces.
 	 */
-	private static Class<?> compile(Class<?> base, Contract contract) throws Exception
-	{
+	private static Class<?> compile(Class<?> base, Contract contract) throws Exception {
 		// try to map each URI in the contract list to an interface
 		Uri[] list = contract.list();
 		ArrayList<Class<?>> acc = new ArrayList<Class<?>>();
-		for (int i = 0; i < list.length; ++i)
-		{
+		for (int i = 0; i < list.length; ++i) {
 			// check for Java interface
 			Class<?> cls = loader.getClass(list[i]);
-			if (cls != null)
-			{
+			if (cls != null) {
 				acc.add(cls);
 			}
 
 			// check for base like obix:int
 			String baseClassName = (String) baseContracts.get(list[i].get());
-			if (baseClassName != null)
-			{
+			if (baseClassName != null) {
 				if (base != Obj.class && !base.getName().equals(baseClassName))
-					throw new IllegalArgumentException("Base conflicts with contract: " + base.getName() + " and " + list[i].get());
+					throw new IllegalArgumentException(
+							"Base conflicts with contract: " + base.getName() + " and " + list[i].get());
 				base = Class.forName(baseClassName);
 			}
 		}
@@ -120,26 +112,23 @@ public class ContractRegistry
 
 		// compile a class
 		Class<?> cls = ObixAssembler.compile(base, interfaces);
-		
+
 		return cls;
 	}
 
 	/**
 	 * Convenience for <code>put(new Uri(href), className)</code>.
 	 */
-	public static void put(String href, String className)
-	{
+	public static void put(String href, String className) {
 		put(new Uri(href), className);
 	}
 
 	/**
 	 * Register a subclass of Obj for the specified contract uri.
 	 */
-	public static void put(Uri href, String className)
-	{
+	public static void put(Uri href, String className) {
 		String mappedClassName = map.get(href.get());
-		if (mappedClassName != null)
-		{ // already defined
+		if (mappedClassName != null) { // already defined
 			if (!mappedClassName.equals(className))
 				log.warning("Tried to redefine contract " + href + " (" + mappedClassName + ") to " + className);
 			return;
@@ -152,21 +141,18 @@ public class ContractRegistry
 	/**
 	 * Convenience for <code>put(new Uri(href), loadedClass)</code>.
 	 */
-	public static void put(String href, Class<?> loadedClass)
-	{
+	public static void put(String href, Class<?> loadedClass) {
 		loader.put(href, loadedClass);
 	}
 
 	/**
 	 * Register a subclass of Obj for the specified contract uri.
 	 */
-	public static void put(Uri href, Class<?> loadedClass)
-	{
+	public static void put(Uri href, Class<?> loadedClass) {
 		loader.put(href, loadedClass);
 	}
 
-	public static ClassLoader getContractClassLoader()
-	{
+	public static ClassLoader getContractClassLoader() {
 		return loader;
 	}
 
@@ -189,8 +175,7 @@ public class ContractRegistry
 	static Class<?> NotFound = ContractRegistry.class;
 
 	static HashMap<String, String> baseContracts = new HashMap<String, String>();
-	static
-	{
+	static {
 		baseContracts.put("obix:obj", "obix.Obj");
 		baseContracts.put("obix:bool", "obix.Bool");
 		baseContracts.put("obix:int", "obix.Int");
@@ -210,17 +195,14 @@ public class ContractRegistry
 
 	}
 
-	public static void buildReverseMap()
-	{
+	public static void buildReverseMap() {
 		reverseMap = new HashMap<Object, Object>();
 
 		// build reverse map
-		for (Object contract : baseContracts.keySet())
-		{
+		for (Object contract : baseContracts.keySet()) {
 			reverseMap.put(baseContracts.get(contract), contract);
 		}
-		for (Object contract : map.keySet())
-		{
+		for (Object contract : map.keySet()) {
 			reverseMap.put(map.get(contract), contract);
 		}
 
@@ -229,17 +211,14 @@ public class ContractRegistry
 	/**
 	 * @author Markus Jung
 	 */
-	public static Contract lookupContract(Class<?> clazz)
-	{
+	public static Contract lookupContract(Class<?> clazz) {
 		// tries to lookup a contract for a class
 
 		boolean found = false;
 
 		Class<?> curClazz = clazz;
-		while (curClazz.getSuperclass() != null && !found)
-		{
-			if (reverseMap.containsKey(curClazz.getName()))
-			{
+		while (curClazz.getSuperclass() != null && !found) {
+			if (reverseMap.containsKey(curClazz.getName())) {
 				found = true;
 				return new Contract((String) reverseMap.get(curClazz.getName()));
 			}
@@ -247,10 +226,8 @@ public class ContractRegistry
 			Class<?>[] interfaces = curClazz.getInterfaces();
 
 			// TODO: obix object could have multiple contracts ...
-			for (Class<?> interf : interfaces)
-			{
-				if (reverseMap.containsKey(interf.getName()))
-				{
+			for (Class<?> interf : interfaces) {
+				if (reverseMap.containsKey(interf.getName())) {
 					found = true;
 					return new Contract((String) reverseMap.get(interf.getName()));
 				}
@@ -261,33 +238,27 @@ public class ContractRegistry
 		return new Contract("obix:obj");
 	}
 
-	private static class ContractClassLoader extends ClassLoader
-	{
-		public ContractClassLoader()
-		{
+	private static class ContractClassLoader extends ClassLoader {
+		public ContractClassLoader() {
 			super(ContractClassLoader.class.getClassLoader());
 		}
 
-		public void put(String href, Class<?> loadedClass)
-		{
+		public void put(String href, Class<?> loadedClass) {
 			put(new Uri(href), loadedClass);
 		}
 
-		public void put(Uri href, Class<?> loadedClass)
-		{
+		public void put(Uri href, Class<?> loadedClass) {
 			ContractRegistry.put(href, loadedClass.getName());
 			classMap.put(loadedClass.getName(), loadedClass);
 		}
 
-		public Class<?> getClass(Uri uri) throws Exception
-		{
+		public Class<?> getClass(Uri uri) throws Exception {
 			String className = (String) map.get(uri.get());
 
 			return (className == null) ? null : loadClass(className);
 		}
 
-		protected Class<?> findClass(String name) throws ClassNotFoundException
-		{
+		protected Class<?> findClass(String name) throws ClassNotFoundException {
 			Class<?> result = (Class<?>) classMap.get(name);
 			return (result == null) ? super.findClass(name) : result;
 		}

@@ -1,59 +1,56 @@
 /*
  * This code licensed to public domain
  */
-package obix.ui.fields;  
+package obix.ui.fields;
 
-import java.awt.*;
-import javax.swing.*;
-import obix.*;
-import obix.ui.*;  
+import java.awt.BorderLayout;
+
+import javax.swing.JTextField;
+
+import obix.Obj;
+import obix.Real;
+import obix.ui.ObjField;
 
 /**
  * RealField
  *
- * @author    Brian Frank
- * @creation  26 Sept 05
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @creation 26 Sept 05
+ * @version $Revision$ $Date$
  */
-public class RealField
-  extends ObjField
-{                   
+public class RealField extends ObjField {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Constructor
+	////////////////////////////////////////////////////////////////
 
-  public RealField()
-  {
-    add(textField, BorderLayout.CENTER);
-    registerForChanged(textField);
-  }
+	public RealField() {
+		add(textField, BorderLayout.CENTER);
+		registerForChanged(textField);
+	}
 
-////////////////////////////////////////////////////////////////
-// Methods
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
 
-  protected void doSetEditable(boolean editable)
-  { 
-    textField.setEditable(editable);
-  }
+	protected void doSetEditable(boolean editable) {
+		textField.setEditable(editable);
+	}
 
-  protected void doLoad(Obj val)
-  {                       
-    Real v = (Real)val;   
-    textField.setText(String.valueOf(v.get()));
-  }
-  
-  protected void doSave(Obj val)
-  {              
-    Real v = (Real)val;   
-    v.set(Double.parseDouble(textField.getText()));
-  }
+	protected void doLoad(Obj val) {
+		Real v = (Real) val;
+		textField.setText(String.valueOf(v.get()));
+	}
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+	protected void doSave(Obj val) {
+		Real v = (Real) val;
+		v.set(Double.parseDouble(textField.getText()));
+	}
 
-  JTextField textField = new JTextField("", 25);
- 
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	JTextField textField = new JTextField("", 25);
+
 }

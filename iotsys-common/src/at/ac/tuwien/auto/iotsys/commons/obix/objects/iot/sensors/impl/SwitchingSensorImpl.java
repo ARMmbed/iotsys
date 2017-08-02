@@ -37,11 +37,10 @@ import obix.Contract;
 import obix.Obj;
 import obix.Uri;
 
-
-public class SwitchingSensorImpl extends SensorImpl implements SwitchingSensor{
+public class SwitchingSensorImpl extends SensorImpl implements SwitchingSensor {
 	protected Bool switchOnOffValue = new Bool(false);
-	
-	public SwitchingSensorImpl(){
+
+	public SwitchingSensorImpl() {
 		setIs(new Contract(SwitchingSensor.CONTRACT));
 		switchOnOffValue.setWritable(false);
 		Uri valueUri = new Uri(SwitchingSensor.SWITCH_ON_OFF_VALUE_HREF);
@@ -49,9 +48,9 @@ public class SwitchingSensorImpl extends SensorImpl implements SwitchingSensor{
 		switchOnOffValue.setName(SwitchingSensor.SWITCH_ON_OFF_VALUE_NAME);
 		add(switchOnOffValue);
 	}
-	
-	public void writeObject(Obj input){
-		// A write on this object was received		
+
+	public void writeObject(Obj input) {
+		// A write on this object was received
 	}
 
 	@Override

@@ -59,19 +59,18 @@ import obix.Str;
 import obix.io.ObixEncoder;
 
 /**
- * The EXIEncoder directly creates EXI encoded data for oBIX object, without the intermediate transformation to XML.
- * This works only for a selected number of basic oBIX object types.
+ * The EXIEncoder directly creates EXI encoded data for oBIX object, without the
+ * intermediate transformation to XML. This works only for a selected number of
+ * basic oBIX object types.
  */
 public class EXIEncoder {
 	private static GrammarCache schemaGrammarCache;
 	private static GrammarCache defaultGrammarCache;
 
 	private static final EXIEncoder instance = new EXIEncoder();
-	
+
 	private Transmogrifier schemaTransmogrifier;
 	private Transmogrifier transmogrifier;
-
-
 
 	public static void main(String[] args) {
 		try {
@@ -85,7 +84,7 @@ public class EXIEncoder {
 			System.out.println("decoded: " + decodeEXI);
 			Obj obj = EXIDecoder.getInstance().fromBytes(encodeEXI, true);
 			System.out.println("decoded obj: " + obj);
-			
+
 			Int i = new Int(58);
 			encodeEXI = getInstance().toBytes(i, true);
 			xml = "<int val=\"58\"/>";
@@ -96,7 +95,7 @@ public class EXIEncoder {
 			System.out.println("decoded: " + decodeEXI);
 			obj = EXIDecoder.getInstance().fromBytes(encodeEXI, true);
 			System.out.println("decoded obj: " + obj);
-			
+
 			Real real = new Real(58.12);
 			encodeEXI = getInstance().toBytes(real, true);
 			xml = "<real val=\"58.12\"/>";
@@ -107,11 +106,10 @@ public class EXIEncoder {
 			System.out.println("decoded: " + decodeEXI);
 			obj = EXIDecoder.getInstance().fromBytes(encodeEXI, true);
 			System.out.println("decoded obj: " + obj);
-			
+
 			xml = "<str val=\"hello world\"/>";
 			Str str = new Str("hello world");
 			encodeEXI = getInstance().toBytes(str, true);
-
 
 			System.out.println(new String(xml));
 			System.out.println("xml " + xml.getBytes().length);
@@ -120,8 +118,7 @@ public class EXIEncoder {
 			System.out.println("decoded: " + decodeEXI);
 			obj = EXIDecoder.getInstance().fromBytes(encodeEXI, true);
 			System.out.println("decoded obj: " + obj);
-			
-			
+
 		} catch (TransmogrifierException e) {
 			e.printStackTrace();
 		} catch (EXIOptionsException e) {
@@ -160,12 +157,11 @@ public class EXIEncoder {
 			// fall back to default grammarCache
 			schemaGrammarCache = defaultGrammarCache;
 		}
-		
 
 		try {
 			schemaTransmogrifier = new Transmogrifier();
 			schemaTransmogrifier.setEXISchema(schemaGrammarCache);
-			
+
 			transmogrifier = new Transmogrifier();
 			transmogrifier.setEXISchema(defaultGrammarCache);
 		} catch (TransmogrifierException e) {
@@ -174,14 +170,12 @@ public class EXIEncoder {
 		} catch (EXIOptionsException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-	
+		}
 
 	}
 
 	public byte[] toBytes(Obj obj, boolean useEXISchema)
-			throws EXIOptionsException, IOException, TransmogrifierException,
-			SAXException {
+			throws EXIOptionsException, IOException, TransmogrifierException, SAXException {
 
 		ByteArrayOutputStream outBytes = new ByteArrayOutputStream();
 
@@ -195,224 +189,170 @@ public class EXIEncoder {
 
 		transmogrifier.setOutputStream(outBytes);
 
-		SAXTransmogrifier saxTransmogrifier = transmogrifier
-				.getSAXTransmogrifier();
+		SAXTransmogrifier saxTransmogrifier = transmogrifier.getSAXTransmogrifier();
 
 		saxTransmogrifier.startDocument();
-		saxTransmogrifier.startPrefixMapping("xml",
-				"http://www.w3.org/XML/1998/namespace");
-		saxTransmogrifier.startPrefixMapping("xsi",
-				"http://www.w3.org/2001/XMLSchema-instance");
-		saxTransmogrifier.startPrefixMapping("xsd",
-				"http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
-		saxTransmogrifier.startPrefixMapping("obix",
-				"http://obix.org/ns/schema/1.1");
+		saxTransmogrifier.startPrefixMapping("xml", "http://www.w3.org/XML/1998/namespace");
+		saxTransmogrifier.startPrefixMapping("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		saxTransmogrifier.startPrefixMapping("xsd", "http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
+		saxTransmogrifier.startPrefixMapping("obix", "http://obix.org/ns/schema/1.1");
 
-		if(obj instanceof Bool){
+		if (obj instanceof Bool) {
 			Bool bool = (Bool) obj;
 			AttributesImpl atts = new AttributesImpl();
 			atts.addAttribute("", "val", "val", "", "" + bool.get());
-			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "bool",
-					"obix:bool", atts);
-			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "bool",
-					"obix:bool");
+			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "bool", "obix:bool", atts);
+			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "bool", "obix:bool");
 			saxTransmogrifier.endDocument();
-		}
-		else if(obj instanceof Int){
+		} else if (obj instanceof Int) {
 			Int i = (Int) obj;
 			AttributesImpl atts = new AttributesImpl();
 			atts.addAttribute("", "val", "val", "", "" + i.get());
-			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "int",
-					"obix:int", atts);
-			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "int",
-					"obix:int");
+			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "int", "obix:int", atts);
+			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "int", "obix:int");
 			saxTransmogrifier.endDocument();
-		} else if(obj instanceof Real){
+		} else if (obj instanceof Real) {
 			Real real = (Real) obj;
 			AttributesImpl atts = new AttributesImpl();
 			atts.addAttribute("", "val", "val", "", "" + real.get());
-			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "real",
-					"obix:real", atts);
-			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "real",
-					"obix:real");
+			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "real", "obix:real", atts);
+			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "real", "obix:real");
 			saxTransmogrifier.endDocument();
-		} else if(obj instanceof Str){
+		} else if (obj instanceof Str) {
 			Str str = (Str) obj;
 			AttributesImpl atts = new AttributesImpl();
 			atts.addAttribute("", "val", "val", "", "" + str.get());
-			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "str",
-					"obix:str", atts);
-			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "str",
-					"obix:str");
+			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "str", "obix:str", atts);
+			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "str", "obix:str");
 			saxTransmogrifier.endDocument();
-		} else{ // Not supported
+		} else { // Not supported
 			AttributesImpl atts = new AttributesImpl();
 			atts.addAttribute("", "display", "display", "", "EXI encoding not supported for this object.");
-			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "err",
-					"obix:err", atts);
-			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "err",
-					"obix:err");
+			saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "err", "obix:err", atts);
+			saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "err", "obix:err");
 			saxTransmogrifier.endDocument();
 		}
 
 		return outBytes.toByteArray();
 	}
-	
+
 	public synchronized byte[] toBytes(Bool bool, boolean useEXISchema)
-			throws EXIOptionsException, IOException, TransmogrifierException,
-			SAXException {
+			throws EXIOptionsException, IOException, TransmogrifierException, SAXException {
 
 		ByteArrayOutputStream outBytes = new ByteArrayOutputStream();
-		Transmogrifier transmogrifier; 
-		if(useEXISchema){
+		Transmogrifier transmogrifier;
+		if (useEXISchema) {
 			transmogrifier = schemaTransmogrifier;
-		}
-		else{
+		} else {
 			transmogrifier = this.transmogrifier;
 		}
 		transmogrifier.setOutputStream(outBytes);
 
-		SAXTransmogrifier saxTransmogrifier = transmogrifier
-				.getSAXTransmogrifier();
+		SAXTransmogrifier saxTransmogrifier = transmogrifier.getSAXTransmogrifier();
 
 		saxTransmogrifier.startDocument();
-		saxTransmogrifier.startPrefixMapping("xml",
-				"http://www.w3.org/XML/1998/namespace");
-		saxTransmogrifier.startPrefixMapping("xsi",
-				"http://www.w3.org/2001/XMLSchema-instance");
-		saxTransmogrifier.startPrefixMapping("xsd",
-				"http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
-		saxTransmogrifier.startPrefixMapping("obix",
-				"http://obix.org/ns/schema/1.1");
+		saxTransmogrifier.startPrefixMapping("xml", "http://www.w3.org/XML/1998/namespace");
+		saxTransmogrifier.startPrefixMapping("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		saxTransmogrifier.startPrefixMapping("xsd", "http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
+		saxTransmogrifier.startPrefixMapping("obix", "http://obix.org/ns/schema/1.1");
 
-		
 		AttributesImpl atts = new AttributesImpl();
 		atts.addAttribute("", "val", "val", "", "" + bool.get());
-		saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "bool",
-					"obix:bool", atts);
-		saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "bool",
-					"obix:bool");
+		saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "bool", "obix:bool", atts);
+		saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "bool", "obix:bool");
 		saxTransmogrifier.endDocument();
 
 		return outBytes.toByteArray();
 	}
-	
+
 	public synchronized byte[] toBytes(Int i, boolean useEXISchema)
-			throws EXIOptionsException, IOException, TransmogrifierException,
-			SAXException {
+			throws EXIOptionsException, IOException, TransmogrifierException, SAXException {
 
 		ByteArrayOutputStream outBytes = new ByteArrayOutputStream();
-		Transmogrifier transmogrifier; 
-		if(useEXISchema){
+		Transmogrifier transmogrifier;
+		if (useEXISchema) {
 			transmogrifier = schemaTransmogrifier;
-		}
-		else{
+		} else {
 			transmogrifier = this.transmogrifier;
 		}
 		transmogrifier.setOutputStream(outBytes);
 
-		SAXTransmogrifier saxTransmogrifier = transmogrifier
-				.getSAXTransmogrifier();
+		SAXTransmogrifier saxTransmogrifier = transmogrifier.getSAXTransmogrifier();
 
 		saxTransmogrifier.startDocument();
-		saxTransmogrifier.startPrefixMapping("xml",
-				"http://www.w3.org/XML/1998/namespace");
-		saxTransmogrifier.startPrefixMapping("xsi",
-				"http://www.w3.org/2001/XMLSchema-instance");
-		saxTransmogrifier.startPrefixMapping("xsd",
-				"http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
-		saxTransmogrifier.startPrefixMapping("obix",
-				"http://obix.org/ns/schema/1.1");
+		saxTransmogrifier.startPrefixMapping("xml", "http://www.w3.org/XML/1998/namespace");
+		saxTransmogrifier.startPrefixMapping("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		saxTransmogrifier.startPrefixMapping("xsd", "http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
+		saxTransmogrifier.startPrefixMapping("obix", "http://obix.org/ns/schema/1.1");
 
-		
 		AttributesImpl atts = new AttributesImpl();
 		atts.addAttribute("", "val", "val", "", "" + i.get());
-		saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "int",
-				"obix:int", atts);
-		saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "int",
-				"obix:int");
+		saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "int", "obix:int", atts);
+		saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "int", "obix:int");
 		saxTransmogrifier.endDocument();
 
 		return outBytes.toByteArray();
 	}
-	
+
 	public synchronized byte[] toBytes(Real real, boolean useEXISchema)
-			throws EXIOptionsException, IOException, TransmogrifierException,
-			SAXException {
+			throws EXIOptionsException, IOException, TransmogrifierException, SAXException {
 
 		ByteArrayOutputStream outBytes = new ByteArrayOutputStream();
-		Transmogrifier transmogrifier; 
-		if(useEXISchema){
+		Transmogrifier transmogrifier;
+		if (useEXISchema) {
 			transmogrifier = schemaTransmogrifier;
-		}
-		else{
+		} else {
 			transmogrifier = this.transmogrifier;
 		}
 		transmogrifier.setOutputStream(outBytes);
 
-		SAXTransmogrifier saxTransmogrifier = transmogrifier
-				.getSAXTransmogrifier();
+		SAXTransmogrifier saxTransmogrifier = transmogrifier.getSAXTransmogrifier();
 
 		saxTransmogrifier.startDocument();
-		saxTransmogrifier.startPrefixMapping("xml",
-				"http://www.w3.org/XML/1998/namespace");
-		saxTransmogrifier.startPrefixMapping("xsi",
-				"http://www.w3.org/2001/XMLSchema-instance");
-		saxTransmogrifier.startPrefixMapping("xsd",
-				"http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
-		saxTransmogrifier.startPrefixMapping("obix",
-				"http://obix.org/ns/schema/1.1");
+		saxTransmogrifier.startPrefixMapping("xml", "http://www.w3.org/XML/1998/namespace");
+		saxTransmogrifier.startPrefixMapping("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		saxTransmogrifier.startPrefixMapping("xsd", "http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
+		saxTransmogrifier.startPrefixMapping("obix", "http://obix.org/ns/schema/1.1");
 
-		
 		AttributesImpl atts = new AttributesImpl();
 		atts.addAttribute("", "val", "val", "", "" + real.get());
-		saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "real",
-				"obix:real", atts);
-		saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "real",
-				"obix:real");
+		saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "real", "obix:real", atts);
+		saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "real", "obix:real");
 		saxTransmogrifier.endDocument();
 
 		return outBytes.toByteArray();
 	}
-	
+
 	public synchronized byte[] toBytes(Str str, boolean useEXISchema)
-			throws EXIOptionsException, IOException, TransmogrifierException,
-			SAXException {
+			throws EXIOptionsException, IOException, TransmogrifierException, SAXException {
 
 		ByteArrayOutputStream outBytes = new ByteArrayOutputStream();
-		Transmogrifier transmogrifier; 
-		if(useEXISchema){
+		Transmogrifier transmogrifier;
+		if (useEXISchema) {
 			transmogrifier = schemaTransmogrifier;
-		}
-		else{
+		} else {
 			transmogrifier = this.transmogrifier;
 		}
 		transmogrifier.setOutputStream(outBytes);
 
-		SAXTransmogrifier saxTransmogrifier = transmogrifier
-				.getSAXTransmogrifier();
+		SAXTransmogrifier saxTransmogrifier = transmogrifier.getSAXTransmogrifier();
 
 		saxTransmogrifier.startDocument();
-		saxTransmogrifier.startPrefixMapping("xml",
-				"http://www.w3.org/XML/1998/namespace");
-		saxTransmogrifier.startPrefixMapping("xsi",
-				"http://www.w3.org/2001/XMLSchema-instance");
-		saxTransmogrifier.startPrefixMapping("xsd",
-				"http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
-		saxTransmogrifier.startPrefixMapping("obix",
-				"http://obix.org/ns/schema/1.1");
+		saxTransmogrifier.startPrefixMapping("xml", "http://www.w3.org/XML/1998/namespace");
+		saxTransmogrifier.startPrefixMapping("xsi", "http://www.w3.org/2001/XMLSchema-instance");
+		saxTransmogrifier.startPrefixMapping("xsd", "http://www.w3.org/2001/http://www.w3.org/2001/XMLSchema");
+		saxTransmogrifier.startPrefixMapping("obix", "http://obix.org/ns/schema/1.1");
 
 		AttributesImpl atts = new AttributesImpl();
 		atts.addAttribute("", "val", "val", "", "" + str.get());
-		saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "str",
-				"obix:str", atts);
-		saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "str",
-				"obix:str");
+		saxTransmogrifier.startElement("http://obix.org/ns/schema/1.1", "str", "obix:str", atts);
+		saxTransmogrifier.endElement("http://obix.org/ns/schema/1.1", "str", "obix:str");
 		saxTransmogrifier.endDocument();
 
 		return outBytes.toByteArray();
 	}
-	public static EXIEncoder getInstance(){
+
+	public static EXIEncoder getInstance() {
 		return instance;
 	}
 }

@@ -1,6 +1,6 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
 
 /**
  * Read
@@ -9,7 +9,6 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface Read extends IObj
-{
+public interface Read extends IObj {
 	public static final String CONTRACT = "obix:Read";
 }

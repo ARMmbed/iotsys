@@ -27,38 +27,38 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
 /**
  * A {@link CacheObject} used for holding a list of {@link CEMILData} frames.
  * <p>
- * A KNX address is specified on creation, which will be used to generate the cache object
- * key. A LDataObjectQueue is used for frames having all the same key like the one
- * supplied on creation of a new queue. For each frame inserted into the queue, its own
- * timestamp will get stored.<br>
+ * A KNX address is specified on creation, which will be used to generate the
+ * cache object key. A LDataObjectQueue is used for frames having all the same
+ * key like the one supplied on creation of a new queue. For each frame inserted
+ * into the queue, its own timestamp will get stored.<br>
  * These different queue behaviors are available (optional):<br>
- * A limit might be set for the maximum size of the queue. Reading of the queue can be
- * consuming, i.e. a frame and its timestamp is removed after reading the frame. With a
- * maximum queue size set, overwriting of old frames (according to insertion order) can be
- * enabled, to allow storing a new frame when the queue got filled up by removing the
- * oldest frames (i.e. a ring buffer).<br>
+ * A limit might be set for the maximum size of the queue. Reading of the queue
+ * can be consuming, i.e. a frame and its timestamp is removed after reading the
+ * frame. With a maximum queue size set, overwriting of old frames (according to
+ * insertion order) can be enabled, to allow storing a new frame when the queue
+ * got filled up by removing the oldest frames (i.e. a ring buffer).<br>
  * 
  * @author B. Malinowsky
  */
-public class LDataObjectQueue extends LDataObject
-{
+public class LDataObjectQueue extends LDataObject {
 	/**
-	 * Represents an item in the queue, holding one L-Data frame and its timestamp.
+	 * Represents an item in the queue, holding one L-Data frame and its
+	 * timestamp.
 	 * <p>
 	 */
-	public static final class QueueItem
-	{
+	public static final class QueueItem {
 		private final CEMILData f;
 		private final long ts;
 
 		/**
 		 * Creates a new QueueItem.
 		 * 
-		 * @param frame item L-Data frame
-		 * @param timestamp item timestamp
+		 * @param frame
+		 *            item L-Data frame
+		 * @param timestamp
+		 *            item timestamp
 		 */
-		public QueueItem(CEMILData frame, long timestamp)
-		{
+		public QueueItem(CEMILData frame, long timestamp) {
 			f = frame;
 			ts = timestamp;
 		}
@@ -69,8 +69,7 @@ public class LDataObjectQueue extends LDataObject
 		 * 
 		 * @return timestamp as long
 		 */
-		public long getTimestamp()
-		{
+		public long getTimestamp() {
 			return ts;
 		}
 
@@ -80,8 +79,7 @@ public class LDataObjectQueue extends LDataObject
 		 * 
 		 * @return L-Data frame
 		 */
-		public CEMILData getFrame()
-		{
+		public CEMILData getFrame() {
 			return f;
 		}
 	}
@@ -89,19 +87,19 @@ public class LDataObjectQueue extends LDataObject
 	/**
 	 * Listener for queue events.
 	 * <p>
-	 * A notification callback is invoked synchronized with the event source, so the
-	 * listener will have a consistent view of the queue during that time, allowing to
-	 * take appropriate actions. During the callback no concurrent changes to the queue
-	 * object are possible.
+	 * A notification callback is invoked synchronized with the event source, so
+	 * the listener will have a consistent view of the queue during that time,
+	 * allowing to take appropriate actions. During the callback no concurrent
+	 * changes to the queue object are possible.
 	 */
-	public static interface QueueListener
-	{
+	public static interface QueueListener {
 		/**
-		 * Called on a full queue. A notification is sent only once every time a queue got
-		 * filled up. In other words, no notifying is done by an already full queue on
-		 * receiving another frame.
+		 * Called on a full queue. A notification is sent only once every time a
+		 * queue got filled up. In other words, no notifying is done by an
+		 * already full queue on receiving another frame.
 		 * 
-		 * @param queue event source, the queue which reached its maximum size
+		 * @param queue
+		 *            event source, the queue which reached its maximum size
 		 */
 		void queueFilled(LDataObjectQueue queue);
 	}
@@ -122,11 +120,11 @@ public class LDataObjectQueue extends LDataObject
 	 * <p>
 	 * There is no limit on the queue size used.
 	 * 
-	 * @param addr KNX address to create the queue for, this address is used to generate
-	 *        the cache object key
+	 * @param addr
+	 *            KNX address to create the queue for, this address is used to
+	 *            generate the cache object key
 	 */
-	public LDataObjectQueue(GroupAddress addr)
-	{
+	public LDataObjectQueue(GroupAddress addr) {
 		this(addr, false);
 	}
 
@@ -135,14 +133,16 @@ public class LDataObjectQueue extends LDataObject
 	 * <p>
 	 * There is no limit on the queue size used.
 	 * 
-	 * @param addr KNX address to create the queue for, this address is used to generate
-	 *        the cache object key
-	 * @param consumingRead set <code>true</code> to remove a frame from the queue the
-	 *        first time it gets requested for read (i.e. returned by a frame getter
-	 *        method), <code>false</code> to leave it in the queue
+	 * @param addr
+	 *            KNX address to create the queue for, this address is used to
+	 *            generate the cache object key
+	 * @param consumingRead
+	 *            set <code>true</code> to remove a frame from the queue the
+	 *            first time it gets requested for read (i.e. returned by a
+	 *            frame getter method), <code>false</code> to leave it in the
+	 *            queue
 	 */
-	public LDataObjectQueue(GroupAddress addr, boolean consumingRead)
-	{
+	public LDataObjectQueue(GroupAddress addr, boolean consumingRead) {
 		super(addr, new CEMILData[STD_BUFSIZE]);
 		timestamps = new long[STD_BUFSIZE];
 		consuming = consumingRead;
@@ -152,26 +152,32 @@ public class LDataObjectQueue extends LDataObject
 	}
 
 	/**
-	 * Creates a new LDataObjectQueue for KNX address <code>addr</code> with a fixed
-	 * maximum queue size.
+	 * Creates a new LDataObjectQueue for KNX address <code>addr</code> with a
+	 * fixed maximum queue size.
 	 * <p>
 	 * 
-	 * @param addr KNX address to create the queue for, this address is used to generate
-	 *        the cache object key
-	 * @param consumingRead set <code>true</code> to remove a frame from the queue the
-	 *        first time it gets requested for read (i.e. returned by a frame getter
-	 *        method), <code>false</code> to leave it in the queue
-	 * @param maxSize the maximum queue size, i.e. max. number of frames hold by the
-	 *        queue, maxSize has to be > 0
-	 * @param overwrite set <code>true</code> if on full queue a new frame should
-	 *        replace the oldest frame in the queue (i.e. ring buffer semantics),<br>
-	 *        set <code>false</code> if on full queue new frames should be ignored
-	 * @param l sets a queue listener to receive events from this queue, use
-	 *        <code>null</code> if no notifications are required
+	 * @param addr
+	 *            KNX address to create the queue for, this address is used to
+	 *            generate the cache object key
+	 * @param consumingRead
+	 *            set <code>true</code> to remove a frame from the queue the
+	 *            first time it gets requested for read (i.e. returned by a
+	 *            frame getter method), <code>false</code> to leave it in the
+	 *            queue
+	 * @param maxSize
+	 *            the maximum queue size, i.e. max. number of frames hold by the
+	 *            queue, maxSize has to be > 0
+	 * @param overwrite
+	 *            set <code>true</code> if on full queue a new frame should
+	 *            replace the oldest frame in the queue (i.e. ring buffer
+	 *            semantics),<br>
+	 *            set <code>false</code> if on full queue new frames should be
+	 *            ignored
+	 * @param l
+	 *            sets a queue listener to receive events from this queue, use
+	 *            <code>null</code> if no notifications are required
 	 */
-	public LDataObjectQueue(GroupAddress addr, boolean consumingRead, int maxSize,
-		boolean overwrite, QueueListener l)
-	{
+	public LDataObjectQueue(GroupAddress addr, boolean consumingRead, int maxSize, boolean overwrite, QueueListener l) {
 		super(addr, new CEMILData[maxSize]);
 		// maxSize < 0 is already checked at array creation
 		if (maxSize == 0)
@@ -186,12 +192,12 @@ public class LDataObjectQueue extends LDataObject
 	/**
 	 * {@inheritDoc}<br>
 	 * If a maximum size is set and the queue already reached maximum size, if
-	 * {@link #isOverwrite()} evaluates to<br> - <code>true</code>, <code>frame</code>
-	 * will replace the oldest inserted frame<br> - <code>false</code>,
-	 * <code>frame</code> is ignored and not queued.
+	 * {@link #isOverwrite()} evaluates to<br>
+	 * - <code>true</code>, <code>frame</code> will replace the oldest inserted
+	 * frame<br>
+	 * - <code>false</code>, <code>frame</code> is ignored and not queued.
 	 */
-	public synchronized void setFrame(CEMILData frame)
-	{
+	public synchronized void setFrame(CEMILData frame) {
 		if (!frame.getDestination().equals(getKey()))
 			throw new KNXIllegalArgumentException("frame key differs from this key");
 		if (!max)
@@ -201,7 +207,7 @@ public class LDataObjectQueue extends LDataObject
 		final CEMILData[] c = (CEMILData[]) value;
 		// notify on first time queue fills up
 		final boolean notifyListener = max && size == c.length - 1;
-	
+
 		resetTimestamp();
 		c[next] = frame;
 		timestamps[next] = getTimestamp();
@@ -214,11 +220,11 @@ public class LDataObjectQueue extends LDataObject
 	}
 
 	/**
-	 * {@inheritDoc} Frames are returned in insertion order. If consuming read behavior is
-	 * enabled, the frame will be removed from the queue before return.
+	 * {@inheritDoc} Frames are returned in insertion order. If consuming read
+	 * behavior is enabled, the frame will be removed from the queue before
+	 * return.
 	 */
-	public synchronized CEMILData getFrame()
-	{
+	public synchronized CEMILData getFrame() {
 		final CEMILData[] c = (CEMILData[]) value;
 		final int first = first();
 		final CEMILData f = c[first];
@@ -239,22 +245,21 @@ public class LDataObjectQueue extends LDataObject
 	 * 
 	 * @return the queue as CEMILData array
 	 */
-	public Object getValue()
-	{
+	public Object getValue() {
 		return getFrames();
 	}
 
 	/**
 	 * Returns the next queued item in insertion order.
 	 * <p>
-	 * The item consists of the L-Data frame and its associated timestamp. This method
-	 * behaves equal to {@link #getFrame()} with respect to queueing behavior.<br>
+	 * The item consists of the L-Data frame and its associated timestamp. This
+	 * method behaves equal to {@link #getFrame()} with respect to queueing
+	 * behavior.<br>
 	 * If the queue is empty, an empty QueueItem is returned.
 	 * 
 	 * @return queued item as QueueItem object
 	 */
-	public synchronized QueueItem getItem()
-	{
+	public synchronized QueueItem getItem() {
 		final long ts = timestamps[first()];
 		return new QueueItem(getFrame(), ts);
 	}
@@ -262,16 +267,15 @@ public class LDataObjectQueue extends LDataObject
 	/**
 	 * Returns all L-Data frames currently hold by the queue.
 	 * <p>
-	 * The frames are returned in insertion order. If consuming read behavior is enabled,
-	 * the internal queue buffer is cleared before return.<br>
-	 * Note that on consuming read the associated timestamps of the frames will be
-	 * cleared, too, before return of this method. In order to obtain the timestamps,
-	 * {@link #getTimestamps()} has to be called at first.
+	 * The frames are returned in insertion order. If consuming read behavior is
+	 * enabled, the internal queue buffer is cleared before return.<br>
+	 * Note that on consuming read the associated timestamps of the frames will
+	 * be cleared, too, before return of this method. In order to obtain the
+	 * timestamps, {@link #getTimestamps()} has to be called at first.
 	 * 
 	 * @return the frame queue as CEMILData array
 	 */
-	public final synchronized CEMILData[] getFrames()
-	{
+	public final synchronized CEMILData[] getFrames() {
 		final CEMILData[] buf = new CEMILData[size];
 		final CEMILData[] c = (CEMILData[]) value;
 		copyFifo(c, buf);
@@ -283,21 +287,21 @@ public class LDataObjectQueue extends LDataObject
 	/**
 	 * Returns the timestamps of the frames hold by the queue.
 	 * <p>
-	 * The timestamps are returned in insertion order of the associated frames.<br>
+	 * The timestamps are returned in insertion order of the associated
+	 * frames.<br>
 	 * This means, if no {@link #setFrame(CEMILData)} is called in between,<br>
 	 * <ul>
-	 * <li> {@link #getTimestamps()}[i] belongs to {@link #getFrames()}[i], where 0 <= i <
-	 * {@link #getSize()}</li>
+	 * <li>{@link #getTimestamps()}[i] belongs to {@link #getFrames()}[i], where
+	 * 0 <= i < {@link #getSize()}</li>
 	 * <li>{@link #getTimestamps()}.length == {@link #getFrames()}.length</li>.
 	 * </ul>
-	 * Note that on consuming read, reading of timestamps does not trigger any removal of
-	 * frames (see {@link #getFrames()}).
+	 * Note that on consuming read, reading of timestamps does not trigger any
+	 * removal of frames (see {@link #getFrames()}).
 	 * 
 	 * @return the timestamps of all contained frames as array of type long
 	 * @see #getTimestamp()
 	 */
-	public final synchronized long[] getTimestamps()
-	{
+	public final synchronized long[] getTimestamps() {
 		final long[] buf = new long[size];
 		copyFifo(timestamps, buf);
 		return buf;
@@ -311,8 +315,7 @@ public class LDataObjectQueue extends LDataObject
 	 * 
 	 * @return number of frames (timestamps) currently in the queue
 	 */
-	public final synchronized int getSize()
-	{
+	public final synchronized int getSize() {
 		return size;
 	}
 
@@ -320,10 +323,10 @@ public class LDataObjectQueue extends LDataObject
 	 * Returns mode for overwrite used for this queue.
 	 * <p>
 	 * 
-	 * @return <code>true</code> if overwrite is used, <code>false</code> otherwise
+	 * @return <code>true</code> if overwrite is used, <code>false</code>
+	 *         otherwise
 	 */
-	public final boolean isOverwrite()
-	{
+	public final boolean isOverwrite() {
 		return overwrite;
 	}
 
@@ -334,8 +337,7 @@ public class LDataObjectQueue extends LDataObject
 	 * @return <code>true</code> if queued items get consumed on read,
 	 *         <code>false</code> if a read does not modify the queue
 	 */
-	public final boolean isConsuming()
-	{
+	public final boolean isConsuming() {
 		return consuming;
 	}
 
@@ -344,16 +346,14 @@ public class LDataObjectQueue extends LDataObject
 	 * <p>
 	 * The queue will be empty on return.
 	 */
-	public final synchronized void clear()
-	{
+	public final synchronized void clear() {
 		timestamps = new long[max ? timestamps.length : STD_BUFSIZE];
 		value = new CEMILData[timestamps.length];
 		next = 0;
 		size = 0;
 	}
 
-	private void copyFifo(Object src, Object dst)
-	{
+	private void copyFifo(Object src, Object dst) {
 		final int start = first();
 		final int length = Math.min(timestamps.length - start, size);
 		System.arraycopy(src, start, dst, 0, length);
@@ -361,8 +361,7 @@ public class LDataObjectQueue extends LDataObject
 			System.arraycopy(src, 0, dst, length, size - length);
 	}
 
-	private void ensureCapacity()
-	{
+	private void ensureCapacity() {
 		if (size == timestamps.length) {
 			// someone might have an old buffer size of 1...
 			final int newCapacity = size * 3 / 2 + 1;
@@ -378,17 +377,15 @@ public class LDataObjectQueue extends LDataObject
 		}
 	}
 
-	private synchronized void fireQueueFilled()
-	{
+	private synchronized void fireQueueFilled() {
 		if (listener != null)
 			try {
 				listener.queueFilled(this);
+			} catch (final RuntimeException e) {
 			}
-			catch (final RuntimeException e) {}
 	}
 
-	private int first()
-	{
+	private int first() {
 		return (next + timestamps.length - size) % timestamps.length;
 	}
 }

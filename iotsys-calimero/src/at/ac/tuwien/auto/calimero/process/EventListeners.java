@@ -26,48 +26,41 @@ import java.util.List;
 
 import at.ac.tuwien.auto.calimero.log.LogService;
 
-
 /**
  * Internal container for keeping event listeners.
  * <p>
  * 
  * @author B. Malinowsky
  */
-final class EventListeners
-{
+final class EventListeners {
 	private final List listeners = new ArrayList();
 	private List listenersCopy = new ArrayList();
 	private final LogService logger;
 
-	EventListeners(LogService logger)
-	{
+	EventListeners(LogService logger) {
 		this.logger = logger;
 	}
 
-	void add(EventListener l)
-	{
+	void add(EventListener l) {
 		if (l == null)
 			return;
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
 				listenersCopy = new ArrayList(listeners);
-			}
-			else
+			} else
 				logger.warn("event listener already registered");
 		}
 	}
 
-	void remove(EventListener l)
-	{
+	void remove(EventListener l) {
 		synchronized (listeners) {
 			if (listeners.remove(l))
 				listenersCopy = new ArrayList(listeners);
 		}
 	}
 
-	Iterator iterator()
-	{
+	Iterator iterator() {
 		return listenersCopy.iterator();
 	}
 }

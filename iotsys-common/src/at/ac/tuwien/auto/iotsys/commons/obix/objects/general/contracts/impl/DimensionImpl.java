@@ -33,10 +33,8 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl;
 
 import obix.contracts.Dimension;
 
-public class DimensionImpl extends obix.contracts.impl.DimensionImpl implements Dimension
-{
-	public DimensionImpl(int kg, int m, int sec, int K, int A, int mol, int cd)
-	{
+public class DimensionImpl extends obix.contracts.impl.DimensionImpl implements Dimension {
+	public DimensionImpl(int kg, int m, int sec, int K, int A, int mol, int cd) {
 		super(kg, m, sec, K, A, mol, cd);
 
 		this.setName("dimension");

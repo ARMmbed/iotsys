@@ -31,15 +31,13 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.DimensionImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.UnitImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitPpm;
+import obix.Uri;
 
-public class UnitPpmImpl extends UnitImpl implements UnitPpm
-{
-	public UnitPpmImpl()
-	{
+public class UnitPpmImpl extends UnitImpl implements UnitPpm {
+	public UnitPpmImpl() {
 		super("ppm", "parts/million (ppm)", new Uri(UnitPpm.HREF), "ppm", 1, 0, new DimensionImpl(0, 0, 0, 0, 0, 0, 0));
 
 		// Translations

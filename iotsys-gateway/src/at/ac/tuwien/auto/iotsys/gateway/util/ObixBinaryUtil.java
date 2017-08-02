@@ -24,15 +24,14 @@ public class ObixBinaryUtil {
 	}
 
 	public static void encode(String inFile, String outFile) {
-		byte[] binObject = BinObixEncoder.toBytes(ObixDecoder
-				.fromString(readFileAsString(inFile)));
+		byte[] binObject = BinObixEncoder.toBytes(ObixDecoder.fromString(readFileAsString(inFile)));
 		writeByteArrayToFile(outFile, binObject);
 	}
 
 	public static void decode(String inFile, String outFile) {
 		Obj obj = BinObixDecoder.fromBytes(readFileAsBytes(inFile));
 		String obix = ObixEncoder.toString(obj);
-		writeStringToFile(outFile, obix);	
+		writeStringToFile(outFile, obix);
 	}
 
 	private static void writeStringToFile(String outFile, String text) {
@@ -86,12 +85,12 @@ public class ObixBinaryUtil {
 
 	private static byte[] readFileAsBytes(String filename) {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
-		
+
 		InputStream in = null;
 		try {
 			in = new FileInputStream(filename);
 			byte[] buf = new byte[1024];
-		
+
 			while (true) {
 				int r = in.read(buf);
 				if (r == -1) {
@@ -99,7 +98,7 @@ public class ObixBinaryUtil {
 				}
 				out.write(buf, 0, r);
 			}
-		
+
 		} catch (IOException e) {
 
 			e.printStackTrace();

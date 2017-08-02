@@ -2,26 +2,26 @@ package org.opencean.core.packets;
 
 public class RadioPacketRPS extends RadioPacket {
 
-    public static final byte RADIO_TYPE = (byte) 0xF6;
-    private byte dataByte;
+	public static final byte RADIO_TYPE = (byte) 0xF6;
+	private byte dataByte;
 
-    public RadioPacketRPS(RawPacket rawPacket) {
-        super(rawPacket);
-    }
+	public RadioPacketRPS(RawPacket rawPacket) {
+		super(rawPacket);
+	}
 
-    @Override
-    public void parseData() {
-        super.parseData();
-        dataByte = payload.getData()[1];
-    }
+	@Override
+	public void parseData() {
+		super.parseData();
+		dataByte = payload.getData()[1];
+	}
 
-    public byte getDataByte() {
-        return dataByte;
-    }
+	public byte getDataByte() {
+		return dataByte;
+	}
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
+	@Override
+	public String toString() {
+		return super.toString();
+	}
 
 }

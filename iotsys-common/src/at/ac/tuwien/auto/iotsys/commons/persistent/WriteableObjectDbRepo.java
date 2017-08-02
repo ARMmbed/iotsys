@@ -33,8 +33,7 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.models.WriteableObject;
  * @author Nam Giang - zang at kaist dot ac dot kr
  *
  */
-public class WriteableObjectDbRepo extends CouchDbRepositorySupport<WriteableObject> implements
-		WriteableObjectDb {
+public class WriteableObjectDbRepo extends CouchDbRepositorySupport<WriteableObject> implements WriteableObjectDb {
 
 	private static WriteableObjectDbRepo INSTANCE;
 	private List<WriteableObject> writtenObjects;
@@ -45,9 +44,9 @@ public class WriteableObjectDbRepo extends CouchDbRepositorySupport<WriteableObj
 		initStandardDesignDocument();
 		writtenObjects = getPersistedObjects();
 	}
-	
-	public static WriteableObjectDb getInstance(){
-		if (INSTANCE == null){ 
+
+	public static WriteableObjectDb getInstance() {
+		if (INSTANCE == null) {
 			CouchDbConnector db = new StdCouchDbConnector("writableObjects", DbConnection.getCouchInstance());
 			try {
 				INSTANCE = new WriteableObjectDbRepo(db);
@@ -63,7 +62,7 @@ public class WriteableObjectDbRepo extends CouchDbRepositorySupport<WriteableObj
 		WriteableObject wo;
 		try {
 			wo = get(href);
-		} catch (DocumentNotFoundException e){
+		} catch (DocumentNotFoundException e) {
 			wo = new WriteableObject(href);
 		}
 		wo.setDataStream(dataStream);
@@ -82,10 +81,9 @@ public class WriteableObjectDbRepo extends CouchDbRepositorySupport<WriteableObj
 		return result;
 	}
 
-
 	@Override
 	public WriteableObject getPersistedObject(String href) {
-		for (WriteableObject wo : writtenObjects){
+		for (WriteableObject wo : writtenObjects) {
 			if (wo.getHref().equals(href))
 				return wo;
 		}

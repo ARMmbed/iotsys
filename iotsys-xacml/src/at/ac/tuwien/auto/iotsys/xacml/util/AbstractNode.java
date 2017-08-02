@@ -17,11 +17,11 @@ import org.w3c.dom.Element;
 
 public abstract class AbstractNode {
 	public static final String URN_XACML_CONTEXT = "urn:oasis:names:tc:xacml:2.0:context:schema:os";
-	
+
 	public static final String XML_SCHEMA_TYPE_STRING = "http://www.w3.org/2001/XMLSchema#string";
 
 	private String issuer = "IoTSyS";
-	
+
 	public String getIssuer() {
 		return issuer;
 	}
@@ -51,8 +51,7 @@ public abstract class AbstractNode {
 		String out = "";
 		try {
 			transformer = tf.newTransformer();
-			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION,
-					"yes");
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 			if (indent) {
 				transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 				transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");

@@ -32,13 +32,11 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl;
 
-import obix.Contract;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPT_3;
+import obix.Contract;
 
-public abstract class DPT_3_Impl extends DatapointImpl implements DPT_3
-{
-	public DPT_3_Impl(String name, String displayName, String display)
-	{
+public abstract class DPT_3_Impl extends DatapointImpl implements DPT_3 {
+	public DPT_3_Impl(String name, String displayName, String display) {
 		super(name, displayName, display, false, false);
 
 		this.addIs(new Contract(DPT_3.CONTRACT));

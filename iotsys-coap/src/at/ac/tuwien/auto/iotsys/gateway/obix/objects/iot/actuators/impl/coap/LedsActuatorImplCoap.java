@@ -32,20 +32,22 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.coap;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.LedsActuator;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.LedsActuatorImpl;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
+
 //import java.util.logging.Logger;
 
 import ch.ethz.inf.vs.californium.coap.Response;
 import ch.ethz.inf.vs.californium.coap.ResponseHandler;
 import obix.Bool;
 import obix.Obj;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.LedsActuator;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.LedsActuatorImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
 
 public class LedsActuatorImplCoap extends LedsActuatorImpl implements IoTSySDevice {
-	//private static final Logger log = Logger.getLogger(LedsActuatorImplCoap.class.getName());
-	
+	// private static final Logger log =
+	// Logger.getLogger(LedsActuatorImplCoap.class.getName());
+
 	private CoapConnector coapConnector;
 	private String busAddress;
 	private boolean redObserved;
@@ -54,7 +56,8 @@ public class LedsActuatorImplCoap extends LedsActuatorImpl implements IoTSySDevi
 	private boolean shouldObserve;
 	private boolean forwardGroupAddress;
 
-	public LedsActuatorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve, boolean forwardGroupAddress) {
+	public LedsActuatorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve,
+			boolean forwardGroupAddress) {
 		// technology specific initialization
 		this.coapConnector = coapConnector;
 		this.busAddress = busAddress;
@@ -66,36 +69,38 @@ public class LedsActuatorImplCoap extends LedsActuatorImpl implements IoTSySDevi
 	}
 
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
-		if(shouldObserve)
+		if (shouldObserve)
 			addWatchDog();
 	}
-	
-	public void addWatchDog(){
+
+	public void addWatchDog() {
 		coapConnector.createWatchDog(busAddress, LED_BLUE_CONTRACT_HREF, new ResponseHandler() {
-			public void handleResponse(Response response) {	
+			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-				
-				if(payload.equals("") || payload.equals("TooManyObservers")) return;
-				
-				if(payload.startsWith("Added")) {
+
+				if (payload.equals("") || payload.equals("TooManyObservers"))
+					return;
+
+				if (payload.startsWith("Added")) {
 					blueObserved = true;
 					return;
 				}
 				boolean temp = Boolean.parseBoolean(CoapConnector.extractAttribute("bool", "val", payload));
 				LedsActuatorImplCoap.this.blue().set(temp);
 			}
-		});	
-		
+		});
+
 		coapConnector.createWatchDog(busAddress, LED_RED_CONTRACT_HREF, new ResponseHandler() {
-			public void handleResponse(Response response) {	
+			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-				
-				if(payload.equals("") || payload.equals("TooManyObservers")) return;
-				
-				if(payload.startsWith("Added")) {
+
+				if (payload.equals("") || payload.equals("TooManyObservers"))
+					return;
+
+				if (payload.startsWith("Added")) {
 					redObserved = true;
 					return;
 				}
@@ -103,14 +108,15 @@ public class LedsActuatorImplCoap extends LedsActuatorImpl implements IoTSySDevi
 				LedsActuatorImplCoap.this.red().set(temp);
 			}
 		});
-		
+
 		coapConnector.createWatchDog(busAddress, LED_GREEN_CONTRACT_HREF, new ResponseHandler() {
-			public void handleResponse(Response response) {	
+			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-				
-				if(payload.equals("") || payload.equals("TooManyObservers")) return;
-				
-				if(payload.startsWith("Added")) {
+
+				if (payload.equals("") || payload.equals("TooManyObservers"))
+					return;
+
+				if (payload.startsWith("Added")) {
 					greenObserved = true;
 					return;
 				}
@@ -119,20 +125,20 @@ public class LedsActuatorImplCoap extends LedsActuatorImpl implements IoTSySDevi
 			}
 		});
 	}
-	
+
 	@Override
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.	
-		// The base class knows how to update the internal variable and to trigger
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
+		// The base class knows how to update the internal variable and to
+		// trigger
 		// all the oBIX specific processing.
 		super.writeObject(input);
-		
-		// write it out to the technology bus 
+
+		// write it out to the technology bus
 		// if a data point has changed only write to the data point
 		String resourceUriPath = "";
 		if (input.getHref() == null) {
-			resourceUriPath = input.getInvokedHref().substring(
-					input.getInvokedHref().lastIndexOf('/') + 1);
+			resourceUriPath = input.getInvokedHref().substring(input.getInvokedHref().lastIndexOf('/') + 1);
 		} else {
 			resourceUriPath = input.getHref().get();
 		}
@@ -142,34 +148,35 @@ public class LedsActuatorImplCoap extends LedsActuatorImpl implements IoTSySDevi
 			coapConnector.writeBoolean(busAddress, LED_GREEN_CONTRACT_HREF, this.green().get());
 		} else if (input instanceof Bool) {
 
-			if (LedsActuator.LED_BLUE_CONTRACT_HREF
-					.equals(resourceUriPath)) {
+			if (LedsActuator.LED_BLUE_CONTRACT_HREF.equals(resourceUriPath)) {
 				coapConnector.writeBoolean(busAddress, LED_BLUE_CONTRACT_HREF, this.blue().get());
-			} else if (LedsActuator.LED_RED_CONTRACT_HREF
-					.equals(resourceUriPath)) {
+			} else if (LedsActuator.LED_RED_CONTRACT_HREF.equals(resourceUriPath)) {
 				coapConnector.writeBoolean(busAddress, LED_RED_CONTRACT_HREF, this.red().get());
-			} else if (LedsActuator.LED_GREEN_CONTRACT_HREF
-					.equals(resourceUriPath)) {
+			} else if (LedsActuator.LED_GREEN_CONTRACT_HREF.equals(resourceUriPath)) {
 				coapConnector.writeBoolean(busAddress, LED_GREEN_CONTRACT_HREF, this.green().get());
 			}
 		}
 	}
-	
+
 	@Override
-	public void refreshObject(){
-		// value is the protected instance variable of the base class (FanSpeedActuatorImpl)
-//		if(blue != null && !blueObserved){
-//			Boolean value = coapConnector.readBoolean(busAddress, LED_BLUE_CONTRACT_HREF);	
-//			this.blue().set(value);
-//		}
-//		if(red != null && !redObserved){
-//			Boolean value = coapConnector.readBoolean(busAddress, LED_RED_CONTRACT_HREF);	
-//			this.red().set(value);
-//		}
-//		if(green != null && !greenObserved){
-//			Boolean value = coapConnector.readBoolean(busAddress, LED_GREEN_CONTRACT_HREF);	
-//			this.green().set(value);
-//		}
+	public void refreshObject() {
+		// value is the protected instance variable of the base class
+		// (FanSpeedActuatorImpl)
+		// if(blue != null && !blueObserved){
+		// Boolean value = coapConnector.readBoolean(busAddress,
+		// LED_BLUE_CONTRACT_HREF);
+		// this.blue().set(value);
+		// }
+		// if(red != null && !redObserved){
+		// Boolean value = coapConnector.readBoolean(busAddress,
+		// LED_RED_CONTRACT_HREF);
+		// this.red().set(value);
+		// }
+		// if(green != null && !greenObserved){
+		// Boolean value = coapConnector.readBoolean(busAddress,
+		// LED_GREEN_CONTRACT_HREF);
+		// this.green().set(value);
+		// }
 	}
 
 	@Override
@@ -178,9 +185,8 @@ public class LedsActuatorImplCoap extends LedsActuatorImpl implements IoTSySDevi
 	}
 
 	@Override
-	public boolean forwardGroupAddress() {	
+	public boolean forwardGroupAddress() {
 		return this.forwardGroupAddress;
 	}
-	
-	
+
 }

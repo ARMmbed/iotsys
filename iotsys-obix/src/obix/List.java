@@ -10,8 +10,7 @@ package obix;
  * @creation 27 Apr 05
  * @version $Revision$ $Date$
  */
-public class List extends Obj
-{
+public class List extends Obj {
 
 	// //////////////////////////////////////////////////////////////
 	// Constructor
@@ -20,8 +19,7 @@ public class List extends Obj
 	/**
 	 * Construct a named List with of contract.
 	 */
-	public List(String name, Contract of)
-	{
+	public List(String name, Contract of) {
 		super(name);
 		setOf(of);
 	}
@@ -29,16 +27,14 @@ public class List extends Obj
 	/**
 	 * Construct a named List.
 	 */
-	public List(String name)
-	{
+	public List(String name) {
 		this(name, null);
 	}
 
 	/**
 	 * Construct an unnamed List.
 	 */
-	public List()
-	{
+	public List() {
 		this(null, null);
 	}
 
@@ -49,32 +45,28 @@ public class List extends Obj
 	/**
 	 * Return "list".
 	 */
-	public String getElement()
-	{
+	public String getElement() {
 		return "list";
 	}
 
 	/**
 	 * Return BinObix.LIST.
 	 */
-	public int getBinCode()
-	{
+	public int getBinCode() {
 		return obix.io.BinObix.LIST;
 	}
 
 	/**
 	 * Get the contract of the objects this list contains.
 	 */
-	public Contract getOf()
-	{
+	public Contract getOf() {
 		return of;
 	}
 
 	/**
 	 * Set the contract of the objects this list contains.
 	 */
-	public void setOf(Contract of)
-	{
+	public void setOf(Contract of) {
 		this.of = (of != null) ? of : Contract.Obj;
 	}
 
@@ -85,16 +77,14 @@ public class List extends Obj
 	/**
 	 * Get the min facet or MIN_DEFAULT if unspecified.
 	 */
-	public int getMin()
-	{
+	public int getMin() {
 		return min;
 	}
 
 	/**
 	 * Set the min facet.
 	 */
-	public void setMin(int min)
-	{
+	public void setMin(int min) {
 		if (min < 0)
 			throw new IllegalArgumentException("min < 0");
 		this.min = min;
@@ -103,16 +93,14 @@ public class List extends Obj
 	/**
 	 * Get the max facet or MAX_DEFAULT if unspecified.
 	 */
-	public int getMax()
-	{
+	public int getMax() {
 		return max;
 	}
 
 	/**
 	 * Set the max facet.
 	 */
-	public void setMax(int max)
-	{
+	public void setMax(int max) {
 		if (max < 0)
 			throw new IllegalArgumentException("max < 0");
 		this.max = max;

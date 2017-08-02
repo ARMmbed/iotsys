@@ -31,23 +31,20 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
-import obix.Contract;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumWeatherManualOverwrite;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherManualOverwrite;
+import obix.Contract;
+import obix.Uri;
 
-public class EnumWeatherManualOverwriteImpl extends RangeImpl implements EnumWeatherManualOverwrite
-{
-	public EnumWeatherManualOverwriteImpl()
-	{
+public class EnumWeatherManualOverwriteImpl extends RangeImpl implements EnumWeatherManualOverwrite {
+	public EnumWeatherManualOverwriteImpl() {
 		super(new Uri(EnumWeatherManualOverwrite.HREF));
 
 		this.setOf(new Contract("obix:int"));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		addElement(new IntElement(WeatherManualOverwrite.NAME_OFF, WeatherManualOverwrite.ID_OFF));
 		addElement(new IntElement(WeatherManualOverwrite.NAME_STORM_WARNING, WeatherManualOverwrite.ID_STORM_WARNING));
 		addElement(new IntElement(WeatherManualOverwrite.NAME_STORM_ALARM, WeatherManualOverwrite.ID_STORM_ALARM));

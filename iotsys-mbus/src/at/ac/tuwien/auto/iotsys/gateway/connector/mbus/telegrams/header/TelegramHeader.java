@@ -34,8 +34,8 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.header;
 
 import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.TelegramField;
 
-public class  TelegramHeader {
-	
+public class TelegramHeader {
+
 	private TelegramField startField;
 	private TelegramField lField;
 	private TelegramField cField;
@@ -44,27 +44,27 @@ public class  TelegramHeader {
 	private TelegramField stopField;
 	public static int headerLength = 6;
 	public static int headerLengthCRCStop = 8;
-	
+
 	public TelegramHeader() {
-		
+
 	}
-	
+
 	public void createTelegramHeader(String header) {
 		this.createTelegramHeader(header.split(" "));
 	}
-	
+
 	public void createTelegramHeader(String[] header) {
-		
+
 		this.setStartField(header[0]);
 		this.setLField(header[1]);
-		this.setLField(header[2]);		
-		this.setStartField(header[3]);	
+		this.setLField(header[2]);
+		this.setStartField(header[3]);
 		this.setCField(header[4]);
-		this.setAField(header[5]);	
-		this.setCRCField(header[header.length-2]);
-		this.setStopField(header[header.length-1]);
+		this.setAField(header[5]);
+		this.setCRCField(header[header.length - 2]);
+		this.setStopField(header[header.length - 1]);
 	}
-	
+
 	public TelegramField getstartField() {
 		return startField;
 	}
@@ -72,7 +72,7 @@ public class  TelegramHeader {
 	public void setstartField(TelegramField startField) {
 		this.startField = startField;
 	}
-	
+
 	public TelegramField getlField() {
 		return lField;
 	}
@@ -104,62 +104,62 @@ public class  TelegramHeader {
 	public void setCrcField(TelegramField crcField) {
 		this.crcField = crcField;
 	}
-	
+
 	public TelegramField getstopField() {
 		return stopField;
 	}
 
 	public void setstopField(TelegramField stopField) {
 		this.stopField = stopField;
-	}	
+	}
 
 	public void setStartField(String startField) {
 		this.startField = new TelegramField();
 		this.startField.addFieldPart(startField);
 	}
-	
+
 	public void setLField(String lField) {
 		this.lField = new TelegramField();
 		this.lField.addFieldPart(lField);
 	}
-	
+
 	public void setCField(String cField) {
 		this.cField = new TelegramField();
 		this.cField.addFieldPart(cField);
 	}
-		
+
 	public void setAField(String aField) {
 		this.aField = new TelegramField();
 		this.aField.addFieldPart(aField);
 	}
-	
+
 	public void setCRCField(String crcField) {
 		this.crcField = new TelegramField();
 		this.crcField.addFieldPart(crcField);
 	}
-	
+
 	public void setStopField(String stopField) {
 		this.stopField = new TelegramField();
-		this.stopField.addFieldPart(stopField);		
+		this.stopField.addFieldPart(stopField);
 	}
-	
+
 	public void debugOutput() {
-		if(this.startField != null) {
+		if (this.startField != null) {
 			System.out.println("Start Field: " + this.startField.getFieldParts().get(0));
 		}
-		if(this.lField != null) {
+		if (this.lField != null) {
 			System.out.println("Length of Telegram: " + this.lField.getFieldParts().get(0));
 		}
-		if(this.cField != null) {
+		if (this.cField != null) {
 			System.out.println("C-Field (mode): " + this.cField.getFieldParts().get(0));
 		}
-		if(this.aField != null) {
-			System.out.println("A-Field (mode): " + this.aField.getFieldParts().get(0));			
-		}			
-		if(this.crcField != null) {
+		if (this.aField != null) {
+			System.out.println("A-Field (mode): " + this.aField.getFieldParts().get(0));
+		}
+		if (this.crcField != null) {
 			System.out.println("CRC: " + this.crcField.getFieldParts().get(0));
 		}
-		if(this.stopField != null) {
+		if (this.stopField != null) {
 			System.out.println("Stop Field: " + this.stopField.getFieldParts().get(0));
 		}
 	}

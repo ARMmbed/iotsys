@@ -41,43 +41,41 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import at.ac.tuwien.auto.iotsys.gateway.obix.objectbroker.ObjectBrokerImpl;
-
 import com.csvreader.CsvWriter;
+
+import at.ac.tuwien.auto.iotsys.gateway.obix.objectbroker.ObjectBrokerImpl;
 
 public class EvaluationUtil {
 
+	public static void evaluation() {
+		System.out.println("######### BEGIN EVALUATION ###########");
 
-	public static void evaluation(){
-			System.out.println("######### BEGIN EVALUATION ###########");
-			
-			new EvaluationGenerateContracts(ObjectBrokerImpl.getInstance(), false, true, false, false, false);
-			
-			
-			HashMap<String, String> ipv6ContractList = new HashMap<String, String>();
-			ipv6ContractList = ObjectBrokerImpl.getInstance().get_ipv6MappingTable();
-			//Collections.sort(ipv6ContractList);
-			List<String> sortedList = new ArrayList<String>();
-			sortedList.addAll(ipv6ContractList.keySet());
-			Collections.sort(sortedList);
-			
-			Iterator<String> iter = sortedList.iterator();
-			
-			try {
-				
-				CsvWriter csvOutput = new CsvWriter(new FileWriter("./csv/AvaliabelIpv6AddressRessources.csv", true), ';');	
-				while (iter.hasNext()) {
-					String key = iter.next();
-					csvOutput.writeRecord(new String[] { key, ipv6ContractList.get(key)});
-				}
-				csvOutput.close();
-				
-			} catch (IOException e) {
-				e.printStackTrace();
+		new EvaluationGenerateContracts(ObjectBrokerImpl.getInstance(), false, true, false, false, false);
+
+		HashMap<String, String> ipv6ContractList = new HashMap<String, String>();
+		ipv6ContractList = ObjectBrokerImpl.getInstance().get_ipv6MappingTable();
+		// Collections.sort(ipv6ContractList);
+		List<String> sortedList = new ArrayList<String>();
+		sortedList.addAll(ipv6ContractList.keySet());
+		Collections.sort(sortedList);
+
+		Iterator<String> iter = sortedList.iterator();
+
+		try {
+
+			CsvWriter csvOutput = new CsvWriter(new FileWriter("./csv/AvaliabelIpv6AddressRessources.csv", true), ';');
+			while (iter.hasNext()) {
+				String key = iter.next();
+				csvOutput.writeRecord(new String[] { key, ipv6ContractList.get(key) });
 			}
+			csvOutput.close();
 
-			for (Entry<String, String> entry : ipv6ContractList.entrySet()) {
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-	        }		
+		for (Entry<String, String> entry : ipv6ContractList.entrySet()) {
+
+		}
 	}
 }

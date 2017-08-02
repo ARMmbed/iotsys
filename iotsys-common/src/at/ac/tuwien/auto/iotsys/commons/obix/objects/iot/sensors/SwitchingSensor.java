@@ -34,13 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Bool;
 
-public interface SwitchingSensor extends Sensor{
-	public static final String SWITCH_ON_OFF_VALUE_HREF="switchOnOff";
-	public static final String SWITCH_ON_OFF_VALUE_NAME="switchOnOff";
-	
-	public static final String CONTRACT="iot:SwitchingSensor";
-	
-	public static final String SWITCH_ON_OFF_CONTRACT = "<bool name='"+SwitchingSensor.SWITCH_ON_OFF_VALUE_NAME+"' href='"+SwitchingSensor.SWITCH_ON_OFF_VALUE_HREF+"' val='false'/>";
+public interface SwitchingSensor extends Sensor {
+	public static final String SWITCH_ON_OFF_VALUE_HREF = "switchOnOff";
+	public static final String SWITCH_ON_OFF_VALUE_NAME = "switchOnOff";
+
+	public static final String CONTRACT = "iot:SwitchingSensor";
+
+	public static final String SWITCH_ON_OFF_CONTRACT = "<bool name='" + SwitchingSensor.SWITCH_ON_OFF_VALUE_NAME
+			+ "' href='" + SwitchingSensor.SWITCH_ON_OFF_VALUE_HREF + "' val='false'/>";
+
 	public Bool switchOnOffValue();
 }
-

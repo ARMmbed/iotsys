@@ -37,9 +37,9 @@ import obix.Obj;
 import obix.Real;
 import obix.Uri;
 
-public class RoomRelativeHumiditySensorImpl extends SensorImpl implements RoomRelativeHumiditySensor{
+public class RoomRelativeHumiditySensorImpl extends SensorImpl implements RoomRelativeHumiditySensor {
 	protected Real humidityRelativeRoomValue = new Real(0);
-		
+
 	public RoomRelativeHumiditySensorImpl() {
 		setIs(new Contract(RoomRelativeHumiditySensor.CONTRACT));
 		humidityRelativeRoomValue.setWritable(false);
@@ -49,13 +49,13 @@ public class RoomRelativeHumiditySensorImpl extends SensorImpl implements RoomRe
 		humidityRelativeRoomValue.setUnit(new Uri(RoomRelativeHumiditySensor.HUMIDITY_RELATIVE_ROOM_CONTRACT_UNIT));
 		add(humidityRelativeRoomValue);
 	}
-	
+
 	public void writeObject(Obj input) {
 	}
-	
+
 	@Override
 	public Real humidityRelativeRoomValue() {
 		return this.humidityRelativeRoomValue;
 	}
-	
+
 }

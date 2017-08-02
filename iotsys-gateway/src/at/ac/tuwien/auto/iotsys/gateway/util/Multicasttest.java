@@ -1,7 +1,7 @@
 package at.ac.tuwien.auto.iotsys.gateway.util;
+
 import java.net.DatagramPacket;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.MulticastSocket;
 
 public class Multicasttest {
@@ -15,8 +15,7 @@ public class Multicasttest {
 			s.setReuseAddress(true);
 			s.joinGroup(group);
 
-			DatagramPacket hi = new DatagramPacket(msg.getBytes(),
-					msg.length(), group, 5683);
+			DatagramPacket hi = new DatagramPacket(msg.getBytes(), msg.length(), group, 5683);
 			System.out.println("Sending msg.");
 			s.send(hi);
 			// get their responses!
@@ -28,7 +27,7 @@ public class Multicasttest {
 				String rcv = new String(buf);
 				System.out.println("Received: " + rcv);
 			}
-			
+
 			// OK, I'm done talking - leave the group...
 			s.leaveGroup(group);
 

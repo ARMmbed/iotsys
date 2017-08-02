@@ -33,11 +33,13 @@
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 
 import obix.Int;
+
 /**
  * Provides the interface for a brightness actuator.
  */
-public interface BrightnessActuator extends Actuator{
-	public static final String CONTRACT="iot:BrightnessActuator";
+public interface BrightnessActuator extends Actuator {
+	public static final String CONTRACT = "iot:BrightnessActuator";
 	public static final String valueContract = "<int name='value' href='value' val='0'/>";
+
 	public Int value();
 }

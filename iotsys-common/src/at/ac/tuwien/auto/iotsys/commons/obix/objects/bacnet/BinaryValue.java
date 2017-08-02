@@ -36,9 +36,10 @@ import obix.Bool;
 import obix.IObj;
 
 public interface BinaryValue extends IObj {
-	
-	public static final String CONTRACT="iot:BinaryValue";
-	
+
+	public static final String CONTRACT = "iot:BinaryValue";
+
 	public static final String valueContract = "<bool name='value' href='value' val='false'/>";
+
 	public Bool value();
 }

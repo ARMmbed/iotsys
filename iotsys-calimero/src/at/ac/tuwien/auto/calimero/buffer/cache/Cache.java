@@ -30,14 +30,12 @@ package at.ac.tuwien.auto.calimero.buffer.cache;
  * @author B. Malinowsky
  * @see CacheObject
  */
-public interface Cache
-{
+public interface Cache {
 	/**
 	 * Offers information about data counting and cache performance.
 	 * <p>
 	 */
-	public interface Statistic
-	{
+	public interface Statistic {
 		/**
 		 * Returns the total number of successful requests with
 		 * {@link Cache#get(Object)} for a {@link CacheObject}.
@@ -67,17 +65,18 @@ public interface Cache
 		 */
 		double hitRatio();
 	}
-	
+
 	/**
 	 * Inserts the {@link CacheObject} <code>obj</code> into the cache.
 	 * <p>
 	 * If a {@link CacheObject} with an equal key (delivered by
-	 * {@link CacheObject#getKey()}) to <code>obj.getKey()</code> is already
-	 * in the cache, it will be replaced by <code>obj</code>.<br>
+	 * {@link CacheObject#getKey()}) to <code>obj.getKey()</code> is already in
+	 * the cache, it will be replaced by <code>obj</code>.<br>
 	 * {@link CacheObject#resetTimestamp()} is invoked on <code>obj</code> after
 	 * <code>obj</code> was inserted successfully.
 	 * 
-	 * @param obj CacheObject to put into the cache
+	 * @param obj
+	 *            CacheObject to put into the cache
 	 */
 	void put(CacheObject obj);
 
@@ -87,21 +86,23 @@ public interface Cache
 	 * <p>
 	 * If found, the access count of the CacheObject is incremented by 1.
 	 * 
-	 * @param key key to search
-	 * @return the CacheObject or <code>null</code> if <code>key</code> does
-	 *         not exist in the cache
+	 * @param key
+	 *            key to search
+	 * @return the CacheObject or <code>null</code> if <code>key</code> does not
+	 *         exist in the cache
 	 */
 	CacheObject get(Object key);
-	
+
 	/**
 	 * Removes the CacheObject associated with <code>key</code> from the cache,
 	 * if found.
 	 * <p>
 	 * 
-	 * @param key key of CacheObject to remove
+	 * @param key
+	 *            key of CacheObject to remove
 	 */
 	void remove(Object key);
-	
+
 	/**
 	 * Removes all {@link CacheObject}s which are not valid anymore, as defined
 	 * by a caching policy, from the cache.
@@ -114,7 +115,7 @@ public interface Cache
 	 * <p>
 	 */
 	void clear();
-	
+
 	/**
 	 * Returns information collected by this cache since its creation.
 	 * <p>

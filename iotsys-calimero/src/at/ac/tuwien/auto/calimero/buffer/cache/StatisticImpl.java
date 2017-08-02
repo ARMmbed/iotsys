@@ -22,15 +22,15 @@ package at.ac.tuwien.auto.calimero.buffer.cache;
 import at.ac.tuwien.auto.calimero.buffer.cache.Cache.Statistic;
 
 /**
- * Provide basic {@link Cache} information as required by {@link Cache.Statistic}.
+ * Provide basic {@link Cache} information as required by
+ * {@link Cache.Statistic}.
  * <p>
  * This statistics implementation is immutable.
  * 
  * @author B. Malinowsky
  * @see Cache.Statistic
  */
-public class StatisticImpl implements Statistic
-{
+public class StatisticImpl implements Statistic {
 	private final long hits;
 	private final long misses;
 
@@ -38,36 +38,40 @@ public class StatisticImpl implements Statistic
 	 * Creates an instance and fills it with data.
 	 * <p>
 	 * 
-	 * @param hits cache hit count
-	 * @param misses cache miss count
+	 * @param hits
+	 *            cache hit count
+	 * @param misses
+	 *            cache miss count
 	 */
-	public StatisticImpl(final long hits, final long misses)
-	{
+	public StatisticImpl(final long hits, final long misses) {
 		this.hits = hits;
 		this.misses = misses;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache.Statistic#hits()
 	 */
-	public final long hits()
-	{
+	public final long hits() {
 		return hits;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache.Statistic#misses()
 	 */
-	public final long misses()
-	{
+	public final long misses() {
 		return misses;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache.Statistic#hitRatio()
 	 */
-	public final double hitRatio()
-	{
+	public final double hitRatio() {
 		final double total = hits + misses;
 		return total == 0.0 ? 0.0 : hits / total;
 	}

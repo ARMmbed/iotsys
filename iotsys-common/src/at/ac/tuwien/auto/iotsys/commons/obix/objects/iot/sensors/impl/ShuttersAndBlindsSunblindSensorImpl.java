@@ -37,23 +37,22 @@ import obix.Contract;
 import obix.Obj;
 import obix.Uri;
 
-public class ShuttersAndBlindsSunblindSensorImpl extends SensorImpl implements ShuttersAndBlindsSunblindSensor{
-	
+public class ShuttersAndBlindsSunblindSensorImpl extends SensorImpl implements ShuttersAndBlindsSunblindSensor {
+
 	protected Bool moveUpDownValue = new Bool(false);
 	protected Bool dedicatedStopValue = new Bool(false);
-	
-	
+
 	public ShuttersAndBlindsSunblindSensorImpl() {
 		setIs(new Contract(ShuttersAndBlindsSunblindSensor.CONTRACT));
-		
-		//moveUpDownValue
+
+		// moveUpDownValue
 		moveUpDownValue.setWritable(false);
 		Uri moveUpDownValueUri = new Uri(ShuttersAndBlindsSunblindSensor.MOVE_UP_DOWN_CONTRACT_HREF);
 		moveUpDownValue.setHref(moveUpDownValueUri);
 		moveUpDownValue.setName(ShuttersAndBlindsSunblindSensor.MOVE_UP_DOWN_CONTRACT_NAME);
 		add(moveUpDownValue);
-		
-		//dedicatedStopValue
+
+		// dedicatedStopValue
 		dedicatedStopValue.setWritable(false);
 		Uri dedicatedStopValueUri = new Uri(ShuttersAndBlindsSunblindSensor.DEDICATED_STOP_CONTRACT_HREF);
 		dedicatedStopValue.setHref(dedicatedStopValueUri);
@@ -61,10 +60,10 @@ public class ShuttersAndBlindsSunblindSensorImpl extends SensorImpl implements S
 		add(dedicatedStopValue);
 	}
 
-	public void writeObject(Obj input){
+	public void writeObject(Obj input) {
 
 	}
-	
+
 	@Override
 	public Bool moveUpDownValue() {
 		return this.moveUpDownValue;
@@ -75,5 +74,4 @@ public class ShuttersAndBlindsSunblindSensorImpl extends SensorImpl implements S
 		return this.dedicatedStopValue;
 	}
 
-	
 }

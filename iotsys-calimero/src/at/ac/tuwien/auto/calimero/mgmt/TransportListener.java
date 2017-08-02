@@ -25,7 +25,6 @@ import at.ac.tuwien.auto.calimero.CloseEvent;
 import at.ac.tuwien.auto.calimero.DetachEvent;
 import at.ac.tuwien.auto.calimero.FrameEvent;
 
-
 /**
  * Listener interface for getting transport layer events.
  * <p>
@@ -33,13 +32,13 @@ import at.ac.tuwien.auto.calimero.FrameEvent;
  * @author B. Malinowsky
  * @see TransportLayer
  */
-public interface TransportListener extends EventListener
-{
+public interface TransportListener extends EventListener {
 	/**
 	 * Indicates that a KNX group message was received from the KNX network.
 	 * <p>
 	 * 
-	 * @param e frame event object
+	 * @param e
+	 *            frame event object
 	 */
 	void group(FrameEvent e);
 
@@ -47,42 +46,49 @@ public interface TransportListener extends EventListener
 	 * Indicates that a KNX broadcast message was received from the KNX network.
 	 * <p>
 	 * 
-	 * @param e frame event object
+	 * @param e
+	 *            frame event object
 	 */
 	void broadcast(FrameEvent e);
 
 	/**
-	 * Indicates that a KNX message with data individual service was received from the KNX
-	 * network.
+	 * Indicates that a KNX message with data individual service was received
+	 * from the KNX network.
 	 * <p>
 	 * Such data is sent from destinations communicating in connectionless mode.
 	 * 
-	 * @param e frame event object
+	 * @param e
+	 *            frame event object
 	 */
 	void dataIndividual(FrameEvent e);
 
 	/**
-	 * Indicates that a KNX message with data connected service was received from the KNX
-	 * network.
+	 * Indicates that a KNX message with data connected service was received
+	 * from the KNX network.
 	 * <p>
-	 * Such data is sent from destinations communicating in connection oriented mode.
+	 * Such data is sent from destinations communicating in connection oriented
+	 * mode.
 	 * 
-	 * @param e frame event object
+	 * @param e
+	 *            frame event object
 	 */
 	void dataConnected(FrameEvent e);
 
 	/**
-	 * The connection state of a destination changed from connected to disconnected.
+	 * The connection state of a destination changed from connected to
+	 * disconnected.
 	 * <p>
 	 * 
-	 * @param d the disconnected destination
+	 * @param d
+	 *            the disconnected destination
 	 */
 	void disconnected(Destination d);
 
 	/**
 	 * The KNX network link was detached from the transport layer.
 	 * 
-	 * @param e detach event object
+	 * @param e
+	 *            detach event object
 	 */
 	void detached(DetachEvent e);
 
@@ -90,7 +96,8 @@ public interface TransportListener extends EventListener
 	 * The attached KNX network link was closed.
 	 * <p>
 	 * 
-	 * @param e close event object
+	 * @param e
+	 *            close event object
 	 */
 	void linkClosed(CloseEvent e);
 }

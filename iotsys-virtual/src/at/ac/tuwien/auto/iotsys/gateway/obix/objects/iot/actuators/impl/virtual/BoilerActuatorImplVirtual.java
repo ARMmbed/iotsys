@@ -32,27 +32,25 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.virtual;
 
-import obix.Obj;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.BoilerActuatorImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sim.HVACSimulation;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.VirtualConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.simulation.HVACSimulationImpl;
+import obix.Obj;
 
-public class BoilerActuatorImplVirtual extends BoilerActuatorImpl{
+public class BoilerActuatorImplVirtual extends BoilerActuatorImpl {
 	private VirtualConnector virtualConnector;
-	
-	public BoilerActuatorImplVirtual(VirtualConnector virtualConnector){
+
+	public BoilerActuatorImplVirtual(VirtualConnector virtualConnector) {
 		this.virtualConnector = virtualConnector;
 	}
-	
+
 	@Override
-	public void writeObject(Obj obj){
+	public void writeObject(Obj obj) {
 		super.writeObject(obj);
-		
-		if(HVACSimulationImpl.instance != null)
+
+		if (HVACSimulationImpl.instance != null)
 			HVACSimulationImpl.instance.setBoilerActive(this.enabled().get());
-		
+
 	}
-	
-		
+
 }

@@ -41,42 +41,41 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.Temperatur
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXWatchDog;
 
-public class TemperatureSensorImplKnx extends TemperatureSensorImpl{
-	
+public class TemperatureSensorImplKnx extends TemperatureSensorImpl {
+
 	private static Logger log = Logger.getLogger(TemperatureSensorImplKnx.class.getName());
-	
+
 	private GroupAddress observation;
 	private KNXConnector connector;
-	
-	public TemperatureSensorImplKnx(KNXConnector connector , GroupAddress observation) {
+
+	public TemperatureSensorImplKnx(KNXConnector connector, GroupAddress observation) {
 		this.observation = observation;
-		this.connector = connector;	
+		this.connector = connector;
 	}
-	
-	public void createWatchDog() {		
-		
+
+	public void createWatchDog() {
+
 		connector.addWatchDog(observation, new KNXWatchDog() {
 			@Override
-			public void notifyWatchDog(byte[] apdu) {			
-				try {					
-					DPTXlator2ByteFloat x = new DPTXlator2ByteFloat(DPTXlator2ByteFloat.DPT_TEMPERATURE);					
-					
+			public void notifyWatchDog(byte[] apdu) {
+				try {
+					DPTXlator2ByteFloat x = new DPTXlator2ByteFloat(DPTXlator2ByteFloat.DPT_TEMPERATURE);
+
 					x.setData(apdu, 0);
-															
-					log.fine("Temperature for " + TemperatureSensorImplKnx.this.getHref() + " now " + x.getValueFloat(1));
-					value.set(x.getValueFloat(1));									
-				} 
-				catch (KNXException e){				
+
+					log.fine("Temperature for " + TemperatureSensorImplKnx.this.getHref() + " now "
+							+ x.getValueFloat(1));
+					value.set(x.getValueFloat(1));
+				} catch (KNXException e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
-		createWatchDog();	
+		createWatchDog();
 	}
 }
-

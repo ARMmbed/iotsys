@@ -30,20 +30,21 @@ import at.ac.tuwien.auto.calimero.knxnetip.KNXnetIPTunnel;
  * 
  * @author B. Malinowsky
  */
-public class TunnelCRD extends CRD
-{
+public class TunnelCRD extends CRD {
 	/**
 	 * Creates a new CRD for tunnel connection type out of a byte array.
 	 * <p>
 	 * The CRD structure has a length of 4 bytes.<br>
 	 * 
-	 * @param data byte array containing a CRD structure,
-	 *        <code>data.length - offset = 4</code>
-	 * @param offset start offset of CRD in <code>data</code>
-	 * @throws KNXFormatException if no CRD found or invalid structure
+	 * @param data
+	 *            byte array containing a CRD structure,
+	 *            <code>data.length - offset = 4</code>
+	 * @param offset
+	 *            start offset of CRD in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no CRD found or invalid structure
 	 */
-	public TunnelCRD(byte[] data, int offset) throws KNXFormatException
-	{
+	public TunnelCRD(byte[] data, int offset) throws KNXFormatException {
 		super(data, offset);
 		if (getConnectionType() != KNXnetIPTunnel.TUNNEL_CONNECTION)
 			throw new KNXFormatException("not a tunneling CRD", getConnectionType());
@@ -56,24 +57,25 @@ public class TunnelCRD extends CRD
 	 * information.
 	 * <p>
 	 * 
-	 * @param addr individual address assigned to the tunneling connection
+	 * @param addr
+	 *            individual address assigned to the tunneling connection
 	 */
-	public TunnelCRD(IndividualAddress addr)
-	{
+	public TunnelCRD(IndividualAddress addr) {
 		super(KNXnetIPTunnel.TUNNEL_CONNECTION, addr.toByteArray());
 	}
 
 	/**
 	 * Creates a CRD for tunnel connection type containing optional data.
 	 * <p>
-	 * Note, the optional data field contains the assigned individual address.<br>
+	 * Note, the optional data field contains the assigned individual
+	 * address.<br>
 	 * 
-	 * @param optionalData byte array containing tunneling host protocol data, this
-	 *        information is located starting at offset 2 in the CRD structure,
-	 *        <code>optionalData.length</code> = 2
+	 * @param optionalData
+	 *            byte array containing tunneling host protocol data, this
+	 *            information is located starting at offset 2 in the CRD
+	 *            structure, <code>optionalData.length</code> = 2
 	 */
-	TunnelCRD(byte[] optionalData)
-	{
+	TunnelCRD(byte[] optionalData) {
 		super(KNXnetIPTunnel.TUNNEL_CONNECTION, (byte[]) optionalData.clone());
 		if (getStructLength() != 4)
 			throw new KNXIllegalArgumentException("wrong length for tunneling CRD");
@@ -85,8 +87,7 @@ public class TunnelCRD extends CRD
 	 * 
 	 * @return individual address as {@link IndividualAddress}
 	 */
-	public final IndividualAddress getAssignedAddress()
-	{
+	public final IndividualAddress getAssignedAddress() {
 		return new IndividualAddress(opt);
 	}
 
@@ -96,8 +97,7 @@ public class TunnelCRD extends CRD
 	 * 
 	 * @return a string representation of the object
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return "tunneling CRD, assigned address " + getAssignedAddress();
 	}
 }

@@ -30,61 +30,64 @@
  * This file is part of the IoTSyS project.
  ******************************************************************************/
 
-
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.virtual;
 
 import java.util.logging.Logger;
 
-import obix.Obj;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.LightSwitchActuatorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.virtual.VirtualConnector;
 import at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.sensors.impl.virtual.TemperatureSensorImplVirtual;
+import obix.Obj;
 
 public class LightSwitchActuatorImplVirtual extends LightSwitchActuatorImpl {
-private static final Logger log = Logger.getLogger(TemperatureSensorImplVirtual.class.getName());
-	
+	private static final Logger log = Logger.getLogger(TemperatureSensorImplVirtual.class.getName());
+
 	private VirtualConnector virtualConnector;
-	private Object busAddress; // dummy Object, modify it according to your technology
-	
-	public LightSwitchActuatorImplVirtual(VirtualConnector virtualConnector){
+	private Object busAddress; // dummy Object, modify it according to your
+								// technology
+
+	public LightSwitchActuatorImplVirtual(VirtualConnector virtualConnector) {
 		this(virtualConnector, null);
 	}
-	
-	// Add further constructor parameters for bus address information for this temperature sensor
-	public LightSwitchActuatorImplVirtual(VirtualConnector virtualConnector, Object busAddress){
+
+	// Add further constructor parameters for bus address information for this
+	// temperature sensor
+	public LightSwitchActuatorImplVirtual(VirtualConnector virtualConnector, Object busAddress) {
 		// technology specific initialization
 		this.virtualConnector = virtualConnector;
 		this.busAddress = busAddress;
 	}
-	
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
 	}
-	
+
 	@Override
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.	
-		// The base class knows how to update the internal variable and to trigger
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
+		// The base class knows how to update the internal variable and to
+		// trigger
 		// all the oBIX specific processing.
 		super.writeObject(input);
-		
+
 		// write it out to the technology bus
-		virtualConnector.writeBoolean(busAddress, this.value().get());	
+		virtualConnector.writeBoolean(busAddress, this.value().get());
 	}
-	
+
 	@Override
-	public void refreshObject(){
-		// value is the protected instance variable of the base class (TemperatureSensorImpl)
-		if(value != null){
-			Boolean value = virtualConnector.readBoolean(busAddress);	
-			
-			// this calls the implementation of the base class, which triggers als
+	public void refreshObject() {
+		// value is the protected instance variable of the base class
+		// (TemperatureSensorImpl)
+		if (value != null) {
+			Boolean value = virtualConnector.readBoolean(busAddress);
+
+			// this calls the implementation of the base class, which triggers
+			// als
 			// oBIX services (e.g. watches, history) and CoAP observe!
-			
-			this.value().set(value); 
-		}	
+
+			this.value().set(value);
+		}
 	}
 }

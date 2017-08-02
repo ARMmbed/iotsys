@@ -26,15 +26,15 @@ import at.ac.tuwien.auto.calimero.knxnetip.util.DeviceDIB;
 import at.ac.tuwien.auto.calimero.knxnetip.util.HPAI;
 import at.ac.tuwien.auto.calimero.knxnetip.util.SuppFamiliesDIB;
 
-
 /**
  * Represents a KNXnet/IP search response.
  * <p>
- * Such a response is used during device discovery and sent in reply to a search request.
- * It contains one server control endpoint and self description of the server device.<br>
- * An answering server, supporting more than one KNX connections at the same time, sends a
- * single search response for each of its control endpoints, i.e. one response for one
- * control endpoint.
+ * Such a response is used during device discovery and sent in reply to a search
+ * request. It contains one server control endpoint and self description of the
+ * server device.<br>
+ * An answering server, supporting more than one KNX connections at the same
+ * time, sends a single search response for each of its control endpoints, i.e.
+ * one response for one control endpoint.
  * <p>
  * Objects of this type are immutable.
  * 
@@ -42,8 +42,7 @@ import at.ac.tuwien.auto.calimero.knxnetip.util.SuppFamiliesDIB;
  * @author B. Malinowsky
  * @see at.ac.tuwien.auto.calimero.knxnetip.servicetype.SearchRequest
  */
-public class SearchResponse extends ServiceType
-{
+public class SearchResponse extends ServiceType {
 	private final HPAI endpt;
 	private final DescriptionResponse desc;
 
@@ -51,28 +50,33 @@ public class SearchResponse extends ServiceType
 	 * Creates a new search response out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing a search response structure
-	 * @param offset start offset of response in <code>data</code>
-	 * @throws KNXFormatException if no search response was found or invalid structure
+	 * @param data
+	 *            byte array containing a search response structure
+	 * @param offset
+	 *            start offset of response in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no search response was found or invalid structure
 	 */
-	public SearchResponse(byte[] data, int offset) throws KNXFormatException
-	{
+	public SearchResponse(byte[] data, int offset) throws KNXFormatException {
 		super(KNXnetIPHeader.SEARCH_RES);
 		endpt = new HPAI(data, offset);
 		desc = new DescriptionResponse(data, offset + endpt.getStructLength());
 	}
 
 	/**
-	 * Creates a new search response for the given control endpoint together with device
-	 * information.
+	 * Creates a new search response for the given control endpoint together
+	 * with device information.
 	 * <p>
 	 * 
-	 * @param ctrlEndpoint discovered control endpoint of the server sending this response
-	 * @param device server device description information
-	 * @param svcFamilies supported service families by the server
+	 * @param ctrlEndpoint
+	 *            discovered control endpoint of the server sending this
+	 *            response
+	 * @param device
+	 *            server device description information
+	 * @param svcFamilies
+	 *            supported service families by the server
 	 */
-	public SearchResponse(HPAI ctrlEndpoint, DeviceDIB device, SuppFamiliesDIB svcFamilies)
-	{
+	public SearchResponse(HPAI ctrlEndpoint, DeviceDIB device, SuppFamiliesDIB svcFamilies) {
 		super(KNXnetIPHeader.SEARCH_RES);
 		endpt = ctrlEndpoint;
 		desc = new DescriptionResponse(device, svcFamilies);
@@ -84,50 +88,50 @@ public class SearchResponse extends ServiceType
 	 * 
 	 * @return discovered control endpoint in a HPAI
 	 */
-	public final HPAI getControlEndpoint()
-	{
+	public final HPAI getControlEndpoint() {
 		return endpt;
 	}
 
 	/**
-	 * Returns the device description information block of the server contained in the
-	 * response.
+	 * Returns the device description information block of the server contained
+	 * in the response.
 	 * <p>
 	 * 
 	 * @return a device DIB
 	 */
-	public final DeviceDIB getDevice()
-	{
+	public final DeviceDIB getDevice() {
 		return desc.getDevice();
 	}
 
 	/**
-	 * Returns the supported service families description information block of the server
-	 * contained in the response.
+	 * Returns the supported service families description information block of
+	 * the server contained in the response.
 	 * <p>
 	 * 
 	 * @return a DIB with the supported service families
 	 */
-	public final SuppFamiliesDIB getServiceFamilies()
-	{
+	public final SuppFamiliesDIB getServiceFamilies() {
 		return desc.getServiceFamilies();
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
-	short getStructLength()
-	{
-		return (short) (endpt.getStructLength() + desc.getDevice().getStructLength() +
-			desc.getServiceFamilies().getStructLength());
+	short getStructLength() {
+		return (short) (endpt.getStructLength() + desc.getDevice().getStructLength()
+				+ desc.getServiceFamilies().getStructLength());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
-	 *      (java.io.ByteArrayOutputStream)
+	 * (java.io.ByteArrayOutputStream)
 	 */
-	byte[] toByteArray(ByteArrayOutputStream os)
-	{
+	byte[] toByteArray(ByteArrayOutputStream os) {
 		byte[] buf = desc.getDevice().toByteArray();
 		os.write(buf, 0, buf.length);
 		buf = desc.getServiceFamilies().toByteArray();

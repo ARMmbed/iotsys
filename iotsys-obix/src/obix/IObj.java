@@ -4,14 +4,14 @@
 package obix;
 
 /**
- * IObj is the base interface for contract interfaces. IObj should only be implemented by subclasses of Obj.
+ * IObj is the base interface for contract interfaces. IObj should only be
+ * implemented by subclasses of Obj.
  * 
  * @author Brian Frank
  * @creation 27 Apr 05
  * @version $Revision$ $Date$
  */
-public interface IObj
-{
+public interface IObj {
 	// //////////////////////////////////////////////////////////////
 	// Attributes
 	// //////////////////////////////////////////////////////////////

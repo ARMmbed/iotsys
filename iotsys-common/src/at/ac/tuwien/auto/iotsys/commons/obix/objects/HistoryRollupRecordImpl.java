@@ -39,49 +39,48 @@ import obix.Real;
 import obix.Uri;
 import obix.contracts.HistoryRollupRecord;
 
-public class HistoryRollupRecordImpl extends Obj implements HistoryRollupRecord{
-	
+public class HistoryRollupRecordImpl extends Obj implements HistoryRollupRecord {
+
 	public static final String HISTORY_ROLLUPRECORD_CONTRACT = "obix:HistoryRollupRecord";
-	
+
 	private Abstime start = new Abstime();
 	private Abstime end = new Abstime();
-	
+
 	private Int count = new Int(0);
 	private Real min = new Real(0);
 	private Real max = new Real(0);
 	private Real avg = new Real(0);
 	private Real sum = new Real(0);
-	
-	public HistoryRollupRecordImpl(){
+
+	public HistoryRollupRecordImpl() {
 		count.setName("count");
 		count.setHref(new Uri("count"));
 		add(count);
-		
+
 		start.setName("start");
 		start.setHref(new Uri("start"));
 		add(start);
-		
+
 		end.setName("end");
 		end.setHref(new Uri("end"));
 		add(end);
-		
+
 		min.setName("min");
 		min.setHref(new Uri("min"));
 		add(min);
-		
+
 		max.setName("max");
 		max.setHref(new Uri("max"));
 		add(max);
-		
+
 		avg.setName("avg");
 		avg.setHref(new Uri("avg"));
 		add(avg);
-		
+
 		sum.setName("sum");
 		sum.setHref(new Uri("sum"));
 		add(sum);
 	}
-	
 
 	public Abstime start() {
 

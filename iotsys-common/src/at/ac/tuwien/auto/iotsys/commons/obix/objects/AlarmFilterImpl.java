@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import at.ac.tuwien.auto.iotsys.obix.FeedFilter;
 import obix.Abstime;
 import obix.Bool;
 import obix.Feed;
@@ -12,17 +13,15 @@ import obix.Int;
 import obix.Obj;
 import obix.Uri;
 import obix.contracts.AlarmFilter;
-import at.ac.tuwien.auto.iotsys.obix.FeedFilter;
 
 public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
-	
+
 	private Int limit = new Int();
 	private Abstime start = new Abstime();
 	private Abstime end = new Abstime();
 	private Uri source = new Uri();
 	private Bool unacked = new Bool();
 	private Bool active = new Bool();
-	
 
 	public AlarmFilterImpl() {
 		add(limit);
@@ -32,10 +31,10 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 		add(unacked);
 		add(active);
 	}
-	
+
 	public AlarmFilterImpl(Obj filter) {
 		this();
-		
+
 		if (filter instanceof AlarmFilter) {
 			AlarmFilter alarmFilter = (AlarmFilter) filter;
 			limit.set(alarmFilter.limit());
@@ -44,7 +43,7 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 			source.set(alarmFilter.source());
 			unacked.set(alarmFilter.unacked());
 			active.set(alarmFilter.active());
-			
+
 			limit.setNull(alarmFilter.limit().isNull());
 			start.setNull(alarmFilter.start().isNull());
 			end.setNull(alarmFilter.end().isNull());
@@ -60,7 +59,7 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 			active.setNull(true);
 		}
 	}
-	
+
 	public Int limit() {
 		return limit;
 	}
@@ -73,7 +72,6 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 		return end;
 	}
 
-	
 	public Uri source() {
 		return source;
 	}
@@ -81,7 +79,6 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 	public Bool unacked() {
 		return unacked;
 	}
-	
 
 	public Bool active() {
 		return active;
@@ -90,10 +87,10 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 	@Override
 	public List<Obj> query(Feed feed) {
 		ArrayList<AlarmImpl> alarms = filterRecords(feed.getEvents());
-		
+
 		while (limit.get() > 0 & alarms.size() > limit.get())
-			alarms.remove(alarms.size()-1);
-		
+			alarms.remove(alarms.size() - 1);
+
 		return new ArrayList<Obj>(alarms);
 	}
 
@@ -101,14 +98,13 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 	public List<Obj> poll(List<Obj> events) {
 		ArrayList<AlarmImpl> alarms = filterRecords(events);
 		Collections.reverse(alarms);
-		
+
 		while (limit.get() > 0 & alarms.size() > limit.get())
-			alarms.remove(alarms.size()-1);
-		
+			alarms.remove(alarms.size() - 1);
+
 		return new ArrayList<Obj>(alarms);
 	}
-	
-	
+
 	private ArrayList<AlarmImpl> filterRecords(List<Obj> events) {
 		ArrayList<AlarmImpl> filteredRecords = new ArrayList<AlarmImpl>();
 
@@ -120,43 +116,47 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 				return r1.timestamp().compareTo(r2.timestamp());
 			}
 		});
-		
+
 		for (Obj event : events) {
 			if (!(event instanceof AlarmImpl))
 				continue;
-			
+
 			AlarmImpl record = (AlarmImpl) event;
-			
+
 			if (!unacked.isNull()) {
-				if (!record.isAcked()) continue;
-				
+				if (!record.isAcked())
+					continue;
+
 				boolean unackedFilter = unacked.get();
 				boolean recordIsUnacked = record.ackUser().isNull();
-				
+
 				if (unackedFilter != recordIsUnacked) {
 					continue;
 				}
 			}
-			
+
 			if (!source.isNull()) {
 				// get source of this record, compare it to given source uri. ;D
 				Obj alarmSource = record.getRoot().getByHref(record.source().getHref());
-				if (alarmSource == null) continue;
-				
+				if (alarmSource == null)
+					continue;
+
 				Obj sourceFilter = record.getRoot().getByHref(source);
 				if (alarmSource != sourceFilter)
 					continue;
 			}
-			
+
 			if (!active.isNull()) {
-				if (!record.isStateful()) continue;
+				if (!record.isStateful())
+					continue;
 				Obj alarmSource = record.getRoot().getByHref(record.source().getHref());
-				if (alarmSource == null) continue;
-					
+				if (alarmSource == null)
+					continue;
+
 				if (active.get() != alarmSource.getAlarms().contains(record))
 					continue;
 			}
-			
+
 			if (start.get() != end.get()) {
 				if (!start.isNull() && record.timestamp().get() < start.get()) {
 					continue;
@@ -169,7 +169,7 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 
 			filteredRecords.add(record);
 		}
-		
+
 		return filteredRecords;
 	}
 
@@ -177,5 +177,5 @@ public class AlarmFilterImpl extends Obj implements AlarmFilter, FeedFilter {
 	public FeedFilter getFilter(Obj filter) {
 		return new AlarmFilterImpl(filter);
 	}
-	
+
 }

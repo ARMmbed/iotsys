@@ -32,16 +32,14 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPST_5_1;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitPercent;
 import obix.Contract;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPST_5_1;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitPercent;
 
-public abstract class DPST_5_1_Impl extends DPT_5_A_Impl implements DPST_5_1
-{
-	public DPST_5_1_Impl(String name, String displayName, String display, boolean writable, boolean readable)
-	{
+public abstract class DPST_5_1_Impl extends DPT_5_A_Impl implements DPST_5_1 {
+	public DPST_5_1_Impl(String name, String displayName, String display, boolean writable, boolean readable) {
 		// constructor
 		super(name, displayName, display, writable, readable);
 
@@ -55,8 +53,7 @@ public abstract class DPST_5_1_Impl extends DPT_5_A_Impl implements DPST_5_1
 	}
 
 	@Override
-	public void writeObject(Obj input)
-	{
+	public void writeObject(Obj input) {
 		super.writeObject(input);
 	}
 }

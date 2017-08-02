@@ -34,23 +34,22 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.impl;
 
 import java.util.logging.Logger;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPTInt;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl.EnoceanEntityImpl;
 import obix.Bool;
 import obix.Contract;
 import obix.Int;
 import obix.Obj;
 import obix.Real;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPTInt;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl.EnoceanEntityImpl;
 
-public class EnoceanDPTIntImpl extends EnoceanDPTImpl implements EnoceanDPTInt
-{
+public class EnoceanDPTIntImpl extends EnoceanDPTImpl implements EnoceanDPTInt {
 	private static final Logger log = Logger.getLogger(EnoceanDPTIntImpl.class.getName());
 
 	private Int value = new Int();
 
-	public EnoceanDPTIntImpl(String name, String displayName, String display, EnoceanEntityImpl entity, boolean writable, boolean readable)
-	{
+	public EnoceanDPTIntImpl(String name, String displayName, String display, EnoceanEntityImpl entity,
+			boolean writable, boolean readable) {
 		super(name, displayName, display, entity);
 
 		this.addIs(new Contract(EnoceanDPTInt.CONTRACT));
@@ -64,75 +63,58 @@ public class EnoceanDPTIntImpl extends EnoceanDPTImpl implements EnoceanDPTInt
 	}
 
 	@Override
-	public boolean isValueWritable()
-	{
+	public boolean isValueWritable() {
 		return value.isWritable();
 	}
 
 	@Override
-	public boolean isValueReadable()
-	{
+	public boolean isValueReadable() {
 		return value.isReadable();
 	}
 
 	@Override
-	public Int value()
-	{
+	public Int value() {
 		return value;
 	}
 
 	@Override
-	public void writeObject(Obj input)
-	{
-		if (this.value.isWritable())
-		{
-			if (input instanceof EnoceanDPTInt)
-			{
+	public void writeObject(Obj input) {
+		if (this.value.isWritable()) {
+			if (input instanceof EnoceanDPTInt) {
 				EnoceanDPTInt in = (EnoceanDPTInt) input;
 				log.info("Writing on data point.");
 				this.value.set(in.value().get());
-			}
-			else if (input instanceof Bool)
-			{
+			} else if (input instanceof Bool) {
 				this.value.set(((Bool) input).get());
-			}
-			else if (input instanceof Real)
-			{
+			} else if (input instanceof Real) {
 				this.value.set(((Real) input).get());
-			}
-			else if (input instanceof Int)
-			{
+			} else if (input instanceof Int) {
 				this.value.set(((Int) input).get());
 			}
-			if(entity!=null){
+			if (entity != null) {
 				this.entity.writeObject(this.value);
 			}
 		}
 	}
+
 	@Override
-	public void setValue(Obj value){
-		if (value instanceof EnoceanDPTInt)
-		{
+	public void setValue(Obj value) {
+		if (value instanceof EnoceanDPTInt) {
 			EnoceanDPTInt in = (EnoceanDPTInt) value;
 			log.info("Writing on data point.");
 			this.value.set(in.value().get());
-		}
-		else if (value instanceof Bool)
-		{
+		} else if (value instanceof Bool) {
 			this.value.set(((Bool) value).get());
-		}
-		else if (value instanceof Real)
-		{
+		} else if (value instanceof Real) {
 			this.value.set(((Real) value).get());
-		}
-		else if (value instanceof Int)
-		{
+		} else if (value instanceof Int) {
 			this.value.set(((Int) value).get());
-		} else this.value.set(((Obj) value));		
+		} else
+			this.value.set(((Obj) value));
 	}
-	
+
 	@Override
-	public Obj getValue(){
-		return (Obj)this.value;
+	public Obj getValue() {
+		return (Obj) this.value;
 	}
 }

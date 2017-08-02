@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint;
 
 import obix.Int;
 
-public interface DPT_12 extends DataPoint
-{
+public interface DPT_12 extends DataPoint {
 	public static final String CONTRACT = "knx:DPT-12";
 
 	public Int value();

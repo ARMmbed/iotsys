@@ -49,7 +49,6 @@ import javax.jmdns.ServiceListener;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 
 import at.ac.tuwien.auto.iotsys.commons.MdnsResolver;
 import at.ac.tuwien.auto.iotsys.commons.PropertiesLoader;
@@ -66,12 +65,12 @@ public class MdnssdServiceTest extends AbstractGatewayTest {
 
 	String[] testDeviceNames;
 	String[] testDeviceAddr;
-	
+
 	MdnsResolver m;
-	
+
 	private CountDownLatch lock = new CountDownLatch(1);
 	ArrayList<ServiceEvent> resolvedEvents = new ArrayList<ServiceEvent>();
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -79,7 +78,7 @@ public class MdnssdServiceTest extends AbstractGatewayTest {
 	 */
 	@Before
 	public void initialize() {
-		
+
 		try {
 			Class mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
 			m = (MdnsResolver) mc.getDeclaredMethod("getInstance", null).invoke(null, null);
@@ -102,7 +101,7 @@ public class MdnssdServiceTest extends AbstractGatewayTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		testDeviceNames = new String[2];
 		testDeviceAddr = new String[2];
 
@@ -128,7 +127,7 @@ public class MdnssdServiceTest extends AbstractGatewayTest {
 	 * {@link at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl#resolve(java.lang.String)}
 	 * .
 	 */
-//	@Test
+	// @Test
 	public void testResolve() {
 		for (int i = 0; i < testDeviceNames.length; i++) {
 			assertEquals(m.resolve(testDeviceNames[i]), testDeviceAddr[i]);
@@ -140,41 +139,42 @@ public class MdnssdServiceTest extends AbstractGatewayTest {
 	 * {@link at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl#registerDevice(java.lang.String, java.lang.Class, java.lang.String)}
 	 * .
 	 */
-	//@Test // not working by 22/09/2013
+	// @Test // not working by 22/09/2013
 	public void testRegisterDevice() {
 
 		try {
 			JmDNS jmdns = JmDNS.create(InetAddress.getByName(PropertiesLoader.getInstance().getProperties()
 					.getProperty("iotsys.gateway.authNsAddr6", "fe80::acbc:b659:71db:5cb7%20")));
-			jmdns.addServiceListener("_obix._coap." + PropertiesLoader.getInstance().getProperties()
-					.getProperty("iotsys.gateway.authDomain", "local."), new ServiceListener(){
+			jmdns.addServiceListener("_obix._coap."
+					+ PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.authDomain", "local."),
+					new ServiceListener() {
 
-				@Override
-				public void serviceAdded(ServiceEvent event) {
-				}
+						@Override
+						public void serviceAdded(ServiceEvent event) {
+						}
 
-				@Override
-				public void serviceRemoved(ServiceEvent event) {
-				}
+						@Override
+						public void serviceRemoved(ServiceEvent event) {
+						}
 
-				@Override
-				public void serviceResolved(ServiceEvent event) {
-					resolvedEvents.add(event);
-				}
-			});
+						@Override
+						public void serviceResolved(ServiceEvent event) {
+							resolvedEvents.add(event);
+						}
+					});
 			lock.await(20000, TimeUnit.MILLISECONDS);
 			ArrayList<String> eventNames = new ArrayList<String>();
-			for (ServiceEvent e : resolvedEvents){
+			for (ServiceEvent e : resolvedEvents) {
 				eventNames.add(e.getName());
 			}
 			// test all elements in testDeviceNames are returned in eventNames
-			for (String qName : testDeviceNames){
+			for (String qName : testDeviceNames) {
 				// if eventNames not contain qName -> fail
 				String fk = qName.split("\\.")[0].toLowerCase();
 				if (!eventNames.contains(fk))
 					fail();
 			}
-			
+
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();

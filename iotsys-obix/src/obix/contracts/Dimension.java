@@ -1,32 +1,31 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
+import obix.Int;
 
 /**
  * Dimension
  *
- * @author    obix.tools.Obixc
- * @creation  24 May 06
- * @version   $Revision$ $Date$
+ * @author obix.tools.Obixc
+ * @creation 24 May 06
+ * @version $Revision$ $Date$
  */
-public interface Dimension
-  extends IObj
-{
-	
-  public final static String CONTRACT = "obix:Dimension";
+public interface Dimension extends IObj {
 
-  public Int kg();
+	public final static String CONTRACT = "obix:Dimension";
 
-  public Int m();
+	public Int kg();
 
-  public Int sec();
+	public Int m();
 
-  public Int K();
+	public Int sec();
 
-  public Int A();
+	public Int K();
 
-  public Int mol();
+	public Int A();
 
-  public Int cd();
+	public Int mol();
+
+	public Int cd();
 
 }

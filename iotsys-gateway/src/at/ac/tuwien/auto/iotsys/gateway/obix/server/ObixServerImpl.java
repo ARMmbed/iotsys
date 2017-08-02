@@ -38,7 +38,6 @@ import java.util.logging.Logger;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.persistent.UIDb;
 import at.ac.tuwien.auto.iotsys.commons.persistent.UIDbImpl;
-import at.ac.tuwien.auto.iotsys.commons.persistent.WriteableObjectDb;
 import at.ac.tuwien.auto.iotsys.commons.persistent.WriteableObjectDbImpl;
 import obix.Err;
 import obix.Obj;
@@ -47,12 +46,11 @@ import obix.io.ObixDecoder;
 import obix.xml.XException;
 
 public class ObixServerImpl implements ObixServer {
-	private static final Logger log = Logger.getLogger(ObixServerImpl.class
-			.getName());
-	
+	private static final Logger log = Logger.getLogger(ObixServerImpl.class.getName());
+
 	private ObjectBroker objectBroker;
 	private UIDb uidb;
-	
+
 	@Override
 	public UIDb getUidb() {
 		return UIDbImpl.getInstance();
@@ -63,7 +61,7 @@ public class ObixServerImpl implements ObixServer {
 		return objectBroker;
 	}
 
-	public ObixServerImpl(ObjectBroker objectBroker){
+	public ObixServerImpl(ObjectBroker objectBroker) {
 		this.objectBroker = objectBroker;
 	}
 
@@ -84,17 +82,17 @@ public class ObixServerImpl implements ObixServer {
 	public String getCoRELinks() {
 		return objectBroker.getCoRELinks();
 	}
-	
+
 	public Obj writeObj(URI href, String xmlStream) {
 		log.info("Writing on object " + href);
 		log.finer("Writing on object: " + href + " xmlStream: " + xmlStream);
 		// persisting the write
 		WriteableObjectDbImpl.getInstance().persistWritingObject(href.toASCIIString(), xmlStream);
-		
+
 		return applyObj(href, xmlStream);
 	}
-	
-	public Obj applyObj(URI href, String xmlStream){
+
+	public Obj applyObj(URI href, String xmlStream) {
 		try {
 			Obj input = ObixDecoder.fromString(xmlStream);
 			objectBroker.pushObj(new Uri(href.toASCIIString()), input, false);
@@ -115,7 +113,7 @@ public class ObixServerImpl implements ObixServer {
 			if (xmlStream != null && xmlStream.trim().length() > 0) {
 				input = ObixDecoder.fromString(xmlStream);
 			}
-			
+
 			Obj o = objectBroker.invokeOp(new Uri(href.toASCIIString()), input);
 			return o;
 		} catch (XException ex) {
@@ -126,12 +124,13 @@ public class ObixServerImpl implements ObixServer {
 			return e;
 		}
 	}
-	
+
 	@Override
 	public String getNormalizedPath(String href) {
 		Obj o = objectBroker.pullObj(new Uri(href), false);
-		if (o == null) return null;
-		
+		if (o == null)
+			return null;
+
 		return o.getFullContextPath();
 	}
 

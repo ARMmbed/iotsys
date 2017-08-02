@@ -37,22 +37,27 @@ import obix.Bool;
 /**
  * Provides the interface for a LedsActuator.
  */
-public interface LedsActuator extends Actuator{
-	public static final String CONTRACT="iot:LedsActuator";
-	
-	public static final String LED_BLUE_CONTRACT_NAME="blue";
-	public static final String LED_BLUE_CONTRACT_HREF="blue";
-	public static final String LED_BLUE_CONTRACT = "<bool name='"+LED_BLUE_CONTRACT_NAME+"' href='"+LED_BLUE_CONTRACT_HREF+"' val='false'/>";
-	
-	public static final String LED_RED_CONTRACT_NAME="red";
-	public static final String LED_RED_CONTRACT_HREF="red";
-	public static final String LED_RED_CONTRACT = "<bool name='"+LED_RED_CONTRACT_NAME+"' href='"+LED_RED_CONTRACT_HREF+"' val='false'/>";
-	
-	public static final String LED_GREEN_CONTRACT_NAME="green";
-	public static final String LED_GREEN_CONTRACT_HREF="green";
-	public static final String LED_GREEN_CONTRACT = "<bool name='"+LED_GREEN_CONTRACT_NAME+"' href='"+LED_GREEN_CONTRACT_HREF+"' val='false'/>";
-	
+public interface LedsActuator extends Actuator {
+	public static final String CONTRACT = "iot:LedsActuator";
+
+	public static final String LED_BLUE_CONTRACT_NAME = "blue";
+	public static final String LED_BLUE_CONTRACT_HREF = "blue";
+	public static final String LED_BLUE_CONTRACT = "<bool name='" + LED_BLUE_CONTRACT_NAME + "' href='"
+			+ LED_BLUE_CONTRACT_HREF + "' val='false'/>";
+
+	public static final String LED_RED_CONTRACT_NAME = "red";
+	public static final String LED_RED_CONTRACT_HREF = "red";
+	public static final String LED_RED_CONTRACT = "<bool name='" + LED_RED_CONTRACT_NAME + "' href='"
+			+ LED_RED_CONTRACT_HREF + "' val='false'/>";
+
+	public static final String LED_GREEN_CONTRACT_NAME = "green";
+	public static final String LED_GREEN_CONTRACT_HREF = "green";
+	public static final String LED_GREEN_CONTRACT = "<bool name='" + LED_GREEN_CONTRACT_NAME + "' href='"
+			+ LED_GREEN_CONTRACT_HREF + "' val='false'/>";
+
 	public Bool blue();
+
 	public Bool red();
+
 	public Bool green();
 }

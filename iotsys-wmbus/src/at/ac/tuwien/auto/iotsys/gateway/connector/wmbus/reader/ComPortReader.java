@@ -32,127 +32,132 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.reader;
 
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Enumeration;
+import java.util.TooManyListenersException;
 import java.util.logging.Logger;
 
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.TelegramManagerInterface;
-import gnu.io.*;
+import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
+import gnu.io.SerialPortEvent;
+import gnu.io.SerialPortEventListener;
+import gnu.io.UnsupportedCommOperationException;
 
 public class ComPortReader implements Runnable, SerialPortEventListener {
-    private InputStream inputStream;
-    private SerialPort serialPort;
-    private Thread readThread;
-    private TelegramManagerInterface tManager;
-    
-    private static Logger log = Logger.getLogger(ComPortReader.class.getName());
-    
-    public static String COMPORT = "/dev/ttyUSB0";
-    //private static String COMPORT = "COM8";
+	private InputStream inputStream;
+	private SerialPort serialPort;
+	private Thread readThread;
+	private TelegramManagerInterface tManager;
 
-    public ComPortReader(CommPortIdentifier portId, TelegramManagerInterface tManager) {
-    	
-    	this.tManager = tManager;
-        try {
-            serialPort = (SerialPort) portId.open("SimpleSmartMeterReader", 2000);
-        } catch (PortInUseException e) {
-        	e.printStackTrace();
-        }
-        try {
-            inputStream = serialPort.getInputStream();
-        } catch (IOException e) {
-        	e.printStackTrace();
-        }
-	try {
-            serialPort.addEventListener(this);
-	} catch (TooManyListenersException e) {
-		e.printStackTrace();
+	private static Logger log = Logger.getLogger(ComPortReader.class.getName());
+
+	public static String COMPORT = "/dev/ttyUSB0";
+	// private static String COMPORT = "COM8";
+
+	public ComPortReader(CommPortIdentifier portId, TelegramManagerInterface tManager) {
+
+		this.tManager = tManager;
+		try {
+			serialPort = (SerialPort) portId.open("SimpleSmartMeterReader", 2000);
+		} catch (PortInUseException e) {
+			e.printStackTrace();
+		}
+		try {
+			inputStream = serialPort.getInputStream();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			serialPort.addEventListener(this);
+		} catch (TooManyListenersException e) {
+			e.printStackTrace();
+		}
+		serialPort.notifyOnDataAvailable(true);
+		try {
+			serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+		} catch (UnsupportedCommOperationException e) {
+			e.printStackTrace();
+		}
+		readThread = new Thread(this);
+		readThread.start();
 	}
-        serialPort.notifyOnDataAvailable(true);
-        try {
-            serialPort.setSerialPortParams(9600,
-                SerialPort.DATABITS_8,
-                SerialPort.STOPBITS_1,
-                SerialPort.PARITY_NONE);
-        } catch (UnsupportedCommOperationException e) {
-        	e.printStackTrace();
-        }
-        readThread = new Thread(this);
-        readThread.start();
-    }
 
-    public void run() {
-        try {
-            Thread.sleep(1000);
-        } catch (InterruptedException e) {
-        	e.printStackTrace();
-        }
-    }
+	public void run() {
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public void serialEvent(SerialPortEvent event) {
-        switch(event.getEventType()) {
-        case SerialPortEvent.BI:
-        case SerialPortEvent.OE:
-        case SerialPortEvent.FE:
-        case SerialPortEvent.PE:
-        case SerialPortEvent.CD:
-        case SerialPortEvent.CTS:
-        case SerialPortEvent.DSR:
-        case SerialPortEvent.RI:
-        case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
-            break;
-        case SerialPortEvent.DATA_AVAILABLE:
-            byte[] readBuffer = new byte[256];
-            
-            //after Data is available, give it a couple of seconds to process
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-            	e.printStackTrace();            	
-            }
+	public void serialEvent(SerialPortEvent event) {
+		switch (event.getEventType()) {
+		case SerialPortEvent.BI:
+		case SerialPortEvent.OE:
+		case SerialPortEvent.FE:
+		case SerialPortEvent.PE:
+		case SerialPortEvent.CD:
+		case SerialPortEvent.CTS:
+		case SerialPortEvent.DSR:
+		case SerialPortEvent.RI:
+		case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
+			break;
+		case SerialPortEvent.DATA_AVAILABLE:
+			byte[] readBuffer = new byte[256];
 
-            try {
-            	int numBytes = 0;
-                while (inputStream.available() > 0) {
-                    numBytes += inputStream.read(readBuffer);
-                }
-               
-                StringBuffer hexString = new StringBuffer();
-                for (int i = 0; i < readBuffer.length && i < numBytes; i++) {
-	                String hex = Integer.toHexString(0xFF & readBuffer[i]);
-	                if (hex.length() == 1) {
-	                    // could use a for loop, but we're only dealing with a single byte
-	                    hexString.append('0');
-	                }
-	                hexString.append(hex + " ");
-                }               
-                tManager.addTelegram(hexString.toString());
-                
-            } catch (IOException e) {
-            	e.printStackTrace();
-            }
-            break;
-        }
-    }
-    
-    public static CommPortIdentifier lookupPorts(String comPort) {
-    	Enumeration<?> portList = CommPortIdentifier.getPortIdentifiers();
-    	
-        while (portList.hasMoreElements()) {
-        	CommPortIdentifier portId = (CommPortIdentifier) portList.nextElement();
-            if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-            
-                 if (portId.getName().equals(comPort)) {
-                	 log.info("Found com port: " + comPort);
-                	 return portId;
-                }
-            }
-        }
-        return null;
-    }
-   
-    public void closePort(){
-    	serialPort.close();
-    }
-    
+			// after Data is available, give it a couple of seconds to process
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			try {
+				int numBytes = 0;
+				while (inputStream.available() > 0) {
+					numBytes += inputStream.read(readBuffer);
+				}
+
+				StringBuffer hexString = new StringBuffer();
+				for (int i = 0; i < readBuffer.length && i < numBytes; i++) {
+					String hex = Integer.toHexString(0xFF & readBuffer[i]);
+					if (hex.length() == 1) {
+						// could use a for loop, but we're only dealing with a
+						// single byte
+						hexString.append('0');
+					}
+					hexString.append(hex + " ");
+				}
+				tManager.addTelegram(hexString.toString());
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			break;
+		}
+	}
+
+	public static CommPortIdentifier lookupPorts(String comPort) {
+		Enumeration<?> portList = CommPortIdentifier.getPortIdentifiers();
+
+		while (portList.hasMoreElements()) {
+			CommPortIdentifier portId = (CommPortIdentifier) portList.nextElement();
+			if (portId.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+
+				if (portId.getName().equals(comPort)) {
+					log.info("Found com port: " + comPort);
+					return portId;
+				}
+			}
+		}
+		return null;
+	}
+
+	public void closePort() {
+		serialPort.close();
+	}
+
 }

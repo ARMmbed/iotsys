@@ -52,81 +52,80 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
+//import obix.WeatherForcastObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherForcastObject;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.obix.observer.Observer;
 import at.ac.tuwien.auto.iotsys.obix.observer.Subject;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+public class WeatherForecastConnector extends Connector implements Subject {
 
-//import obix.WeatherForcastObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-
-public class WeatherForecastConnector extends Connector implements Subject{
-	
 	private static final HashSet<Observer> observers = new HashSet<Observer>();
 	private static final Logger log = Logger.getLogger(WeatherForecastConnector.class.getName());
-	
+
 	private ManualOverwrite overwrite = ManualOverwrite.OFF;
-	
+
 	private HttpURLConnection httpConnection = null;
 	private DocumentBuilder docBuilder = null;
-	
+
 	public WeatherForecastConnector() throws FactoryConfigurationError, ParserConfigurationException {
 		this.httpConnection = null;
-		
+
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
-		
+
 		this.docBuilder = docBuilderFactory.newDocumentBuilder();
 	}
-	
+
 	public void connect() {
 		// nothing to do
 	}
-	
+
 	public void disconnect() {
 		// nothing to do
 	}
-	
+
 	// create a bad weather front
-	public void setManualOverwrite(ManualOverwrite overwrite){
+	public void setManualOverwrite(ManualOverwrite overwrite) {
 		this.overwrite = overwrite;
 		this.notifyObservers();
 	}
+
 	@JsonIgnore
-	public ManualOverwrite getManualOverwrite(){
+	public ManualOverwrite getManualOverwrite() {
 		return this.overwrite;
 	}
+
 	@JsonIgnore
-	public Document getWeatherForecastAsXML(String serviceURL) throws IOException, MalformedURLException, SAXException
-	{ 
-        log.info("Retrieving weather forecast from " + serviceURL + ".");
-        
-        Document result = null;
-        
-        if (docBuilder != null)
-        {
+	public Document getWeatherForecastAsXML(String serviceURL) throws IOException, MalformedURLException, SAXException {
+		log.info("Retrieving weather forecast from " + serviceURL + ".");
+
+		Document result = null;
+
+		if (docBuilder != null) {
 			connectToURL(serviceURL);
-			
-			if (httpConnection.getResponseCode() == 200)						
+
+			if (httpConnection.getResponseCode() == 200)
 				result = docBuilder.parse(httpConnection.getInputStream());
-			
-	        disconnectFromURL();
-        } 
-        return result;
+
+			disconnectFromURL();
+		}
+		return result;
 	}
+
 	@JsonIgnore
-	public List<WeatherForcastObject> getWeatherForecast(String serviceURL){
-		
-		
+	public List<WeatherForcastObject> getWeatherForecast(String serviceURL) {
+
 		ArrayList<WeatherForcastObject> resultWeatherList = new ArrayList<WeatherForcastObject>();
-		
-		if(overwrite == ManualOverwrite.STORM_ALARM){
-			
+
+		if (overwrite == ManualOverwrite.STORM_ALARM) {
+
 			long now = System.currentTimeMillis();
 			long threeHours = 1000 * 60 * 60 * 3;
 			WeatherForcastObject weatherObject = new WeatherForcastObject();
@@ -142,17 +141,16 @@ public class WeatherForecastConnector extends Connector implements Subject{
 			weatherObject.setWindDirection("W");
 			weatherObject.setWindProbability(100);
 			weatherObject.setWindSpeed(11);
-		
-			weatherObject.setTimestamp(now);		
-			weatherObject.setTimeZone(TimeZone.getTimeZone("CET"));	
-			
-			for(int i = 0; i < 10 ; i++){
+
+			weatherObject.setTimestamp(now);
+			weatherObject.setTimeZone(TimeZone.getTimeZone("CET"));
+
+			for (int i = 0; i < 10; i++) {
 				weatherObject.setTimestamp(now);
 				resultWeatherList.add(weatherObject);
 				now += threeHours;
-			}					
-		}
-		else if(overwrite == ManualOverwrite.STORM_WARNING){
+			}
+		} else if (overwrite == ManualOverwrite.STORM_WARNING) {
 			long now = System.currentTimeMillis();
 			long threeHours = 1000 * 60 * 60 * 3;
 			WeatherForcastObject weatherObject = new WeatherForcastObject();
@@ -168,195 +166,190 @@ public class WeatherForecastConnector extends Connector implements Subject{
 			weatherObject.setWindDirection("W");
 			weatherObject.setWindProbability(100);
 			weatherObject.setWindSpeed(6);
-		
-			weatherObject.setTimestamp(now);		
-			weatherObject.setTimeZone(TimeZone.getTimeZone("CET"));	
-			
-			for(int i = 0; i < 10 ; i++){
+
+			weatherObject.setTimestamp(now);
+			weatherObject.setTimeZone(TimeZone.getTimeZone("CET"));
+
+			for (int i = 0; i < 10; i++) {
 				weatherObject.setTimestamp(now);
 				resultWeatherList.add(weatherObject);
 				now += threeHours;
 				weatherObject.setWindSpeed(6);
-			}	
-		}
-		else{
+			}
+		} else {
 			log.info("Retrieving weather forecast from " + serviceURL + ".");
 			try {
-				
+
 				Document doc = getWeatherForecastAsXML(serviceURL);
-				
-				if (doc != null)
-				{
+
+				if (doc != null) {
 					DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-					
+
 					NodeList elements = doc.getElementsByTagName("location");
-					
-					for (int i=0; i < elements.getLength(); i++)
-					{
+
+					for (int i = 0; i < elements.getLength(); i++) {
 						Element location = (Element) elements.item(i);
-						
-						if (location != null)
-						{
+
+						if (location != null) {
 							Date from;
 							Date to;
 							NodeList tmp;
 							Element time = (Element) location.getParentNode();
-	
-							try
-							{
+
+							try {
 								// Z in xs:dateTime means UTC time!
 								from = dateFormat.parse(time.getAttribute("from").replaceAll("Z", "+00:00"));
-								to = dateFormat.parse(time.getAttribute("to").replaceAll("Z", "+00:00"));			
-							}
-							catch (ParseException pe)
-							{
+								to = dateFormat.parse(time.getAttribute("to").replaceAll("Z", "+00:00"));
+							} catch (ParseException pe) {
 								log.log(Level.WARNING, pe.getMessage());
-								
+
 								// ignore time element
 								continue;
 							}
-				
-							if (from.equals(to))
-							{		
+
+							if (from.equals(to)) {
 								WeatherForcastObject weatherObject = new WeatherForcastObject();
-								String utcOffset = time.getAttribute("to");		 
+								String utcOffset = time.getAttribute("to");
 								// strip date
 								utcOffset = utcOffset.substring(utcOffset.indexOf('T'));
 								// 'Z' means utc
 								utcOffset = utcOffset.replaceAll("Z", "+00:00");
-								// strip time (note that either '+' or '-' is present)
-								utcOffset = utcOffset.substring(utcOffset.lastIndexOf('+') + utcOffset.lastIndexOf('-') + 1);
-								
-								weatherObject.setTimestamp(to.getTime());		
-								weatherObject.setTimeZone(TimeZone.getTimeZone("GMT" + utcOffset));			
-								//parse temperatureProbability
+								// strip time (note that either '+' or '-' is
+								// present)
+								utcOffset = utcOffset
+										.substring(utcOffset.lastIndexOf('+') + utcOffset.lastIndexOf('-') + 1);
+
+								weatherObject.setTimestamp(to.getTime());
+								weatherObject.setTimeZone(TimeZone.getTimeZone("GMT" + utcOffset));
+								// parse temperatureProbability
 								tmp = location.getElementsByTagName("temperatureProbability");
-								
-								if (tmp.getLength() >= 1){
-									weatherObject.setTemperatureProbability(Integer.parseInt(((Element) tmp.item(0)).getAttribute("value")));
+
+								if (tmp.getLength() >= 1) {
+									weatherObject.setTemperatureProbability(
+											Integer.parseInt(((Element) tmp.item(0)).getAttribute("value")));
 								}
-								
-								//parese windProbability
+
+								// parese windProbability
 								tmp = location.getElementsByTagName("windProbability");
-								if (tmp.getLength() >= 1){
-									weatherObject.setWindProbability(Integer.parseInt(((Element) tmp.item(0)).getAttribute("value")));
+								if (tmp.getLength() >= 1) {
+									weatherObject.setWindProbability(
+											Integer.parseInt(((Element) tmp.item(0)).getAttribute("value")));
 								}
-								
+
 								// parse temperature
 								tmp = location.getElementsByTagName("temperature");
-								if (tmp.getLength() >= 1){
-									weatherObject.setTemperature(Double.parseDouble(((Element) tmp.item(0)).getAttribute("value")));
-								}
-								else{
+								if (tmp.getLength() >= 1) {
+									weatherObject.setTemperature(
+											Double.parseDouble(((Element) tmp.item(0)).getAttribute("value")));
+								} else {
 									weatherObject.setTemperature(Double.NaN);
 								}
-									
-								// parse windDirection 
+
+								// parse windDirection
 								tmp = location.getElementsByTagName("windDirection");
-								if (tmp.getLength() >= 1){
-									weatherObject.setWindDirection(((Element) tmp.item(0)).getAttribute("name")); 
-								}
-								else{
+								if (tmp.getLength() >= 1) {
+									weatherObject.setWindDirection(((Element) tmp.item(0)).getAttribute("name"));
+								} else {
 									weatherObject.setWindDirection(null);
-									
+
 								}
-								
+
 								// parse wind speed
 								tmp = location.getElementsByTagName("windSpeed");
-								if (tmp.getLength() >= 1){
-									weatherObject.setWindSpeed(Integer.parseInt(((Element) tmp.item(0)).getAttribute("beaufort")));
-								}
-								else{	
+								if (tmp.getLength() >= 1) {
+									weatherObject.setWindSpeed(
+											Integer.parseInt(((Element) tmp.item(0)).getAttribute("beaufort")));
+								} else {
 									weatherObject.setWindSpeed(null);
 								}
-								
+
 								// parse humidity
 								tmp = location.getElementsByTagName("humidity");
-								if (tmp.getLength() >= 1){
-									weatherObject.setHumidity(Double.parseDouble(((Element) tmp.item(0)).getAttribute("value")));
-								}
-								else{	
+								if (tmp.getLength() >= 1) {
+									weatherObject.setHumidity(
+											Double.parseDouble(((Element) tmp.item(0)).getAttribute("value")));
+								} else {
 									weatherObject.setHumidity(Double.NaN);
 								}
-	
+
 								// parse pressure
 								tmp = location.getElementsByTagName("pressure");
-								if (tmp.getLength() >= 1){
-									weatherObject.setPressure(Double.parseDouble(((Element) tmp.item(0)).getAttribute("value")));
-								}
-								else{	
+								if (tmp.getLength() >= 1) {
+									weatherObject.setPressure(
+											Double.parseDouble(((Element) tmp.item(0)).getAttribute("value")));
+								} else {
 									weatherObject.setPressure(Double.NaN);
 								}
-								
+
 								// parse cloudiness
 								tmp = location.getElementsByTagName("cloudiness");
-								if (tmp.getLength() >= 1){
-									weatherObject.setCloudiness(Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
-								}
-								else{
+								if (tmp.getLength() >= 1) {
+									weatherObject.setCloudiness(
+											Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
+								} else {
 									weatherObject.setCloudiness(Double.NaN);
 								}
-								
+
 								// parse fog
 								tmp = location.getElementsByTagName("fog");
-								if (tmp.getLength() >= 1){
-									weatherObject.setFog(Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
-								}
-								else{
+								if (tmp.getLength() >= 1) {
+									weatherObject.setFog(
+											Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
+								} else {
 									weatherObject.setFog(Double.NaN);
 								}
-								
+
 								// parse lowClouds
 								tmp = location.getElementsByTagName("lowClouds");
-								if (tmp.getLength() >= 1){
-									weatherObject.setLowClouds(Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
-								}
-								else{
+								if (tmp.getLength() >= 1) {
+									weatherObject.setLowClouds(
+											Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
+								} else {
 									weatherObject.setLowClouds(Double.NaN);
 								}
-								
+
 								// parse lowClouds
 								tmp = location.getElementsByTagName("mediumClouds");
-								if (tmp.getLength() >= 1){
-									weatherObject.setHighClouds(Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
-								}
-								else{
+								if (tmp.getLength() >= 1) {
+									weatherObject.setHighClouds(
+											Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
+								} else {
 									weatherObject.setHighClouds(Double.NaN);
 								}
-								
+
 								// parse MediumClouds
 								tmp = location.getElementsByTagName("highClouds");
-								if (tmp.getLength() >= 1){
-									weatherObject.setMediumClouds(Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
-								}
-								else{
+								if (tmp.getLength() >= 1) {
+									weatherObject.setMediumClouds(
+											Double.parseDouble(((Element) tmp.item(0)).getAttribute("percent")));
+								} else {
 									weatherObject.setMediumClouds(Double.NaN);
 								}
-								
-								// parse dewpointTemperature 
+
+								// parse dewpointTemperature
 								tmp = location.getElementsByTagName("dewpointTemperature");
-								if (tmp.getLength() >= 1){
-									weatherObject.setDewpointTemperature(Double.parseDouble(((Element) tmp.item(0)).getAttribute("value")));
-								}
-								else{
+								if (tmp.getLength() >= 1) {
+									weatherObject.setDewpointTemperature(
+											Double.parseDouble(((Element) tmp.item(0)).getAttribute("value")));
+								} else {
 									weatherObject.setDewpointTemperature(Double.NaN);
 								}
-								
+
 								resultWeatherList.add(weatherObject);
 							}
-						}			
+						}
 					}
-				}	
-				
+				}
+
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (SAXException e) {
 				e.printStackTrace();
-			}		
-			
-			if(resultWeatherList.size() == 0){
+			}
+
+			if (resultWeatherList.size() == 0) {
 				// otherwise create mockup data
 				long now = System.currentTimeMillis();
 				long threeHours = 1000 * 60 * 60 * 3;
@@ -373,77 +366,75 @@ public class WeatherForecastConnector extends Connector implements Subject{
 				weatherObject.setWindDirection("W");
 				weatherObject.setWindProbability(100);
 				weatherObject.setWindSpeed(3);
-			
-				weatherObject.setTimestamp(now);		
-				weatherObject.setTimeZone(TimeZone.getTimeZone("CET"));	
-				
-				for(int i = 0; i < 10 ; i++){
+
+				weatherObject.setTimestamp(now);
+				weatherObject.setTimeZone(TimeZone.getTimeZone("CET"));
+
+				for (int i = 0; i < 10; i++) {
 					weatherObject.setTimestamp(now);
 					resultWeatherList.add(weatherObject);
 					now += threeHours;
-				}				
+				}
 			}
 		}
-		
+
 		return resultWeatherList;
 	}
-	
+
 	@JsonIgnore
-	public WeatherForcastObject getUpcomingWeather (String serviceURL){
-		
+	public WeatherForcastObject getUpcomingWeather(String serviceURL) {
+
 		log.info("Retrieving upcoming weather forecast from " + serviceURL + ".");
-		
+
 		List<WeatherForcastObject> weatherList = getWeatherForecast(serviceURL);
-		
+
 		return weatherList.get(0);
 	}
-		
-	private void connectToURL(String serviceURL) throws IOException, MalformedURLException
-	{
+
+	private void connectToURL(String serviceURL) throws IOException, MalformedURLException {
 		log.info("Connecting to weather service.");
-		
+
 		httpConnection = (HttpURLConnection) (new URL(serviceURL)).openConnection();
 		httpConnection.setRequestMethod("GET");
 		httpConnection.setConnectTimeout(10000); // in milliseconds
 		httpConnection.setDoInput(true); // use connection for input
-				
+
 		httpConnection.connect();
 	}
 
-	private void disconnectFromURL()
-	{
+	private void disconnectFromURL() {
 		log.info("Disconnecting from weather service.");
 
 		if (httpConnection != null)
 			httpConnection.disconnect();
-		
+
 		httpConnection = null;
 	}
 
 	@Override
 	public void attach(Observer observer) {
-		synchronized(observers){
+		synchronized (observers) {
 			observers.add(observer);
 		}
-		
+
 	}
 
 	@Override
 	public void detach(Observer observer) {
-		synchronized(observers){
+		synchronized (observers) {
 			observers.remove(observer);
 		}
-		
+
 	}
 
 	@Override
 	public void notifyObservers() {
-		synchronized(observers){
-			for(Observer observer : observers){
+		synchronized (observers) {
+			for (Observer observer : observers) {
 				observer.update(null); // just notify
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -452,7 +443,7 @@ public class WeatherForecastConnector extends Connector implements Subject{
 		// TODO Auto-generated method stub
 		return null;
 	}
-	
+
 	@Override
 	@JsonIgnore
 	public boolean isCoap() {

@@ -24,16 +24,16 @@ import com.serotonin.messaging.DefaultMessagingExceptionHandler;
 import com.serotonin.messaging.MessagingExceptionHandler;
 
 abstract public class BACnetNetwork {
-    private MessagingExceptionHandler exceptionListener = new DefaultMessagingExceptionHandler();
+	private MessagingExceptionHandler exceptionListener = new DefaultMessagingExceptionHandler();
 
-    public void setExceptionListener(MessagingExceptionHandler exceptionListener) {
-        if (exceptionListener == null)
-            this.exceptionListener = new DefaultMessagingExceptionHandler();
-        else
-            this.exceptionListener = exceptionListener;
-    }
+	public void setExceptionListener(MessagingExceptionHandler exceptionListener) {
+		if (exceptionListener == null)
+			this.exceptionListener = new DefaultMessagingExceptionHandler();
+		else
+			this.exceptionListener = exceptionListener;
+	}
 
-    public MessagingExceptionHandler getExceptionListener() {
-        return exceptionListener;
-    }
+	public MessagingExceptionHandler getExceptionListener() {
+		return exceptionListener;
+	}
 }

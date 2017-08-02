@@ -33,9 +33,8 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint;
 
 import obix.Real;
 
-public interface EnoceanDPTReal extends EnoceanDPT
-{
+public interface EnoceanDPTReal extends EnoceanDPT {
 	public static final String CONTRACT = "enocean:DPTReal";
-	
+
 	public Real value();
 }

@@ -25,16 +25,15 @@ import java.net.Socket;
 /**
  * A LogNetWriter is used to log information over a socket network connection.
  * <p>
- * A destination host is supplied on creation of this log writer, a {@link Socket} TCP
- * connection is opened and used for further logging. After {@link #close()}ing the log
- * writer, it cannot be connected again.<br>
+ * A destination host is supplied on creation of this log writer, a
+ * {@link Socket} TCP connection is opened and used for further logging. After
+ * {@link #close()}ing the log writer, it cannot be connected again.<br>
  * For output on the socket the platform's default character set is used.
  * 
  * @author B. Malinowsky
  * @see Socket
  */
-public class LogNetWriter extends LogStreamWriter
-{
+public class LogNetWriter extends LogStreamWriter {
 	/**
 	 * Socket connection used as logging destination.
 	 * <p>
@@ -42,101 +41,104 @@ public class LogNetWriter extends LogStreamWriter
 	protected Socket s;
 
 	/**
-	 * Creates a log writer and opens a socket connection to destination <code>host</code>
-	 * and <code>port</code>.
+	 * Creates a log writer and opens a socket connection to destination
+	 * <code>host</code> and <code>port</code>.
 	 * <p>
 	 * 
-	 * @param host destination host name or IP address in textual presentation; if
-	 *        <code>null</code> or an empty string is specified, an address of the
-	 *        loopback interface is used
-	 * @param port destination port, 0 &lt;= port &lt;= 65535
-	 * @throws KNXLogException if IP address of host could not be determined or socket
-	 *         binding / connecting failed
+	 * @param host
+	 *            destination host name or IP address in textual presentation;
+	 *            if <code>null</code> or an empty string is specified, an
+	 *            address of the loopback interface is used
+	 * @param port
+	 *            destination port, 0 &lt;= port &lt;= 65535
+	 * @throws KNXLogException
+	 *             if IP address of host could not be determined or socket
+	 *             binding / connecting failed
 	 * @see Socket
 	 */
-	public LogNetWriter(String host, int port) throws KNXLogException
-	{
+	public LogNetWriter(String host, int port) throws KNXLogException {
 		try {
 			s = new Socket(host, port);
 			createWriter(s.getOutputStream());
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXLogException(e.getMessage());
 		}
 	}
 
 	/**
-	 * Like {@link #LogNetWriter(String, int)} with the ability to set the filter log
-	 * level for information logged by LogNetWriter.
+	 * Like {@link #LogNetWriter(String, int)} with the ability to set the
+	 * filter log level for information logged by LogNetWriter.
 	 * <p>
 	 * 
-	 * @param level log level used by this LogWriter to filter log information
-	 * @param host destination host name or IP address in textual presentation; if
-	 *        <code>null</code> or an empty string is specified, an address of the
-	 *        loopback interface is used
-	 * @param port destination port, 0 &lt;= port &lt;= 65535
-	 * @throws KNXLogException if IP address of host could not be determined or socket
-	 *         binding / connecting failed
+	 * @param level
+	 *            log level used by this LogWriter to filter log information
+	 * @param host
+	 *            destination host name or IP address in textual presentation;
+	 *            if <code>null</code> or an empty string is specified, an
+	 *            address of the loopback interface is used
+	 * @param port
+	 *            destination port, 0 &lt;= port &lt;= 65535
+	 * @throws KNXLogException
+	 *             if IP address of host could not be determined or socket
+	 *             binding / connecting failed
 	 */
-	public LogNetWriter(LogLevel level, String host, int port) throws KNXLogException
-	{
+	public LogNetWriter(LogLevel level, String host, int port) throws KNXLogException {
 		this(host, port);
 		setLogLevel(level);
 	}
 
 	/**
-	 * Returns the remote host IP address of this log writer, or "" if the connection was
-	 * closed.
+	 * Returns the remote host IP address of this log writer, or "" if the
+	 * connection was closed.
 	 * <p>
 	 * 
 	 * @return IP address as String
 	 * @see java.net.InetAddress#getHostAddress()
 	 */
-	public final String getHostAddress()
-	{
+	public final String getHostAddress() {
 		final Socket socket = s;
 		return socket == null ? "" : socket.getInetAddress().getHostAddress();
 	}
 
 	/**
-	 * Returns the remote host name of this log writer, or "" if the connection was
-	 * closed.
+	 * Returns the remote host name of this log writer, or "" if the connection
+	 * was closed.
 	 * <p>
-	 * Note that this might involve a reverse name lookup. It is possible that only the IP
-	 * address string is returned.
+	 * Note that this might involve a reverse name lookup. It is possible that
+	 * only the IP address string is returned.
 	 * 
 	 * @return host name (or IP address) as String
 	 * @see java.net.InetAddress#getHostName()
 	 */
-	public final String getHostName()
-	{
+	public final String getHostName() {
 		final Socket socket = s;
 		return socket == null ? "" : socket.getInetAddress().getHostName();
 	}
 
 	/**
-	 * Returns the destination port of this log writer, or 0 if the connection was closed.
+	 * Returns the destination port of this log writer, or 0 if the connection
+	 * was closed.
 	 * <p>
 	 * 
 	 * @return port number as unsigned
 	 */
-	public final int getPort()
-	{
+	public final int getPort() {
 		final Socket socket = s;
 		return socket == null ? 0 : socket.getPort();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.log.LogStreamWriter#close()
 	 */
-	public synchronized void close()
-	{
+	public synchronized void close() {
 		if (s != null) {
 			super.close();
 			try {
 				s.close();
+			} catch (final IOException e) {
 			}
-			catch (final IOException e) {}
 			s = null;
 		}
 	}

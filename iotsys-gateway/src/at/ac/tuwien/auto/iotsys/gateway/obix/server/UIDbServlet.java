@@ -32,18 +32,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import at.ac.tuwien.auto.iotsys.commons.persistent.models.User;
-
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import at.ac.tuwien.auto.iotsys.commons.persistent.models.User;
 
 /**
  * @author Nam Giang - zang at kaist dot ac dot kr
  *
  */
 public class UIDbServlet extends HttpServlet {
-	
+
 	private ObixServer os = null;
 	private boolean enableAuthen = false;
 	private ObjectMapper mapper = new ObjectMapper();
@@ -59,32 +59,29 @@ public class UIDbServlet extends HttpServlet {
 	}
 
 	@Override
-	public void service(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		if (enableAuthen){
+		if (enableAuthen) {
 			HttpSession session = req.getSession(true);
-			if ((session.getAttribute("authenticated") == null || Boolean
-					.parseBoolean(session.getAttribute("authenticated")
-							.toString()) != true)) {
+			if ((session.getAttribute("authenticated") == null
+					|| Boolean.parseBoolean(session.getAttribute("authenticated").toString()) != true)) {
 				resp.sendRedirect("/");
 			}
 		}
 		super.service(req, resp);
 	}
-	
+
 	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
 		PrintWriter w = resp.getWriter();
 
 		String resource = req.getPathInfo();
-		if (servletMatcher(resource, "/uistorage")){
+		if (servletMatcher(resource, "/uistorage")) {
 			Map<String, String> uiStorage = os.getUidb().getUiStorage();
 			String uiStorageJson = mapper.writeValueAsString(uiStorage);
 			w.println(uiStorageJson);
-		} else if (servletMatcher(resource, "/user/[a-zA-Z0-9]+")){
+		} else if (servletMatcher(resource, "/user/[a-zA-Z0-9]+")) {
 			String name = resource.split("/")[2];
 			User u = os.getUidb().getUser(name);
 			String userJson = mapper.writeValueAsString(u);
@@ -94,11 +91,11 @@ public class UIDbServlet extends HttpServlet {
 		w.flush();
 		w.close();
 	}
+
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter w = resp.getWriter();
-		
+
 		String resource = req.getPathInfo();
 		switch (resource) {
 		case "/uistorage":
@@ -107,11 +104,11 @@ public class UIDbServlet extends HttpServlet {
 				uiStorage = mapper.readValue(req.getInputStream(), Map.class);
 				os.getUidb().updateBulkKeyValue(uiStorage);
 				w.println("Server got: " + mapper.writeValueAsString(uiStorage));
-			} catch (JsonParseException | JsonMappingException e){
+			} catch (JsonParseException | JsonMappingException e) {
 				w.println("Wrong input!");
 				return;
 			}
-			
+
 			break;
 		case "/users":
 			User u = null;
@@ -119,7 +116,7 @@ public class UIDbServlet extends HttpServlet {
 				u = mapper.readValue(req.getInputStream(), User.class);
 				os.getUidb().addUser(u);
 				w.println(mapper.writeValueAsString(u));
-			} catch (JsonParseException | JsonMappingException e){
+			} catch (JsonParseException | JsonMappingException e) {
 				w.println("something wrong in adding new user");
 			}
 			break;
@@ -127,18 +124,17 @@ public class UIDbServlet extends HttpServlet {
 			w.println("NOT FOUND!");
 			break;
 		}
-		
+
 		w.flush();
 		w.close();
 	}
-	
+
 	@Override
-	protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter w = resp.getWriter();
-		
+
 		String resource = req.getPathInfo();
-		
+
 		switch (resource) {
 		case "/users":
 			User u = null;
@@ -146,7 +142,7 @@ public class UIDbServlet extends HttpServlet {
 				u = mapper.readValue(req.getInputStream(), User.class);
 				os.getUidb().updateUser(u.getName(), u);
 				w.println(mapper.writeValueAsString(u));
-			} catch (JsonParseException | JsonMappingException e){
+			} catch (JsonParseException | JsonMappingException e) {
 				w.println("something wrong in updating new user");
 			}
 			break;
@@ -154,17 +150,17 @@ public class UIDbServlet extends HttpServlet {
 			w.println("NOT FOUND!");
 			break;
 		}
-		
+
 		w.flush();
 		w.close();
 	}
+
 	@Override
-	protected void doDelete(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter w = resp.getWriter();
-		
+
 		String resource = req.getPathInfo();
-		
+
 		switch (resource) {
 		case "/canvasobjects":
 			break;
@@ -172,22 +168,22 @@ public class UIDbServlet extends HttpServlet {
 			w.println("NOT FOUND!");
 			break;
 		}
-		
+
 		w.flush();
 		w.close();
 	}
-	
-	private String getRequestPayload(HttpServletRequest req) throws IOException{
+
+	private String getRequestPayload(HttpServletRequest req) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		BufferedReader br = req.getReader();
 		String str = null;
-		while( (str = br.readLine()) != null ){
+		while ((str = br.readLine()) != null) {
 			sb.append(str);
 		}
 		return str;
 	}
-	
-	private boolean servletMatcher(String resourcePath, String pattern){
+
+	private boolean servletMatcher(String resourcePath, String pattern) {
 		if (resourcePath.length() == 0)
 			return false;
 		Pattern p = Pattern.compile(pattern);

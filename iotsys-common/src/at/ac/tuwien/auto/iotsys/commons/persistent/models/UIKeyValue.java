@@ -32,31 +32,37 @@ public class UIKeyValue {
 	@JsonProperty("_rev")
 	String rev;
 	String value;
-	
-	public UIKeyValue(){}
-	
-	public UIKeyValue(String key, String value){
+
+	public UIKeyValue() {
+	}
+
+	public UIKeyValue(String key, String value) {
 		this.key = key;
 		this.value = value;
 	}
-	
+
 	public String getKey() {
 		return key;
 	}
+
 	public void setKey(String key) {
 		this.key = key;
 	}
+
 	public String getRev() {
 		return rev;
 	}
+
 	public void setRev(String rev) {
 		this.rev = rev;
 	}
+
 	public String getValue() {
 		return value;
 	}
+
 	public void setValue(String value) {
 		this.value = value;
 	}
-	
+
 }

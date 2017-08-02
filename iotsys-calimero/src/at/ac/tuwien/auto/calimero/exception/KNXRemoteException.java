@@ -20,33 +20,33 @@
 package at.ac.tuwien.auto.calimero.exception;
 
 /**
- * Thrown when a message received from a remote endpoint indicates problems or signals
- * error conditions at the remote server, for example due to a invalid formatted request
- * or processing result.
+ * Thrown when a message received from a remote endpoint indicates problems or
+ * signals error conditions at the remote server, for example due to a invalid
+ * formatted request or processing result.
  * <p>
  * 
  * @author B. Malinowsky
  */
-public class KNXRemoteException extends KNXException
-{
+public class KNXRemoteException extends KNXException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new <code>KNXRemoteException</code> without a detail message.
-	 * <p>
-	 */
-	public KNXRemoteException()
-	{}
-
-	/**
-	 * Constructs a new <code>KNXRemoteException</code> with the specified detail
+	 * Constructs a new <code>KNXRemoteException</code> without a detail
 	 * message.
 	 * <p>
-	 * 
-	 * @param s the detail message
 	 */
-	public KNXRemoteException(String s)
-	{
+	public KNXRemoteException() {
+	}
+
+	/**
+	 * Constructs a new <code>KNXRemoteException</code> with the specified
+	 * detail message.
+	 * <p>
+	 * 
+	 * @param s
+	 *            the detail message
+	 */
+	public KNXRemoteException(String s) {
 		super(s);
 	}
 }

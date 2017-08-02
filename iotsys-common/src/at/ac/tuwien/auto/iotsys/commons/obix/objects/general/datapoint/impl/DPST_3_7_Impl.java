@@ -32,22 +32,20 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPST_3_7;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.parameter.ParameterDimming;
+import at.ac.tuwien.auto.iotsys.obix.OperationHandler;
 import obix.Contract;
 import obix.Obj;
 import obix.Op;
 import obix.Uri;
 import obix.contracts.Nil;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPST_3_7;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.parameter.ParameterDimming;
-import at.ac.tuwien.auto.iotsys.obix.OperationHandler;
 
-public abstract class DPST_3_7_Impl extends DPT_3_Impl implements DPST_3_7
-{
+public abstract class DPST_3_7_Impl extends DPT_3_Impl implements DPST_3_7 {
 	private Op increase;
 	private Op decrease;
 
-	public DPST_3_7_Impl(String name, String displayName, String display)
-	{
+	public DPST_3_7_Impl(String name, String displayName, String display) {
 		// constructor
 		super(name, displayName, display);
 
@@ -60,11 +58,9 @@ public abstract class DPST_3_7_Impl extends DPT_3_Impl implements DPST_3_7
 		this.increase.setHref(new Uri("increase"));
 		this.increase.setIn(new Contract(ParameterDimming.CONTRACT));
 		this.increase.setOut(new Contract(Nil.CONTRACT));
-		this.increase.setOperationHandler(new OperationHandler()
-		{
+		this.increase.setOperationHandler(new OperationHandler() {
 			@Override
-			public Obj invoke(Obj in)
-			{
+			public Obj invoke(Obj in) {
 				return doIncrease(in);
 			}
 		});
@@ -76,11 +72,9 @@ public abstract class DPST_3_7_Impl extends DPT_3_Impl implements DPST_3_7
 		this.decrease.setHref(new Uri("decrease"));
 		this.decrease.setIn(new Contract(ParameterDimming.CONTRACT));
 		this.decrease.setOut(new Contract(Nil.CONTRACT));
-		this.decrease.setOperationHandler(new OperationHandler()
-		{
+		this.decrease.setOperationHandler(new OperationHandler() {
 			@Override
-			public Obj invoke(Obj in)
-			{
+			public Obj invoke(Obj in) {
 				return doDecrease(in);
 			}
 		});
@@ -92,14 +86,12 @@ public abstract class DPST_3_7_Impl extends DPT_3_Impl implements DPST_3_7
 	protected abstract Obj doDecrease(Obj in);
 
 	@Override
-	public Op increase()
-	{
+	public Op increase() {
 		return increase;
 	}
 
 	@Override
-	public Op decrease()
-	{
+	public Op decrease() {
 		return decrease;
 	}
 }

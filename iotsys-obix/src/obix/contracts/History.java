@@ -1,6 +1,11 @@
 package obix.contracts;
 
-import obix.*;
+import obix.Abstime;
+import obix.Feed;
+import obix.IObj;
+import obix.Int;
+import obix.Op;
+import obix.Str;
 
 /**
  * History
@@ -9,8 +14,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface History extends IObj
-{
+public interface History extends IObj {
 	public static final String CONTRACT = "obix:History";
 
 	public static final String countContract = "<int name='count' val='0' min='0'/>";
@@ -29,19 +33,23 @@ public interface History extends IObj
 
 	public Str tz();
 
-	public static final String queryContract = "<op name='query' in='" + HistoryFilter.CONTRACT + "' out='" + HistoryQueryOut.CONTRACT + "'/>";
+	public static final String queryContract = "<op name='query' in='" + HistoryFilter.CONTRACT + "' out='"
+			+ HistoryQueryOut.CONTRACT + "'/>";
 
 	public Op query();
 
-	public static final String feedContract = "<feed name='feed' in='" + HistoryFilter.CONTRACT + "' of='" + HistoryRecord.CONTRACT + "'/>";
+	public static final String feedContract = "<feed name='feed' in='" + HistoryFilter.CONTRACT + "' of='"
+			+ HistoryRecord.CONTRACT + "'/>";
 
 	public Feed feed();
 
-	public static final String rollupContract = "<op name='rollup' in='" + HistoryRollupIn.CONTRACT + "' out='" + HistoryRollupOut.CONTRACT + "'/>";
+	public static final String rollupContract = "<op name='rollup' in='" + HistoryRollupIn.CONTRACT + "' out='"
+			+ HistoryRollupOut.CONTRACT + "'/>";
 
 	public Op rollup();
 
-	public static final String appendContract = "<op name='append' in='" + HistoryAppendIn.CONTRACT + "' out='" + HistoryAppendOut.CONTRACT + "'/>";
+	public static final String appendContract = "<op name='append' in='" + HistoryAppendIn.CONTRACT + "' out='"
+			+ HistoryAppendOut.CONTRACT + "'/>";
 
 	public Op append();
 

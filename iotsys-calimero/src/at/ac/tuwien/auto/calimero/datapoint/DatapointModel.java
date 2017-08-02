@@ -26,36 +26,40 @@ import at.ac.tuwien.auto.calimero.xml.XMLReader;
 import at.ac.tuwien.auto.calimero.xml.XMLWriter;
 
 /**
- * A container for keeping {@link Datapoint}s, using some particular hierarchical
- * structure or order between those datapoints.
+ * A container for keeping {@link Datapoint}s, using some particular
+ * hierarchical structure or order between those datapoints.
  * <p>
- * Its purpose is to imitate a real world datapoint layout, to build and maintain some
- * kind of model for it, allowing a user to create and work with an arrangement of
- * datapoints being adequate for the application requirements.<br>
- * This interface aims to act as the base for building more complex layouts, for example
- * to model part of a KNX network.
+ * Its purpose is to imitate a real world datapoint layout, to build and
+ * maintain some kind of model for it, allowing a user to create and work with
+ * an arrangement of datapoints being adequate for the application
+ * requirements.<br>
+ * This interface aims to act as the base for building more complex layouts, for
+ * example to model part of a KNX network.
  * 
  * @author B. Malinowsky
  * @see DatapointMap
  */
-public interface DatapointModel
-{
+public interface DatapointModel {
 	/**
 	 * Adds a datapoint to this model.
 	 * <p>
-	 * An implementation might throw KNXIllegalArgumentException if tried to add a
-	 * duplicate datapoint.
+	 * An implementation might throw KNXIllegalArgumentException if tried to add
+	 * a duplicate datapoint.
 	 * 
-	 * @param dp datapoint to add
-	 * @throws KNXIllegalArgumentException on duplicate datapoint
+	 * @param dp
+	 *            datapoint to add
+	 * @throws KNXIllegalArgumentException
+	 *             on duplicate datapoint
 	 */
 	void add(Datapoint dp);
 
 	/**
-	 * Removes the specified datapoint from this model, if that datapoint is found.
+	 * Removes the specified datapoint from this model, if that datapoint is
+	 * found.
 	 * <p>
 	 * 
-	 * @param dp datapoint to remove
+	 * @param dp
+	 *            datapoint to remove
 	 */
 	void remove(Datapoint dp);
 
@@ -66,22 +70,25 @@ public interface DatapointModel
 	void removeAll();
 
 	/**
-	 * Returns the datapoint identified using the specified <code>main</code> address,
-	 * if found in this model.
+	 * Returns the datapoint identified using the specified <code>main</code>
+	 * address, if found in this model.
 	 * <p>
-	 * If no datapoint is found with that address, <code>null</code> is returned.
+	 * If no datapoint is found with that address, <code>null</code> is
+	 * returned.
 	 * 
-	 * @param main KNX group address to get the datapoint for
+	 * @param main
+	 *            KNX group address to get the datapoint for
 	 * @return the datapoint or <code>null</code>
 	 */
 	Datapoint get(GroupAddress main);
 
 	/**
-	 * Checks whether this model contains the datapoint identified using the specified
-	 * <code>main</code> address.
+	 * Checks whether this model contains the datapoint identified using the
+	 * specified <code>main</code> address.
 	 * <p>
 	 * 
-	 * @param main KNX group address to look up
+	 * @param main
+	 *            KNX group address to look up
 	 * @return <code>true</code> iff such datapoint is found, <code>false</code>
 	 *         otherwise
 	 */
@@ -91,7 +98,8 @@ public interface DatapointModel
 	 * Checks whether this model contains the specified datapoint.
 	 * <p>
 	 * 
-	 * @param dp datapoint to look up
+	 * @param dp
+	 *            datapoint to look up
 	 * @return <code>true</code> iff such datapoint is found, <code>false</code>
 	 *         otherwise
 	 */
@@ -100,12 +108,15 @@ public interface DatapointModel
 	/**
 	 * Loads a datapoint model from XML input into this model.
 	 * <p>
-	 * Datapoints already contained in this model are not required to be removed before
-	 * loading, the loaded model will be added to the already existing datapoints.
+	 * Datapoints already contained in this model are not required to be removed
+	 * before loading, the loaded model will be added to the already existing
+	 * datapoints.
 	 * 
-	 * @param r a XML reader
-	 * @throws KNXMLException on error loading the datapoint model, or on duplicate loaded
-	 *         datapoint
+	 * @param r
+	 *            a XML reader
+	 * @throws KNXMLException
+	 *             on error loading the datapoint model, or on duplicate loaded
+	 *             datapoint
 	 */
 	void load(XMLReader r) throws KNXMLException;
 
@@ -113,8 +124,10 @@ public interface DatapointModel
 	 * Saves the datapoint model to XML using the supplied writer.
 	 * <p>
 	 * 
-	 * @param w a XML writer
-	 * @throws KNXMLException on error saving the datapoint model
+	 * @param w
+	 *            a XML writer
+	 * @throws KNXMLException
+	 *             on error saving the datapoint model
 	 */
 	void save(XMLWriter w) throws KNXMLException;
 }

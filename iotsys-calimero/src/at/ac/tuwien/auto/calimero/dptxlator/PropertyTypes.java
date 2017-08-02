@@ -26,19 +26,17 @@ import java.util.Map;
 import at.ac.tuwien.auto.calimero.dptxlator.TranslatorTypes.MainType;
 import at.ac.tuwien.auto.calimero.exception.KNXException;
 
-
 /**
  * Maintains all available KNX property data types (PDT).
  * <p>
- * It stores all available, registered PDTs and the associated datapoint type (DPT) for
- * such a property type.<br>
- * It offers methods to work with and alter these PDT to DPT mappings, to look up DPT
- * translators or to do complete translation of data.<br>
+ * It stores all available, registered PDTs and the associated datapoint type
+ * (DPT) for such a property type.<br>
+ * It offers methods to work with and alter these PDT to DPT mappings, to look
+ * up DPT translators or to do complete translation of data.<br>
  * 
  * @author B. Malinowsky
  */
-public final class PropertyTypes
-{
+public final class PropertyTypes {
 	/**
 	 * Type for a value entry in the map of property types, returned by
 	 * {@link PropertyTypes#getAllPropertyTypes()}.
@@ -47,8 +45,7 @@ public final class PropertyTypes
 	 * For a more detailed description of main numbers and DPTs, see
 	 * {@link TranslatorTypes}.
 	 */
-	public static class DPTID
-	{
+	public static class DPTID {
 		private final int main;
 		private final String dpt;
 
@@ -56,12 +53,13 @@ public final class PropertyTypes
 		 * Creates a new DPTID used to identify a DPT translator.
 		 * <p>
 		 * 
-		 * @param mainNumber DPT main number identifying a data type matching the property
-		 *        data type
-		 * @param dpt appropriate datapoint type for the property type
+		 * @param mainNumber
+		 *            DPT main number identifying a data type matching the
+		 *            property data type
+		 * @param dpt
+		 *            appropriate datapoint type for the property type
 		 */
-		public DPTID(int mainNumber, String dpt)
-		{
+		public DPTID(int mainNumber, String dpt) {
 			main = mainNumber;
 			this.dpt = dpt;
 		}
@@ -69,13 +67,13 @@ public final class PropertyTypes
 		/**
 		 * Returns the main number of the translator data type.
 		 * <p>
-		 * If the datapoint type returned by {@link #getDPT()} is formatted the preferred
-		 * way as described in {@link TranslatorTypes}, the main number might be 0.
+		 * If the datapoint type returned by {@link #getDPT()} is formatted the
+		 * preferred way as described in {@link TranslatorTypes}, the main
+		 * number might be 0.
 		 * 
 		 * @return main number (or 0) as int
 		 */
-		public final int getMainNumber()
-		{
+		public final int getMainNumber() {
 			return main;
 		}
 
@@ -85,8 +83,7 @@ public final class PropertyTypes
 		 * 
 		 * @return datapoint type as string
 		 */
-		public final String getDPT()
-		{
+		public final String getDPT() {
 			return dpt;
 		}
 	}
@@ -239,9 +236,9 @@ public final class PropertyTypes
 	 * PDT_GENERIC_20, PDT = 0x24, format undefined, length = 1 octet.
 	 */
 	public static final int PDT_GENERIC_20 = 0x24;
-	
+
 	// Reserved 0x25 - 0x2F
-	
+
 	/**
 	 * PDT_VERSION, PDT = 0x30, format DPT_Version.
 	 */
@@ -291,108 +288,96 @@ public final class PropertyTypes
 	 * PDT_ESCAPE, PDT = 0x3F, format defined or undefined.
 	 */
 	// private static final int PDT_ESCAPE = 0x3F;
-	
+
 	private static final Map pt;
 
 	static {
 		final Map m = new HashMap(40);
-		m
-			.put(new Integer(PDT_CHAR), new DPTID(TranslatorTypes.TYPE_8BIT_SIGNED,
-				"6.010"));
-		m.put(new Integer(PDT_UNSIGNED_CHAR), new DPTID(
-			TranslatorTypes.TYPE_8BIT_UNSIGNED, "5.010"));
-		m.put(new Integer(PDT_INT),
-			new DPTID(TranslatorTypes.TYPE_2OCTET_SIGNED, "8.001"));
-		m.put(new Integer(PDT_UNSIGNED_INT), new DPTID(
-			TranslatorTypes.TYPE_2OCTET_UNSIGNED, "7.001"));
-		m.put(new Integer(PDT_KNX_FLOAT), new DPTID(TranslatorTypes.TYPE_2OCTET_FLOAT,
-			"9.002"));
+		m.put(new Integer(PDT_CHAR), new DPTID(TranslatorTypes.TYPE_8BIT_SIGNED, "6.010"));
+		m.put(new Integer(PDT_UNSIGNED_CHAR), new DPTID(TranslatorTypes.TYPE_8BIT_UNSIGNED, "5.010"));
+		m.put(new Integer(PDT_INT), new DPTID(TranslatorTypes.TYPE_2OCTET_SIGNED, "8.001"));
+		m.put(new Integer(PDT_UNSIGNED_INT), new DPTID(TranslatorTypes.TYPE_2OCTET_UNSIGNED, "7.001"));
+		m.put(new Integer(PDT_KNX_FLOAT), new DPTID(TranslatorTypes.TYPE_2OCTET_FLOAT, "9.002"));
 		m.put(new Integer(PDT_DATE), new DPTID(TranslatorTypes.TYPE_DATE, "11.001"));
 		m.put(new Integer(PDT_TIME), new DPTID(TranslatorTypes.TYPE_TIME, "10.001"));
-		m.put(new Integer(PDT_LONG), new DPTID(TranslatorTypes.TYPE_4OCTET_SIGNED,
-			"13.001"));
-		m.put(new Integer(PDT_UNSIGNED_LONG), new DPTID(
-			TranslatorTypes.TYPE_4OCTET_UNSIGNED, "12.001"));
-		m.put(new Integer(PDT_FLOAT), new DPTID(TranslatorTypes.TYPE_4OCTET_FLOAT,
-			"14.005"));
+		m.put(new Integer(PDT_LONG), new DPTID(TranslatorTypes.TYPE_4OCTET_SIGNED, "13.001"));
+		m.put(new Integer(PDT_UNSIGNED_LONG), new DPTID(TranslatorTypes.TYPE_4OCTET_UNSIGNED, "12.001"));
+		m.put(new Integer(PDT_FLOAT), new DPTID(TranslatorTypes.TYPE_4OCTET_FLOAT, "14.005"));
 		// p.put(new Integer(PDT_DOUBLE), );
 		m.put(new Integer(PDT_CHAR_BLOCK), new DPTID(24, "24.001"));
 		// p.put(new Integer(PDT_POLL_GROUP_SETTINGS), );
 		m.put(new Integer(PDT_SHORT_CHAR_BLOCK), new DPTID(24, "24.001"));
-		m.put(new Integer(PDT_DATE_TIME), new DPTID(TranslatorTypes.TYPE_DATE_TIME,
-			"19.001"));
+		m.put(new Integer(PDT_DATE_TIME), new DPTID(TranslatorTypes.TYPE_DATE_TIME, "19.001"));
 		m.put(new Integer(PDT_VARIABLE_LENGTH), new DPTID(24, "24.001"));
 		m.put(new Integer(PDT_VERSION), new DPTID(217, "217.001"));
 		m.put(new Integer(PDT_ALARM_INFO), new DPTID(219, "219.001"));
-		m.put(new Integer(PDT_BINARY_INFORMATION), new DPTID(
-			TranslatorTypes.TYPE_BOOLEAN, "1.002"));
+		m.put(new Integer(PDT_BINARY_INFORMATION), new DPTID(TranslatorTypes.TYPE_BOOLEAN, "1.002"));
 		m.put(new Integer(PDT_BITSET8), new DPTID(21, "21.001"));
 		m.put(new Integer(PDT_BITSET16), new DPTID(22, "22.100"));
 		m.put(new Integer(PDT_ENUM8), new DPTID(20, "20.1000"));
-		m.put(new Integer(PDT_SCALING), new DPTID(TranslatorTypes.TYPE_8BIT_UNSIGNED,
-			"5.001"));
+		m.put(new Integer(PDT_SCALING), new DPTID(TranslatorTypes.TYPE_8BIT_UNSIGNED, "5.001"));
 		pt = Collections.synchronizedMap(m);
 	}
 
-	private PropertyTypes()
-	{}
+	private PropertyTypes() {
+	}
 
 	/**
 	 * Returns all property types which have an associated (but not necessarily
 	 * implemented/available) DPT translator.
 	 * <p>
-	 * A map key is of type Integer, holding the PDT, a map value is of type {@link DPTID}.
+	 * A map key is of type Integer, holding the PDT, a map value is of type
+	 * {@link DPTID}.
 	 * 
 	 * @return property type map
 	 */
-	public static Map getAllPropertyTypes()
-	{
+	public static Map getAllPropertyTypes() {
 		return pt;
 	}
 
 	/**
-	 * Does a lookup if the given property data type has an associated translator
-	 * available.
+	 * Does a lookup if the given property data type has an associated
+	 * translator available.
 	 * <p>
-	 * The translator looked for is specified in the property map. An available translator
-	 * is implemented and can be used for translation.
+	 * The translator looked for is specified in the property map. An available
+	 * translator is implemented and can be used for translation.
 	 * 
-	 * @param dataType property data type to lookup
+	 * @param dataType
+	 *            property data type to lookup
 	 * @return <code>true</code> iff translator and its subtype was found,
 	 *         <code>false</code> otherwise
 	 */
-	public static boolean hasTranslator(int dataType)
-	{
+	public static boolean hasTranslator(int dataType) {
 		final DPTID dpt = (DPTID) pt.get(new Integer(dataType));
 		if (dpt != null)
 			try {
 				final MainType t = TranslatorTypes.getMainType(dpt.getMainNumber());
 				if (t != null)
 					return t.getSubTypes().get(dpt.getDPT()) != null;
+			} catch (final NumberFormatException e) {
+			} catch (final KNXException e) {
 			}
-			catch (final NumberFormatException e) {}
-			catch (final KNXException e) {}
 		return false;
 	}
 
 	/**
 	 * Creates a new DPT translator for the specified property type.
 	 * <p>
-	 * The translator is initialized with a subtype as specified by the property map.
-	 * Also, appending of units is disabled in the returned translator.
+	 * The translator is initialized with a subtype as specified by the property
+	 * map. Also, appending of units is disabled in the returned translator.
 	 * 
-	 * @param dataType property data type to get the associated translator for
+	 * @param dataType
+	 *            property data type to get the associated translator for
 	 * @return the created DPT translator
-	 * @throws KNXException on PDT not found or translator could not be created
+	 * @throws KNXException
+	 *             on PDT not found or translator could not be created
 	 * @see TranslatorTypes#createTranslator(int, String)
 	 */
-	public static DPTXlator createTranslator(int dataType) throws KNXException
-	{
+	public static DPTXlator createTranslator(int dataType) throws KNXException {
 		final DPTID dpt = (DPTID) pt.get(new Integer(dataType));
 		if (dpt == null)
 			throw new KNXException("PDT not found");
-		final DPTXlator t =
-			TranslatorTypes.createTranslator(dpt.getMainNumber(), dpt.getDPT());
+		final DPTXlator t = TranslatorTypes.createTranslator(dpt.getMainNumber(), dpt.getDPT());
 		t.setAppendUnit(false);
 		return t;
 	}
@@ -402,36 +387,40 @@ public final class PropertyTypes
 	 * capability to set the data to be used by the DPT translator.
 	 * <p>
 	 * 
-	 * @param dataType property data type to get the associated translator for
-	 * @param data array with KNX DPT formatted data, the number of contained items is
-	 *        determined by the used DPT
+	 * @param dataType
+	 *            property data type to get the associated translator for
+	 * @param data
+	 *            array with KNX DPT formatted data, the number of contained
+	 *            items is determined by the used DPT
 	 * @return the created DPT translator with the set data
-	 * @throws KNXException on PDT not found or translator could not be created
+	 * @throws KNXException
+	 *             on PDT not found or translator could not be created
 	 * @see #createTranslator(int)
 	 */
-	public static DPTXlator createTranslator(int dataType, byte[] data)
-		throws KNXException
-	{
+	public static DPTXlator createTranslator(int dataType, byte[] data) throws KNXException {
 		final DPTXlator t = createTranslator(dataType);
 		t.setData(data);
 		return t;
 	}
 
 	/**
-	 * Utility method for retrieving the string representations of the KNX DPT data of the
-	 * specified property data type.
+	 * Utility method for retrieving the string representations of the KNX DPT
+	 * data of the specified property data type.
 	 * <p>
 	 * 
-	 * @param dataType property data type of the <code>data</code> items
-	 * @param data array with KNX DPT formatted data, the number of contained items is
-	 *        determined by the used DPT
-	 * @return string array with representation of the data items according to the used
-	 *         DPT translator as returned by {@link DPTXlator#getAllValues()}, length of
-	 *         array equals translated items in <code>data</code>
-	 * @throws KNXException if translator could not be created
+	 * @param dataType
+	 *            property data type of the <code>data</code> items
+	 * @param data
+	 *            array with KNX DPT formatted data, the number of contained
+	 *            items is determined by the used DPT
+	 * @return string array with representation of the data items according to
+	 *         the used DPT translator as returned by
+	 *         {@link DPTXlator#getAllValues()}, length of array equals
+	 *         translated items in <code>data</code>
+	 * @throws KNXException
+	 *             if translator could not be created
 	 */
-	public static String[] getValues(int dataType, byte[] data) throws KNXException
-	{
+	public static String[] getValues(int dataType, byte[] data) throws KNXException {
 		return createTranslator(dataType, data).getAllValues();
 	}
 }

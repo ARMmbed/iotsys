@@ -31,19 +31,17 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.parameter.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.parameter.ParameterDimming;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitPercent;
 import obix.Contract;
 import obix.Int;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.parameter.ParameterDimming;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitPercent;
 
-public class ParameterDimmingImpl extends Obj implements ParameterDimming
-{
+public class ParameterDimmingImpl extends Obj implements ParameterDimming {
 	private Int value;
 
-	public ParameterDimmingImpl()
-	{
+	public ParameterDimmingImpl() {
 		setHref(new Uri(ParameterDimming.HREF));
 		setIs(new Contract(ParameterDimming.CONTRACT));
 		setHidden(true);
@@ -58,8 +56,7 @@ public class ParameterDimmingImpl extends Obj implements ParameterDimming
 	}
 
 	@Override
-	public Int value()
-	{
+	public Int value() {
 		return value;
 	}
 }

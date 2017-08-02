@@ -35,8 +35,7 @@ public class DbConnection {
 	private static StdCouchDbInstance couchInstance;
 
 	private DbConnection() throws MalformedURLException {
-		HttpClient couchHttpClient = new StdHttpClient.Builder().url(
-				"http://127.0.0.1:5984").build();
+		HttpClient couchHttpClient = new StdHttpClient.Builder().url("http://127.0.0.1:5984").build();
 		couchInstance = new StdCouchDbInstance(couchHttpClient);
 	}
 

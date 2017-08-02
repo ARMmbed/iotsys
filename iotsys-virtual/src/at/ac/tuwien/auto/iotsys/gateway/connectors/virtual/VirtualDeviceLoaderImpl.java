@@ -40,83 +40,79 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import obix.Obj;
-import obix.Uri;
-
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherObject;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.impl.WeatherForecastLocationImpl;
-import at.ac.tuwien.auto.iotsys.commons.persistent.ConfigsDbImpl;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Device;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import obix.Obj;
+import obix.Uri;
 
 public class VirtualDeviceLoaderImpl implements DeviceLoader {
 	private final ArrayList<Obj> myObjects = new ArrayList<Obj>();
 
 	private XMLConfiguration devicesConfig;
 
-	private static final Logger log = Logger
-			.getLogger(VirtualDeviceLoaderImpl.class.getName());
+	private static final Logger log = Logger.getLogger(VirtualDeviceLoaderImpl.class.getName());
 
 	@Override
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		setConfiguration(devicesConfig);
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
-		
+
 		// Hard-coded connections and object creation
 
 		// store all created connectors, will be used by the gateway for closing
 		ArrayList<Connector> connectors = new ArrayList<Connector>();
 		// Open connection ???
-		//VirtualConnector virtualConnector = new VirtualConnector();
+		// VirtualConnector virtualConnector = new VirtualConnector();
 		try {
-			//virtualConnector.connect();
+			// virtualConnector.connect();
 
-			//connectors.add(virtualConnector);
-			
-		
+			// connectors.add(virtualConnector);
 
-//			TemperatureSensorImpl virtualTemp1 = new TemperatureSensorImplVirtual(
-//					virtualConnector, new Object());
-//			virtualTemp1.setHref(new Uri("virtualTemp1"));
-//			virtualTemp1.setName("virtualTemp1");
+			// TemperatureSensorImpl virtualTemp1 = new
+			// TemperatureSensorImplVirtual(
+			// virtualConnector, new Object());
+			// virtualTemp1.setHref(new Uri("virtualTemp1"));
+			// virtualTemp1.setName("virtualTemp1");
 
 			// add virtual devices to object broker and remember all assigned
 			// URIs, due to child objects there could be one or many
-//			synchronized (myObjects) {
-//				myObjects.addAll(objectBroker.addObj(virtualTemp1));
-//			}
+			// synchronized (myObjects) {
+			// myObjects.addAll(objectBroker.addObj(virtualTemp1));
+			// }
 
 			// add obj with IPv6 address
 			// String ipv6 = "fe80::1"
 			// myObjects.addAll(objectBroker.addObj(virtualTemp1, ipv6));
 
 			// enable history yes/no?
-//			objectBroker.addHistoryToDatapoints(virtualTemp1, 100);
-//
-//			LightSwitchActuatorImpl virtualLight1 = new LightSwitchActuatorImplVirtual(
-//					virtualConnector, new Object());
-//			virtualLight1.setHref(new Uri("virtualLight1"));
-//			virtualLight1.setName("virtualLight1");
+			// objectBroker.addHistoryToDatapoints(virtualTemp1, 100);
+			//
+			// LightSwitchActuatorImpl virtualLight1 = new
+			// LightSwitchActuatorImplVirtual(
+			// virtualConnector, new Object());
+			// virtualLight1.setHref(new Uri("virtualLight1"));
+			// virtualLight1.setName("virtualLight1");
 
 			// add virtual devices to object broker
-//			synchronized (myObjects) {
-//				myObjects.addAll(objectBroker.addObj(virtualLight1));
-//			}
+			// synchronized (myObjects) {
+			// myObjects.addAll(objectBroker.addObj(virtualLight1));
+			// }
 
 			// add obj with IPv6 address
 			// String ipv6 = "fe80::1"
 			// objectBroker.addObj(virtualTemp1, ipv6);
 
 			// enable history yes/no?
-//			objectBroker.addHistoryToDatapoints(virtualLight1, 100);
-			
+			// objectBroker.addHistoryToDatapoints(virtualLight1, 100);
 
 		} catch (Exception e) {
 
@@ -126,13 +122,12 @@ public class VirtualDeviceLoaderImpl implements DeviceLoader {
 		// parse XML configuration for connections and objects
 		// NOTE: this loader allow to directly instantiate the base oBIX objects
 		// for testing purposes
-		
+
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("virtual");
 		int connectorsSize = 0;
 		// virtual
 		if (connectorsFromDb.size() <= 0) {
-			Object virtualConnectors = devicesConfig
-					.getProperty("virtual.connector.name");
+			Object virtualConnectors = devicesConfig.getProperty("virtual.connector.name");
 			if (virtualConnectors != null) {
 				if (virtualConnectors instanceof String) {
 					connectorsSize = 1;
@@ -148,34 +143,32 @@ public class VirtualDeviceLoaderImpl implements DeviceLoader {
 			}
 		} else
 			connectorsSize = connectorsFromDb.size();
-		
-		for (int connector = 0; connector < connectorsSize; connector++) {
-			HierarchicalConfiguration subConfig = devicesConfig
-					.configurationAt("virtual.connector(" + connector + ")");
 
-			Object virtualConfiguredDevices = subConfig
-					.getProperty("device.type");
+		for (int connector = 0; connector < connectorsSize; connector++) {
+			HierarchicalConfiguration subConfig = devicesConfig.configurationAt("virtual.connector(" + connector + ")");
+
+			Object virtualConfiguredDevices = subConfig.getProperty("device.type");
 			String connectorId = "";
 			String connectorName = subConfig.getString("name");
 			Boolean enabled = subConfig.getBoolean("enabled", false);
-			
+
 			try {
 				connectorId = connectorsFromDb.get(connector).get("_id").asText();
 				connectorName = connectorsFromDb.get(connector).get("name").asText();
-				enabled =  connectorsFromDb.get(connector).get("enabled").asBoolean();
-			} catch (Exception e){
-				log.info("Cannot fetch configuration from Database, using devices.xml");//e.printStackTrace();
+				enabled = connectorsFromDb.get(connector).get("enabled").asBoolean();
+			} catch (Exception e) {
+				log.info("Cannot fetch configuration from Database, using devices.xml");// e.printStackTrace();
 			}
-			
+
 			if (enabled) {
 				try {
 					VirtualConnector vConn = new VirtualConnector();
 					vConn.setName(connectorName);
 					vConn.setEnabled(enabled);
 					vConn.setTechnology("virtual");
-					
+
 					connectors.add(vConn);
-					
+
 					int numberOfDevices = 0;
 					List<Device> devicesFromDb = objectBroker.getConfigDb().getDevices(connectorId);
 
@@ -190,37 +183,28 @@ public class VirtualDeviceLoaderImpl implements DeviceLoader {
 						}
 					} else
 						numberOfDevices = devicesFromDb.size();
-					
-					log.info(numberOfDevices
-							+ " virtual devices found in configuration for connector "
-							+ connectorName);
+
+					log.info(
+							numberOfDevices + " virtual devices found in configuration for connector " + connectorName);
 					for (int i = 0; i < numberOfDevices; i++) {
-						String type = subConfig.getString("device(" + i
-								+ ").type");
-						List<Object> address = subConfig.getList("device("
-								+ i + ").address");
+						String type = subConfig.getString("device(" + i + ").type");
+						List<Object> address = subConfig.getList("device(" + i + ").address");
 						String addressString = address.toString();
-						String ipv6 = subConfig.getString("device(" + i
-								+ ").ipv6");
-						String href = subConfig.getString("device(" + i
-								+ ").href");
-						
-						String name = subConfig.getString("device(" + i
-								+ ").name");
-						
+						String ipv6 = subConfig.getString("device(" + i + ").ipv6");
+						String href = subConfig.getString("device(" + i + ").href");
+
+						String name = subConfig.getString("device(" + i + ").name");
+
 						String displayName = subConfig.getString("device(" + i + ").displayName");
 
-						Boolean historyEnabled = subConfig.getBoolean(
-								"device(" + i + ").historyEnabled", false);
-						
-						Boolean groupCommEnabled = subConfig.getBoolean(
-								"device(" + i + ").groupCommEnabled", false);
-						
+						Boolean historyEnabled = subConfig.getBoolean("device(" + i + ").historyEnabled", false);
+
+						Boolean groupCommEnabled = subConfig.getBoolean("device(" + i + ").groupCommEnabled", false);
+
 						Boolean refreshEnabled = subConfig.getBoolean("device(" + i + ").refreshEnabled", false);
 
-						Integer historyCount = subConfig.getInt("device("
-								+ i + ").historyCount", 0);
-						
+						Integer historyCount = subConfig.getInt("device(" + i + ").historyCount", 0);
+
 						Device deviceFromDb;
 						try {
 							deviceFromDb = devicesFromDb.get(i);
@@ -234,13 +218,13 @@ public class VirtualDeviceLoaderImpl implements DeviceLoader {
 							groupCommEnabled = deviceFromDb.isGroupcommEnabled();
 							refreshEnabled = deviceFromDb.isRefreshEnabled();
 							historyCount = deviceFromDb.getHistoryCount();
-						} 
-						catch (Exception e) {
+						} catch (Exception e) {
 						}
-						
+
 						// Transition step: comment when done
-						Device d = new Device(type, ipv6, addressString, href, name, displayName, historyCount, historyEnabled, groupCommEnabled, refreshEnabled);
-						objectBroker.getConfigDb().prepareDevice(connectorName, d);						
+						Device d = new Device(type, ipv6, addressString, href, name, displayName, historyCount,
+								historyEnabled, groupCommEnabled, refreshEnabled);
+						objectBroker.getConfigDb().prepareDevice(connectorName, d);
 						// for weather forcast services only
 						String description = subConfig.getString("device(" + i + ").location.description", "");
 						Double latitude = subConfig.getDouble("device(" + i + ").location.latitude", 0);
@@ -250,75 +234,66 @@ public class VirtualDeviceLoaderImpl implements DeviceLoader {
 						if (type != null && address != null) {
 							try {
 
-								Constructor<?>[] declaredConstructors = Class
-										.forName(type)
-										.getDeclaredConstructors();
-								
+								Constructor<?>[] declaredConstructors = Class.forName(type).getDeclaredConstructors();
+
 								Object[] args = new Object[1];
 								args[0] = vConn;
 								Obj virtualObj = null;
 								for (int k = 0; k < declaredConstructors.length; k++) {
-									if (declaredConstructors[k]
-											.getParameterTypes().length == 0) { 
-										virtualObj = (Obj) Class.forName(type)
-												.newInstance();
-									}
-									else if(declaredConstructors[k].getParameterTypes().length == 1){
+									if (declaredConstructors[k].getParameterTypes().length == 0) {
+										virtualObj = (Obj) Class.forName(type).newInstance();
+									} else if (declaredConstructors[k].getParameterTypes().length == 1) {
 										virtualObj = (Obj) declaredConstructors[k].newInstance(args);
 									}
 									// for weather forcast services only
-									else if (WeatherObject.class.isAssignableFrom(Class.forName(type)) &&
-												declaredConstructors[k].getParameterTypes().length == 3) {
-										// constructor that takes name, location, and connector as argument
+									else if (WeatherObject.class.isAssignableFrom(Class.forName(type))
+											&& declaredConstructors[k].getParameterTypes().length == 3) {
+										// constructor that takes name,
+										// location, and connector as argument
 										args = new Object[3];
 
 										args[0] = name;
-										args[1] = new WeatherForecastLocationImpl(description, latitude, longitude, height);
+										args[1] = new WeatherForecastLocationImpl(description, latitude, longitude,
+												height);
 										args[2] = null;
-										
+
 										virtualObj = (Obj) declaredConstructors[k].newInstance(args);
 									}
 								}
-								
+
 								virtualObj.setHref(new Uri(URLEncoder.encode(connectorName, "UTF-8") + "/" + href));
-								
-								if(name != null && name.length() > 0 && virtualObj.getName() == null){
+
+								if (name != null && name.length() > 0 && virtualObj.getName() == null) {
 									virtualObj.setName(name);
 								}
-								
-								if(displayName != null && displayName.length() > 0){
+
+								if (displayName != null && displayName.length() > 0) {
 									virtualObj.setDisplayName(displayName);
 								}
-								
+
 								if (ipv6 != null) {
 									objectBroker.addObj(virtualObj, ipv6);
 								} else {
 									objectBroker.addObj(virtualObj);
 								}
-								
+
 								myObjects.add(virtualObj);
-								
+
 								virtualObj.initialize();
 
-								if (historyEnabled != null
-										&& historyEnabled) {
-									if (historyCount != null
-											&& historyCount != 0) {
-										objectBroker
-												.addHistoryToDatapoints(
-														virtualObj,
-														historyCount);
+								if (historyEnabled != null && historyEnabled) {
+									if (historyCount != null && historyCount != 0) {
+										objectBroker.addHistoryToDatapoints(virtualObj, historyCount);
 									} else {
-										objectBroker
-												.addHistoryToDatapoints(virtualObj);
+										objectBroker.addHistoryToDatapoints(virtualObj);
 									}
 								}
-								
-								if(groupCommEnabled){
+
+								if (groupCommEnabled) {
 									objectBroker.enableGroupComm(virtualObj);
 								}
-								
-								if(refreshEnabled != null && refreshEnabled){
+
+								if (refreshEnabled != null && refreshEnabled) {
 									virtualObj.setRefreshInterval(5000);
 									objectBroker.enableObjectRefresh(virtualObj);
 								}
@@ -335,8 +310,7 @@ public class VirtualDeviceLoaderImpl implements DeviceLoader {
 				}
 			}
 		}
-		
-	
+
 		return connectors;
 	}
 

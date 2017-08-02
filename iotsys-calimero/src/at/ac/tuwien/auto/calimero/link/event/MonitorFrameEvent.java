@@ -25,15 +25,14 @@ import at.ac.tuwien.auto.calimero.link.KNXNetworkMonitor;
 import at.ac.tuwien.auto.calimero.link.medium.RawFrame;
 
 /**
- * Informs about a new monitor indication received from the KNX network and contains the
- * received indication frame.
+ * Informs about a new monitor indication received from the KNX network and
+ * contains the received indication frame.
  * <p>
  * The source of the event is a {@link KNXNetworkMonitor}.
  * 
  * @author B. Malinowsky
  */
-public class MonitorFrameEvent extends FrameEvent
-{
+public class MonitorFrameEvent extends FrameEvent {
 	// ??? ctor which takes error information if raw frame creation failed
 
 	private static final long serialVersionUID = 1L;
@@ -43,26 +42,29 @@ public class MonitorFrameEvent extends FrameEvent
 	/**
 	 * Creates a new monitor frame event with the indication frame.
 	 * 
-	 * @param source the network monitor which received the frame
-	 * @param frame monitor indication frame encapsulated in cEMI type
+	 * @param source
+	 *            the network monitor which received the frame
+	 * @param frame
+	 *            monitor indication frame encapsulated in cEMI type
 	 */
-	public MonitorFrameEvent(Object source, CEMI frame)
-	{
+	public MonitorFrameEvent(Object source, CEMI frame) {
 		super(source, frame);
 		raw = null;
 	}
 
 	/**
-	 * Creates a new monitor frame event with the indication frame and the decoded raw
-	 * frame.
+	 * Creates a new monitor frame event with the indication frame and the
+	 * decoded raw frame.
 	 * 
-	 * @param source the network monitor which received the frame
-	 * @param frame monitor indication frame encapsulated in cEMI type
-	 * @param rawFrame the decoded raw frame on medium encapsulated in type RawFrame, use
-	 *        <code>null</code> if no decoded raw frame is available
+	 * @param source
+	 *            the network monitor which received the frame
+	 * @param frame
+	 *            monitor indication frame encapsulated in cEMI type
+	 * @param rawFrame
+	 *            the decoded raw frame on medium encapsulated in type RawFrame,
+	 *            use <code>null</code> if no decoded raw frame is available
 	 */
-	public MonitorFrameEvent(Object source, CEMI frame, RawFrame rawFrame)
-	{
+	public MonitorFrameEvent(Object source, CEMI frame, RawFrame rawFrame) {
 		super(source, frame);
 		raw = rawFrame;
 	}
@@ -71,10 +73,10 @@ public class MonitorFrameEvent extends FrameEvent
 	 * Returns the decoded raw frame on medium.
 	 * <p>
 	 * 
-	 * @return the frame of type RawFrame or <code>null</code> on no decoded raw frame
+	 * @return the frame of type RawFrame or <code>null</code> on no decoded raw
+	 *         frame
 	 */
-	public final RawFrame getRawFrame()
-	{
+	public final RawFrame getRawFrame() {
 		return raw;
 	}
 }

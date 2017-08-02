@@ -32,29 +32,25 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Part;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.ViewBuilding;
 import obix.Contract;
 import obix.List;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Part;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.ViewBuilding;
 
-public class ViewBuildingImpl extends ViewImpl implements ViewBuilding
-{
-	public ViewBuildingImpl()
-	{
+public class ViewBuildingImpl extends ViewImpl implements ViewBuilding {
+	public ViewBuildingImpl() {
 		super("building", new Uri(ViewBuilding.HREF), new Contract(ViewBuilding.CONTRACT));
 	}
 
 	@Override
-	public void initElements(List elements)
-	{
+	public void initElements(List elements) {
 		elements.setName("parts");
 		elements.setHref(new Uri("parts"));
 		elements.setOf(new Contract(Part.CONTRACT));
 	}
 
-	public void addPart(PartImpl part)
-	{
+	public void addPart(PartImpl part) {
 		this.addElement(part);
 	}
 }

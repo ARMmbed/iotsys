@@ -43,36 +43,35 @@ import obix.Uri;
 import obix.contracts.HistoryRollupOut;
 
 public class HistoryRollupOutImpl extends Obj implements HistoryRollupOut {
-	
+
 	public static final String HISTORY_ROLLUPOUT_CONTRACT = "obix:HistoryRollupOut";
-	
+
 	private List resultList;
 	private Int count = new Int();
 	private Abstime start = new Abstime();
 	private Abstime end = new Abstime();
 
+	public HistoryRollupOutImpl(ArrayList<HistoryRollupRecordImpl> historyRecords) {
 
-	public HistoryRollupOutImpl(ArrayList<HistoryRollupRecordImpl> historyRecords) {	
-	
 		count.setName("count");
 		count.setHref(new Uri("count"));
-		
+
 		start.setName("start");
 		start.setHref(new Uri("start"));
-		
+
 		end.setName("end");
 		end.setHref(new Uri("end"));
-		
+
 		resultList = new List();
 		resultList.setOf(new Contract(HistoryRollupRecordImpl.HISTORY_ROLLUPRECORD_CONTRACT));
 
 		count.set(resultList.size(), false);
 		setIs(new Contract(HISTORY_ROLLUPOUT_CONTRACT));
-		
-		for(HistoryRollupRecordImpl historyRecord : historyRecords) {
+
+		for (HistoryRollupRecordImpl historyRecord : historyRecords) {
 			resultList.add(historyRecord);
 		}
-		
+
 		add(count);
 		add(start);
 		add(end);

@@ -23,7 +23,6 @@ import java.util.EventListener;
 
 import at.ac.tuwien.auto.calimero.DetachEvent;
 
-
 /**
  * Listener interface for getting process communicator events.
  * <p>
@@ -31,21 +30,22 @@ import at.ac.tuwien.auto.calimero.DetachEvent;
  * @author B. Malinowsky
  * @see ProcessCommunicator
  */
-public interface ProcessListener extends EventListener
-{
+public interface ProcessListener extends EventListener {
 	/**
-	 * Indicates that a KNX group write message indication was received from the KNX
-	 * network.
+	 * Indicates that a KNX group write message indication was received from the
+	 * KNX network.
 	 * <p>
 	 * 
-	 * @param e process event object
+	 * @param e
+	 *            process event object
 	 */
 	void groupWrite(ProcessEvent e);
 
 	/**
 	 * The KNX network link was detached from the process communicator.
 	 * 
-	 * @param e detach event object
+	 * @param e
+	 *            detach event object
 	 */
 	void detached(DetachEvent e);
 }

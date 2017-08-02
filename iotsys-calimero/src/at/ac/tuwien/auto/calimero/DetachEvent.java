@@ -27,18 +27,17 @@ import java.util.EventObject;
  * 
  * @author B. Malinowsky
  */
-public class DetachEvent extends EventObject
-{
+public class DetachEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Creates a new detach event with the object being detached.
 	 * <p>
 	 * 
-	 * @param source the object which is detached from the link
+	 * @param source
+	 *            the object which is detached from the link
 	 */
-	public DetachEvent(Object source)
-	{
+	public DetachEvent(Object source) {
 		super(source);
 	}
 }

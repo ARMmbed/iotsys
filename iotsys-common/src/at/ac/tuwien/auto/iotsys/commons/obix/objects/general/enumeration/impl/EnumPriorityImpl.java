@@ -31,19 +31,16 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumPriority;
+import obix.Uri;
 
-public class EnumPriorityImpl extends RangeImpl implements EnumPriority
-{
-	public EnumPriorityImpl()
-	{
+public class EnumPriorityImpl extends RangeImpl implements EnumPriority {
+	public EnumPriorityImpl() {
 		super(new Uri(EnumPriority.HREF));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		addElement(new ObjElement(EnumPriority.KEY_LOW, "Low"));
 		addElement(new ObjElement(EnumPriority.KEY_HIGH, "High"));
 		addElement(new ObjElement(EnumPriority.KEY_ALERT, "Alert"));

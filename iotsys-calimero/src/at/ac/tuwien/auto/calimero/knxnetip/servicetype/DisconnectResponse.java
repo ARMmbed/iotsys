@@ -24,13 +24,13 @@ import java.io.ByteArrayOutputStream;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
 
-
 /**
  * Represents a KNXnet/IP disconnect response.
  * <p>
- * Such response is sent in reply to a disconnect request to complete the termination of
- * the logical connection between a client and server. It provides the final status after
- * the closing sequence, indicating success or failure.
+ * Such response is sent in reply to a disconnect request to complete the
+ * termination of the logical connection between a client and server. It
+ * provides the final status after the closing sequence, indicating success or
+ * failure.
  * <p>
  * Objects of this type are immutable.
  * 
@@ -38,8 +38,7 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
  * @author B. Malinowsky
  * @see at.ac.tuwien.auto.calimero.knxnetip.servicetype.DisconnectRequest
  */
-public class DisconnectResponse extends ServiceType
-{
+public class DisconnectResponse extends ServiceType {
 	private final short channelid;
 	private final short status;
 
@@ -47,12 +46,14 @@ public class DisconnectResponse extends ServiceType
 	 * Creates a disconnect response out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing a disconnect response structure
-	 * @param offset start offset of response in <code>data</code>
-	 * @throws KNXFormatException if found structure is too short
+	 * @param data
+	 *            byte array containing a disconnect response structure
+	 * @param offset
+	 *            start offset of response in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if found structure is too short
 	 */
-	public DisconnectResponse(byte[] data, int offset) throws KNXFormatException
-	{
+	public DisconnectResponse(byte[] data, int offset) throws KNXFormatException {
 		super(KNXnetIPHeader.DISCONNECT_RES);
 		if (data.length - offset < 2)
 			throw new KNXFormatException("buffer too short for disconnect response");
@@ -61,17 +62,18 @@ public class DisconnectResponse extends ServiceType
 	}
 
 	/**
-	 * Creates a new disconnect response for the terminating connection with the given
-	 * channel ID.
+	 * Creates a new disconnect response for the terminating connection with the
+	 * given channel ID.
 	 * <p>
 	 * 
-	 * @param channelID communication channel ID passed in the disconnect request, 0 &lt;=
-	 *        id &lt;= 255
-	 * @param status status code giving information of the final state, 0 &lt;= status
-	 *        &lt;= 255
+	 * @param channelID
+	 *            communication channel ID passed in the disconnect request, 0
+	 *            &lt;= id &lt;= 255
+	 * @param status
+	 *            status code giving information of the final state, 0 &lt;=
+	 *            status &lt;= 255
 	 */
-	public DisconnectResponse(short channelID, short status)
-	{
+	public DisconnectResponse(short channelID, short status) {
 		super(KNXnetIPHeader.DISCONNECT_RES);
 		if (channelID < 0 || channelID > 0xFF)
 			throw new KNXIllegalArgumentException("channel ID out of range [0..255]");
@@ -82,14 +84,13 @@ public class DisconnectResponse extends ServiceType
 	}
 
 	/**
-	 * Returns the communication channel identifier, matching the ID in the corresponding
-	 * disconnect request for closing the connection.
+	 * Returns the communication channel identifier, matching the ID in the
+	 * corresponding disconnect request for closing the connection.
 	 * <p>
 	 * 
 	 * @return communication channel ID as unsigned byte
 	 */
-	public final short getChannelID()
-	{
+	public final short getChannelID() {
 		return channelid;
 	}
 
@@ -99,25 +100,27 @@ public class DisconnectResponse extends ServiceType
 	 * 
 	 * @return status code as unsigned byte
 	 */
-	public final short getStatus()
-	{
+	public final short getStatus() {
 		return status;
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
-	short getStructLength()
-	{
+	short getStructLength() {
 		return 2;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
-	 *      (java.io.ByteArrayOutputStream)
+	 * (java.io.ByteArrayOutputStream)
 	 */
-	byte[] toByteArray(ByteArrayOutputStream os)
-	{
+	byte[] toByteArray(ByteArrayOutputStream os) {
 		os.write(channelid);
 		os.write(status);
 		return os.toByteArray();

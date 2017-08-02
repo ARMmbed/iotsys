@@ -32,17 +32,16 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.impl;
 
-import obix.Contract;
-import obix.Obj;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPTIntPerc;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl.EnoceanEntityImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitPercent;
+import obix.Contract;
+import obix.Obj;
+import obix.Uri;
 
-public class EnoceanDPTIntPercImpl extends EnoceanDPTIntImpl implements EnoceanDPTIntPerc
-{
-	public EnoceanDPTIntPercImpl(String name, String displayName, String display, EnoceanEntityImpl entity, boolean writable, boolean readable)
-	{
+public class EnoceanDPTIntPercImpl extends EnoceanDPTIntImpl implements EnoceanDPTIntPerc {
+	public EnoceanDPTIntPercImpl(String name, String displayName, String display, EnoceanEntityImpl entity,
+			boolean writable, boolean readable) {
 		// constructor
 		super(name, displayName, display, entity, writable, readable);
 
@@ -56,19 +55,18 @@ public class EnoceanDPTIntPercImpl extends EnoceanDPTIntImpl implements EnoceanD
 	}
 
 	@Override
-	public void writeObject(Obj input)
-	{
+	public void writeObject(Obj input) {
 		super.writeObject(input);
 	}
-	
+
 	@Override
-	public void setValue(Obj value){
+	public void setValue(Obj value) {
 		super.setValue(value);
 		this.refreshObject();
 	}
-	
+
 	@Override
-	public Obj getValue(){
+	public Obj getValue() {
 		return super.getValue();
 	}
 }

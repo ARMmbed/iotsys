@@ -1,63 +1,59 @@
 /*
  * This code licensed to public domain
  */
-package obix.ui.fields;  
+package obix.ui.fields;
 
-import java.awt.*;
-import javax.swing.*;
-import obix.*;
+import java.awt.BorderLayout;
+
+import javax.swing.JComboBox;
+
 import obix.Enum;
-import obix.ui.*;  
+import obix.Obj;
+import obix.ui.ObjField;
 
 /**
  * EnumField
  *
- * @author    Brian Frank
- * @creation  26 Sept 05
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @creation 26 Sept 05
+ * @version $Revision$ $Date$
  */
-public class EnumField
-  extends ObjField
-{                   
+public class EnumField extends ObjField {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Constructor
+	////////////////////////////////////////////////////////////////
 
-  public EnumField()
-  {          
-    add(combo, BorderLayout.CENTER);
-    combo.setEditable(true);   
-    registerForChanged(combo);
- }
+	public EnumField() {
+		add(combo, BorderLayout.CENTER);
+		combo.setEditable(true);
+		registerForChanged(combo);
+	}
 
-////////////////////////////////////////////////////////////////
-// Methods
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
 
-  protected void doSetEditable(boolean editable)
-  { 
-    combo.setEnabled(editable);
-  }
+	protected void doSetEditable(boolean editable) {
+		combo.setEnabled(editable);
+	}
 
-  protected void doLoad(Obj val)
-  {            
-    Enum v = (Enum)val;           
-    String tag = v.get();              
-    combo.getEditor().setItem(tag);
-  }
-  
-  protected void doSave(Obj val)
-  {                 
-    Enum v = (Enum)val;           
-    String tag = (String)combo.getEditor().getItem();
-    v.set(tag);
-  }
+	protected void doLoad(Obj val) {
+		Enum v = (Enum) val;
+		String tag = v.get();
+		combo.getEditor().setItem(tag);
+	}
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+	protected void doSave(Obj val) {
+		Enum v = (Enum) val;
+		String tag = (String) combo.getEditor().getItem();
+		v.set(tag);
+	}
 
-  JComboBox combo = new JComboBox();   
- 
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	JComboBox combo = new JComboBox();
+
 }

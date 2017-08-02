@@ -27,41 +27,34 @@ public class CanvasObject {
 
 	// The objects are identified through the
 	// oBIX URI and the x and y position are simple integers
-	
+
 	String objUri;
 	String objName;
 	CanvasObjectPlacement objPlacement;
-	
-	
+
 	public String getObjUri() {
 		return objUri;
 	}
-
 
 	public void setObjUri(String objUri) {
 		this.objUri = objUri;
 	}
 
-
 	public String getObjName() {
 		return objName;
 	}
-
 
 	public void setObjName(String objName) {
 		this.objName = objName;
 	}
 
-
 	public CanvasObjectPlacement getObjPlacement() {
 		return objPlacement;
 	}
 
-
 	public void setObjPlacement(CanvasObjectPlacement objPlacement) {
 		this.objPlacement = objPlacement;
 	}
-
 
 	private class CanvasObjectPlacement {
 		int left, top;

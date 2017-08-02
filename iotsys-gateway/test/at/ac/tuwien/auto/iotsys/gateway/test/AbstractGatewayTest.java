@@ -10,7 +10,7 @@ import at.ac.tuwien.auto.iotsys.gateway.IoTSySGateway;
 
 public class AbstractGatewayTest {
 	private static IoTSySGateway gateway;
-	
+
 	@BeforeClass
 	public static void setUp() {
 		gateway = new IoTSySGateway();
@@ -38,19 +38,19 @@ public class AbstractGatewayTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		gateway.startGateway("config/devices.test.xml");
 		org.junit.Assume.assumeTrue(gateway.getObjectBroker().getConfigDb() != null);
 		gateway.getObjectBroker().getConfigDb().setMigrating(false);
 
 	}
-	
+
 	@AfterClass
 	public static void tearDown() {
 		gateway.stopGateway();
 	}
-	
-	public static void main(String[] args){
+
+	public static void main(String[] args) {
 		gateway = new IoTSySGateway();
 		gateway.startGateway("config/devices.test.xml");
 	}

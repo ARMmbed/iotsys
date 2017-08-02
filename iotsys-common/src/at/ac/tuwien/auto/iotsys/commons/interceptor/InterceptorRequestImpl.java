@@ -6,11 +6,11 @@ import java.util.Map;
 public class InterceptorRequestImpl implements InterceptorRequest {
 
 	private Map<Parameter, String> interceptorParams = new HashMap<Parameter, String>();
-	
+
 	private Map<String, String> headerParams = new HashMap<String, String>();
-	
+
 	private Map<String, String> requestParams = new HashMap<String, String>();
-	
+
 	@Override
 	public Map<Parameter, String> getInterceptorParams() {
 		return interceptorParams;
@@ -29,8 +29,8 @@ public class InterceptorRequestImpl implements InterceptorRequest {
 	@Override
 	public void setInterceptorParam(Parameter p, String s) {
 		interceptorParams.put(p, s);
-	}	
-	
+	}
+
 	@Override
 	public Map<String, String> getHeaders() {
 		return headerParams;
@@ -50,7 +50,7 @@ public class InterceptorRequestImpl implements InterceptorRequest {
 	public void setHeader(String header, String value) {
 		headerParams.put(header, value);
 	}
-	
+
 	@Override
 	public Map<String, String> getRequestParams() {
 		return requestParams;
@@ -60,7 +60,7 @@ public class InterceptorRequestImpl implements InterceptorRequest {
 	public void setRequestParams(Map<String, String> params) {
 		this.requestParams = params;
 	}
-	
+
 	@Override
 	public String getRequestParam(String key) {
 		return requestParams.get(key);

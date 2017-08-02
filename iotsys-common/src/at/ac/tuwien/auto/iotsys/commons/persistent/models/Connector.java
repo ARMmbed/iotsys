@@ -40,38 +40,50 @@ import org.ektorp.support.CouchDbDocument;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class Connector extends CouchDbDocument{
-    
-    private String name;
-    private String technology;
-    private boolean enabled;
-    
-    @DocumentReferences(backReference = "connectorId", fetch = FetchType.LAZY)
-    private Set<Device> devices;
-    
-    public Connector(){}
-    
+public class Connector extends CouchDbDocument {
+
+	private String name;
+	private String technology;
+	private boolean enabled;
+
+	@DocumentReferences(backReference = "connectorId", fetch = FetchType.LAZY)
+	private Set<Device> devices;
+
+	public Connector() {
+	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getTechnology() {
 		return technology;
 	}
+
 	public void setTechnology(String technology) {
 		this.technology = technology;
 	}
+
 	public boolean isEnabled() {
 		return enabled;
 	}
+
 	public void setEnabled(boolean enabled) {
 		this.enabled = enabled;
 	}
-	
-	public void connect() throws Exception{}
-	public void disconnect() throws Exception{}
+
+	public void connect() throws Exception {
+	}
+
+	public void disconnect() throws Exception {
+	}
+
 	@JsonIgnore
-	public boolean isCoap(){return false;}
+	public boolean isCoap() {
+		return false;
+	}
 }

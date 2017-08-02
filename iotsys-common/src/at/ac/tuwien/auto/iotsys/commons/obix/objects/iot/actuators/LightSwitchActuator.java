@@ -35,11 +35,13 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 import obix.Bool;
 
 public interface LightSwitchActuator extends Actuator {
-	public static final String CONTRACT="iot:LightSwitchActuator";
-	
+	public static final String CONTRACT = "iot:LightSwitchActuator";
+
 	public static final String VALUE_CONTRACT_NAME = "value";
 	public static final String VALUE_CONTRACT_HERF = "value";
-	
-	public static final String switchContract = "<bool name='" + VALUE_CONTRACT_NAME + "' href='" + VALUE_CONTRACT_HERF + "' val='false'/>";
+
+	public static final String switchContract = "<bool name='" + VALUE_CONTRACT_NAME + "' href='" + VALUE_CONTRACT_HERF
+			+ "' val='false'/>";
+
 	public Bool value();
 }

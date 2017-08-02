@@ -26,8 +26,7 @@ package at.ac.tuwien.auto.calimero.xml;
  * 
  * @author B. Malinowsky
  */
-public class Attribute
-{
+public class Attribute {
 	private final String name;
 	private final String value;
 
@@ -35,11 +34,12 @@ public class Attribute
 	 * Creates an attribute with its name and value.
 	 * <p>
 	 * 
-	 * @param name name of the attribute
-	 * @param value value of the attribute
+	 * @param name
+	 *            name of the attribute
+	 * @param value
+	 *            value of the attribute
 	 */
-	public Attribute(String name, String value)
-	{
+	public Attribute(String name, String value) {
 		this.name = name;
 		this.value = value;
 	}
@@ -50,8 +50,7 @@ public class Attribute
 	 * 
 	 * @return attribute name
 	 */
-	public final String getName()
-	{
+	public final String getName() {
 		return name;
 	}
 
@@ -61,16 +60,16 @@ public class Attribute
 	 * 
 	 * @return value as String
 	 */
-	public final String getValue()
-	{
+	public final String getValue() {
 		return value;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return name + "=" + value;
 	}
 }

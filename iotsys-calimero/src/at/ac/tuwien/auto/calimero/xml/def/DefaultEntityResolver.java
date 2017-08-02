@@ -37,17 +37,17 @@ import java.util.Map;
 import at.ac.tuwien.auto.calimero.xml.EntityResolver;
 import at.ac.tuwien.auto.calimero.xml.KNXMLException;
 
-
 /**
  * Default entity resolver.
  * <p>
  * 
  * @author B. Malinowsky
  */
-public class DefaultEntityResolver implements EntityResolver
-{
-	// IANA to Java encoding names map, used to specify existing charset decoders,
-	// only IANA names which are different from the java encoding names are listed
+public class DefaultEntityResolver implements EntityResolver {
+	// IANA to Java encoding names map, used to specify existing charset
+	// decoders,
+	// only IANA names which are different from the java encoding names are
+	// listed
 	private static final Map javaNames = new HashMap();
 
 	static {
@@ -65,52 +65,54 @@ public class DefaultEntityResolver implements EntityResolver
 	 * Creates a new entity resolver.
 	 * <p>
 	 */
-	public DefaultEntityResolver()
-	{}
+	public DefaultEntityResolver() {
+	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.xml.EntityResolver#resolveInput(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.xml.EntityResolver#resolveInput(java.lang.String)
 	 */
-	public InputStream resolveInput(String systemID) throws KNXMLException
-	{
+	public InputStream resolveInput(String systemID) throws KNXMLException {
 		try {
 			try {
 				final URL loc = new URL(systemID);
 				return loc.openConnection().getInputStream();
-			}
-			catch (final MalformedURLException e) {
+			} catch (final MalformedURLException e) {
 				return new FileInputStream(systemID);
 			}
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException("error opening " + systemID + ", " + e.getMessage());
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.xml.EntityResolver#resolveOutput(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.xml.EntityResolver#resolveOutput(java.lang.String)
 	 */
-	public OutputStream resolveOutput(String systemID) throws KNXMLException
-	{
+	public OutputStream resolveOutput(String systemID) throws KNXMLException {
 		try {
 			try {
 				final URL loc = new URL(systemID);
 				return loc.openConnection().getOutputStream();
-			}
-			catch (final MalformedURLException e) {
+			} catch (final MalformedURLException e) {
 				return new FileOutputStream(systemID);
 			}
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException("error opening " + systemID + ", " + e.getMessage());
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.xml.EntityResolver#getInputReader(java.io.InputStream)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.xml.EntityResolver#getInputReader(java.io.
+	 * InputStream)
 	 */
-	public Reader getInputReader(InputStream is) throws KNXMLException
-	{
+	public Reader getInputReader(InputStream is) throws KNXMLException {
 		InputStream in = null;
 		try {
 			in = new BufferedInputStream(is);
@@ -140,16 +142,15 @@ public class DefaultEntityResolver implements EntityResolver
 					javaEncoding = ianaEncoding;
 			}
 			return new InputStreamReader(in, javaEncoding);
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException(e.getMessage());
 		}
 	}
 
-	// returns the encoding name in IANA format, detected by evaluating the bytes.
+	// returns the encoding name in IANA format, detected by evaluating the
+	// bytes.
 	// the detection is done equally to the one in xerces parser
-	private static String getEncodingName(InputStream is, byte[] start, int count)
-	{
+	private static String getEncodingName(InputStream is, byte[] start, int count) {
 		// '<' = 0x3c, '?' = 0x3f
 		final int b0 = start[0] & 0xFF;
 		final int b1 = start[1] & 0xFF;
@@ -168,24 +169,23 @@ public class DefaultEntityResolver implements EntityResolver
 			if (b0 == 0xEF && b1 == 0xBB && b2 == 0xBF) {
 				try {
 					is.skip(3);
+				} catch (final IOException e) {
 				}
-				catch (final IOException e) {}
 				return "UTF-8";
 			}
 		if (count == 4) {
 			final byte[][] arrays = {
-			// UCS-4, big endian
-				{ (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x3C },
-				// UCS-4, little endian
-				{ (byte) 0x3C, (byte) 0x00, (byte) 0x00, (byte) 0x00 },
-				// UTF-16, big-endian
-				{ (byte) 0x00, (byte) 0x3C, (byte) 0x00, (byte) 0x3F },
-				// UTF-16, little-endian
-				{ (byte) 0x3C, (byte) 0x00, (byte) 0x3F, (byte) 0x00 },
-				// EBCDIC, returns CP037 like xerces
-				{ (byte) 0x4C, (byte) 0x6F, (byte) 0xA7, (byte) 0x94 } };
-			final String[] encodings = {
-				"ISO-10646-UCS-4", "ISO-10646-UCS-4", "UTF-16BE", "UTF-16LE", "CP037" };
+					// UCS-4, big endian
+					{ (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x3C },
+					// UCS-4, little endian
+					{ (byte) 0x3C, (byte) 0x00, (byte) 0x00, (byte) 0x00 },
+					// UTF-16, big-endian
+					{ (byte) 0x00, (byte) 0x3C, (byte) 0x00, (byte) 0x3F },
+					// UTF-16, little-endian
+					{ (byte) 0x3C, (byte) 0x00, (byte) 0x3F, (byte) 0x00 },
+					// EBCDIC, returns CP037 like xerces
+					{ (byte) 0x4C, (byte) 0x6F, (byte) 0xA7, (byte) 0x94 } };
+			final String[] encodings = { "ISO-10646-UCS-4", "ISO-10646-UCS-4", "UTF-16BE", "UTF-16LE", "CP037" };
 			for (int i = 0; i < encodings.length; ++i)
 				if (Arrays.equals(arrays[i], start))
 					return encodings[i];
@@ -194,17 +194,15 @@ public class DefaultEntityResolver implements EntityResolver
 		return "UTF-8";
 	}
 
-	// returns array with length 3 and optional entries version, encoding, standalone
-	private String[] readXMLDeclaration(Reader r) throws KNXMLException
-	{
+	// returns array with length 3 and optional entries version, encoding,
+	// standalone
+	private String[] readXMLDeclaration(Reader r) throws KNXMLException {
 		final StringBuffer buf = new StringBuffer(100);
 		try {
 			for (int c = 0; (c = r.read()) != -1 && c != '?';)
 				buf.append((char) c);
-		}
-		catch (final IOException e) {
-			throw new KNXMLException("reading XML declaration, " + e.getMessage(), buf
-				.toString(), 0);
+		} catch (final IOException e) {
+			throw new KNXMLException("reading XML declaration, " + e.getMessage(), buf.toString(), 0);
 		}
 		String s = buf.toString().trim();
 
@@ -216,27 +214,22 @@ public class DefaultEntityResolver implements EntityResolver
 			if (state == 0 && s.startsWith("version")) {
 				version = getAttValue(s = s.substring(7));
 				s = s.substring(s.indexOf(version) + version.length() + 1).trim();
-			}
-			else if (state == 1 && s.startsWith("encoding")) {
+			} else if (state == 1 && s.startsWith("encoding")) {
 				encoding = getAttValue(s = s.substring(8));
 				s = s.substring(s.indexOf(encoding) + encoding.length() + 1).trim();
-			}
-			else if (state == 1 || state == 2) {
+			} else if (state == 1 || state == 2) {
 				if (s.startsWith("standalone")) {
 					standalone = getAttValue(s);
 					if (!standalone.equals("yes") && !standalone.equals("no"))
-						throw new KNXMLException("invalid standalone pseudo-attribute",
-							standalone, 0);
+						throw new KNXMLException("invalid standalone pseudo-attribute", standalone, 0);
 					break;
 				}
-			}
-			else
+			} else
 				throw new KNXMLException("unknown XML declaration pseudo-attribute", s, 0);
 		return new String[] { version, encoding, standalone };
 	}
 
-	private String getAttValue(String s) throws KNXMLException
-	{
+	private String getAttValue(String s) throws KNXMLException {
 		final String att = s.trim();
 		if (att.charAt(0) == '=' && att.length() > 2) {
 			final String v = att.substring(1).trim();

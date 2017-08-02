@@ -34,8 +34,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.parameter;
 import obix.IObj;
 import obix.Int;
 
-public interface ParameterDimming extends IObj
-{
+public interface ParameterDimming extends IObj {
 	public static final String CONTRACT = "knx:ParameterDimming";
 
 	public static final String HREF = "/parameters/dimming";

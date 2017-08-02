@@ -10,8 +10,7 @@ package obix;
  * @creation 27 Apr 05
  * @version $Revision$ $Date$
  */
-public class Str extends Val
-{
+public class Str extends Val {
 
 	// //////////////////////////////////////////////////////////////
 	// Constructor
@@ -20,8 +19,7 @@ public class Str extends Val
 	/**
 	 * Construct named Str with specified value.
 	 */
-	public Str(String name, String val)
-	{
+	public Str(String name, String val) {
 		super(name);
 		set(val, false);
 	}
@@ -29,16 +27,14 @@ public class Str extends Val
 	/**
 	 * Construct unnamed Str with specified value.
 	 */
-	public Str(String val)
-	{
+	public Str(String val) {
 		set(val, false);
 	}
 
 	/**
 	 * Construct unnamed Str with value of "".
 	 */
-	public Str()
-	{
+	public Str() {
 		set("", false);
 	}
 
@@ -49,24 +45,21 @@ public class Str extends Val
 	/**
 	 * Get value as a string.
 	 */
-	public String get()
-	{
+	public String get() {
 		return val;
 	}
 
 	/**
 	 * Set value and consider notify-flag.
 	 */
-	public void set(String val, boolean notify)
-	{
+	public void set(String val, boolean notify) {
 		if (val == null)
 			throw new IllegalArgumentException("val cannot be null");
 
 		String oldVal = this.val;
 		this.val = val;
 
-		if (notify && !this.val.equals(oldVal))
-		{
+		if (notify && !this.val.equals(oldVal)) {
 			notifyObservers();
 		}
 	}
@@ -74,33 +67,31 @@ public class Str extends Val
 	/**
 	 * Set value.
 	 */
-	public void set(String val)
-	{
+	public void set(String val) {
 		this.set(val, true);
 	}
-	
-	public void set(Real val){
-		this.set(val.toString(), true);
-	}
-	
-	public void set(Int val){
-		this.set(val.toString(), true);
-	}
-	
 
-	public void set(Bool val){
+	public void set(Real val) {
 		this.set(val.toString(), true);
 	}
-	
-	public void set(Long val){
+
+	public void set(Int val) {
 		this.set(val.toString(), true);
 	}
-	
-	public void set(boolean val){
+
+	public void set(Bool val) {
+		this.set(val.toString(), true);
+	}
+
+	public void set(Long val) {
+		this.set(val.toString(), true);
+	}
+
+	public void set(boolean val) {
 		this.set("" + val, true);
 	}
-	
-	public void set(double val){
+
+	public void set(double val) {
 		this.set("" + val, true);
 	}
 
@@ -111,58 +102,53 @@ public class Str extends Val
 	/**
 	 * Return "str".
 	 */
-	public String getElement()
-	{
+	public String getElement() {
 		return "str";
 	}
 
 	/**
 	 * Return BinObix.STR.
 	 */
-	public int getBinCode()
-	{
+	public int getBinCode() {
 		return obix.io.BinObix.STR;
 	}
 
 	/**
 	 * Return if specified Val has equivalent string value.
 	 */
-	public boolean valEquals(Val that)
-	{
+	public boolean valEquals(Val that) {
 		if (that instanceof Str)
 			return ((Str) that).val.equals(val);
 		return false;
 	}
 
 	/**
-	 * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+	 * Compares this object with the specified object for order. Returns a
+	 * negative integer, zero, or a positive integer as this object is less
+	 * than, equal to, or greater than the specified object.
 	 */
-	public int compareTo(Object that)
-	{
+	public int compareTo(Object that) {
 		return val.compareTo(((Str) that).val);
 	}
 
 	/**
 	 * Encode the value as a string
 	 */
-	public String encodeVal()
-	{
+	public String encodeVal() {
 		return String.valueOf(val);
 	}
 
 	/**
 	 * Decode the value from a string.
 	 */
-	public void decodeVal(String val) throws Exception
-	{
+	public void decodeVal(String val) throws Exception {
 		set(val);
 	}
 
 	/**
 	 * Encode the value as a Java code literal to pass to the constructor.
 	 */
-	public String encodeJava()
-	{
+	public String encodeJava() {
 		return '"' + val + '"';
 	}
 
@@ -173,16 +159,14 @@ public class Str extends Val
 	/**
 	 * Get the min facet or MIN_DEFAULT if unspecified.
 	 */
-	public int getMin()
-	{
+	public int getMin() {
 		return min;
 	}
 
 	/**
 	 * Set the min facet.
 	 */
-	public void setMin(int min)
-	{
+	public void setMin(int min) {
 		if (min < 0)
 			throw new IllegalArgumentException("min < 0");
 		this.min = min;
@@ -191,16 +175,14 @@ public class Str extends Val
 	/**
 	 * Get the max facet or MAX_DEFAULT if unspecified.
 	 */
-	public int getMax()
-	{
+	public int getMax() {
 		return max;
 	}
 
 	/**
 	 * Set the max facet.
 	 */
-	public void setMax(int max)
-	{
+	public void setMax(int max) {
 		if (max < 0)
 			throw new IllegalArgumentException("max < 0");
 		this.max = max;
@@ -209,8 +191,7 @@ public class Str extends Val
 	/**
 	 * Set to value of another Str
 	 */
-	public void set(Obj obj)
-	{
+	public void set(Obj obj) {
 		if (!(obj instanceof Str))
 			return;
 		set(((Str) obj).get());
@@ -230,16 +211,11 @@ public class Str extends Val
 	private int min = MIN_DEFAULT;
 	private int max = MAX_DEFAULT;
 
-	public void writeObject(Obj input)
-	{
-		if (this.getParent() != null)
-		{
+	public void writeObject(Obj input) {
+		if (this.getParent() != null) {
 			this.getParent().writeObject(input);
-		}
-		else
-		{
-			if (input instanceof obix.Str)
-			{
+		} else {
+			if (input instanceof obix.Str) {
 				this.set(((obix.Str) input).get());
 			}
 		}

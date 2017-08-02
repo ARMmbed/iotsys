@@ -33,14 +33,14 @@ public class WriteableObjectDbImpl implements WriteableObjectDb {
 
 	private static final Logger log = Logger.getLogger(WriteableObjectDbImpl.class.getName());
 	private static WriteableObjectDb INSTANCE;
-	
-	public static WriteableObjectDb getInstance(){
-		INSTANCE = WriteableObjectDbRepo.getInstance(); 
+
+	public static WriteableObjectDb getInstance() {
+		INSTANCE = WriteableObjectDbRepo.getInstance();
 		if (INSTANCE == null)
 			INSTANCE = new WriteableObjectDbImpl();
 		return INSTANCE;
 	}
-	
+
 	@Override
 	public void persistWritingObject(String href, String dataStream) {
 		log.severe("WRITEABLE OBJECT DB NOT CONNECTED");

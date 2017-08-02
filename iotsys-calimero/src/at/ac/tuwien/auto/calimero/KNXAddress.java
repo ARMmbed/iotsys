@@ -31,17 +31,15 @@ import at.ac.tuwien.auto.calimero.xml.KNXMLException;
 import at.ac.tuwien.auto.calimero.xml.XMLReader;
 import at.ac.tuwien.auto.calimero.xml.XMLWriter;
 
-
 /**
  * Represents a KNX address.
  * <p>
- * An address consists of a 16 Bit unsigned value. Concrete implementations of address are
- * {@link GroupAddress} and {@link IndividualAddress}. Instances of
+ * An address consists of a 16 Bit unsigned value. Concrete implementations of
+ * address are {@link GroupAddress} and {@link IndividualAddress}. Instances of
  * <code>KNXAddress</code> are immutable.<br>
  * Loading and saving KNX addresses in XML format is supported.
  */
-public abstract class KNXAddress
-{
+public abstract class KNXAddress {
 	private static final String ATTR_TYPE = "type";
 	private static final String TAG_ADDRESS = "knxAddress";
 
@@ -51,10 +49,10 @@ public abstract class KNXAddress
 	 * Creates a KNX address from a 16 Bit address value.
 	 * <p>
 	 * 
-	 * @param address the address value in the range [0..0xffff]
+	 * @param address
+	 *            the address value in the range [0..0xffff]
 	 */
-	KNXAddress(int address)
-	{
+	KNXAddress(int address) {
 		if (address < 0 || address > 0xffff)
 			throw new KNXIllegalArgumentException("address out of range [0..0xFFFF]");
 		this.address = address;
@@ -63,14 +61,15 @@ public abstract class KNXAddress
 	/**
 	 * Creates a KNX address from a byte array.
 	 * <p>
-	 * The address is read out of the first 2 byte fields, while the address array itself
-	 * might be longer. The content of <code>address</code> is not modified.
+	 * The address is read out of the first 2 byte fields, while the address
+	 * array itself might be longer. The content of <code>address</code> is not
+	 * modified.
 	 * 
-	 * @param address the address byte array in big-endian format, with address.length >=
-	 *        2
+	 * @param address
+	 *            the address byte array in big-endian format, with
+	 *            address.length >= 2
 	 */
-	KNXAddress(byte[] address)
-	{
+	KNXAddress(byte[] address) {
 		if (address.length < 2)
 			throw new KNXIllegalArgumentException("address byte array too short");
 		this.address = (address[0] & 0xFF) << 8 | address[1] & 0xFF;
@@ -79,54 +78,56 @@ public abstract class KNXAddress
 	/**
 	 * Creates a KNX address from its XML representation.
 	 * <p>
-	 * If the current XML element position is no start tag, the next element tag is read.
-	 * The KNX address element is then expected to be the current element in the reader.
+	 * If the current XML element position is no start tag, the next element tag
+	 * is read. The KNX address element is then expected to be the current
+	 * element in the reader.
 	 * 
-	 * @param r a xml reader
-	 * @throws KNXMLException if the XML element represents no KNX address or the address
-	 *         couldn't be read correctly
+	 * @param r
+	 *            a xml reader
+	 * @throws KNXMLException
+	 *             if the XML element represents no KNX address or the address
+	 *             couldn't be read correctly
 	 */
-	KNXAddress(XMLReader r) throws KNXMLException
-	{
+	KNXAddress(XMLReader r) throws KNXMLException {
 		if (r.getPosition() != XMLReader.START_TAG)
 			r.read();
 		final Element e = r.getCurrent();
 		if (r.getPosition() != XMLReader.START_TAG || !e.getName().equals(TAG_ADDRESS)
-			|| !getType().equals(e.getAttribute(ATTR_TYPE)))
-			throw new KNXMLException("XML element represents no KNX " + getType()
-				+ " address", e != null ? e.getName() : null, r.getLineNumber());
+				|| !getType().equals(e.getAttribute(ATTR_TYPE)))
+			throw new KNXMLException("XML element represents no KNX " + getType() + " address",
+					e != null ? e.getName() : null, r.getLineNumber());
 		r.complete(e);
 		try {
 			address = Integer.parseInt(e.getCharacterData());
 			if (address >= 0 && address <= 0xffff)
 				return;
+		} catch (final NumberFormatException nfe) {
 		}
-		catch (final NumberFormatException nfe) {}
-		throw new KNXMLException("malformed KNX address value", e.getCharacterData(), r
-			.getLineNumber());
+		throw new KNXMLException("malformed KNX address value", e.getCharacterData(), r.getLineNumber());
 	}
 
 	/**
 	 * Creates KNX address 0 (reserved address).
 	 * <p>
 	 */
-	KNXAddress()
-	{}
+	KNXAddress() {
+	}
 
 	/**
 	 * Creates a KNX address from xml input.
 	 * <p>
-	 * The KNX address element is expected to be the current or next element from the
-	 * parser.
+	 * The KNX address element is expected to be the current or next element
+	 * from the parser.
 	 * 
-	 * @param r a XML reader
+	 * @param r
+	 *            a XML reader
 	 * @return the created KNXAddress, either of subtype {@link GroupAddress} or
 	 *         {@link IndividualAddress}
-	 * @throws KNXMLException if the XML element is no KNX address, on unknown address
-	 *         type or wrong address syntax
+	 * @throws KNXMLException
+	 *             if the XML element is no KNX address, on unknown address type
+	 *             or wrong address syntax
 	 */
-	public static KNXAddress create(XMLReader r) throws KNXMLException
-	{
+	public static KNXAddress create(XMLReader r) throws KNXMLException {
 		if (r.getPosition() != XMLReader.START_TAG)
 			r.read();
 		if (r.getPosition() == XMLReader.START_TAG) {
@@ -142,19 +143,20 @@ public abstract class KNXAddress
 	/**
 	 * Creates a KNX address from a string <code>address</code> representation.
 	 * <p>
-	 * An address level separator of type '.' found in <code>address</code> indicates an
-	 * individual address, i.e. an {@link IndividualAddress} is created, otherwise a
-	 * {@link GroupAddress} is created.<br>
+	 * An address level separator of type '.' found in <code>address</code>
+	 * indicates an individual address, i.e. an {@link IndividualAddress} is
+	 * created, otherwise a {@link GroupAddress} is created.<br>
 	 * Allowed separators are '.' or '/', mutually exclusive.
 	 * 
-	 * @param address string containing the KNX address
-	 * @return the created KNX address, either of subtype {@link GroupAddress} or
-	 *         {@link IndividualAddress}
-	 * @throws KNXFormatException thrown on unknown address type, wrong address syntax or
-	 *         wrong separator used
+	 * @param address
+	 *            string containing the KNX address
+	 * @return the created KNX address, either of subtype {@link GroupAddress}
+	 *         or {@link IndividualAddress}
+	 * @throws KNXFormatException
+	 *             thrown on unknown address type, wrong address syntax or wrong
+	 *             separator used
 	 */
-	public static KNXAddress create(String address) throws KNXFormatException
-	{
+	public static KNXAddress create(String address) throws KNXFormatException {
 		if (address.indexOf('.') != -1)
 			return new IndividualAddress(address);
 		return new GroupAddress(address);
@@ -174,8 +176,7 @@ public abstract class KNXAddress
 	 * 
 	 * @return the 16 Bit address value
 	 */
-	public final int getRawAddress()
-	{
+	public final int getRawAddress() {
 		return address;
 	}
 
@@ -183,11 +184,12 @@ public abstract class KNXAddress
 	 * Writes the KNX address in XML format to the supplied writer.
 	 * <p>
 	 * 
-	 * @param w a XML writer
-	 * @throws KNXMLException on output error
+	 * @param w
+	 *            a XML writer
+	 * @throws KNXMLException
+	 *             on output error
 	 */
-	public void save(XMLWriter w) throws KNXMLException
-	{
+	public void save(XMLWriter w) throws KNXMLException {
 		final List att = new ArrayList();
 		att.add(new Attribute(ATTR_TYPE, getType()));
 		w.writeElement(TAG_ADDRESS, att, Integer.toString(address));
@@ -197,30 +199,27 @@ public abstract class KNXAddress
 	/**
 	 * Returns the raw address value in a new byte array.
 	 * 
-	 * @return The address value. The high byte of the address is placed at index 0.
+	 * @return The address value. The high byte of the address is placed at
+	 *         index 0.
 	 */
-	public final byte[] toByteArray()
-	{
+	public final byte[] toByteArray() {
 		return new byte[] { (byte) (address >>> 8), (byte) address };
 	}
 
-	static String[] parse(String address) throws KNXFormatException
-	{
+	static String[] parse(String address) throws KNXFormatException {
 		StringTokenizer t = null;
 		if (address.indexOf('/') > -1)
 			t = new StringTokenizer(address, "/");
 		else if (address.indexOf('.') > -1)
 			t = new StringTokenizer(address, ".");
 		else
-			throw new KNXFormatException("wrong KNX address format, no valid separator",
-				address);
+			throw new KNXFormatException("wrong KNX address format, no valid separator", address);
 		final int count = t.countTokens();
 		if (count == 2)
 			return new String[] { t.nextToken(), t.nextToken() };
 		else if (count == 3)
 			return new String[] { t.nextToken(), t.nextToken(), t.nextToken(), };
 		else
-			throw new KNXFormatException("wrong KNX address syntax with " + count
-				+ " levels", address);
+			throw new KNXFormatException("wrong KNX address syntax with " + count + " levels", address);
 	}
 }

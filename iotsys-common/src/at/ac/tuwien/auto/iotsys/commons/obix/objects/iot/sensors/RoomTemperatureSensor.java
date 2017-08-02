@@ -34,13 +34,15 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface RoomTemperatureSensor extends Sensor{
-	public static final String TEMP_ROOM_CONTRACT_NAME="tempRoom";
-	public static final String TEMP_ROOM_CONTRACT_HREF="tempRoom";
-	public static final String TEMP_ROOM_CONTRACT_UNIT="obix:units/celsius";
-	
-	public static final String CONTRACT="iot:RoomTemperatureSensor";
-	public static final String TEMP_ROOM_CONTRACT = "<real name='"+TEMP_ROOM_CONTRACT_NAME+"' href='"+TEMP_ROOM_CONTRACT_HREF+"' val='0'/>";
+public interface RoomTemperatureSensor extends Sensor {
+	public static final String TEMP_ROOM_CONTRACT_NAME = "tempRoom";
+	public static final String TEMP_ROOM_CONTRACT_HREF = "tempRoom";
+	public static final String TEMP_ROOM_CONTRACT_UNIT = "obix:units/celsius";
+
+	public static final String CONTRACT = "iot:RoomTemperatureSensor";
+	public static final String TEMP_ROOM_CONTRACT = "<real name='" + TEMP_ROOM_CONTRACT_NAME + "' href='"
+			+ TEMP_ROOM_CONTRACT_HREF + "' val='0'/>";
+
 	public Real tempRoomValue();
-	
+
 }

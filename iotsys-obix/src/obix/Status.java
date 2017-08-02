@@ -12,8 +12,7 @@ import java.util.HashMap;
  * @creation 23 May 06
  * @version $Revision$ $Date$
  */
-public class Status
-{
+public class Status {
 
 	// //////////////////////////////////////////////////////////////
 	// Lookup Tables
@@ -22,16 +21,15 @@ public class Status
 	/**
 	 * Get the list of status values.
 	 */
-	public static Status[] list()
-	{
+	public static Status[] list() {
 		return (Status[]) list.clone();
 	}
 
 	/**
-	 * Return the status value for the specified string encoding or null if no match.
+	 * Return the status value for the specified string encoding or null if no
+	 * match.
 	 */
-	public static Status parse(String s)
-	{
+	public static Status parse(String s) {
 		return (Status) map.get(s);
 	}
 
@@ -55,8 +53,7 @@ public class Status
 	// Private Constructor
 	// //////////////////////////////////////////////////////////////
 
-	private Status(int ordinal, String name)
-	{
+	private Status(int ordinal, String name) {
 		this.ordinal = ordinal;
 		this.name = name;
 		list[ordinal] = this;
@@ -68,18 +65,17 @@ public class Status
 	// //////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the ordinal value such that ordinal 0 (disabled) is higher priority than ordinal 7 (ok)
+	 * Get the ordinal value such that ordinal 0 (disabled) is higher priority
+	 * than ordinal 7 (ok)
 	 */
-	public int getOrdinal()
-	{
+	public int getOrdinal() {
 		return ordinal;
 	}
 
 	/**
 	 * Get the string name for this status value.
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return name;
 	}
 

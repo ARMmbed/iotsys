@@ -45,10 +45,8 @@ import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 
-
 public class DemoAppActivator implements ServiceListener, BundleActivator {
-	private static final Logger log = Logger.getLogger(DemoAppActivator.class
-			.getName());
+	private static final Logger log = Logger.getLogger(DemoAppActivator.class.getName());
 
 	private DeviceLoader deviceLoader = new DemoAppLoaderImpl();
 	private ArrayList<Connector> connectors = null;
@@ -60,16 +58,14 @@ public class DemoAppActivator implements ServiceListener, BundleActivator {
 	public void start(BundleContext context) throws Exception {
 		log.info("Starting demo app");
 		this.context = context;
-		ServiceReference serviceReference = context
-				.getServiceReference(ObjectBroker.class.getName());
+		ServiceReference serviceReference = context.getServiceReference(ObjectBroker.class.getName());
 		if (serviceReference == null) {
 			log.severe("Could not find a running object broker to register devices!");
 
 		} else {
 			synchronized (this) {
 				log.info("Initiating Virtual devices.");
-				ObjectBroker objectBroker = (ObjectBroker) context
-						.getService(serviceReference);
+				ObjectBroker objectBroker = (ObjectBroker) context.getService(serviceReference);
 				connectors = deviceLoader.initDevices(objectBroker);
 				registered = true;
 			}
@@ -81,14 +77,12 @@ public class DemoAppActivator implements ServiceListener, BundleActivator {
 
 	public void stop(BundleContext context) throws Exception {
 		log.info("Stopping virtual connector");
-		ServiceReference serviceReference = context
-				.getServiceReference(ObjectBroker.class.getName());
+		ServiceReference serviceReference = context.getServiceReference(ObjectBroker.class.getName());
 		if (serviceReference == null) {
 			log.severe("Could not find a running object broker to unregister devices!");
 		} else {
 			log.info("Removing virtual devices.");
-			ObjectBroker objectBroker = (ObjectBroker) context
-					.getService(serviceReference);
+			ObjectBroker objectBroker = (ObjectBroker) context.getService(serviceReference);
 			deviceLoader.removeDevices(objectBroker);
 			if (connectors != null) {
 				for (Connector connector : connectors) {
@@ -104,8 +98,7 @@ public class DemoAppActivator implements ServiceListener, BundleActivator {
 
 	@Override
 	public void serviceChanged(ServiceEvent event) {
-		String[] objectClass = (String[]) event.getServiceReference()
-				.getProperty("objectClass");
+		String[] objectClass = (String[]) event.getServiceReference().getProperty("objectClass");
 
 		if (event.getType() == ServiceEvent.REGISTERED) {
 			if (objectClass[0].equals(ObjectBroker.class.getName())) {
@@ -114,8 +107,7 @@ public class DemoAppActivator implements ServiceListener, BundleActivator {
 					log.info("ObjectBroker detected.");
 
 					if (!registered) {
-						ObjectBroker objectBroker = (ObjectBroker) context
-								.getService(event.getServiceReference());
+						ObjectBroker objectBroker = (ObjectBroker) context.getService(event.getServiceReference());
 						try {
 							connectors = deviceLoader.initDevices(objectBroker);
 							registered = true;
@@ -126,6 +118,6 @@ public class DemoAppActivator implements ServiceListener, BundleActivator {
 				}
 			}
 
-		} 
+		}
 	}
 }

@@ -35,12 +35,11 @@ import obix.Uri;
 import obix.contracts.Unit;
 import obix.contracts.impl.DimensionImpl;
 
-public class UnitImpl extends obix.contracts.impl.UnitImpl implements Unit
-{
-	public UnitImpl(String name, String displayName, Uri href, String symbol, double scale, double offset, DimensionImpl dimension)
-	{
+public class UnitImpl extends obix.contracts.impl.UnitImpl implements Unit {
+	public UnitImpl(String name, String displayName, Uri href, String symbol, double scale, double offset,
+			DimensionImpl dimension) {
 		super(symbol, scale, offset, dimension);
-		
+
 		this.setName(name);
 		this.setDisplayName(displayName);
 		this.setHref(href);

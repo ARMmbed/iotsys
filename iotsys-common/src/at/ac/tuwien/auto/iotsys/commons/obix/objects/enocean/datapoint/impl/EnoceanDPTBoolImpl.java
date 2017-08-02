@@ -34,25 +34,24 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.impl;
 
 import java.util.logging.Logger;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPTBool;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl.EnoceanEntityImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl.EncodingImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl.EncodingsImpl;
 import obix.Bool;
 import obix.Contract;
 import obix.Int;
 import obix.Obj;
 import obix.Real;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPTBool;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl.EnoceanEntityImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl.EncodingImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl.EncodingsImpl;
 
-public abstract class EnoceanDPTBoolImpl extends EnoceanDPTImpl implements EnoceanDPTBool
-{
+public abstract class EnoceanDPTBoolImpl extends EnoceanDPTImpl implements EnoceanDPTBool {
 	private static final Logger log = Logger.getLogger(EnoceanDPTBoolImpl.class.getName());
 
 	private Bool value = new Bool();
 
-	public EnoceanDPTBoolImpl(String name, String displayName, String display, EnoceanEntityImpl entity, boolean writable, boolean readable)
-	{
+	public EnoceanDPTBoolImpl(String name, String displayName, String display, EnoceanEntityImpl entity,
+			boolean writable, boolean readable) {
 		// constructor
 		super(name, displayName, display, entity);
 
@@ -69,99 +68,75 @@ public abstract class EnoceanDPTBoolImpl extends EnoceanDPTImpl implements Enoce
 	}
 
 	@Override
-	public boolean isValueWritable()
-	{
+	public boolean isValueWritable() {
 		return value.isWritable();
 	}
 
 	@Override
-	public boolean isValueReadable()
-	{
+	public boolean isValueReadable() {
 		return value.isReadable();
 	}
 
 	@Override
-	public Bool value()
-	{
+	public Bool value() {
 		return value;
 	}
 
 	@Override
-	public void writeObject(Obj input)
-	{
-		if (this.value.isWritable())
-		{
-			if (input instanceof EnoceanDPTBool)
-			{
+	public void writeObject(Obj input) {
+		if (this.value.isWritable()) {
+			if (input instanceof EnoceanDPTBool) {
 				EnoceanDPTBool in = (EnoceanDPTBool) input;
 				log.info("Writing on data point.");
 				this.value.set(in.value().get());
-			}
-			else if (input instanceof Bool)
-			{
+			} else if (input instanceof Bool) {
 				this.value.set(((Bool) input).get());
-			}
-			else if (input instanceof Real)
-			{
+			} else if (input instanceof Real) {
 				this.value.set(((Real) input).get());
-			}
-			else if (input instanceof Int)
-			{
+			} else if (input instanceof Int) {
 				this.value.set(((Int) input).get());
-			}
-			else if (input instanceof obix.Enum)
-			{
+			} else if (input instanceof obix.Enum) {
 				// set value from encoding
-				if (input.isWritable())
-				{
+				if (input.isWritable()) {
 					obix.Enum in = (obix.Enum) input;
 
-					if (in.getRange() != null)
-					{
+					if (in.getRange() != null) {
 						EncodingImpl encoding = EncodingsImpl.getInstance().getEncoding(in.getRange().getPath());
 
-						if (encoding != null)
-						{
+						if (encoding != null) {
 							Obj value = encoding.getValue(in);
 
-							if (value != null)
-							{
+							if (value != null) {
 								this.value.set(((Bool) value).get());
 							}
 						}
 					}
 				}
 			}
-			if(entity!=null){
+			if (entity != null) {
 				this.entity.writeObject(this.value);
 			}
 		}
-	}	
-	
+	}
+
 	@Override
-	public void setValue(Obj value){
-		if (value instanceof EnoceanDPTBool)
-		{
+	public void setValue(Obj value) {
+		if (value instanceof EnoceanDPTBool) {
 			EnoceanDPTBool in = (EnoceanDPTBool) value;
 			log.info("Writing on data point.");
 			this.value.set(in.value().get());
-		}
-		else if (value instanceof Bool)
-		{
+		} else if (value instanceof Bool) {
 			this.value.set(((Bool) value).get());
-		}
-		else if (value instanceof Real)
-		{
+		} else if (value instanceof Real) {
 			this.value.set(((Real) value).get());
-		}
-		else if (value instanceof Int)
-		{
+		} else if (value instanceof Int) {
 			this.value.set(((Int) value));
-		} else this.value.set(((Obj) value));		
+		} else
+			this.value.set(((Obj) value));
 	}
-	
+
 	@Override
-	public Obj getValue(){
-		return (Obj)this.value;
+	public Obj getValue() {
+		return (Obj) this.value;
 	}
 }

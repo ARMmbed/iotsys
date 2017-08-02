@@ -22,17 +22,16 @@ package at.ac.tuwien.auto.calimero.log;
 /**
  * LogWriter is responsible for writing information to individual destinations.
  * <p>
- * A LogWriter has an assigned log level (by default {@link LogLevel#ALL}), which
- * specifies what information to write and what to ignore. A log level of
- * {@link LogLevel#OFF} will ignore any write requests. If a LogWriter is not used
- * anymore, {@link #close()} has to be called.
+ * A LogWriter has an assigned log level (by default {@link LogLevel#ALL}),
+ * which specifies what information to write and what to ignore. A log level of
+ * {@link LogLevel#OFF} will ignore any write requests. If a LogWriter is not
+ * used anymore, {@link #close()} has to be called.
  * 
  * @author B. Malinowsky
  * @see LogLevel
  * @see LogService
  */
-public abstract class LogWriter
-{
+public abstract class LogWriter {
 	private static ErrorHandler errorHandler = new ErrorHandler();
 
 	LogLevel logLevel = LogLevel.ALL;
@@ -41,10 +40,10 @@ public abstract class LogWriter
 	 * Sets the error handler used on all log writer errors.
 	 * <p>
 	 * 
-	 * @param handler the new error handler
+	 * @param handler
+	 *            the new error handler
 	 */
-	public static synchronized void setErrorHandler(ErrorHandler handler)
-	{
+	public static synchronized void setErrorHandler(ErrorHandler handler) {
 		if (handler != null)
 			errorHandler = handler;
 	}
@@ -55,19 +54,19 @@ public abstract class LogWriter
 	 * 
 	 * @return an {@link ErrorHandler} object
 	 */
-	public static synchronized ErrorHandler getErrorHandler()
-	{
+	public static synchronized ErrorHandler getErrorHandler() {
 		return errorHandler;
 	}
 
 	/**
-	 * Sets the log level for deciding which messages gets logged by this LogWriter.
+	 * Sets the log level for deciding which messages gets logged by this
+	 * LogWriter.
 	 * <p>
 	 * 
-	 * @param level new log level
+	 * @param level
+	 *            new log level
 	 */
-	public final void setLogLevel(LogLevel level)
-	{
+	public final void setLogLevel(LogLevel level) {
 		logLevel = level;
 	}
 
@@ -77,33 +76,40 @@ public abstract class LogWriter
 	 * 
 	 * @return log {@link LogLevel}
 	 */
-	public final LogLevel getLogLevel()
-	{
+	public final LogLevel getLogLevel() {
 		return logLevel;
 	}
 
 	/**
 	 * Writes a message out to this LogWriter.
 	 * <p>
-	 * The message has the associated log level <code>level</code>. It will only be
-	 * written if the LogWriter logging level is not more restrictive than
-	 * <code>level</code>. Otherwise the message is ignored. LogWriter is responsible
-	 * for formatting the output.
+	 * The message has the associated log level <code>level</code>. It will only
+	 * be written if the LogWriter logging level is not more restrictive than
+	 * <code>level</code>. Otherwise the message is ignored. LogWriter is
+	 * responsible for formatting the output.
 	 * 
-	 * @param logService log service name stating the source of the message
-	 * @param level log level of message
-	 * @param msg the message to write
+	 * @param logService
+	 *            log service name stating the source of the message
+	 * @param level
+	 *            log level of message
+	 * @param msg
+	 *            the message to write
 	 */
 	public abstract void write(String logService, LogLevel level, String msg);
 
 	/**
 	 * Like {@link #write(String, LogLevel, String)}, in addition a
-	 * <code>Throwable</code> object is taken which will be added to the message.
+	 * <code>Throwable</code> object is taken which will be added to the
+	 * message.
 	 * 
-	 * @param logService log service name stating the source of the message
-	 * @param level log level of message
-	 * @param msg the message to write
-	 * @param t Throwable object, might be <code>null</code>
+	 * @param logService
+	 *            log service name stating the source of the message
+	 * @param level
+	 *            log level of message
+	 * @param msg
+	 *            the message to write
+	 * @param t
+	 *            Throwable object, might be <code>null</code>
 	 */
 	public abstract void write(String logService, LogLevel level, String msg, Throwable t);
 

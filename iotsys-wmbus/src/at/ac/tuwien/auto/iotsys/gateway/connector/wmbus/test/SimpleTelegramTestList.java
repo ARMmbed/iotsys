@@ -35,52 +35,54 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.test;
 import java.util.ArrayList;
 
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.SimpleTelegram;
-import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.Telegram;
-import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.util.Measure_Unit;
-import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.test.SmartMeterTestTelegrams;
 
 public class SimpleTelegramTestList {
-	
-	private ArrayList<SimpleTelegram> telegrams;
-	
-	public SimpleTelegramTestList() {
-		
-	}
-//	
-//	private SimpleTelegram createTelegram(String telegramString) {
-//		Telegram telegram = new Telegram();
-//		telegram.createTelegram(telegramString, false);
-//		telegram.decryptTelegram();
-//		telegram.parse();
-//		
-//		//System.out.println(telegram.getHeader().getaField().getParsedValue());
-//		String serialNr = telegram.getHeader().getaField().getFieldParts().get(3) + telegram.getHeader().getaField().getFieldParts().get(2) +
-//				telegram.getHeader().getaField().getFieldParts().get(1) + telegram.getHeader().getaField().getFieldParts().get(0);
-//		
-//		System.out.println("WMBus Telegram received #################################################");
-//		System.out.println("serialNr: " + serialNr);
-//						
-//		System.out.println("Load W: " + telegram.getBody().getBodyPayload().getRecords().get(5).getDataField().getParsedValue());
-//		System.out.println("Energy Wh: " + telegram.getBody().getBodyPayload().getRecords().get(3).getDataField().getParsedValue());
-//		
-//		SimpleTelegram simpleTelegram = new SimpleTelegram();
-//		simpleTelegram.setEnergy(new Double(telegram.getBody().getBodyPayload().getRecords().get(3).getDataField().getParsedValue()));
-//		simpleTelegram.setEnergyUnit(Measure_Unit.WH);
-//		simpleTelegram.setPower(Double.parseDouble(telegram.getBody().getBodyPayload().getRecords().get(5).getDataField().getParsedValue()));
-//		simpleTelegram.setEnergyUnit(Measure_Unit.W);
-//		
-//		return simpleTelegram;
-//	}
-//	
-//	public void loadTelegrams() {
-//		this.telegrams = new ArrayList<SimpleTelegram>();
-//		for(int i = 0; i < SmartMeterTestTelegrams.telegrams.length; i++) {
-//			telegrams.add(this.createTelegram(SmartMeterTestTelegrams.telegrams[i]));
-//		}
-//	}
-//	
-//	public ArrayList<SimpleTelegram> getTestSimpleTelegrams() {
-//		return this.telegrams;
-//	}
-}
 
+	private ArrayList<SimpleTelegram> telegrams;
+
+	public SimpleTelegramTestList() {
+
+	}
+	//
+	// private SimpleTelegram createTelegram(String telegramString) {
+	// Telegram telegram = new Telegram();
+	// telegram.createTelegram(telegramString, false);
+	// telegram.decryptTelegram();
+	// telegram.parse();
+	//
+	// //System.out.println(telegram.getHeader().getaField().getParsedValue());
+	// String serialNr = telegram.getHeader().getaField().getFieldParts().get(3)
+	// + telegram.getHeader().getaField().getFieldParts().get(2) +
+	// telegram.getHeader().getaField().getFieldParts().get(1) +
+	// telegram.getHeader().getaField().getFieldParts().get(0);
+	//
+	// System.out.println("WMBus Telegram received
+	// #################################################");
+	// System.out.println("serialNr: " + serialNr);
+	//
+	// System.out.println("Load W: " +
+	// telegram.getBody().getBodyPayload().getRecords().get(5).getDataField().getParsedValue());
+	// System.out.println("Energy Wh: " +
+	// telegram.getBody().getBodyPayload().getRecords().get(3).getDataField().getParsedValue());
+	//
+	// SimpleTelegram simpleTelegram = new SimpleTelegram();
+	// simpleTelegram.setEnergy(new
+	// Double(telegram.getBody().getBodyPayload().getRecords().get(3).getDataField().getParsedValue()));
+	// simpleTelegram.setEnergyUnit(Measure_Unit.WH);
+	// simpleTelegram.setPower(Double.parseDouble(telegram.getBody().getBodyPayload().getRecords().get(5).getDataField().getParsedValue()));
+	// simpleTelegram.setEnergyUnit(Measure_Unit.W);
+	//
+	// return simpleTelegram;
+	// }
+	//
+	// public void loadTelegrams() {
+	// this.telegrams = new ArrayList<SimpleTelegram>();
+	// for(int i = 0; i < SmartMeterTestTelegrams.telegrams.length; i++) {
+	// telegrams.add(this.createTelegram(SmartMeterTestTelegrams.telegrams[i]));
+	// }
+	// }
+	//
+	// public ArrayList<SimpleTelegram> getTestSimpleTelegrams() {
+	// return this.telegrams;
+	// }
+}

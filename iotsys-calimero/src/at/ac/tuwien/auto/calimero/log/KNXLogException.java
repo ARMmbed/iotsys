@@ -27,25 +27,25 @@ import at.ac.tuwien.auto.calimero.exception.KNXException;
  * 
  * @author B. Malinowsky
  */
-public class KNXLogException extends KNXException
-{
+public class KNXLogException extends KNXException {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Constructs a <code>KNXLogException</code> without a detail message.
 	 * <p>
 	 */
-	public KNXLogException()
-	{}
+	public KNXLogException() {
+	}
 
 	/**
-	 * Constructs a <code>KNXLogException</code> with the specified detail message.
+	 * Constructs a <code>KNXLogException</code> with the specified detail
+	 * message.
 	 * <p>
 	 * 
-	 * @param s the detail message
+	 * @param s
+	 *            the detail message
 	 */
-	public KNXLogException(String s)
-	{
+	public KNXLogException(String s) {
 		super(s);
 	}
 }

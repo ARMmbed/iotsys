@@ -38,8 +38,7 @@ import org.apache.commons.configuration.XMLConfiguration;
 
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 
-public interface DeviceLoader
-{
+public interface DeviceLoader {
 	public static final String DEVICE_CONFIGURATION_LOCATION = "config/devices.xml";
 
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker);

@@ -1,6 +1,7 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
+import obix.Obj;
 
 /**
  * WatchInItem
@@ -9,8 +10,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface WatchInItem extends IObj
-{
+public interface WatchInItem extends IObj {
 	public static final String CONTRACT = "obix:WatchInItem";
 
 	public Obj in();

@@ -34,25 +34,24 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl;
 import java.util.logging.Logger;
 
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.TemperatureSensor;
-import obix.Real;
 import obix.Contract;
 import obix.Obj;
+import obix.Real;
 import obix.Uri;
 
-public class TemperatureSensorImpl extends SensorImpl implements
-		TemperatureSensor {
-	protected Real value = new Real(0);	
+public class TemperatureSensorImpl extends SensorImpl implements TemperatureSensor {
+	protected Real value = new Real(0);
 	private static final Logger log = Logger.getLogger(TemperatureSensorImpl.class.getName());
 
 	public TemperatureSensorImpl() {
 		setIs(new Contract(TemperatureSensor.CONTRACT));
 		value.setWritable(false);
 		Uri valueUri = new Uri("value");
-		
+
 		value.setHref(valueUri);
 		value.setName("value");
 		value.setUnit(new Uri("obix:units/celsius"));
-		add(value);				
+		add(value);
 	}
 
 	public void writeObject(Obj input) {
@@ -62,14 +61,14 @@ public class TemperatureSensorImpl extends SensorImpl implements
 	public Real value() {
 		return this.value;
 	}
-	
+
 	@Override
-	public void initialize(){
-		super.initialize();	
+	public void initialize() {
+		super.initialize();
 	}
-	
+
 	@Override
-	public void refreshObject(){
+	public void refreshObject() {
 		log.finest("refreshing temperature sensor.");
 	}
 }

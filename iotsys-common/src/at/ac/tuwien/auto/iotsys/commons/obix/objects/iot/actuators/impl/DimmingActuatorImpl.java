@@ -40,55 +40,53 @@ import obix.Int;
 import obix.Obj;
 import obix.Uri;
 
-
 /**
- * This class represents an abstract brightness actuator that is technology independent and
- * allows to represent such device as OBIX contract.
+ * This class represents an abstract brightness actuator that is technology
+ * independent and allows to represent such device as OBIX contract.
+ * 
  * @author Juergen Weidinger
  *
  */
 
-public class DimmingActuatorImpl extends ActuatorImpl implements DimmingActuator{
-	
-	//private IObjectBroker _objectBroker;
-	
+public class DimmingActuatorImpl extends ActuatorImpl implements DimmingActuator {
+
+	// private IObjectBroker _objectBroker;
+
 	protected Bool switchOnOffValue = new Bool(false);
 	protected Int absoluteSetvalueControlValue = new Int(0);
-	
+
 	// relative setvalue control
 	protected Obj relativSetvalueControl = new Obj();
 	protected Bool relativSetvalueControlDimmingDirectionValue = new Bool(false);
 	protected Int relativSetvalueControlDimmingStepValue = new Int();
-	
-	
+
 	public DimmingActuatorImpl() {
-		//_objectBroker = new ObjectBroker();
-		
+		// _objectBroker = new ObjectBroker();
+
 		setIs(new Contract(DimmingActuator.CONTRACT));
-		
-		//switchOnOffValue
+
+		// switchOnOffValue
 		switchOnOffValue.setWritable(true);
 		Uri switchOnOffValueUri = new Uri(DimmingActuator.SWITCH_ON_OFF_CONTRACT_HREF);
 		switchOnOffValue.setHref(switchOnOffValueUri);
 		switchOnOffValue.setName(DimmingActuator.SWITCH_ON_OFF_CONTRACT_NAME);
 		add(switchOnOffValue);
-		
-		//absoluteSetvalueControlValue
+
+		// absoluteSetvalueControlValue
 		absoluteSetvalueControlValue.setWritable(true);
 		Uri absoluteSetvalueControlValueUri = new Uri(DimmingActuator.ABSOLUTE_SETVALUE_CONTRACT_HREF);
 		absoluteSetvalueControlValue.setHref(absoluteSetvalueControlValueUri);
 		absoluteSetvalueControlValue.setName(DimmingActuator.ABSOLUTE_SETVALUE_CONTRACT_NAME);
 		absoluteSetvalueControlValue.setUnit(new Uri(DimmingActuator.ABSOLUTE_SETVALUE_CONTRACT_UNIT));
-		add(absoluteSetvalueControlValue);			
+		add(absoluteSetvalueControlValue);
 
 		DefRelativeSetvalueControlImpl relativeValueContract = new DefRelativeSetvalueControlImpl();
 		Uri relativeValueContractUri = new Uri(DefRelativeSetvalueControl.RELATIV_SETVALUE_CONTROL_CONTRACT_HREF);
 		relativeValueContract.setHref(relativeValueContractUri);
 		add(relativeValueContract);
-		//_objectBroker.addObj(relativeValueContract);
+		// _objectBroker.addObj(relativeValueContract);
 	}
-	
-	
+
 	@Override
 	public Bool switchOnOffValue() {
 		return this.switchOnOffValue;

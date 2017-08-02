@@ -83,15 +83,13 @@ public class ExiTest {
 		}
 	}
 
-	public static void decodeEXI(String sourceFile, String destinationFile)
-			throws FileNotFoundException, IOException, SAXException,
-			EXIOptionsException, TransformerConfigurationException {
+	public static void decodeEXI(String sourceFile, String destinationFile) throws FileNotFoundException, IOException,
+			SAXException, EXIOptionsException, TransformerConfigurationException {
 		decodeEXI(sourceFile, destinationFile, false);
 	}
 
-	public static void decodeEXI(String sourceFile, String destinationFile,
-			boolean useEXISchema) throws FileNotFoundException, IOException,
-			SAXException, EXIOptionsException,
+	public static void decodeEXI(String sourceFile, String destinationFile, boolean useEXISchema)
+			throws FileNotFoundException, IOException, SAXException, EXIOptionsException,
 			TransformerConfigurationException {
 
 		FileInputStream in = null;
@@ -110,12 +108,10 @@ public class ExiTest {
 		try {
 
 			// Standard SAX methods parse content and lexical values.
-			SAXTransformerFactory saxTransformerFactory = (SAXTransformerFactory) SAXTransformerFactory
-					.newInstance();
+			SAXTransformerFactory saxTransformerFactory = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
 			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 			saxParserFactory.setNamespaceAware(true);
-			TransformerHandler transformerHandler = saxTransformerFactory
-					.newTransformerHandler();
+			TransformerHandler transformerHandler = saxTransformerFactory.newTransformerHandler();
 
 			// EXIReader infers and reconstructs the XML file structure.
 			EXIReader reader = new EXIReader();
@@ -126,18 +122,15 @@ public class ExiTest {
 
 			// Set the schema (null, in this case) and EXI Options (default) in
 			// the Grammar Cache.
-			if(useEXISchema){				
+			if (useEXISchema) {
 				EXISchema schema = null;
 				FileInputStream fis = new FileInputStream("res/obix.esd");
-                DataInputStream dis = new DataInputStream(fis);       
+				DataInputStream dis = new DataInputStream(fis);
 				schema = (EXISchema) EXISchema.readIn(dis);
 				grammarCache = new GrammarCache(schema, options);
-			}
-			else{
+			} else {
 				grammarCache = new GrammarCache(null, options);
 			}
-			
-
 
 			// Set the schema and options for EXIReader.
 			reader.setEXISchema(grammarCache);
@@ -172,15 +165,13 @@ public class ExiTest {
 		}
 	}
 
-	public static String decodeEXI(byte[] source) throws FileNotFoundException,
-			IOException, SAXException, EXIOptionsException,
-			TransformerConfigurationException {
+	public static String decodeEXI(byte[] source) throws FileNotFoundException, IOException, SAXException,
+			EXIOptionsException, TransformerConfigurationException {
 		return decodeEXI(source, false);
 	}
 
-	public static String decodeEXI(byte[] source, boolean useEXISchema)
-			throws FileNotFoundException, IOException, SAXException,
-			EXIOptionsException, TransformerConfigurationException {
+	public static String decodeEXI(byte[] source, boolean useEXISchema) throws FileNotFoundException, IOException,
+			SAXException, EXIOptionsException, TransformerConfigurationException {
 
 		StringWriter stringWriter = new StringWriter();
 
@@ -194,12 +185,10 @@ public class ExiTest {
 		short options = GrammarOptions.DEFAULT_OPTIONS;
 
 		// Standard SAX methods parse content and lexical values.
-		SAXTransformerFactory saxTransformerFactory = (SAXTransformerFactory) SAXTransformerFactory
-				.newInstance();
+		SAXTransformerFactory saxTransformerFactory = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 		saxParserFactory.setNamespaceAware(true);
-		TransformerHandler transformerHandler = saxTransformerFactory
-				.newTransformerHandler();
+		TransformerHandler transformerHandler = saxTransformerFactory.newTransformerHandler();
 
 		// EXIReader infers and reconstructs the XML file structure.
 		EXIReader reader = new EXIReader();
@@ -210,18 +199,15 @@ public class ExiTest {
 
 		// Set the schema (null, in this case) and EXI Options (default) in
 		// the Grammar Cache.
-		if(useEXISchema){				
+		if (useEXISchema) {
 			EXISchema schema = null;
 			FileInputStream fis = new FileInputStream("res/obix.esd");
-            DataInputStream dis = new DataInputStream(fis);       
+			DataInputStream dis = new DataInputStream(fis);
 			schema = (EXISchema) EXISchema.readIn(dis);
 			grammarCache = new GrammarCache(schema, options);
-		}
-		else{
+		} else {
 			grammarCache = new GrammarCache(null, options);
 		}
-		
-
 
 		// Set the schema and options for EXIReader.
 		reader.setEXISchema(grammarCache);
@@ -245,15 +231,14 @@ public class ExiTest {
 
 	}
 
-	public static void encodeEXI(String sourceFile, String destinationFile)
-			throws FileNotFoundException, IOException, ClassNotFoundException,
-			TransmogrifierException, EXIOptionsException {
+	public static void encodeEXI(String sourceFile, String destinationFile) throws FileNotFoundException, IOException,
+			ClassNotFoundException, TransmogrifierException, EXIOptionsException {
 		encodeEXI(sourceFile, destinationFile, false);
 	}
 
 	public static void encodeEXI(String sourceFile, String destinationFile, boolean useEXISchema)
-			throws FileNotFoundException, IOException, ClassNotFoundException,
-			TransmogrifierException, EXIOptionsException {
+			throws FileNotFoundException, IOException, ClassNotFoundException, TransmogrifierException,
+			EXIOptionsException {
 		FileInputStream in = null;
 		FileOutputStream out = null;
 		GrammarCache grammarCache = null;
@@ -274,17 +259,15 @@ public class ExiTest {
 
 			// 3. Set the schema and EXI options in the Grammar Cache. This
 			// example uses default options and no schema.
-			if(useEXISchema){				
+			if (useEXISchema) {
 				EXISchema schema = null;
 				FileInputStream fis = new FileInputStream("res/obix.esd");
-                DataInputStream dis = new DataInputStream(fis);       
+				DataInputStream dis = new DataInputStream(fis);
 				schema = (EXISchema) EXISchema.readIn(dis);
 				grammarCache = new GrammarCache(schema, options);
-			}
-			else{
+			} else {
 				grammarCache = new GrammarCache(null, options);
 			}
-			
 
 			// 4. Set the configuration options in the Transmogrifier. Later
 			// examples will show more possible settings.
@@ -306,8 +289,7 @@ public class ExiTest {
 		}
 	}
 
-	public static byte[] encodeEXI(String source)
-			throws TransmogrifierException, EXIOptionsException, IOException {
+	public static byte[] encodeEXI(String source) throws TransmogrifierException, EXIOptionsException, IOException {
 		StringWriter stringWriter = new StringWriter();
 		ByteArrayOutputStream outBytes = new ByteArrayOutputStream();
 		FileInputStream in = null;
@@ -336,8 +318,7 @@ public class ExiTest {
 			transmogrifier.setOutputStream(outBytes);
 
 			// 6. Encode the input stream.
-			transmogrifier.encode(new InputSource(new ByteArrayInputStream(
-					source.getBytes())));
+			transmogrifier.encode(new InputSource(new ByteArrayInputStream(source.getBytes())));
 
 			return outBytes.toByteArray();
 		}

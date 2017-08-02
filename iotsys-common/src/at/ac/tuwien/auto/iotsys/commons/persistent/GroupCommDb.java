@@ -30,12 +30,18 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.models.GroupCommunication;
 public interface GroupCommDb {
 
 	public GroupCommunication getGroupComm(String href);
+
 	public void addGroupComm(GroupCommunication gc);
+
 	public void deleteGroupComm(String href);
+
 	public void updateGroupComm(GroupCommunication gc);
-	
+
 	public List<String> getGroupCommAddress(String href);
+
 	public void addGroupCommAddress(String href, String address);
+
 	public void deleteGroupCommAddress(String href, String address);
+
 	public void updateGroupCommAddress(String href, String oldAddress, String newAddress);
 }

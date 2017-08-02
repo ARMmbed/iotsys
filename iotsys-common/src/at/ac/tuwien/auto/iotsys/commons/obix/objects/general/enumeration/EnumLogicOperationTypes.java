@@ -31,11 +31,10 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration;
 
-import obix.contracts.Range;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.LogicBinaryOperation;
+import obix.contracts.Range;
 
-public interface EnumLogicOperationTypes extends Range
-{
+public interface EnumLogicOperationTypes extends Range {
 	public static final String HREF = "/enums/logicOperationTypes";
 
 	public static final String KEY_AND = LogicBinaryOperation.BIN_OP_AND;

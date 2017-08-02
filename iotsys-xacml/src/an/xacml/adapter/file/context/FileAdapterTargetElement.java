@@ -8,19 +8,19 @@ import an.xacml.context.TargetElement;
 import an.xml.XMLElement;
 
 public abstract class FileAdapterTargetElement extends AbstractFileAdapterContextElement {
-    protected Attribute[] extractAttributes() {
-        XMLElement[] children = getChildElements();
-        Attribute[] attrs = new Attribute[children.length];
-        for (int i = 0; i < children.length; i ++) {
-            attrs[i] = (Attribute)((DataAdapter)children[i]).getEngineElement();
-        }
-        return attrs;
-    }
+	protected Attribute[] extractAttributes() {
+		XMLElement[] children = getChildElements();
+		Attribute[] attrs = new Attribute[children.length];
+		for (int i = 0; i < children.length; i++) {
+			attrs[i] = (Attribute) ((DataAdapter) children[i]).getEngineElement();
+		}
+		return attrs;
+	}
 
-    protected void populateAttributes(TargetElement targetElem) throws Exception {
-        Attribute[] allAttrs = targetElem.getAllAttributes();
-        for (int i = 0; i < allAttrs.length; i ++) {
-            xmlElement.appendChild((Element)new FileAdapterAttribute(allAttrs[i]).getDataStoreObject());
-        }
-    }
+	protected void populateAttributes(TargetElement targetElem) throws Exception {
+		Attribute[] allAttrs = targetElem.getAllAttributes();
+		for (int i = 0; i < allAttrs.length; i++) {
+			xmlElement.appendChild((Element) new FileAdapterAttribute(allAttrs[i]).getDataStoreObject());
+		}
+	}
 }

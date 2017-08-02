@@ -34,11 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface ReturnAirRelativeHumiditySensor extends Sensor{
-	public static final String HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT_NAME="humidityRelativeReturnAir";
-	public static final String HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT_HREF="humidityRelativeReturnAir";
-	
-	public static final String CONTRACT="iot:ReturnAirRelativeHumiditySensor";
-	public static final String HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT = "<real name='"+ReturnAirRelativeHumiditySensor.HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT_NAME+"' href='"+ReturnAirRelativeHumiditySensor.HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT_HREF+"' val='0'/>";
+public interface ReturnAirRelativeHumiditySensor extends Sensor {
+	public static final String HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT_NAME = "humidityRelativeReturnAir";
+	public static final String HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT_HREF = "humidityRelativeReturnAir";
+
+	public static final String CONTRACT = "iot:ReturnAirRelativeHumiditySensor";
+	public static final String HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT = "<real name='"
+			+ ReturnAirRelativeHumiditySensor.HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT_NAME + "' href='"
+			+ ReturnAirRelativeHumiditySensor.HUMIDITY_RELATIVE_RETURN_AIR_CONTRACT_HREF + "' val='0'/>";
+
 	public Real humidityRelativeReturnAirValue();
 }

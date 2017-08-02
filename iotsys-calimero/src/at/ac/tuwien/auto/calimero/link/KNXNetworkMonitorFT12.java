@@ -38,53 +38,47 @@ import at.ac.tuwien.auto.calimero.serial.FT12Connection;
 import at.ac.tuwien.auto.calimero.serial.KNXPortClosedException;
 
 /**
- * Implementation of the KNX network monitor link based on the FT1.2 protocol, using a
- * {@link FT12Connection}.
+ * Implementation of the KNX network monitor link based on the FT1.2 protocol,
+ * using a {@link FT12Connection}.
  * <p>
- * Once a monitor has been closed, it is not available for further link communication,
- * i.e. it can't be reopened.
+ * Once a monitor has been closed, it is not available for further link
+ * communication, i.e. it can't be reopened.
  * 
  * @author B. Malinowsky
  */
-public class KNXNetworkMonitorFT12 implements KNXNetworkMonitor
-{
-	private static final class MonitorNotifier extends EventNotifier
-	{
+public class KNXNetworkMonitorFT12 implements KNXNetworkMonitor {
+	private static final class MonitorNotifier extends EventNotifier {
 		volatile boolean decode;
 
-		MonitorNotifier(Object source, LogService logger)
-		{
+		MonitorNotifier(Object source, LogService logger) {
 			super(source, logger);
 		}
 
-		/* (non-Javadoc)
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see tuwien.auto.calimero.link.EventNotifier#frameReceived
 		 * (tuwien.auto.calimero.FrameEvent)
 		 */
-		public void frameReceived(FrameEvent e)
-		{
+		public void frameReceived(FrameEvent e) {
 			try {
-				final CEMIBusMon mon =
-					(CEMIBusMon) CEMIFactory.createFromEMI(e.getFrameBytes());
+				final CEMIBusMon mon = (CEMIBusMon) CEMIFactory.createFromEMI(e.getFrameBytes());
 				logger.info("received monitor indication");
 				RawFrame raw = null;
 				if (decode)
 					try {
-						raw = RawFrameFactory.create(((KNXNetworkMonitorFT12) source)
-							.medium.getMedium(), mon.getPayload(), 0);
-					}
-					catch (final KNXFormatException ex) {
+						raw = RawFrameFactory.create(((KNXNetworkMonitorFT12) source).medium.getMedium(),
+								mon.getPayload(), 0);
+					} catch (final KNXFormatException ex) {
 						logger.error("decoding raw frame", ex);
 					}
 				addEvent(new Indication(new MonitorFrameEvent(source, mon, raw)));
-			}
-			catch (final KNXFormatException ex) {
+			} catch (final KNXFormatException ex) {
 				logger.warn("unspecified frame event - ignored", ex);
 			}
 		}
 
-		public void connectionClosed(CloseEvent e)
-		{
+		public void connectionClosed(CloseEvent e) {
 			((KNXNetworkMonitorFT12) source).closed = true;
 			super.connectionClosed(e);
 			logger.info("monitor closed");
@@ -103,25 +97,24 @@ public class KNXNetworkMonitorFT12 implements KNXNetworkMonitor
 	private final MonitorNotifier notifier;
 
 	/**
-	 * Creates a new network monitor based on the FT1.2 protocol for accessing the KNX
-	 * network.
+	 * Creates a new network monitor based on the FT1.2 protocol for accessing
+	 * the KNX network.
 	 * <p>
-	 * The port identifier is used to choose the serial port for communication. These
-	 * identifiers are usually device and platform specific.
+	 * The port identifier is used to choose the serial port for communication.
+	 * These identifiers are usually device and platform specific.
 	 * 
-	 * @param portID identifier of the serial communication port to use
-	 * @param settings medium settings defining the specific KNX medium needed for
-	 *        decoding raw frames received from the KNX network
+	 * @param portID
+	 *            identifier of the serial communication port to use
+	 * @param settings
+	 *            medium settings defining the specific KNX medium needed for
+	 *            decoding raw frames received from the KNX network
 	 * @throws KNXException
 	 */
-	public KNXNetworkMonitorFT12(String portID, KNXMediumSettings settings)
-		throws KNXException
-	{
+	public KNXNetworkMonitorFT12(String portID, KNXMediumSettings settings) throws KNXException {
 		conn = new FT12Connection(portID);
 		try {
 			enterBusmonitor();
-		}
-		catch (final KNXAckTimeoutException e) {
+		} catch (final KNXAckTimeoutException e) {
 			conn.close();
 			throw e;
 		}
@@ -134,20 +127,21 @@ public class KNXNetworkMonitorFT12 implements KNXNetworkMonitor
 	}
 
 	/**
-	 * Creates a new network monitor based on the FT1.2 protocol for accessing the KNX
-	 * network.
+	 * Creates a new network monitor based on the FT1.2 protocol for accessing
+	 * the KNX network.
 	 * <p>
-	 * The port number is used to choose the serial port for communication. It is mapped
-	 * to the default port identifier using that number on the platform.
+	 * The port number is used to choose the serial port for communication. It
+	 * is mapped to the default port identifier using that number on the
+	 * platform.
 	 * 
-	 * @param portNumber port number of the serial communication port to use
-	 * @param settings medium settings defining the specific KNX medium needed for
-	 *        decoding raw frames received from the KNX network
+	 * @param portNumber
+	 *            port number of the serial communication port to use
+	 * @param settings
+	 *            medium settings defining the specific KNX medium needed for
+	 *            decoding raw frames received from the KNX network
 	 * @throws KNXException
 	 */
-	public KNXNetworkMonitorFT12(int portNumber, KNXMediumSettings settings)
-		throws KNXException
-	{
+	public KNXNetworkMonitorFT12(int portNumber, KNXMediumSettings settings) throws KNXException {
 		conn = new FT12Connection(portNumber);
 		enterBusmonitor();
 		logger = LogManager.getManager().getLogService(getName());
@@ -158,51 +152,57 @@ public class KNXNetworkMonitorFT12 implements KNXNetworkMonitor
 		setKNXMedium(settings);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#setKNXMedium
 	 * (tuwien.auto.calimero.link.medium.KNXMediumSettings)
 	 */
-	public void setKNXMedium(KNXMediumSettings settings)
-	{
+	public void setKNXMedium(KNXMediumSettings settings) {
 		if (settings == null)
 			throw new KNXIllegalArgumentException("medium settings are mandatory");
 		if (medium != null && !settings.getClass().isAssignableFrom(medium.getClass())
-			&& !medium.getClass().isAssignableFrom(settings.getClass()))
+				&& !medium.getClass().isAssignableFrom(settings.getClass()))
 			throw new KNXIllegalArgumentException("medium differs");
 		medium = settings;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#getKNXMedium()
 	 */
-	public KNXMediumSettings getKNXMedium()
-	{
+	public KNXMediumSettings getKNXMedium() {
 		return medium;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#addMonitorListener
 	 * (tuwien.auto.calimero.link.event.LinkListener)
 	 */
-	public void addMonitorListener(LinkListener l)
-	{
+	public void addMonitorListener(LinkListener l) {
 		notifier.addListener(l);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#removeMonitorListener
 	 * (tuwien.auto.calimero.link.event.LinkListener)
 	 */
-	public void removeMonitorListener(LinkListener l)
-	{
+	public void removeMonitorListener(LinkListener l) {
 		notifier.removeListener(l);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#setDecodeRawFrames(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.link.KNXNetworkMonitor#setDecodeRawFrames(boolean)
 	 */
-	public void setDecodeRawFrames(boolean decode)
-	{
+	public void setDecodeRawFrames(boolean decode) {
 		notifier.decode = decode;
 		logger.info((decode ? "enable" : "disable") + " decoding of raw frames");
 	}
@@ -211,24 +211,25 @@ public class KNXNetworkMonitorFT12 implements KNXNetworkMonitor
 	 * {@inheritDoc}<br>
 	 * The returned name is "monitor " + port identifier.
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return "monitor " + conn.getPortID();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#isOpen()
 	 */
-	public boolean isOpen()
-	{
+	public boolean isOpen() {
 		return !closed;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#close()
 	 */
-	public void close()
-	{
+	public void close() {
 		synchronized (this) {
 			if (closed)
 				return;
@@ -236,39 +237,34 @@ public class KNXNetworkMonitorFT12 implements KNXNetworkMonitor
 		}
 		try {
 			leaveBusmonitor();
-		}
-		catch (final KNXException e) {
+		} catch (final KNXException e) {
 			logger.error("could not switch BCU back to normal mode", e);
 		}
 		conn.close();
 		notifier.quit();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
-		return getName() + (closed ? "(closed), " : ", ") + medium.getMediumString()
-			+ " medium" + (notifier.decode ? ", decode raw frames" : "");
+	public String toString() {
+		return getName() + (closed ? "(closed), " : ", ") + medium.getMediumString() + " medium"
+				+ (notifier.decode ? ", decode raw frames" : "");
 	}
 
-	private void enterBusmonitor() throws KNXAckTimeoutException, KNXPortClosedException
-	{
-		final byte[] switchBusmon =
-			{ (byte) PEI_SWITCH, (byte) 0x90, 0x18, 0x34, 0x56, 0x78, 0x0A, };
+	private void enterBusmonitor() throws KNXAckTimeoutException, KNXPortClosedException {
+		final byte[] switchBusmon = { (byte) PEI_SWITCH, (byte) 0x90, 0x18, 0x34, 0x56, 0x78, 0x0A, };
 		conn.send(switchBusmon, true);
 	}
 
-	private void leaveBusmonitor() throws KNXAckTimeoutException, KNXPortClosedException
-	{
+	private void leaveBusmonitor() throws KNXAckTimeoutException, KNXPortClosedException {
 		normalMode();
 	}
 
-	private void normalMode() throws KNXAckTimeoutException, KNXPortClosedException
-	{
-		final byte[] switchNormal =
-			{ (byte) PEI_SWITCH, 0x1E, 0x12, 0x34, 0x56, 0x78, (byte) 0x9A, };
+	private void normalMode() throws KNXAckTimeoutException, KNXPortClosedException {
+		final byte[] switchNormal = { (byte) PEI_SWITCH, 0x1E, 0x12, 0x34, 0x56, 0x78, (byte) 0x9A, };
 		conn.send(switchNormal, true);
 	}
 }

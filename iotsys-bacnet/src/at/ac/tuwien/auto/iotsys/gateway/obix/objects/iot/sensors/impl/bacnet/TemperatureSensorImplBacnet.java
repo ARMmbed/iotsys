@@ -22,16 +22,16 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.sensors.impl.bacnet;
 
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.TemperatureSensorImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
-
 import com.serotonin.bacnet4j.exception.BACnetException;
 import com.serotonin.bacnet4j.exception.PropertyValueException;
 import com.serotonin.bacnet4j.type.Encodable;
 import com.serotonin.bacnet4j.type.enumerated.PropertyIdentifier;
 import com.serotonin.bacnet4j.type.primitive.ObjectIdentifier;
 import com.serotonin.bacnet4j.type.primitive.Real;
+
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.TemperatureSensorImpl;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
 
 public class TemperatureSensorImplBacnet extends TemperatureSensorImpl {
 	private int deviceID;
@@ -48,13 +48,13 @@ public class TemperatureSensorImplBacnet extends TemperatureSensorImpl {
 
 	public void refreshObject() {
 		try {
-			Encodable property = bacnetConnector.readProperty(deviceID, objectIdentifier,propertyIdentifier);
-			if(property != null){
+			Encodable property = bacnetConnector.readProperty(deviceID, objectIdentifier, propertyIdentifier);
+			if (property != null) {
 				float newValue = ((Real) property).floatValue();
-				if(property instanceof Real){
-					if(value.get() != newValue)
+				if (property instanceof Real) {
+					if (value.get() != newValue)
 						value.set(newValue);
-				}	
+				}
 			}
 		} catch (BACnetException e) {
 			e.printStackTrace();

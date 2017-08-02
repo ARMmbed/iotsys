@@ -33,7 +33,6 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit;
 
 import obix.contracts.Unit;
 
-public interface UnitBeaufort extends Unit
-{
+public interface UnitBeaufort extends Unit {
 	public static final String HREF = "/units/beaufort";
 }

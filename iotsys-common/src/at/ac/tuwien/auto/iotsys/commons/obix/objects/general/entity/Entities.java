@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity;
 
 import obix.IObj;
 
-public interface Entities extends IObj
-{
+public interface Entities extends IObj {
 	public static final String CONTRACT = "knx:Entities";
 
 }

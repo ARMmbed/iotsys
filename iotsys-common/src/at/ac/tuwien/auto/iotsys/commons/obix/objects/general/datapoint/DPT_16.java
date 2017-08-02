@@ -7,4 +7,3 @@ public interface DPT_16 {
 
 	public Str value();
 }
-

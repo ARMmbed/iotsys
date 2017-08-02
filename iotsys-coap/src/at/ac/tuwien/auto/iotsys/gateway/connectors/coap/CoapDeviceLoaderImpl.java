@@ -41,35 +41,27 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.configuration.HierarchicalConfiguration;
+import org.apache.commons.configuration.XMLConfiguration;
 
+import com.fasterxml.jackson.databind.JsonNode;
 
-
-
-
+import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
+import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
+import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
+import at.ac.tuwien.auto.iotsys.commons.persistent.models.Device;
 //import obix.Bool;
 //import obix.Int;
 import obix.Obj;
 //import obix.Real;
 import obix.Uri;
 
-import org.apache.commons.configuration.HierarchicalConfiguration;
-import org.apache.commons.configuration.XMLConfiguration;
-
-import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
-import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
-import at.ac.tuwien.auto.iotsys.commons.persistent.ConfigsDbImpl;
-import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
-import at.ac.tuwien.auto.iotsys.commons.persistent.models.Device;
-
-import com.fasterxml.jackson.databind.JsonNode;
-
 public class CoapDeviceLoaderImpl implements DeviceLoader {
 	private final ArrayList<Obj> myObjects = new ArrayList<Obj>();
 
 	private XMLConfiguration devicesConfig;
 
-	private static final Logger log = Logger
-			.getLogger(CoapDeviceLoaderImpl.class.getName());
+	private static final Logger log = Logger.getLogger(CoapDeviceLoaderImpl.class.getName());
 
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		setConfiguration(devicesConfig);
@@ -79,10 +71,9 @@ public class CoapDeviceLoaderImpl implements DeviceLoader {
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("coap");
 		int connectorsSize = 0;
-		
+
 		if (connectorsFromDb.size() <= 0) {
-			Object coapConnectors = devicesConfig
-					.getProperty("coap.connector.name");
+			Object coapConnectors = devicesConfig.getProperty("coap.connector.name");
 
 			if (coapConnectors != null) {
 				if (coapConnectors instanceof String) {
@@ -98,10 +89,9 @@ public class CoapDeviceLoaderImpl implements DeviceLoader {
 			}
 		} else
 			connectorsSize = connectorsFromDb.size();
-		
+
 		for (int connector = 0; connector < connectorsSize; connector++) {
-			HierarchicalConfiguration subConfig = devicesConfig
-					.configurationAt("coap.connector(" + connector + ")");
+			HierarchicalConfiguration subConfig = devicesConfig.configurationAt("coap.connector(" + connector + ")");
 
 			Object coapConfiguredDevices = subConfig.getProperty("device.type");
 			String connectorId = "";
@@ -111,20 +101,19 @@ public class CoapDeviceLoaderImpl implements DeviceLoader {
 			try {
 				connectorId = connectorsFromDb.get(connector).get("_id").asText();
 				connectorName = connectorsFromDb.get(connector).get("name").asText();
-				enabled =  connectorsFromDb.get(connector).get("enabled").asBoolean();
-			} catch (Exception e){
+				enabled = connectorsFromDb.get(connector).get("enabled").asBoolean();
+			} catch (Exception e) {
 				log.info("Cannot fetch configuration from Database, using devices.xml");
 			}
-			
-			
+
 			if (enabled) {
 				try {
 					CoapConnector coapConnector = new CoapConnector();
 					coapConnector.setEnabled(enabled);
 					coapConnector.setTechnology("coap");
 					coapConnector.setName(connectorName);
-					
-					//coapConnector.connect();
+
+					// coapConnector.connect();
 					connectors.add(coapConnector);
 
 					int numberOfDevices = 0;
@@ -142,44 +131,29 @@ public class CoapDeviceLoaderImpl implements DeviceLoader {
 					} else
 						numberOfDevices = devicesFromDb.size();
 
-					log.info(numberOfDevices
-							+ " CoAP devices found in configuration for connector "
-							+ connectorName);
+					log.info(numberOfDevices + " CoAP devices found in configuration for connector " + connectorName);
 
 					for (int i = 0; i < numberOfDevices; i++) {
-						String type = subConfig.getString("device(" + i
-								+ ").type");
-						List<Object> address = subConfig.getList("device("
-								+ i + ").address");
+						String type = subConfig.getString("device(" + i + ").type");
+						List<Object> address = subConfig.getList("device(" + i + ").address");
 						String addressString = address.toString();
-						String href = subConfig.getString("device(" + i
-								+ ").href");
+						String href = subConfig.getString("device(" + i + ").href");
 
-						String name = subConfig.getString("device(" + i
-								+ ").name");
+						String name = subConfig.getString("device(" + i + ").name");
 
-						String displayName = subConfig.getString("device("
-								+ i + ").displayName");
+						String displayName = subConfig.getString("device(" + i + ").displayName");
 
-						Boolean historyEnabled = subConfig.getBoolean(
-								"device(" + i + ").historyEnabled", false);
+						Boolean historyEnabled = subConfig.getBoolean("device(" + i + ").historyEnabled", false);
 
-						Boolean groupCommEnabled = subConfig
-								.getBoolean("device(" + i
-										+ ").groupCommEnabled", false);
-						Boolean shouldObserve = subConfig
-								.getBoolean("device(" + i
-										+ ").observe", false);
-						
-						Boolean forwardGroupAddress = subConfig
-								.getBoolean("device(" + i
-										+ ").forwardGroupAddress", true);
+						Boolean groupCommEnabled = subConfig.getBoolean("device(" + i + ").groupCommEnabled", false);
+						Boolean shouldObserve = subConfig.getBoolean("device(" + i + ").observe", false);
 
-						Integer historyCount = subConfig.getInt("device("
-								+ i + ").historyCount", 0);
+						Boolean forwardGroupAddress = subConfig.getBoolean("device(" + i + ").forwardGroupAddress",
+								true);
 
-						Boolean refreshEnabled = subConfig.getBoolean(
-								"device(" + i + ").refreshEnabled", false);
+						Integer historyCount = subConfig.getInt("device(" + i + ").historyCount", 0);
+
+						Boolean refreshEnabled = subConfig.getBoolean("device(" + i + ").refreshEnabled", false);
 
 						Device deviceFromDb;
 						try {
@@ -193,19 +167,19 @@ public class CoapDeviceLoaderImpl implements DeviceLoader {
 							groupCommEnabled = deviceFromDb.isGroupcommEnabled();
 							refreshEnabled = deviceFromDb.isRefreshEnabled();
 							historyCount = deviceFromDb.getHistoryCount();
-						} 
-						catch (Exception e) {}
-						
+						} catch (Exception e) {
+						}
+
 						// Transition step: comment when done
-						Device d = new Device(type, null, addressString, href, name, displayName, historyCount, historyEnabled, groupCommEnabled, refreshEnabled);
-						objectBroker.getConfigDb().prepareDevice(connectorName, d);						
+						Device d = new Device(type, null, addressString, href, name, displayName, historyCount,
+								historyEnabled, groupCommEnabled, refreshEnabled);
+						objectBroker.getConfigDb().prepareDevice(connectorName, d);
 						if (type != null && address != null) {
 							try {
-								Constructor<?>[] declaredConstructors = Class
-										.forName(type)
-										.getDeclaredConstructors();
+								Constructor<?>[] declaredConstructors = Class.forName(type).getDeclaredConstructors();
 
-								//constructor that takes connector and IPv6 coap URI as argument
+								// constructor that takes connector and IPv6
+								// coap URI as argument
 								Object[] args = new Object[4];
 
 								// first arg is Coap connector
@@ -217,47 +191,44 @@ public class CoapDeviceLoaderImpl implements DeviceLoader {
 								String adr = "";
 
 								for (int k = 0; k < declaredConstructors.length; k++) {
-									if (declaredConstructors[k]
-											.getParameterTypes().length == 4) {
+									if (declaredConstructors[k].getParameterTypes().length == 4) {
 
-										if(!address.isEmpty()) {
+										if (!address.isEmpty()) {
 											adr = (String) address.get(0);
 										}
-							
+
 										args[1] = adr;
 
 										log.info("Added Device with URI " + adr);
 
 										coapDevice = (Obj) declaredConstructors[k].newInstance(args);
-										
+
 									} else if (declaredConstructors[k].getParameterTypes().length == 0) {
-										//TODO: no constructor with 4 arguments - throw exception?
+										// TODO: no constructor with 4 arguments
+										// - throw exception?
 										coapDevice = (Obj) declaredConstructors[k].newInstance();
 									}
 								}
 
-								// create a instance of the specified CoAP device
-								coapDevice.setHref(new Uri(URLEncoder
-										.encode(connectorName, "UTF-8")
-										+ "/" + href));
+								// create a instance of the specified CoAP
+								// device
+								coapDevice.setHref(new Uri(URLEncoder.encode(connectorName, "UTF-8") + "/" + href));
 
 								if (name != null && name.length() > 0) {
 									coapDevice.setName(name);
 								}
 
-								if (displayName != null
-										&& displayName.length() > 0) {
+								if (displayName != null && displayName.length() > 0) {
 									coapDevice.setDisplayName(displayName);
 								}
-								
+
 								objectBroker.addObj(coapDevice);
 								myObjects.add(coapDevice);
 								coapDevice.initialize();
 
 								if (historyEnabled != null && historyEnabled) {
-									if (historyCount != null
-											&& historyCount != 0) {
-										objectBroker.addHistoryToDatapoints(coapDevice,historyCount);
+									if (historyCount != null && historyCount != 0) {
+										objectBroker.addHistoryToDatapoints(coapDevice, historyCount);
 									} else {
 										objectBroker.addHistoryToDatapoints(coapDevice);
 									}
@@ -308,8 +279,7 @@ public class CoapDeviceLoaderImpl implements DeviceLoader {
 		this.devicesConfig = devicesConfiguration;
 		if (devicesConfiguration == null) {
 			try {
-				devicesConfig = new XMLConfiguration(
-						DEVICE_CONFIGURATION_LOCATION);
+				devicesConfig = new XMLConfiguration(DEVICE_CONFIGURATION_LOCATION);
 			} catch (Exception e) {
 				log.log(Level.SEVERE, e.getMessage(), e);
 			}

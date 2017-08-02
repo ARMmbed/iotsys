@@ -29,13 +29,6 @@ import java.util.TimeZone;
 import java.util.Vector;
 import java.util.logging.Logger;
 
-import obix.Obj;
-import obix.io.BinObixDecoder;
-import obix.io.BinObixEncoder;
-import obix.io.ObixDecoder;
-import obix.io.ObixEncoder;
-import obix.io.RelativeObixEncoder;
-
 import org.json.JSONException;
 
 import at.ac.tuwien.auto.iotsys.commons.PropertiesLoader;
@@ -48,6 +41,12 @@ import at.ac.tuwien.auto.iotsys.commons.interceptor.Parameter;
 import at.ac.tuwien.auto.iotsys.gateway.interceptor.InterceptorBrokerImpl;
 import at.ac.tuwien.auto.iotsys.gateway.util.ExiUtil;
 import at.ac.tuwien.auto.iotsys.gateway.util.JsonUtil;
+import obix.Obj;
+import obix.io.BinObixDecoder;
+import obix.io.BinObixEncoder;
+import obix.io.ObixDecoder;
+import obix.io.ObixEncoder;
+import obix.io.RelativeObixEncoder;
 
 /**
  * A simple, tiny, nicely embeddable HTTP 1.0 (partially 1.1) server in Java
@@ -78,7 +77,8 @@ import at.ac.tuwien.auto.iotsys.gateway.util.JsonUtil;
  * <li>File server supports directory listing, index.html and index.htm</li>
  * <li>File server supports partial content (streaming)</li>
  * <li>File server supports ETags</li>
- * <li>File server does the 301 redirection trick for directories without '/'</li>
+ * <li>File server does the 301 redirection trick for directories without
+ * '/'</li>
  * <li>File server supports simple skipping for files (continue download)</li>
  * <li>File server serves also very long files without memory overhead</li>
  * <li>Contains a built-in list of most common mime types</li>
@@ -106,14 +106,14 @@ public class NanoHTTPD {
 	// API parts
 	// ==================================================
 
-	private static final Logger log = Logger.getLogger(NanoHTTPD.class
-			.getName());
+	private static final Logger log = Logger.getLogger(NanoHTTPD.class.getName());
 
 	/**
 	 * Standard XML header
 	 */
 	public static final String XML_HEADER = ""; // <?xml
-												// version=\"1.0\" encoding=\"UTF-8\"?>\n";
+												// version=\"1.0\"
+												// encoding=\"UTF-8\"?>\n";
 												// // <?xml-stylesheet
 												// type='text/xsl'
 												// href='/obix/xsl'?>\n<obj
@@ -121,8 +121,7 @@ public class NanoHTTPD {
 
 	private ExiUtil exiUtil = null;
 
-	private InterceptorBroker interceptorBroker = InterceptorBrokerImpl
-			.getInstance();
+	private InterceptorBroker interceptorBroker = InterceptorBrokerImpl.getInstance();
 
 	/**
 	 * Override this to customize the server.
@@ -143,17 +142,16 @@ public class NanoHTTPD {
 	 * @param mySocket
 	 * @return HTTP response, see class Response for details
 	 */
-	public Response serve(String requestUri, String uri, String method,
-			Properties header, Properties parms, Properties files,
-			Socket mySocket, String socketHostname, String hostAddress) {
-		
+	public Response serve(String requestUri, String uri, String method, Properties header, Properties parms,
+			Properties files, Socket mySocket, String socketHostname, String hostAddress) {
+
 		log.info("method : " + method + " RequestURI : " + requestUri);
 
 		String subject = mySocket.getInetAddress().getHostAddress();
 		String ipv6Address = "/" + getIPv6Address(mySocket);
 
-//		log.info("Serving: " + uri + " for " + subject);
-		
+		// log.info("Serving: " + uri + " for " + subject);
+
 		// serve static files
 		Response response = serveStatic(uri, header, parms, ipv6Address);
 		if (response != null) {
@@ -168,9 +166,8 @@ public class NanoHTTPD {
 			return response;
 		}
 
-		
 		String data = getData(header, parms);
-		
+
 		if (data != null)
 			log.finest("serve: " + uri + ", method: " + method + ", data.length(): " + data.length());
 		log.finest("Data: " + data);
@@ -182,7 +179,7 @@ public class NanoHTTPD {
 		} catch (URISyntaxException usex) {
 			response = new Response(HTTP_BADREQUEST, MIME_PLAINTEXT, "URI Syntax Exception");
 		}
-		
+
 		log.info("Serving: " + uri + " for " + subject + " done.");
 		return response;
 	}
@@ -192,71 +189,58 @@ public class NanoHTTPD {
 		String path = getResourcePath(uri, ipv6Address);
 		log.info("host : " + host);
 		log.info("path : " + path);
-		
+
 		if (path.endsWith("soap") && parms.containsKey("wsdl")) {
 			// serve wsdl file
-			Response r = new Response(HTTP_OK, MIME_XML,
-					soapHandler
-							.getWSDLFileContent()
-							.replaceAll("localhost", host)
-							.replaceAll("./obix.xsd",
-									"http://" + host + path + "?xsd=1"));
+			Response r = new Response(HTTP_OK, MIME_XML, soapHandler.getWSDLFileContent().replaceAll("localhost", host)
+					.replaceAll("./obix.xsd", "http://" + host + path + "?xsd=1"));
 			return r;
-			
+
 		} else if (path.endsWith("soap") && parms.containsKey("xsd")) {
 			// serve schema file
-			Response r = new Response(HTTP_OK, MIME_XML,
-					soapHandler.getSchemaFileContent());
+			Response r = new Response(HTTP_OK, MIME_XML, soapHandler.getSchemaFileContent());
 			return r;
 		}
-		
+
 		if (obixServer.containsIPv6(ipv6Address))
 			return null;
-		
+
 		if (path.endsWith(".well-known/core")) {
-			Response r = new Response(HTTP_OK, MIME_PLAINTEXT,
-					obixServer.getCoRELinks());
-			
+			Response r = new Response(HTTP_OK, MIME_PLAINTEXT, obixServer.getCoRELinks());
+
 			return r;
-		} else if (path.equalsIgnoreCase("/") || path.isEmpty()
-				|| path.endsWith(".js") || path.endsWith(".css")) {
+		} else if (path.equalsIgnoreCase("/") || path.isEmpty() || path.endsWith(".js") || path.endsWith(".css")) {
 			if (path.isEmpty())
 				path = "/index.html";
-			
+
 			log.info("[serveStatic] path : " + path);
-			
+
 			return serveFile(path, header, new File("res/obelix"), false);
 		}
-		
+
 		return null;
 	}
 
-	private Response intercept(String uri, String method, Properties header,
-			Properties parms, Socket mySocket, String socketHostname,
-			String hostAddress) {
-		
-		
-		boolean interceptorsActive = Boolean.parseBoolean(
-				PropertiesLoader.getInstance()
-				.getProperties()
+	private Response intercept(String uri, String method, Properties header, Properties parms, Socket mySocket,
+			String socketHostname, String hostAddress) {
+
+		boolean interceptorsActive = Boolean.parseBoolean(PropertiesLoader.getInstance().getProperties()
 				.getProperty("iotsys.gateway.interceptors.enable", "true"));
-		
+
 		if (!interceptorsActive || interceptorBroker == null || !interceptorBroker.hasInterceptors())
 			return null;
-		
-	
+
 		log.info("Interceptors found ... starting to prepare.");
 
 		InterceptorRequest interceptorRequest = new InterceptorRequestImpl();
 		HashMap<Parameter, String> interceptorParams = new HashMap<Parameter, String>();
-		
+
 		String subject = mySocket.getInetAddress().getHostAddress();
 		String host = header.getProperty("host");
 		String resource = "http://" + host + uri;
-		
+
 		interceptorParams.put(Parameter.SUBJECT, subject);
-		interceptorParams.put(Parameter.SUBJECT_IP_ADDRESS, mySocket
-				.getInetAddress().getHostAddress());
+		interceptorParams.put(Parameter.SUBJECT_IP_ADDRESS, mySocket.getInetAddress().getHostAddress());
 		interceptorParams.put(Parameter.RESOURCE, resource);
 		interceptorParams.put(Parameter.RESOURCE_PROTOCOL, "http");
 		interceptorParams.put(Parameter.RESOURCE_IP_ADDRESS, hostAddress);
@@ -267,60 +251,56 @@ public class NanoHTTPD {
 		interceptorRequest.setInterceptorParams(interceptorParams);
 
 		for (Object k : header.keySet()) {
-			interceptorRequest.setHeader((String) k,
-					header.getProperty((String) k));
+			interceptorRequest.setHeader((String) k, header.getProperty((String) k));
 		}
 		for (Object k : parms.keySet()) {
-			interceptorRequest.setRequestParam((String) k,
-					header.getProperty((String) k));
+			interceptorRequest.setRequestParam((String) k, header.getProperty((String) k));
 		}
-		
+
 		log.info("Calling interceptions ...");
-		
-		InterceptorResponse resp = interceptorBroker
-				.handleRequest(interceptorRequest);
+
+		InterceptorResponse resp = interceptorBroker.handleRequest(interceptorRequest);
 
 		if (!resp.getStatus().equals(StatusCode.OK)) {
 			if (resp.forward()) {
-				return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT,
-						resp.getMessage());
+				return new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, resp.getMessage());
 			}
 		}
-		
+
 		return null;
 	}
-	
+
 	private String getData(Properties header, Properties parms) {
 		if (header.containsKey("content-type")) {
 			// check for EXI content
 			if (header.getProperty("content-type").contains(MIME_EXI)) {
 				Byte[] payload = (Byte[]) parms.get("payload");
-	
+
 				try {
 					return ExiUtil.getInstance().decodeEXI(unbox(payload));
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-			
+
 			} else if (header.getProperty("content-type").contains(MIME_DEFAULT_BINARY)) {
 				Byte[] payload = (Byte[]) parms.get("payload");
-	
+
 				try {
 					return ExiUtil.getInstance().decodeEXI(unbox(payload), true);
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-			
+
 			} else if (header.getProperty("content-type").contains(MIME_X_OBIX_BINARY)) {
 				Byte[] payload = (Byte[]) parms.get("payload");
-	
+
 				try {
 					Obj obj = BinObixDecoder.fromBytes(unbox(payload));
 					return ObixEncoder.toString(obj, parms.getProperty("accept-language"));
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}
-				
+
 			} else if (header.getProperty("content-type").contains(MIME_JSON)) {
 				String jsonData = parms.getProperty("data");
 				try {
@@ -330,11 +310,10 @@ public class NanoHTTPD {
 				}
 			}
 		}
-		
-		
+
 		if (parms.containsKey("data"))
 			return parms.getProperty("data");
-		
+
 		return "";
 	}
 
@@ -349,7 +328,6 @@ public class NanoHTTPD {
 
 		lastIndex = localSocketSplitted.lastIndexOf("%");
 
-
 		if (lastIndex > 0) {
 			localSocketSplitted = localSocketSplitted.substring(0, lastIndex);
 		}
@@ -357,7 +335,7 @@ public class NanoHTTPD {
 		String ipv6Address = localSocketSplitted.substring(1);
 		return ipv6Address;
 	}
-	
+
 	private String getResourcePath(String uri, String ipv6Address) {
 		return new CoAPHelper(obixServer).getResourcePath(uri, ipv6Address);
 	}
@@ -367,21 +345,20 @@ public class NanoHTTPD {
 	}
 
 	private StringBuffer getObixResponse(String uri, String ipv6Address, String data, String method, Properties header)
-				throws URISyntaxException {
-		
+			throws URISyntaxException {
+
 		StringBuffer obixResponse = null;
-		
+
 		if (uri.endsWith("soap")) {
 			log.finest("Forward to SOAP handler!");
 
-			obixResponse = new StringBuffer(soapHandler.process(data,
-					header.getProperty("soapaction")));
+			obixResponse = new StringBuffer(soapHandler.process(data, header.getProperty("soapaction")));
 			log.finest("oBIX Response: " + obixResponse);
 
 		} else {
 			Obj responseObj = null;
 			String resourcePath = getResourcePath(uri, ipv6Address);
-			
+
 			if (method.equals("GET")) {
 				responseObj = obixServer.readObj(new URI(resourcePath), true);
 			} else if (method.equals("PUT")) {
@@ -389,70 +366,62 @@ public class NanoHTTPD {
 			} else if (method.equals("POST")) {
 				responseObj = obixServer.invokeOp(new URI(resourcePath), data);
 			}
-			
-			
+
 			URI rootUri, baseUri;
-			
+
 			if (ipv6Address == null)
 				rootUri = new URI("/");
 			else
 				rootUri = new URI(getResourcePath("", ipv6Address));
-			
-			baseUri = new URI(resourcePath.substring(0, resourcePath.lastIndexOf('/')+1));
-			obixResponse = new StringBuffer(RelativeObixEncoder.toString(responseObj, rootUri, baseUri, header.getProperty("accept-language")));
+
+			baseUri = new URI(resourcePath.substring(0, resourcePath.lastIndexOf('/') + 1));
+			obixResponse = new StringBuffer(
+					RelativeObixEncoder.toString(responseObj, rootUri, baseUri, header.getProperty("accept-language")));
 		}
-		
+
 		return obixResponse;
 	}
 
 	private Response encodeResponse(String uri, Properties header, StringBuffer obixResponse) {
 		Response response = null;
-		
+
 		boolean exiRequested = exiUtil != null && accepts(header, MIME_EXI);
 		boolean exiSchemaRequested = accepts(header, MIME_DEFAULT_BINARY);
 		boolean obixBinaryRequested = accepts(header, MIME_X_OBIX_BINARY);
 		boolean jsonRequested = accepts(header, MIME_JSON);
-		
+
 		if (exiRequested || exiSchemaRequested) {
 			try {
-				byte[] exiData = ExiUtil.getInstance().encodeEXI(
-						XML_HEADER + obixResponse, exiSchemaRequested);
-				
+				byte[] exiData = ExiUtil.getInstance().encodeEXI(XML_HEADER + obixResponse, exiSchemaRequested);
+
 				// try to decode it immediately
-				response = new Response(HTTP_OK, MIME_EXI,
-						new ByteArrayInputStream(exiData), exiData.length);
+				response = new Response(HTTP_OK, MIME_EXI, new ByteArrayInputStream(exiData), exiData.length);
 			} catch (Exception e1) {
 				e1.printStackTrace();
 				// fall back
-				response = new Response(HTTP_OK, MIME_XML, XML_HEADER
-						+ obixResponse);
+				response = new Response(HTTP_OK, MIME_XML, XML_HEADER + obixResponse);
 			}
 		} else if (obixBinaryRequested) {
-			byte[] obixBinaryData = BinObixEncoder.toBytes(ObixDecoder
-					.fromString(obixResponse.toString()), header.getProperty("accept-language"));
-			response = new Response(HTTP_OK, MIME_X_OBIX_BINARY,
-					new ByteArrayInputStream(obixBinaryData),
+			byte[] obixBinaryData = BinObixEncoder.toBytes(ObixDecoder.fromString(obixResponse.toString()),
+					header.getProperty("accept-language"));
+			response = new Response(HTTP_OK, MIME_X_OBIX_BINARY, new ByteArrayInputStream(obixBinaryData),
 					obixBinaryData.length);
 		} else if (jsonRequested) {
 			try {
-				String jsonData = JsonUtil.fromXMLtoJSON(obixResponse
-						.toString());
-	
-				response = new Response(HTTP_OK, MIME_JSON, XML_HEADER + jsonData,
-						String.valueOf(jsonData).length());
+				String jsonData = JsonUtil.fromXMLtoJSON(obixResponse.toString());
+
+				response = new Response(HTTP_OK, MIME_JSON, XML_HEADER + jsonData, String.valueOf(jsonData).length());
 			} catch (JSONException e1) {
 				e1.printStackTrace();
 			}
 		} else {
 			// TODO properly decide media type
 			if (uri.endsWith(".well-known/core")) {
-				response = new Response(HTTP_OK, MIME_PLAINTEXT, XML_HEADER
-						+ obixResponse);
+				response = new Response(HTTP_OK, MIME_PLAINTEXT, XML_HEADER + obixResponse);
 			} else {
 				// response with content-length
-				response = new Response(HTTP_OK, MIME_XML, XML_HEADER
-						+ obixResponse, String.valueOf(obixResponse)
-						.length());
+				response = new Response(HTTP_OK, MIME_XML, XML_HEADER + obixResponse,
+						String.valueOf(obixResponse).length());
 			}
 		}
 		return response;
@@ -498,8 +467,7 @@ public class NanoHTTPD {
 		/**
 		 * Basic constructor and set the contentLength
 		 */
-		public Response(String status, String mimeType, InputStream data,
-				int contentLength) {
+		public Response(String status, String mimeType, InputStream data, int contentLength) {
 			this.status = status;
 			this.mimeType = mimeType;
 			this.data = data;
@@ -525,8 +493,7 @@ public class NanoHTTPD {
 		/**
 		 * Convenience method that makes an InputStream out of given text.
 		 */
-		public Response(String status, String mimeType, String txt,
-				int contenLength) {
+		public Response(String status, String mimeType, String txt, int contenLength) {
 			this.status = status;
 			this.mimeType = mimeType;
 			try {
@@ -569,25 +536,18 @@ public class NanoHTTPD {
 	/**
 	 * Some HTTP response status codes
 	 */
-	public static final String HTTP_OK = "200 OK",
-			HTTP_PARTIALCONTENT = "206 Partial Content",
-			HTTP_RANGE_NOT_SATISFIABLE = "416 Requested Range Not Satisfiable",
-			HTTP_REDIRECT = "301 Moved Permanently",
-			HTTP_NOTMODIFIED = "304 Not Modified",
-			HTTP_FORBIDDEN = "403 Forbidden", HTTP_NOTFOUND = "404 Not Found",
-			HTTP_BADREQUEST = "400 Bad Request",
-			HTTP_INTERNALERROR = "500 Internal Server Error",
+	public static final String HTTP_OK = "200 OK", HTTP_PARTIALCONTENT = "206 Partial Content",
+			HTTP_RANGE_NOT_SATISFIABLE = "416 Requested Range Not Satisfiable", HTTP_REDIRECT = "301 Moved Permanently",
+			HTTP_NOTMODIFIED = "304 Not Modified", HTTP_FORBIDDEN = "403 Forbidden", HTTP_NOTFOUND = "404 Not Found",
+			HTTP_BADREQUEST = "400 Bad Request", HTTP_INTERNALERROR = "500 Internal Server Error",
 			HTTP_NOTIMPLEMENTED = "501 Not Implemented";
 
 	/**
 	 * Common mime types for dynamic content
 	 */
-	public static final String MIME_PLAINTEXT = "text/plain",
-			MIME_HTML = "text/html",
-			MIME_DEFAULT_BINARY = "application/octet-stream",
-			MIME_XML = "text/xml", MIME_EXI = "application/exi",
-			MIME_X_OBIX_BINARY = "application/x-obix-binary",
-			MIME_JSON = "application/json";
+	public static final String MIME_PLAINTEXT = "text/plain", MIME_HTML = "text/html",
+			MIME_DEFAULT_BINARY = "application/octet-stream", MIME_XML = "text/xml", MIME_EXI = "application/exi",
+			MIME_X_OBIX_BINARY = "application/x-obix-binary", MIME_JSON = "application/json";
 	// ==================================================
 	// Socket & server code
 	// ==================================================
@@ -668,10 +628,8 @@ public class NanoHTTPD {
 					return;
 
 				// Create a BufferedReader for parsing the header.
-				ByteArrayInputStream hbis = new ByteArrayInputStream(buf, 0,
-						rlen);
-				BufferedReader hin = new BufferedReader(new InputStreamReader(
-						hbis));
+				ByteArrayInputStream hbis = new ByteArrayInputStream(buf, 0, rlen);
+				BufferedReader hin = new BufferedReader(new InputStreamReader(hbis));
 				Properties pre = new Properties();
 				Properties parms = new Properties();
 				Properties header = new Properties();
@@ -697,8 +655,7 @@ public class NanoHTTPD {
 				int splitbyte = 0;
 				boolean sbfound = false;
 				while (splitbyte < rlen) {
-					if (buf[splitbyte] == '\r' && buf[++splitbyte] == '\n'
-							&& buf[++splitbyte] == '\r'
+					if (buf[splitbyte] == '\r' && buf[++splitbyte] == '\n' && buf[++splitbyte] == '\r'
 							&& buf[++splitbyte] == '\n') {
 						sbfound = true;
 						break;
@@ -738,20 +695,17 @@ public class NanoHTTPD {
 
 				// Create a BufferedReader for easily reading it as string.
 				ByteArrayInputStream bin = new ByteArrayInputStream(fbuf);
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-						bin));
+				BufferedReader in = new BufferedReader(new InputStreamReader(bin));
 
 				// If the method is POST, there may be parameters
 				// in data section, too, read it:
 				if (method.equalsIgnoreCase("POST")) {
 					String contentType = "";
-					String contentTypeHeader = header
-							.getProperty("content-type");
+					String contentTypeHeader = header.getProperty("content-type");
 					if (contentTypeHeader == null)
 						contentTypeHeader = "text/xml";
-					
-					StringTokenizer st = new StringTokenizer(contentTypeHeader,
-							"; ");
+
+					StringTokenizer st = new StringTokenizer(contentTypeHeader, "; ");
 					if (st.hasMoreTokens()) {
 						contentType = st.nextToken();
 					}
@@ -759,14 +713,12 @@ public class NanoHTTPD {
 					if (contentType.equalsIgnoreCase("multipart/form-data")) {
 						// Handle multipart/form-data
 						if (!st.hasMoreTokens())
-							sendError(
-									HTTP_BADREQUEST,
+							sendError(HTTP_BADREQUEST,
 									"BAD REQUEST: Content type is multipart/form-data but boundary missing. Usage: GET /example/file.html");
 						String boundaryExp = st.nextToken();
 						st = new StringTokenizer(boundaryExp, "=");
 						if (st.countTokens() != 2)
-							sendError(
-									HTTP_BADREQUEST,
+							sendError(HTTP_BADREQUEST,
 									"BAD REQUEST: Content type is multipart/form-data but boundary syntax error. Usage: GET /example/file.html");
 						st.nextToken();
 						String boundary = st.nextToken();
@@ -803,20 +755,17 @@ public class NanoHTTPD {
 				if (method.equalsIgnoreCase("PUT")) {
 
 					String contentType = "";
-					String contentTypeHeader = header
-							.getProperty("content-type");
-					
+					String contentTypeHeader = header.getProperty("content-type");
+
 					if (contentTypeHeader == null)
 						contentTypeHeader = "text/xml";
-					
-					StringTokenizer st = new StringTokenizer(contentTypeHeader,
-							"; ");
+
+					StringTokenizer st = new StringTokenizer(contentTypeHeader, "; ");
 					if (st.hasMoreTokens()) {
 						contentType = st.nextToken();
 					}
 
-					if (contentType.equals(MIME_EXI)
-							|| contentType.equals(MIME_DEFAULT_BINARY)
+					if (contentType.equals(MIME_EXI) || contentType.equals(MIME_DEFAULT_BINARY)
 							|| contentType.equals(MIME_X_OBIX_BINARY)) {
 						parms.put("payload", box(fbuf));
 					} else {
@@ -832,8 +781,7 @@ public class NanoHTTPD {
 					}
 
 				}
-				String localSocket = mySocket.getLocalSocketAddress()
-						.toString();
+				String localSocket = mySocket.getLocalSocketAddress().toString();
 				int lastIndex = localSocket.lastIndexOf(":");
 				String localSocketSplitted = "";
 
@@ -843,28 +791,23 @@ public class NanoHTTPD {
 
 				String requestUri = uri;
 
-				if (mySocket.getInetAddress() instanceof Inet6Address
-						&& uri.equalsIgnoreCase("/")
+				if (mySocket.getInetAddress() instanceof Inet6Address && uri.equalsIgnoreCase("/")
 						&& obixServer.containsIPv6(localSocketSplitted)) {
-					System.out
-							.println("IPv6 Adresse und in der HashMap und Path ist leer enthalten -> IoT6 Object");
+					System.out.println("IPv6 Adresse und in der HashMap und Path ist leer enthalten -> IoT6 Object");
 					uri = obixServer.getIPv6LinkedHref(localSocketSplitted);
 				} else if (mySocket.getInetAddress() instanceof Inet6Address
 						&& obixServer.containsIPv6(localSocketSplitted + uri)) {
-					uri = obixServer.getIPv6LinkedHref(localSocketSplitted
-							+ uri)
-							+ uri;
+					uri = obixServer.getIPv6LinkedHref(localSocketSplitted + uri) + uri;
 				}
 
 				if (uri.endsWith("/")) {
 					uri = uri.substring(0, uri.length() - 1);
 				}
 
-				Response r = serve(requestUri, uri, method, header, parms,
-						files, mySocket, socketHostname, hostAddress);
+				Response r = serve(requestUri, uri, method, header, parms, files, mySocket, socketHostname,
+						hostAddress);
 				if (r == null)
-					sendError(HTTP_INTERNALERROR,
-							"SERVER INTERNAL ERROR: Serve() returned a null response.");
+					sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: Serve() returned a null response.");
 				else
 					sendResponse(r.status, r.mimeType, r.header, r.data);
 
@@ -872,10 +815,7 @@ public class NanoHTTPD {
 				is.close();
 			} catch (IOException ioe) {
 				try {
-					sendError(
-							HTTP_INTERNALERROR,
-							"SERVER INTERNAL ERROR: IOException: "
-									+ ioe.getMessage());
+					sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());
 				} catch (Throwable t) {
 				}
 			} catch (InterruptedException ie) {
@@ -887,8 +827,7 @@ public class NanoHTTPD {
 		 * Decodes the sent headers and loads the data into java Properties' key
 		 * - value pairs
 		 **/
-		private void decodeHeader(BufferedReader in, Properties pre,
-				Properties parms, Properties header)
+		private void decodeHeader(BufferedReader in, Properties pre, Properties parms, Properties header)
 				throws InterruptedException {
 			try {
 				// Read the request line
@@ -897,15 +836,13 @@ public class NanoHTTPD {
 					return;
 				StringTokenizer st = new StringTokenizer(inLine);
 				if (!st.hasMoreTokens())
-					sendError(HTTP_BADREQUEST,
-							"BAD REQUEST: Syntax error. Usage: GET /example/file.html");
+					sendError(HTTP_BADREQUEST, "BAD REQUEST: Syntax error. Usage: GET /example/file.html");
 
 				String method = st.nextToken();
 				pre.put("method", method);
 
 				if (!st.hasMoreTokens())
-					sendError(HTTP_BADREQUEST,
-							"BAD REQUEST: Missing URI. Usage: GET /example/file.html");
+					sendError(HTTP_BADREQUEST, "BAD REQUEST: Missing URI. Usage: GET /example/file.html");
 
 				String uri = st.nextToken();
 
@@ -926,19 +863,14 @@ public class NanoHTTPD {
 					while (line != null && line.trim().length() > 0) {
 						int p = line.indexOf(':');
 						if (p >= 0)
-							header.put(line.substring(0, p).trim()
-									.toLowerCase(), line.substring(p + 1)
-									.trim());
+							header.put(line.substring(0, p).trim().toLowerCase(), line.substring(p + 1).trim());
 						line = in.readLine();
 					}
 				}
 
 				pre.put("uri", uri);
 			} catch (IOException ioe) {
-				sendError(
-						HTTP_INTERNALERROR,
-						"SERVER INTERNAL ERROR: IOException: "
-								+ ioe.getMessage());
+				sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());
 			}
 		}
 
@@ -946,18 +878,15 @@ public class NanoHTTPD {
 		 * Decodes the Multipart Body data and put it into java Properties' key
 		 * - value pairs.
 		 **/
-		private void decodeMultipartData(String boundary, byte[] fbuf,
-				BufferedReader in, Properties parms, Properties files)
-				throws InterruptedException {
+		private void decodeMultipartData(String boundary, byte[] fbuf, BufferedReader in, Properties parms,
+				Properties files) throws InterruptedException {
 			try {
-				int[] bpositions = getBoundaryPositions(fbuf,
-						boundary.getBytes());
+				int[] bpositions = getBoundaryPositions(fbuf, boundary.getBytes());
 				int boundarycount = 1;
 				String mpline = in.readLine();
 				while (mpline != null) {
 					if (mpline.indexOf(boundary) == -1)
-						sendError(
-								HTTP_BADREQUEST,
+						sendError(HTTP_BADREQUEST,
 								"BAD REQUEST: Content type is multipart/form-data but next chunk does not start with boundary. Usage: GET /example/file.html");
 					boundarycount++;
 					Properties item = new Properties();
@@ -965,37 +894,30 @@ public class NanoHTTPD {
 					while (mpline != null && mpline.trim().length() > 0) {
 						int p = mpline.indexOf(':');
 						if (p != -1)
-							item.put(mpline.substring(0, p).trim()
-									.toLowerCase(), mpline.substring(p + 1)
-									.trim());
+							item.put(mpline.substring(0, p).trim().toLowerCase(), mpline.substring(p + 1).trim());
 						mpline = in.readLine();
 					}
 					if (mpline != null) {
-						String contentDisposition = item
-								.getProperty("content-disposition");
+						String contentDisposition = item.getProperty("content-disposition");
 						if (contentDisposition == null) {
-							sendError(
-									HTTP_BADREQUEST,
+							sendError(HTTP_BADREQUEST,
 									"BAD REQUEST: Content type is multipart/form-data but no content-disposition info found. Usage: GET /example/file.html");
 						}
-						StringTokenizer st = new StringTokenizer(
-								contentDisposition, "; ");
+						StringTokenizer st = new StringTokenizer(contentDisposition, "; ");
 						Properties disposition = new Properties();
 						while (st.hasMoreTokens()) {
 							String token = st.nextToken();
 							int p = token.indexOf('=');
 							if (p != -1)
-								disposition.put(token.substring(0, p).trim()
-										.toLowerCase(), token.substring(p + 1)
-										.trim());
+								disposition.put(token.substring(0, p).trim().toLowerCase(),
+										token.substring(p + 1).trim());
 						}
 						String pname = disposition.getProperty("name");
 						pname = pname.substring(1, pname.length() - 1);
 
 						String value = "";
 						if (item.getProperty("content-type") == null) {
-							while (mpline != null
-									&& mpline.indexOf(boundary) == -1) {
+							while (mpline != null && mpline.indexOf(boundary) == -1) {
 								mpline = in.readLine();
 								if (mpline != null) {
 									int d = mpline.indexOf(boundary);
@@ -1007,28 +929,21 @@ public class NanoHTTPD {
 							}
 						} else {
 							if (boundarycount > bpositions.length)
-								sendError(HTTP_INTERNALERROR,
-										"Error processing request");
-							int offset = stripMultipartHeaders(fbuf,
-									bpositions[boundarycount - 2]);
-							String path = saveTmpFile(fbuf, offset,
-									bpositions[boundarycount - 1] - offset - 4);
+								sendError(HTTP_INTERNALERROR, "Error processing request");
+							int offset = stripMultipartHeaders(fbuf, bpositions[boundarycount - 2]);
+							String path = saveTmpFile(fbuf, offset, bpositions[boundarycount - 1] - offset - 4);
 							files.put(pname, path);
 							value = disposition.getProperty("filename");
 							value = value.substring(1, value.length() - 1);
 							do {
 								mpline = in.readLine();
-							} while (mpline != null
-									&& mpline.indexOf(boundary) == -1);
+							} while (mpline != null && mpline.indexOf(boundary) == -1);
 						}
 						parms.put(pname, value);
 					}
 				}
 			} catch (IOException ioe) {
-				sendError(
-						HTTP_INTERNALERROR,
-						"SERVER INTERNAL ERROR: IOException: "
-								+ ioe.getMessage());
+				sendError(HTTP_INTERNALERROR, "SERVER INTERNAL ERROR: IOException: " + ioe.getMessage());
 			}
 		}
 
@@ -1071,8 +986,7 @@ public class NanoHTTPD {
 			if (len > 0) {
 				String tmpdir = System.getProperty("java.io.tmpdir");
 				try {
-					File temp = File.createTempFile("NanoHTTPD", "", new File(
-							tmpdir));
+					File temp = File.createTempFile("NanoHTTPD", "", new File(tmpdir));
 					OutputStream fstream = new FileOutputStream(temp);
 					fstream.write(b, offset, len);
 					fstream.close();
@@ -1091,8 +1005,7 @@ public class NanoHTTPD {
 		private int stripMultipartHeaders(byte[] b, int offset) {
 			int i = 0;
 			for (i = offset; i < b.length; i++) {
-				if (b[i] == '\r' && b[++i] == '\n' && b[++i] == '\r'
-						&& b[++i] == '\n')
+				if (b[i] == '\r' && b[++i] == '\n' && b[++i] == '\r' && b[++i] == '\n')
 					break;
 			}
 			return i + 1;
@@ -1112,8 +1025,7 @@ public class NanoHTTPD {
 						sb.append(' ');
 						break;
 					case '%':
-						sb.append((char) Integer.parseInt(
-								str.substring(i + 1, i + 3), 16));
+						sb.append((char) Integer.parseInt(str.substring(i + 1, i + 3), 16));
 						i += 2;
 						break;
 					default:
@@ -1135,8 +1047,7 @@ public class NanoHTTPD {
 		 * the simplicity of Properties -- if you need multiples, you might want
 		 * to replace the Properties with a Hashtable of Vectors or such.
 		 */
-		private void decodeParms(String parms, Properties p)
-				throws InterruptedException {
+		private void decodeParms(String parms, Properties p) throws InterruptedException {
 			if (parms == null)
 				return;
 
@@ -1145,8 +1056,7 @@ public class NanoHTTPD {
 				String e = st.nextToken();
 				int sep = e.indexOf('=');
 				if (sep >= 0)
-					p.put(decodePercent(e.substring(0, sep)).trim(),
-							decodePercent(e.substring(sep + 1)));
+					p.put(decodePercent(e.substring(0, sep)).trim(), decodePercent(e.substring(sep + 1)));
 				else {
 					p.put(decodePercent(e), "");
 				}
@@ -1157,18 +1067,15 @@ public class NanoHTTPD {
 		 * Returns an error message as a HTTP response and throws
 		 * InterruptedException to stop further request processing.
 		 */
-		private void sendError(String status, String msg)
-				throws InterruptedException {
-			sendResponse(status, MIME_PLAINTEXT, null,
-					new ByteArrayInputStream(msg.getBytes()));
+		private void sendError(String status, String msg) throws InterruptedException {
+			sendResponse(status, MIME_PLAINTEXT, null, new ByteArrayInputStream(msg.getBytes()));
 			throw new InterruptedException();
 		}
 
 		/**
 		 * Sends given response to the socket.
 		 */
-		private void sendResponse(String status, String mime,
-				Properties header, InputStream data) {
+		private void sendResponse(String status, String mime, Properties header, InputStream data) {
 			try {
 				if (status == null)
 					throw new Error("sendResponse(): Status can't be null.");
@@ -1201,9 +1108,7 @@ public class NanoHTTPD {
 													// serveFile()
 					byte[] buff = new byte[theBufferSize];
 					while (pending > 0) {
-						int read = data.read(buff, 0,
-								((pending > theBufferSize) ? theBufferSize
-										: pending));
+						int read = data.read(buff, 0, ((pending > theBufferSize) ? theBufferSize : pending));
 						if (read <= 0)
 							break;
 						out.write(buff, 0, read);
@@ -1264,10 +1169,9 @@ public class NanoHTTPD {
 	 * Serves file from homeDir and its' subdirectories (only). Uses only URI,
 	 * ignores all headers and HTTP parameters.
 	 */
-	public Response serveFile(String uri, Properties header, File homeDir,
-			boolean allowDirectoryListing) {
+	public Response serveFile(String uri, Properties header, File homeDir, boolean allowDirectoryListing) {
 		Response res = null;
-		
+
 		// Make sure we won't die of an exception later
 		if (!homeDir.isDirectory())
 			res = new Response(HTTP_INTERNALERROR, MIME_PLAINTEXT,
@@ -1280,16 +1184,13 @@ public class NanoHTTPD {
 				uri = uri.substring(0, uri.indexOf('?'));
 
 			// Prohibit getting out of current directory
-			if (uri.startsWith("..") || uri.endsWith("..")
-					|| uri.indexOf("../") >= 0)
-				res = new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT,
-						"FORBIDDEN: Won't serve ../ for security reasons.");
+			if (uri.startsWith("..") || uri.endsWith("..") || uri.indexOf("../") >= 0)
+				res = new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: Won't serve ../ for security reasons.");
 		}
 
 		File f = new File(homeDir, uri);
 		if (res == null && !f.exists())
-			res = new Response(HTTP_NOTFOUND, MIME_PLAINTEXT,
-					"Error 404, file not found.");
+			res = new Response(HTTP_NOTFOUND, MIME_PLAINTEXT, "Error 404, file not found.");
 
 		// List the directory, if necessary
 		if (res == null && f.isDirectory()) {
@@ -1298,8 +1199,7 @@ public class NanoHTTPD {
 			if (!uri.endsWith("/")) {
 				uri += "/";
 				res = new Response(HTTP_REDIRECT, MIME_HTML,
-						"<html><body>Redirected: <a href=\"" + uri + "\">"
-								+ uri + "</a></body></html>");
+						"<html><body>Redirected: <a href=\"" + uri + "\">" + uri + "</a></body></html>");
 				res.addHeader("Location", uri);
 			}
 
@@ -1312,16 +1212,13 @@ public class NanoHTTPD {
 				// No index file, list the directory if it is readable
 				else if (allowDirectoryListing && f.canRead()) {
 					String[] files = f.list();
-					String msg = "<html><body><h1>Directory " + uri
-							+ "</h1><br/>";
+					String msg = "<html><body><h1>Directory " + uri + "</h1><br/>";
 
 					if (uri.length() > 1) {
 						String u = uri.substring(0, uri.length() - 1);
 						int slash = u.lastIndexOf('/');
 						if (slash >= 0 && slash < u.length())
-							msg += "<b><a href=\""
-									+ uri.substring(0, slash + 1)
-									+ "\">..</a></b><br/>";
+							msg += "<b><a href=\"" + uri.substring(0, slash + 1) + "\">..</a></b><br/>";
 					}
 
 					if (files != null) {
@@ -1333,8 +1230,7 @@ public class NanoHTTPD {
 								files[i] += "/";
 							}
 
-							msg += "<a href=\"" + encodeUri(uri + files[i])
-									+ "\">" + files[i] + "</a>";
+							msg += "<a href=\"" + encodeUri(uri + files[i]) + "\">" + files[i] + "</a>";
 
 							// Show file size
 							if (curFile.isFile()) {
@@ -1343,11 +1239,9 @@ public class NanoHTTPD {
 								if (len < 1024)
 									msg += len + " bytes";
 								else if (len < 1024 * 1024)
-									msg += len / 1024 + "."
-											+ (len % 1024 / 10 % 100) + " KB";
+									msg += len / 1024 + "." + (len % 1024 / 10 % 100) + " KB";
 								else
-									msg += len / (1024 * 1024) + "." + len
-											% (1024 * 1024) / 10 % 100 + " MB";
+									msg += len / (1024 * 1024) + "." + len % (1024 * 1024) / 10 % 100 + " MB";
 
 								msg += ")</font>";
 							}
@@ -1359,8 +1253,7 @@ public class NanoHTTPD {
 					msg += "</body></html>";
 					res = new Response(HTTP_OK, MIME_HTML, msg);
 				} else {
-					res = new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT,
-							"FORBIDDEN: No directory listing.");
+					res = new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: No directory listing.");
 				}
 			}
 		}
@@ -1371,14 +1264,13 @@ public class NanoHTTPD {
 				String mime = null;
 				int dot = f.getCanonicalPath().lastIndexOf('.');
 				if (dot >= 0)
-					mime = (String) theMimeTypes.get(f.getCanonicalPath()
-							.substring(dot + 1).toLowerCase());
+					mime = (String) theMimeTypes.get(f.getCanonicalPath().substring(dot + 1).toLowerCase());
 				if (mime == null)
 					mime = MIME_DEFAULT_BINARY;
 
 				// Calculate etag
-				String etag = Integer.toHexString((f.getAbsolutePath()
-						+ f.lastModified() + "" + f.length()).hashCode());
+				String etag = Integer
+						.toHexString((f.getAbsolutePath() + f.lastModified() + "" + f.length()).hashCode());
 
 				// Support (simple) skipping:
 				long startFrom = 0;
@@ -1390,10 +1282,8 @@ public class NanoHTTPD {
 						int minus = range.indexOf('-');
 						try {
 							if (minus > 0) {
-								startFrom = Long.parseLong(range.substring(0,
-										minus));
-								endAt = Long.parseLong(range
-										.substring(minus + 1));
+								startFrom = Long.parseLong(range.substring(0, minus));
+								endAt = Long.parseLong(range.substring(minus + 1));
 							}
 						} catch (NumberFormatException nfe) {
 						}
@@ -1405,8 +1295,7 @@ public class NanoHTTPD {
 				long fileLen = f.length();
 				if (range != null && startFrom >= 0) {
 					if (startFrom >= fileLen) {
-						res = new Response(HTTP_RANGE_NOT_SATISFIABLE,
-								MIME_PLAINTEXT, "");
+						res = new Response(HTTP_RANGE_NOT_SATISFIABLE, MIME_PLAINTEXT, "");
 						res.addHeader("Content-Range", "bytes 0-0/" + fileLen);
 						res.addHeader("ETag", etag);
 					} else {
@@ -1426,24 +1315,21 @@ public class NanoHTTPD {
 
 						res = new Response(HTTP_PARTIALCONTENT, mime, fis);
 						res.addHeader("Content-Length", "" + dataLen);
-						res.addHeader("Content-Range", "bytes " + startFrom
-								+ "-" + endAt + "/" + fileLen);
+						res.addHeader("Content-Range", "bytes " + startFrom + "-" + endAt + "/" + fileLen);
 						res.addHeader("ETag", etag);
 					}
 				} else {
 					if (etag.equals(header.getProperty("if-none-match")))
 						res = new Response(HTTP_NOTMODIFIED, mime, "");
 					else {
-						res = new Response(HTTP_OK, mime,
-								new FileInputStream(f));
+						res = new Response(HTTP_OK, mime, new FileInputStream(f));
 						res.addHeader("Content-Length", "" + fileLen);
 						res.addHeader("ETag", etag);
 					}
 				}
 			}
 		} catch (IOException ioe) {
-			res = new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT,
-					"FORBIDDEN: Reading file failed.");
+			res = new Response(HTTP_FORBIDDEN, MIME_PLAINTEXT, "FORBIDDEN: Reading file failed.");
 		}
 
 		res.addHeader("Accept-Ranges", "bytes"); // Announce that the file
@@ -1457,19 +1343,14 @@ public class NanoHTTPD {
 	 */
 	private static Hashtable theMimeTypes = new Hashtable();
 	static {
-		StringTokenizer st = new StringTokenizer("css		text/css "
-				+ "htm		text/html " + "html		text/html " + "xml		text/xml "
-				+ "txt		text/plain " + "asc		text/plain " + "gif		image/gif "
-				+ "jpg		image/jpeg " + "jpeg		image/jpeg " + "png		image/png "
-				+ "mp3		audio/mpeg " + "m3u		audio/mpeg-url "
-				+ "mp4		video/mp4 " + "ogv		video/ogg " + "flv		video/x-flv "
-				+ "mov		video/quicktime "
-				+ "swf		application/x-shockwave-flash "
-				+ "js			application/javascript " + "pdf		application/pdf "
-				+ "doc		application/msword " + "ogg		application/x-ogg "
-				+ "zip		application/octet-stream "
-				+ "exe		application/octet-stream "
-				+ "class		application/octet-stream ");
+		StringTokenizer st = new StringTokenizer("css		text/css " + "htm		text/html " + "html		text/html "
+				+ "xml		text/xml " + "txt		text/plain " + "asc		text/plain " + "gif		image/gif "
+				+ "jpg		image/jpeg " + "jpeg		image/jpeg " + "png		image/png " + "mp3		audio/mpeg "
+				+ "m3u		audio/mpeg-url " + "mp4		video/mp4 " + "ogv		video/ogg " + "flv		video/x-flv "
+				+ "mov		video/quicktime " + "swf		application/x-shockwave-flash "
+				+ "js			application/javascript " + "pdf		application/pdf " + "doc		application/msword "
+				+ "ogg		application/x-ogg " + "zip		application/octet-stream "
+				+ "exe		application/octet-stream " + "class		application/octet-stream ");
 		while (st.hasMoreTokens())
 			theMimeTypes.put(st.nextToken(), st.nextToken());
 	}
@@ -1485,8 +1366,7 @@ public class NanoHTTPD {
 	 */
 	private static java.text.SimpleDateFormat gmtFrmt;
 	static {
-		gmtFrmt = new java.text.SimpleDateFormat(
-				"E, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
+		gmtFrmt = new java.text.SimpleDateFormat("E, d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
 		gmtFrmt.setTimeZone(TimeZone.getTimeZone("GMT"));
 	}
 
@@ -1494,20 +1374,16 @@ public class NanoHTTPD {
 	 * The distribution licence
 	 */
 	private static final String LICENCE = "Copyright (C) 2001,2005-2011 by Jarno Elonen <elonen@iki.fi>\n"
-			+ "and Copyright (C) 2010 by Konstantinos Togias <info@ktogias.gr>\n"
-			+ "\n"
+			+ "and Copyright (C) 2010 by Konstantinos Togias <info@ktogias.gr>\n" + "\n"
 			+ "Redistribution and use in source and binary forms, with or without\n"
-			+ "modification, are permitted provided that the following conditions\n"
-			+ "are met:\n"
-			+ "\n"
+			+ "modification, are permitted provided that the following conditions\n" + "are met:\n" + "\n"
 			+ "Redistributions of source code must retain the above copyright notice,\n"
 			+ "this list of conditions and the following disclaimer. Redistributions in\n"
 			+ "binary form must reproduce the above copyright notice, this list of\n"
 			+ "conditions and the following disclaimer in the documentation and/or other\n"
 			+ "materials provided with the distribution. The name of the author may not\n"
 			+ "be used to endorse or promote products derived from this software without\n"
-			+ "specific prior written permission. \n"
-			+ " \n"
+			+ "specific prior written permission. \n" + " \n"
 			+ "THIS SOFTWARE IS PROVIDED BY THE AUTHOR ``AS IS'' AND ANY EXPRESS OR\n"
 			+ "IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES\n"
 			+ "OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.\n"

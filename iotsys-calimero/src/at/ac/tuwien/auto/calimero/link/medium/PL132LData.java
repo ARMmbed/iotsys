@@ -26,7 +26,6 @@ import at.ac.tuwien.auto.calimero.IndividualAddress;
 import at.ac.tuwien.auto.calimero.Priority;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 
-
 /**
  * L-data frame format on PL132 communication medium.
  * <p>
@@ -34,27 +33,27 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * 
  * @author B. Malinowsky
  */
-public class PL132LData extends RawFrameBase
-{
+public class PL132LData extends RawFrameBase {
 	private static final int MIN_LENGTH = 9;
 
 	private final byte[] doa;
 	private final boolean ack;
-	
+
 	/**
 	 * Creates a new L-data frame out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing the L-data frame
-	 * @param offset start offset of frame structure in <code>data</code>, offset &gt;=
-	 *        0
-	 * @throws KNXFormatException if length of data too short for frame, on no valid frame
-	 *         structure
+	 * @param data
+	 *            byte array containing the L-data frame
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, offset
+	 *            &gt;= 0
+	 * @throws KNXFormatException
+	 *             if length of data too short for frame, on no valid frame
+	 *             structure
 	 */
-	public PL132LData(byte[] data, int offset) throws KNXFormatException
-	{
-		final ByteArrayInputStream is =
-			new ByteArrayInputStream(data, offset, data.length - offset);
+	public PL132LData(byte[] data, int offset) throws KNXFormatException {
+		final ByteArrayInputStream is = new ByteArrayInputStream(data, offset, data.length - offset);
 		final int avail = is.available();
 		if (avail < MIN_LENGTH)
 			throw new KNXFormatException("data too short for L-data frame", avail);
@@ -81,10 +80,8 @@ public class PL132LData extends RawFrameBase
 			hopcount = (ctrle & 0x70) >> 4;
 			len = npci;
 			if (len > 64)
-				throw new KNXFormatException("APDU length exceeds maximum of 64 bytes",
-					len);
-		}
-		else {
+				throw new KNXFormatException("APDU length exceeds maximum of 64 bytes", len);
+		} else {
 			hopcount = (npci & 0x70) >> 4;
 			len = npci & 0x0f;
 		}
@@ -101,8 +98,7 @@ public class PL132LData extends RawFrameBase
 	 * 
 	 * @return domain address as byte array of length 2
 	 */
-	public final byte[] getDomainAddress()
-	{
+	public final byte[] getDomainAddress() {
 		return (byte[]) doa.clone();
 	}
 
@@ -110,20 +106,21 @@ public class PL132LData extends RawFrameBase
 	 * Returns whether layer 2 acknowledge is requested or not.
 	 * <p>
 	 * 
-	 * @return <code>true</code> if L2-ACK requested, <code>false</code> otherwise
+	 * @return <code>true</code> if L2-ACK requested, <code>false</code>
+	 *         otherwise
 	 */
-	public final boolean isAckRequested()
-	{
+	public final boolean isAckRequested() {
 		return ack;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.medium.RawFrameBase#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final int domain = (doa[0] & 0xff) << 8 | (doa[1] & 0xff);
-		return super.toString() + " hop count " + hopcount + " domain " + domain
-			+ ", tpdu " + DataUnitBuilder.toHex(tpdu, " ");
+		return super.toString() + " hop count " + hopcount + " domain " + domain + ", tpdu "
+				+ DataUnitBuilder.toHex(tpdu, " ");
 	}
 }

@@ -37,69 +37,68 @@ import org.ektorp.support.View;
 import org.ektorp.support.Views;
 import org.ektorp.util.Assert;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
+
 import at.ac.tuwien.auto.iotsys.commons.PropertiesLoader;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Device;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.DeviceLoaders;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-
 /**
  * @author Nam Giang - zang at kaist dot ac dot kr
  * 
  */
-@Views({
-	@View(name = "allConnectors", map = "function(doc) {if (doc.technology) emit(doc.name, doc);}"),
-	@View(name = "allDevices", map = "function(doc) {if (doc.href) emit(doc.href, doc);}"),
-	@View(name = "deviceLoaders", map = "function(doc) {if (doc.deviceLoaders) emit(null, doc);}"),
-	@View(name = "devicesByConnectorId", map = "function(doc) {if (doc.href) emit(doc.connectorId, doc);}"),
-})
-public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implements ConfigsDb{
+@Views({ @View(name = "allConnectors", map = "function(doc) {if (doc.technology) emit(doc.name, doc);}"),
+		@View(name = "allDevices", map = "function(doc) {if (doc.href) emit(doc.href, doc);}"),
+		@View(name = "deviceLoaders", map = "function(doc) {if (doc.deviceLoaders) emit(null, doc);}"),
+		@View(name = "devicesByConnectorId", map = "function(doc) {if (doc.href) emit(doc.connectorId, doc);}"), })
+public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implements ConfigsDb {
 
 	private static ConfigsDbRepo INSTANCE;
 	private static final Logger log = Logger.getLogger(ConfigsDbRepo.class.getName());
 	private ObjectMapper om = new ObjectMapper();
-	
+
 	private List<JsonNode> allConnectors = new ArrayList<JsonNode>();
 	private List<Device> allDevices = new ArrayList<Device>();
 	private DeviceLoaders deviceLoaders = new DeviceLoaders();
-	
+
 	// Transition step
 	private boolean migrating = false;
 	private boolean connectorsMigrated = false;
 	private List<String> allDeviceLoadersFromXML = new ArrayList<String>();
 	private List<Connector> allConnectorsFromXML = new ArrayList<Connector>();
 	private List<Device> allDevicesFromXML = new ArrayList<Device>();
-	
+
 	private ConfigsDbRepo(CouchDbConnector db) throws Exception {
 		super(Connector.class, db);
-		migrating = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.dbmigrating", "false").equals("true");
-		if (!migrating){
+		migrating = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.dbmigrating", "false")
+				.equals("true");
+		if (!migrating) {
 			// Loading device configs from db
 			loadAllConnectors();
 			loadAllDevices();
 			loadAllDeviceLoaders();
 		} else {
-			if (DbConnection.getCouchInstance().checkIfDbExists("deviceConfiguration")){
+			if (DbConnection.getCouchInstance().checkIfDbExists("deviceConfiguration")) {
 				DbConnection.getCouchInstance().deleteDatabase("deviceConfiguration");
 				DbConnection.getCouchInstance().createDatabase("deviceConfiguration");
 			}
 			// Double check!
-			if (!DbConnection.getCouchInstance().checkIfDbExists("deviceConfiguration")){
+			if (!DbConnection.getCouchInstance().checkIfDbExists("deviceConfiguration")) {
 				throw new Exception();
 			}
 			initStandardDesignDocument();
 		}
-		
-		//enableConnector("Virtual Devices 2");
-//		allConnectors.clear();
-//		allDevices.clear();
+
+		// enableConnector("Virtual Devices 2");
+		// allConnectors.clear();
+		// allDevices.clear();
 	}
 
-	public static ConfigsDb getInstance(){
-		if (INSTANCE == null){ 
+	public static ConfigsDb getInstance() {
+		if (INSTANCE == null) {
 			CouchDbConnector db = new StdCouchDbConnector("deviceConfiguration", DbConnection.getCouchInstance());
 			try {
 				INSTANCE = new ConfigsDbRepo(db);
@@ -110,38 +109,36 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 		return INSTANCE;
 	}
 
-	private void loadAllDeviceLoaders(){
-		// There is just one DeviceLoaders document that contain an array of all device loader's names
-		ViewQuery query = new ViewQuery().designDocId("_design/Connector")
-				.viewName("deviceLoaders");
+	private void loadAllDeviceLoaders() {
+		// There is just one DeviceLoaders document that contain an array of all
+		// device loader's names
+		ViewQuery query = new ViewQuery().designDocId("_design/Connector").viewName("deviceLoaders");
 		List<DeviceLoaders> dls = db.queryView(query, DeviceLoaders.class);
 		deviceLoaders = dls.size() != 0 ? dls.get(0) : deviceLoaders;
 	}
-	
-	private void loadAllDevices(){
-		ViewQuery query = new ViewQuery().designDocId("_design/Connector")
-				.viewName("allDevices");
+
+	private void loadAllDevices() {
+		ViewQuery query = new ViewQuery().designDocId("_design/Connector").viewName("allDevices");
 		allDevices = db.queryView(query, Device.class);
 	}
 
-	private void loadAllConnectors(){
+	private void loadAllConnectors() {
 		allConnectors.clear();
-		
-		ViewQuery query = new ViewQuery().designDocId("_design/Connector")
-				.viewName("allConnectors");
+
+		ViewQuery query = new ViewQuery().designDocId("_design/Connector").viewName("allConnectors");
 
 		StreamingViewResult s;
 		try {
-			s= db.queryForStreamingView(query);
+			s = db.queryForStreamingView(query);
 			if (s.getTotalRows() == 0)
 				return;
-		} catch (DocumentNotFoundException e){
+		} catch (DocumentNotFoundException e) {
 			e.printStackTrace();
 			return;
 		}
 		Iterator<Row> i = s.iterator();
-		while (i.hasNext()){
-			String row = ((Row)i.next()).getValue();
+		while (i.hasNext()) {
+			String row = ((Row) i.next()).getValue();
 			JsonNode jn;
 			try {
 				jn = om.getFactory().createParser(row).readValueAsTree();
@@ -152,34 +149,37 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 		}
 		s.close();
 	}
-	
+
 	@Override
 	public void addDevice(Device d) {
 		Assert.hasText(d.getHref(), "Device must have a href field");
 		Assert.hasText(d.getConnectorId(), "Device must be associated with a connector");
 		db.create(d);
 	}
-	
+
 	@Override
-	public void addBulkDevices(List<Device> ds){
-		if (!migrating) return;
-		if (!connectorsMigrated) return;
-		
-		for (Device d : ds){
+	public void addBulkDevices(List<Device> ds) {
+		if (!migrating)
+			return;
+		if (!connectorsMigrated)
+			return;
+
+		for (Device d : ds) {
 			JsonNode thisConnector = getConnectorByName(d.getConnectorId());
 			d.setConnectorId(thisConnector.get("_id").asText());
 		}
 		db.executeAllOrNothing(ds);
 		loadAllDevices();
 	}
-	
+
 	@Override
 	public List<DocumentOperationResult> addBulkConnectors(List<Connector> cs) throws Exception {
-		if (!migrating) return null;
+		if (!migrating)
+			return null;
 
 		List<DocumentOperationResult> res = db.executeAllOrNothing(cs);
 		loadAllConnectors();
-		
+
 		return res;
 	}
 
@@ -204,7 +204,7 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 				return j;
 		return null;
 	}
-	
+
 	@Override
 	public JsonNode getConnectorByName(String connectorName) {
 		for (JsonNode j : allConnectors)
@@ -240,7 +240,7 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 		allConnectors.remove(toUpdate);
 		allConnectors.add(om.valueToTree(c));
 	}
-	
+
 	@Override
 	public void deleteConnector(Connector c) {
 		Assert.hasText(c.getId(), "deleting connector must have an id field");
@@ -252,7 +252,7 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 		JsonNode connector = getConnectorByName(connectorName);
 		String id = connector.get("_id").asText();
 		String rev = connector.get("_rev").asText();
-		db.delete(id, rev);		
+		db.delete(id, rev);
 		allConnectors.remove(connector);
 	}
 
@@ -321,7 +321,7 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 	public void deleteAllDevices(String connectorName) {
 		JsonNode connector = getConnectorByName(connectorName);
 		List<Device> toBeDeleted = getDevices(connector.get("technology").asText());
-		for (Device d : toBeDeleted){
+		for (Device d : toBeDeleted) {
 			deleteDevice(d.getId());
 		}
 	}
@@ -330,10 +330,10 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 	public String getDeviceLoader(int no) {
 		return deviceLoaders.getDeviceLoaders().length > 0 ? deviceLoaders.getDeviceLoaders()[no] : null;
 	}
-	
+
 	@Override
-	public int getDeviceLoader(String name){
-		for (int i = 0; i < deviceLoaders.getDeviceLoaders().length; i++){
+	public int getDeviceLoader(String name) {
+		for (int i = 0; i < deviceLoaders.getDeviceLoaders().length; i++) {
 			if (deviceLoaders.getDeviceLoaders()[i].equals(name))
 				return i;
 		}
@@ -350,20 +350,20 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 		int noOfDeviceLoaders = deviceLoaders.getDeviceLoaders().length;
 		String[] newList = new String[noOfDeviceLoaders + 1];
 		System.arraycopy(deviceLoaders.getDeviceLoaders(), 0, newList, 0, noOfDeviceLoaders);
-		newList[noOfDeviceLoaders] = deviceLoader;	
-		
+		newList[noOfDeviceLoaders] = deviceLoader;
+
 		deviceLoaders.setDeviceLoaders(newList);
 		db.create(deviceLoaders);
 	}
-	
+
 	@Override
-	public void addBulkDeviceLoaders(List<String> ds) throws Exception{
-		if (!migrating) return;
-		
+	public void addBulkDeviceLoaders(List<String> ds) throws Exception {
+		if (!migrating)
+			return;
+
 		int noOfDeviceLoaders = deviceLoaders.getDeviceLoaders().length;
 		String[] newList = new String[noOfDeviceLoaders + ds.size()];
-		System.arraycopy(deviceLoaders.getDeviceLoaders(), 0, newList, 0,
-				noOfDeviceLoaders);
+		System.arraycopy(deviceLoaders.getDeviceLoaders(), 0, newList, 0, noOfDeviceLoaders);
 		for (int i = 0; i < ds.size(); i++)
 			newList[noOfDeviceLoaders + i] = ds.get(i);
 
@@ -378,10 +378,11 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 
 	@Override
 	public void deleteDeviceLoader(String deviceLoader) {
-		if (deviceLoaders.getDeviceLoaders().length <= 0) return;
+		if (deviceLoaders.getDeviceLoaders().length <= 0)
+			return;
 		int noOfDeviceLoaders = deviceLoaders.getDeviceLoaders().length;
 		String[] newList = new String[noOfDeviceLoaders - 1];
-		for (int i = 0; i < noOfDeviceLoaders; i++){
+		for (int i = 0; i < noOfDeviceLoaders; i++) {
 			if (deviceLoaders.getDeviceLoaders()[i].equals(deviceLoader))
 				continue;
 			newList[i] = deviceLoaders.getDeviceLoaders()[i];
@@ -402,10 +403,9 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 	}
 
 	@Override
-	public void updateDeviceLoader(String oldDeviceLoader,
-			String newDeviceLoader) {
+	public void updateDeviceLoader(String oldDeviceLoader, String newDeviceLoader) {
 		int noOfDeviceLoaders = deviceLoaders.getDeviceLoaders().length;
-		for (int i = 0; i < noOfDeviceLoaders; i++){
+		for (int i = 0; i < noOfDeviceLoaders; i++) {
 			if (deviceLoaders.getDeviceLoaders()[i].equals(oldDeviceLoader))
 				deviceLoaders.getDeviceLoaders()[i] = newDeviceLoader;
 		}
@@ -414,13 +414,14 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 
 	@Override
 	public void clear() {
-		allConnectors.clear();		
+		allConnectors.clear();
 	}
 
 	@Override
 	public void prepareDevice(String connectorName, Device d) {
-		if (!migrating) return;
-		
+		if (!migrating)
+			return;
+
 		// FIXME: Assuming connector name is unique
 		d.setConnectorId(connectorName);
 		allDevicesFromXML.add(d);
@@ -428,36 +429,43 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 
 	@Override
 	public void prepareDeviceLoader(String deviceLoaderName) {
-		if (!migrating) return;
-		
+		if (!migrating)
+			return;
+
 		allDeviceLoadersFromXML.add(deviceLoaderName);
 	}
 
-	public void prepareConnectors(List<Connector> connectors){
-		if (!migrating) return;
+	public void prepareConnectors(List<Connector> connectors) {
+		if (!migrating)
+			return;
 
 		allConnectorsFromXML.addAll(connectors);
-		
-		// if all technology-specific connectors have been prepared, do migrate and lock migration process
+
+		// if all technology-specific connectors have been prepared, do migrate
+		// and lock migration process
 		// by setting migrating = false in migrate()
-		if (allDeviceLoadersFromXML.size() == 10){ // knxets skipped
+		if (allDeviceLoadersFromXML.size() == 10) { // knxets skipped
 			System.out.println(">>>>>>>>>>>>>>>>>>> start migrating");
 			migrate();
 		}
 	}
-	
+
 	@Override
 	public void migrate(List<Connector> connectors) {
-		if (!migrating) return;
-		
-		System.out.println(">>>>>>>>>>>>>>>>>>>> migrating " + allDeviceLoadersFromXML.size() + " device loaders to DB");
+		if (!migrating)
+			return;
+
+		System.out
+				.println(">>>>>>>>>>>>>>>>>>>> migrating " + allDeviceLoadersFromXML.size() + " device loaders to DB");
 		try {
 			addBulkDeviceLoaders(allDeviceLoadersFromXML);
 		} catch (Exception e) {
 			log.severe("Exceptions in addBulkDeviceLoaders, probably overwriting the old ones by an add");
 		}
-		// addBulkConnectors involves re-fetching the allConnectors list from database so that 
-		// in addBulkDevices we can pair the generated connector ID with the device's connector ID
+		// addBulkConnectors involves re-fetching the allConnectors list from
+		// database so that
+		// in addBulkDevices we can pair the generated connector ID with the
+		// device's connector ID
 		List<DocumentOperationResult> res = null;
 		try {
 			res = addBulkConnectors(connectors);
@@ -465,35 +473,35 @@ public class ConfigsDbRepo extends CouchDbRepositorySupport<Connector> implement
 			log.severe("Exceptions in addBulkConnectors, probably overwriting the old ones by an add");
 		}
 		System.out.println(">>>>>>>>>>>>>>>>>>>> migrating " + connectors.size() + " connectors to DB");
-		if ((res != null) && (res.size() == 0)){
+		if ((res != null) && (res.size() == 0)) {
 			connectorsMigrated = true;
 			addBulkDevices(allDevicesFromXML);
 			System.out.println(">>>>>>>>>>>>>>>>>>>> migrating " + allDevicesFromXML.size() + " devices to DB");
 		}
 	}
-	
+
 	@Override
 	public void migrate() {
 		migrate(allConnectorsFromXML);
 		migrating = false;
 	}
-	
-	public void disableAllConnectors(){
-		for(JsonNode j : allConnectors){
-			((ObjectNode)j).put("enabled", false);
+
+	public void disableAllConnectors() {
+		for (JsonNode j : allConnectors) {
+			((ObjectNode) j).put("enabled", false);
 			db.update(j);
 		}
 	}
-	
-	public void enableConnector(String name){
-		for(JsonNode j : allConnectors)
-			if (j.get("name").asText().equals(name)){
-				((ObjectNode)j).put("enabled", true);
+
+	public void enableConnector(String name) {
+		for (JsonNode j : allConnectors)
+			if (j.get("name").asText().equals(name)) {
+				((ObjectNode) j).put("enabled", true);
 				db.update(j);
 				return;
 			}
 	}
-	
+
 	@Override
 	public boolean isMigrating() {
 		return migrating;

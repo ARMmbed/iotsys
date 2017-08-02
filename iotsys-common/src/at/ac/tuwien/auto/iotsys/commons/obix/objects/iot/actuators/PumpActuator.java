@@ -34,14 +34,15 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 
 import obix.Int;
 
-public interface PumpActuator extends Actuator{
-	public static final String PUMP_ACTUATOR_VALUE_CONTRACT_NAME="value";
-	public static final String PUMP_ACTUATOR_VALUE_CONTRACT_HREF="value";
-	public static final String PUMP_ACTUATOR_VALUE_CONTRACT_UNIT="obix:units/percent";
-		
-	public static final String CONTRACT="iot:Pump";
-	public static final String PUMP_ACTUATOR_VALUE_CONTRACT = "<int name='" + PUMP_ACTUATOR_VALUE_CONTRACT_NAME + "' href='" + PUMP_ACTUATOR_VALUE_CONTRACT_HREF + "' val='0'/>";
-	 
-	//Funktion muss genau so heissen wie FAN_SPEED_SETPOINT_CONTRACT_NAME !!!
+public interface PumpActuator extends Actuator {
+	public static final String PUMP_ACTUATOR_VALUE_CONTRACT_NAME = "value";
+	public static final String PUMP_ACTUATOR_VALUE_CONTRACT_HREF = "value";
+	public static final String PUMP_ACTUATOR_VALUE_CONTRACT_UNIT = "obix:units/percent";
+
+	public static final String CONTRACT = "iot:Pump";
+	public static final String PUMP_ACTUATOR_VALUE_CONTRACT = "<int name='" + PUMP_ACTUATOR_VALUE_CONTRACT_NAME
+			+ "' href='" + PUMP_ACTUATOR_VALUE_CONTRACT_HREF + "' val='0'/>";
+
+	// Funktion muss genau so heissen wie FAN_SPEED_SETPOINT_CONTRACT_NAME !!!
 	public Int value();
 }

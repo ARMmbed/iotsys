@@ -33,6 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl;
 
 import java.util.ArrayList;
 
+import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 import obix.Bool;
 import obix.Contract;
 import obix.IObj;
@@ -41,23 +42,17 @@ import obix.List;
 import obix.Obj;
 import obix.Uri;
 import obix.contracts.Range;
-import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 
-public abstract class RangeImpl extends List implements Range
-{
-	public interface RangeElement extends IObj
-	{
+public abstract class RangeImpl extends List implements Range {
+	public interface RangeElement extends IObj {
 	}
 
-	protected class ObjElement extends Obj implements RangeElement
-	{
-		public ObjElement(String key)
-		{
+	protected class ObjElement extends Obj implements RangeElement {
+		public ObjElement(String key) {
 			this(key, null);
 		}
 
-		public ObjElement(String key, String displayName)
-		{
+		public ObjElement(String key, String displayName) {
 			this.setName(key);
 			this.setHref(new Uri(UriEncoder.getEscapedUri(key)));
 
@@ -66,10 +61,8 @@ public abstract class RangeImpl extends List implements Range
 		}
 	}
 
-	public class BoolElement extends Bool implements RangeElement
-	{
-		public BoolElement(String key, String displayName, boolean value)
-		{
+	public class BoolElement extends Bool implements RangeElement {
+		public BoolElement(String key, String displayName, boolean value) {
 			this.setName(key);
 			this.setHref(new Uri(UriEncoder.getEscapedUri(key)));
 
@@ -80,15 +73,12 @@ public abstract class RangeImpl extends List implements Range
 		}
 	}
 
-	public class IntElement extends Int implements RangeElement
-	{
-		public IntElement(String key, int value)
-		{
+	public class IntElement extends Int implements RangeElement {
+		public IntElement(String key, int value) {
 			this(key, null, value);
 		}
 
-		public IntElement(String key, String displayName, int value)
-		{
+		public IntElement(String key, String displayName, int value) {
 			this.setName(key);
 			this.setHref(new Uri(UriEncoder.getEscapedUri(key)));
 
@@ -101,8 +91,7 @@ public abstract class RangeImpl extends List implements Range
 
 	private ArrayList<RangeElement> elements;
 
-	public RangeImpl(Uri href)
-	{
+	public RangeImpl(Uri href) {
 		this.setHref(href);
 		this.setIs(new Contract(Range.CONTRACT));
 		this.setHidden(true);
@@ -111,10 +100,8 @@ public abstract class RangeImpl extends List implements Range
 
 		this.initValues();
 
-		for (RangeElement e : elements)
-		{
-			if (e instanceof Obj)
-			{
+		for (RangeElement e : elements) {
+			if (e instanceof Obj) {
 				this.add((Obj) e);
 			}
 		}
@@ -122,27 +109,22 @@ public abstract class RangeImpl extends List implements Range
 
 	protected abstract void initValues();
 
-	protected void addElement(RangeElement element)
-	{
+	protected void addElement(RangeElement element) {
 		elements.add(element);
 	}
 
-	public String getKey(String name)
-	{
+	public String getKey(String name) {
 		// search key by name
-		for (RangeElement e : elements)
-		{
-			if ((e.getDisplayName() != null && e.getDisplayName().toLowerCase().equals(name.toLowerCase())) || (e.getDisplayName() == null && e.getName().toLowerCase().equals(name.toLowerCase())))
-			{
+		for (RangeElement e : elements) {
+			if ((e.getDisplayName() != null && e.getDisplayName().toLowerCase().equals(name.toLowerCase()))
+					|| (e.getDisplayName() == null && e.getName().toLowerCase().equals(name.toLowerCase()))) {
 				return e.getName();
 			}
 		}
 
 		// search key in list of keys
-		for (RangeElement e : elements)
-		{
-			if (e.getName().toLowerCase().equals(name.toLowerCase()))
-			{
+		for (RangeElement e : elements) {
+			if (e.getName().toLowerCase().equals(name.toLowerCase())) {
 				return e.getName();
 			}
 		}
@@ -150,12 +132,9 @@ public abstract class RangeImpl extends List implements Range
 		return null;
 	}
 
-	public String getName(String key)
-	{
-		for (RangeElement e : elements)
-		{
-			if (e.getName().toLowerCase().equals(key.toLowerCase()))
-			{
+	public String getName(String key) {
+		for (RangeElement e : elements) {
+			if (e.getName().toLowerCase().equals(key.toLowerCase())) {
 				if (e.getDisplayName() != null)
 					return e.getDisplayName();
 				return e.getName();
@@ -164,16 +143,12 @@ public abstract class RangeImpl extends List implements Range
 		return null;
 	}
 
-	public boolean getBool(String key)
-	{
-		for (RangeElement e : elements)
-		{
-			if (e instanceof BoolElement)
-			{
+	public boolean getBool(String key) {
+		for (RangeElement e : elements) {
+			if (e instanceof BoolElement) {
 				BoolElement b = (BoolElement) e;
 
-				if (e.getName().toLowerCase().equals(key.toLowerCase()))
-				{
+				if (e.getName().toLowerCase().equals(key.toLowerCase())) {
 					return b.get();
 				}
 			}
@@ -181,16 +156,12 @@ public abstract class RangeImpl extends List implements Range
 		return false;
 	}
 
-	public long getInt(String key)
-	{
-		for (RangeElement e : elements)
-		{
-			if (e instanceof IntElement)
-			{
+	public long getInt(String key) {
+		for (RangeElement e : elements) {
+			if (e instanceof IntElement) {
 				IntElement i = (IntElement) e;
 
-				if (e.getName().toLowerCase().equals(key.toLowerCase()))
-				{
+				if (e.getName().toLowerCase().equals(key.toLowerCase())) {
 					return i.get();
 				}
 			}

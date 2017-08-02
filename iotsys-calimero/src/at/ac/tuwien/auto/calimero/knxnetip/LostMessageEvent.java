@@ -22,20 +22,20 @@ package at.ac.tuwien.auto.calimero.knxnetip;
 import java.util.EventObject;
 
 /**
- * Event informing about an overflow with loss of messages in KNXnet/IP routing mode.
+ * Event informing about an overflow with loss of messages in KNXnet/IP routing
+ * mode.
  * <p>
- * It contains lost message and device state information on overflow of the LAN-to-KNX
- * queue in the KNXnet/IP router, which leads to loss of received KNXnet/IP messages. This
- * event is multicasted by the KNXnet/IP router every time an increment in lost messages
- * occurs. In the router, the number of lost messages is maintained in the
- * PID_QUEUE_OVERFLOW_TO_KNX property value.<br>
+ * It contains lost message and device state information on overflow of the
+ * LAN-to-KNX queue in the KNXnet/IP router, which leads to loss of received
+ * KNXnet/IP messages. This event is multicasted by the KNXnet/IP router every
+ * time an increment in lost messages occurs. In the router, the number of lost
+ * messages is maintained in the PID_QUEUE_OVERFLOW_TO_KNX property value.<br>
  * The lost message value states the total of lost messages in the router.
  * 
  * @author B. Malinowsky
  * @see KNXnetIPRouter
  */
-public class LostMessageEvent extends EventObject
-{
+public class LostMessageEvent extends EventObject {
 	private static final long serialVersionUID = 1L;
 
 	private final short state;
@@ -45,12 +45,14 @@ public class LostMessageEvent extends EventObject
 	 * Creates a new lost message event.
 	 * <p>
 	 * 
-	 * @param source the {@link KNXnetIPRouter} on which the event occurred
-	 * @param deviceState KNXnet/IP router device state, 0 &lt;= state &lt;= 255
-	 * @param lostMessages number of lost messages, 0 &lt;= number &lt;= 0xFFFF
+	 * @param source
+	 *            the {@link KNXnetIPRouter} on which the event occurred
+	 * @param deviceState
+	 *            KNXnet/IP router device state, 0 &lt;= state &lt;= 255
+	 * @param lostMessages
+	 *            number of lost messages, 0 &lt;= number &lt;= 0xFFFF
 	 */
-	public LostMessageEvent(Object source, short deviceState, int lostMessages)
-	{
+	public LostMessageEvent(Object source, short deviceState, int lostMessages) {
 		super(source);
 		state = deviceState;
 		lost = lostMessages;
@@ -62,8 +64,7 @@ public class LostMessageEvent extends EventObject
 	 * 
 	 * @return number of lost messages as unsigned short
 	 */
-	public final int getLostMessages()
-	{
+	public final int getLostMessages() {
 		return lost;
 	}
 
@@ -75,21 +76,21 @@ public class LostMessageEvent extends EventObject
 	 * 
 	 * @return device state as unsigned byte
 	 */
-	public final short getDeviceState()
-	{
+	public final short getDeviceState() {
 		return state;
 	}
 
 	/**
-	 * Returns whether the KNX network cannot be accessed, causing the message loss.
+	 * Returns whether the KNX network cannot be accessed, causing the message
+	 * loss.
 	 * <p>
 	 * The KNX fault mode is part of the device state.
 	 * 
-	 * @return <code>true</code> on KNX access fault, <code>false</code> otherwise
+	 * @return <code>true</code> on KNX access fault, <code>false</code>
+	 *         otherwise
 	 * @see #getDeviceState()
 	 */
-	public final boolean isKNXFault()
-	{
+	public final boolean isKNXFault() {
 		return (state & 0x01) != 0;
 	}
 }

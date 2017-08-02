@@ -32,28 +32,28 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.sensors.impl.coap;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.PushButtonImpl;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
+
 //import java.util.logging.Logger;
 
 import ch.ethz.inf.vs.californium.coap.Response;
 import ch.ethz.inf.vs.californium.coap.ResponseHandler;
-
-import obix.Bool;
 import obix.Obj;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.LedsActuator;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.PushButtonImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
 
 public class PushButtonImplCoap extends PushButtonImpl implements IoTSySDevice {
-	//private static final Logger log = Logger.getLogger(PushButtonImplCoap.class.getName());
-	
+	// private static final Logger log =
+	// Logger.getLogger(PushButtonImplCoap.class.getName());
+
 	private CoapConnector coapConnector;
-	private String busAddress; 
+	private String busAddress;
 	private boolean isObserved;
 	private boolean shouldObserve;
 	private boolean forwardGroupAddress;
-	
-	public PushButtonImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve, boolean forwardGroupAddress){
+
+	public PushButtonImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve,
+			boolean forwardGroupAddress) {
 		// technology specific initialization
 		this.coapConnector = coapConnector;
 		this.busAddress = busAddress;
@@ -61,48 +61,61 @@ public class PushButtonImplCoap extends PushButtonImpl implements IoTSySDevice {
 		this.shouldObserve = shouldObserve;
 		this.forwardGroupAddress = forwardGroupAddress;
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
-		if(shouldObserve)
+		if (shouldObserve)
 			addWatchDog();
 	}
-	
-	public void addWatchDog(){
+
+	public void addWatchDog() {
 		coapConnector.createWatchDog(busAddress, "value", new ResponseHandler() {
-			public void handleResponse(Response response) {	
+			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-				
-				if(payload.equals("") || payload.equals("TooManyObservers")) return;
-				
-				if(payload.startsWith("Added")) {
+
+				if (payload.equals("") || payload.equals("TooManyObservers"))
+					return;
+
+				if (payload.startsWith("Added")) {
 					isObserved = true;
 					return;
 				}
-				boolean temp = Boolean.parseBoolean( CoapConnector.extractAttribute("bool", "val",payload));
+				boolean temp = Boolean.parseBoolean(CoapConnector.extractAttribute("bool", "val", payload));
 				PushButtonImplCoap.this.value().set(temp);
 			}
-		});	
+		});
 	}
-	
+
 	@Override
-	public void writeObject(Obj input){
+	public void writeObject(Obj input) {
 		// Update on group communication change
-		super.writeObject(input);		
+		super.writeObject(input);
 	}
-	
+
 	@Override
-	public void refreshObject(){
-		//value is the protected instance variable of the base class (PushButtonImpl)
-		if(value != null && !isObserved && !forwardGroupAddress){ // if the group address is forwarded then there is no need to read from the device
+	public void refreshObject() {
+		// value is the protected instance variable of the base class
+		// (PushButtonImpl)
+		if (value != null && !isObserved && !forwardGroupAddress) { // if the
+																	// group
+																	// address
+																	// is
+																	// forwarded
+																	// then
+																	// there is
+																	// no need
+																	// to read
+																	// from the
+																	// device
 			Boolean value = coapConnector.readBoolean(busAddress, "value");
-			
-			// this calls the implementation of the base class, which triggers also
-			// oBIX services (e.g. watches, history) and CoAP observe!			
-			this.value().set(value); 
-		}	
+
+			// this calls the implementation of the base class, which triggers
+			// also
+			// oBIX services (e.g. watches, history) and CoAP observe!
+			this.value().set(value);
+		}
 	}
 
 	@Override

@@ -39,32 +39,27 @@ import at.ac.tuwien.auto.calimero.link.medium.RawFrameFactory;
 import at.ac.tuwien.auto.calimero.log.LogManager;
 import at.ac.tuwien.auto.calimero.log.LogService;
 
-
 /**
- * Implementation of the KNX network monitor link based on the KNXnet/IP protocol, using a
- * {@link KNXnetIPConnection}.
+ * Implementation of the KNX network monitor link based on the KNXnet/IP
+ * protocol, using a {@link KNXnetIPConnection}.
  * <p>
- * Once a monitor has been closed, it is not available for further link communication,
- * i.e. it can't be reopened.
+ * Once a monitor has been closed, it is not available for further link
+ * communication, i.e. it can't be reopened.
  * <p>
- * Pay attention to the IP address consideration stated in the documentation comments of
- * class {@link KNXNetworkLinkIP}.
+ * Pay attention to the IP address consideration stated in the documentation
+ * comments of class {@link KNXNetworkLinkIP}.
  * 
  * @author B. Malinowsky
  */
-public class KNXNetworkMonitorIP implements KNXNetworkMonitor
-{
-	private static final class MonitorNotifier extends EventNotifier
-	{
+public class KNXNetworkMonitorIP implements KNXNetworkMonitor {
+	private static final class MonitorNotifier extends EventNotifier {
 		volatile boolean decode;
 
-		MonitorNotifier(Object source, LogService logger)
-		{
+		MonitorNotifier(Object source, LogService logger) {
 			super(source, logger);
 		}
 
-		public void frameReceived(FrameEvent e)
-		{
+		public void frameReceived(FrameEvent e) {
 			final int mc = e.getFrame().getMessageCode();
 			if (mc == CEMIBusMon.MC_BUSMON_IND) {
 				RawFrame raw = null;
@@ -73,19 +68,15 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 					try {
 						final short m = ((KNXNetworkMonitorIP) source).medium.getMedium();
 						raw = RawFrameFactory.create(m, e.getFrame().getPayload(), 0);
-					}
-					catch (final KNXFormatException ex) {
+					} catch (final KNXFormatException ex) {
 						logger.error("decoding raw frame", ex);
 					}
 				addEvent(new Indication(new MonitorFrameEvent(source, e.getFrame(), raw)));
-			}
-			else
-				logger.warn("unspecified frame event - ignored, msg code = 0x"
-					+ Integer.toHexString(mc));
+			} else
+				logger.warn("unspecified frame event - ignored, msg code = 0x" + Integer.toHexString(mc));
 		}
 
-		public void connectionClosed(CloseEvent e)
-		{
+		public void connectionClosed(CloseEvent e) {
 			((KNXNetworkMonitorIP) source).closed = true;
 			super.connectionClosed(e);
 			logger.info("monitor closed");
@@ -102,30 +93,34 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 	private final MonitorNotifier notifier;
 
 	/**
-	 * Creates a new network monitor based on the KNXnet/IP protocol for accessing the KNX
-	 * network.
+	 * Creates a new network monitor based on the KNXnet/IP protocol for
+	 * accessing the KNX network.
 	 * <p>
 	 * 
-	 * @param localEP the local endpoint to use for the link, this is the client control
-	 *        endpoint, use <code>null</code> for the default local host and an
-	 *        ephemeral port number
-	 * @param remoteEP the remote endpoint of the link; this is the server control
-	 *        endpoint
-	 * @param useNAT <code>true</code> to use network address translation in the
-	 *        KNXnet/IP protocol, <code>false</code> to use the default (non aware) mode
-	 * @param settings medium settings defining the specific KNX medium needed for
-	 *        decoding raw frames received from the KNX network
-	 * @throws KNXException on failure establishing the link
+	 * @param localEP
+	 *            the local endpoint to use for the link, this is the client
+	 *            control endpoint, use <code>null</code> for the default local
+	 *            host and an ephemeral port number
+	 * @param remoteEP
+	 *            the remote endpoint of the link; this is the server control
+	 *            endpoint
+	 * @param useNAT
+	 *            <code>true</code> to use network address translation in the
+	 *            KNXnet/IP protocol, <code>false</code> to use the default (non
+	 *            aware) mode
+	 * @param settings
+	 *            medium settings defining the specific KNX medium needed for
+	 *            decoding raw frames received from the KNX network
+	 * @throws KNXException
+	 *             on failure establishing the link
 	 */
-	public KNXNetworkMonitorIP(InetSocketAddress localEP, InetSocketAddress remoteEP,
-		boolean useNAT, KNXMediumSettings settings) throws KNXException
-	{
+	public KNXNetworkMonitorIP(InetSocketAddress localEP, InetSocketAddress remoteEP, boolean useNAT,
+			KNXMediumSettings settings) throws KNXException {
 		InetSocketAddress ep = localEP;
 		if (ep == null)
 			try {
 				ep = new InetSocketAddress(InetAddress.getLocalHost(), 0);
-			}
-			catch (final UnknownHostException e) {
+			} catch (final UnknownHostException e) {
 				throw new KNXException("no local host available");
 			}
 		conn = new KNXnetIPTunnel(KNXnetIPTunnel.BUSMONITOR_LAYER, ep, remoteEP, useNAT);
@@ -137,80 +132,88 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 		setKNXMedium(settings);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#setKNXMedium
 	 * (tuwien.auto.calimero.link.medium.KNXMediumSettings)
 	 */
-	public void setKNXMedium(KNXMediumSettings settings)
-	{
+	public void setKNXMedium(KNXMediumSettings settings) {
 		if (settings == null)
 			throw new KNXIllegalArgumentException("medium settings are mandatory");
 		if (medium != null && !settings.getClass().isAssignableFrom(medium.getClass())
-			&& !medium.getClass().isAssignableFrom(settings.getClass()))
+				&& !medium.getClass().isAssignableFrom(settings.getClass()))
 			throw new KNXIllegalArgumentException("medium differs");
 		medium = settings;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#getKNXMedium()
 	 */
-	public KNXMediumSettings getKNXMedium()
-	{
+	public KNXMediumSettings getKNXMedium() {
 		return medium;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#addMonitorListener
 	 * (tuwien.auto.calimero.link.event.LinkListener)
 	 */
-	public void addMonitorListener(LinkListener l)
-	{
+	public void addMonitorListener(LinkListener l) {
 		notifier.addListener(l);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#removeMonitorListener
 	 * (tuwien.auto.calimero.link.event.LinkListener)
 	 */
-	public void removeMonitorListener(LinkListener l)
-	{
+	public void removeMonitorListener(LinkListener l) {
 		notifier.removeListener(l);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#setDecodeRawFrames(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.link.KNXNetworkMonitor#setDecodeRawFrames(boolean)
 	 */
-	public void setDecodeRawFrames(boolean decode)
-	{
+	public void setDecodeRawFrames(boolean decode) {
 		notifier.decode = decode;
 		logger.info((decode ? "enable" : "disable") + " decoding of raw frames");
 	}
 
 	/**
 	 * {@inheritDoc}<br>
-	 * The returned name is "monitor " + remote IP address of the control endpoint + ":" +
-	 * remote port used by the monitor.
+	 * The returned name is "monitor " + remote IP address of the control
+	 * endpoint + ":" + remote port used by the monitor.
 	 */
-	public String getName()
-	{
-		// do our own IP:port string, since InetAddress.toString() always prepends a '/'
+	public String getName() {
+		// do our own IP:port string, since InetAddress.toString() always
+		// prepends a '/'
 		final InetSocketAddress a = conn.getRemoteAddress();
 		return "monitor " + a.getAddress().getHostAddress() + ":" + a.getPort();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#isOpen()
 	 */
-	public boolean isOpen()
-	{
+	public boolean isOpen() {
 		return !closed;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.KNXNetworkMonitor#close()
 	 */
-	public void close()
-	{
+	public void close() {
 		synchronized (this) {
 			if (closed)
 				return;
@@ -220,12 +223,13 @@ public class KNXNetworkMonitorIP implements KNXNetworkMonitor
 		notifier.quit();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString()
-	{
-		return getName() + (closed ? " (closed), " : ", ") + medium.getMediumString()
-			+ " medium" + (notifier.decode ? ", decode raw frames" : "");
+	public String toString() {
+		return getName() + (closed ? " (closed), " : ", ") + medium.getMediumString() + " medium"
+				+ (notifier.decode ? ", decode raw frames" : "");
 	}
 }

@@ -1,6 +1,6 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
 
 /**
  * Point
@@ -9,8 +9,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface Point extends IObj
-{
+public interface Point extends IObj {
 	public static final String CONTRACT = "obix:Point";
 
 }

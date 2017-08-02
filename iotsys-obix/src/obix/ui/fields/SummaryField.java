@@ -1,58 +1,54 @@
 /*
  * This code licensed to public domain
  */
-package obix.ui.fields;  
+package obix.ui.fields;
 
-import java.awt.*;
-import javax.swing.*;
-import obix.*;
-import obix.ui.*;  
+import java.awt.BorderLayout;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+
+import obix.Obj;
+import obix.ui.ObjField;
 
 /**
- * SummaryField shows the display string of complex Obj as
- * an atomic field.
+ * SummaryField shows the display string of complex Obj as an atomic field.
  *
- * @author    Brian Frank
- * @creation  19 Apr 06
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @creation 19 Apr 06
+ * @version $Revision$ $Date$
  */
-public class SummaryField
-  extends ObjField
-{                   
+public class SummaryField extends ObjField {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Constructor
+	////////////////////////////////////////////////////////////////
 
-  public SummaryField()
-  {                     
-    label.setFont(new JTextField().getFont());           
-    setLayout(new BorderLayout());
-    add(label, BorderLayout.CENTER); 
-  }
+	public SummaryField() {
+		label.setFont(new JTextField().getFont());
+		setLayout(new BorderLayout());
+		add(label, BorderLayout.CENTER);
+	}
 
-////////////////////////////////////////////////////////////////
-// Methods
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
 
-  protected void doSetEditable(boolean editable)
-  { 
-    // always uneditable
-  }
+	protected void doSetEditable(boolean editable) {
+		// always uneditable
+	}
 
-  protected void doLoad(Obj val)
-  {                       
-    label.setText(val.toDisplay());
-  }
-  
-  protected void doSave(Obj val)
-  {         
-  }                                  
-  
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+	protected void doLoad(Obj val) {
+		label.setText(val.toDisplay());
+	}
 
-  JLabel label = new JLabel("");
- 
+	protected void doSave(Obj val) {
+	}
+
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	JLabel label = new JLabel("");
+
 }

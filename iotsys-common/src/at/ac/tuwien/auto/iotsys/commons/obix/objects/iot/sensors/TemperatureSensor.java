@@ -34,10 +34,11 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface TemperatureSensor extends Sensor{
-	
-	public static final String CONTRACT="iot:TemperatureSensor";
-	
+public interface TemperatureSensor extends Sensor {
+
+	public static final String CONTRACT = "iot:TemperatureSensor";
+
 	public static final String valueContract = "<real name='value' href='value' val='0'/>";
+
 	public Real value();
 }

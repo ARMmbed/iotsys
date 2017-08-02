@@ -23,38 +23,35 @@
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.bacnet;
 
 import static at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector.BACNET_PRIORITY;
-import obix.Obj;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.CoolerActuatorImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
 
 import com.serotonin.bacnet4j.exception.BACnetException;
 import com.serotonin.bacnet4j.exception.PropertyValueException;
 import com.serotonin.bacnet4j.type.Encodable;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.CoolerActuatorImpl;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
+import obix.Obj;
 
 public class CoolerActuatorImplBacnet extends CoolerActuatorImpl {
 	private BacnetDataPointInfo switchDP;
 	private BACnetConnector bacnetConnector;
-	
-	public CoolerActuatorImplBacnet(BACnetConnector bacnetConnector,
-			BacnetDataPointInfo switchDP) {
+
+	public CoolerActuatorImplBacnet(BACnetConnector bacnetConnector, BacnetDataPointInfo switchDP) {
 		this.switchDP = switchDP;
 		this.bacnetConnector = bacnetConnector;
 	}
 
 	public void refreshObject() {
 		try {
-			Encodable property = bacnetConnector.readProperty(
-					switchDP.getDeviceIdentifier(),
-					switchDP.getObjectIdentifier(),
-					switchDP.getPropertyIdentifier());
+			Encodable property = bacnetConnector.readProperty(switchDP.getDeviceIdentifier(),
+					switchDP.getObjectIdentifier(), switchDP.getPropertyIdentifier());
 
-			if (property instanceof  com.serotonin.bacnet4j.type.primitive.Boolean) {
+			if (property instanceof com.serotonin.bacnet4j.type.primitive.Boolean) {
 				enabled.set(((com.serotonin.bacnet4j.type.primitive.Boolean) property).booleanValue());
-			}			
+			}
 
-		} catch (BACnetException e) {			
+		} catch (BACnetException e) {
 			e.printStackTrace();
 		} catch (PropertyValueException e) {
 			e.printStackTrace();
@@ -64,15 +61,15 @@ public class CoolerActuatorImplBacnet extends CoolerActuatorImpl {
 	public void writeObject(Obj input) {
 		// A write on this object was received, update the according data point.
 		super.writeObject(input);
-	
+
 		try {
 			bacnetConnector.writeProperty(switchDP.getDeviceIdentifier(), switchDP.getObjectIdentifier(),
-					switchDP.getPropertyIdentifier(), new com.serotonin.bacnet4j.type.primitive.Enumerated(enabled.get()?1:0), BACNET_PRIORITY);			
-		} catch (BACnetException e) {			
+					switchDP.getPropertyIdentifier(),
+					new com.serotonin.bacnet4j.type.primitive.Enumerated(enabled.get() ? 1 : 0), BACNET_PRIORITY);
+		} catch (BACnetException e) {
 			e.printStackTrace();
 		} catch (PropertyValueException e) {
 			e.printStackTrace();
 		}
 	}
 }
-

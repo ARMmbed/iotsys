@@ -1,63 +1,60 @@
 /*
  * This code licensed to public domain
  */
-package obix.ui.fields;  
+package obix.ui.fields;
 
-import java.awt.*;
-import javax.swing.*;
-import obix.*;
-import obix.ui.*;  
+import java.awt.BorderLayout;
+
+import javax.swing.JComboBox;
+
+import obix.Bool;
+import obix.Obj;
+import obix.ui.ObjField;
 
 /**
  * BoolField
  *
- * @author    Brian Frank
- * @creation  26 Sept 05
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @creation 26 Sept 05
+ * @version $Revision$ $Date$
  */
-public class BoolField
-  extends ObjField
-{                   
+public class BoolField extends ObjField {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Constructor
+	////////////////////////////////////////////////////////////////
 
-  public BoolField()
-  {          
-    combo.addItem("false");
-    combo.addItem("true");
-    add(combo, BorderLayout.CENTER);
-    registerForChanged(combo);
-  }
+	public BoolField() {
+		combo.addItem("false");
+		combo.addItem("true");
+		add(combo, BorderLayout.CENTER);
+		registerForChanged(combo);
+	}
 
-////////////////////////////////////////////////////////////////
-// Methods
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
 
-  protected void doSetEditable(boolean editable)
-  { 
-    combo.setEnabled(editable);
-  }
+	protected void doSetEditable(boolean editable) {
+		combo.setEnabled(editable);
+	}
 
-  protected void doLoad(Obj val)
-  {                       
-    Bool v = (Bool)val;
-    boolean b = v.get();              
-    combo.setSelectedIndex(b ? 1 : 0);
-  }
-  
-  protected void doSave(Obj val)
-  {                            
-    Bool v = (Bool)val;
-    boolean b = combo.getSelectedIndex() == 1;
-    v.set(b);
-  }
+	protected void doLoad(Obj val) {
+		Bool v = (Bool) val;
+		boolean b = v.get();
+		combo.setSelectedIndex(b ? 1 : 0);
+	}
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+	protected void doSave(Obj val) {
+		Bool v = (Bool) val;
+		boolean b = combo.getSelectedIndex() == 1;
+		v.set(b);
+	}
 
-  JComboBox combo = new JComboBox();
- 
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	JComboBox combo = new JComboBox();
+
 }

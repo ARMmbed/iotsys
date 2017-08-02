@@ -26,13 +26,12 @@ import java.net.InetSocketAddress;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 import at.ac.tuwien.auto.calimero.knxnetip.util.HPAI;
 
-
 /**
  * Represents a KNXnet/IP search request.
  * <p>
- * Such request is sent during KNXnet/IP device discovery destined to the discovery
- * endpoint of listening servers. The communication is done multicast, i.e. using the UDP
- * transport protocol.<br>
+ * Such request is sent during KNXnet/IP device discovery destined to the
+ * discovery endpoint of listening servers. The communication is done multicast,
+ * i.e. using the UDP transport protocol.<br>
  * The counterpart sent in reply to the request are search responses.
  * <p>
  * Objects of this type are immutable.
@@ -42,20 +41,21 @@ import at.ac.tuwien.auto.calimero.knxnetip.util.HPAI;
  * @see at.ac.tuwien.auto.calimero.knxnetip.servicetype.SearchResponse
  * @see at.ac.tuwien.auto.calimero.knxnetip.Discoverer
  */
-public class SearchRequest extends ServiceType
-{
+public class SearchRequest extends ServiceType {
 	private final HPAI endpoint;
 
 	/**
 	 * Creates a search request out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing a search request structure
-	 * @param offset start offset of request in <code>data</code>
-	 * @throws KNXFormatException if no valid host protocol address information was found
+	 * @param data
+	 *            byte array containing a search request structure
+	 * @param offset
+	 *            start offset of request in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no valid host protocol address information was found
 	 */
-	public SearchRequest(byte[] data, int offset) throws KNXFormatException
-	{
+	public SearchRequest(byte[] data, int offset) throws KNXFormatException {
 		super(KNXnetIPHeader.SEARCH_REQ);
 		endpoint = new HPAI(data, offset);
 	}
@@ -64,25 +64,26 @@ public class SearchRequest extends ServiceType
 	 * Creates a new search request with the given client response address.
 	 * <p>
 	 * 
-	 * @param responseAddr address of the client discovery endpoint used for the response,
-	 *        use <code>null</code> to create a NAT aware search request
+	 * @param responseAddr
+	 *            address of the client discovery endpoint used for the
+	 *            response, use <code>null</code> to create a NAT aware search
+	 *            request
 	 */
-	public SearchRequest(InetSocketAddress responseAddr)
-	{
+	public SearchRequest(InetSocketAddress responseAddr) {
 		super(KNXnetIPHeader.SEARCH_REQ);
 		endpoint = new HPAI(HPAI.IPV4_UDP, responseAddr);
 	}
 
 	/**
-	 * Convenience constructor to create a new search request using the system default
-	 * local host with the given client port.
+	 * Convenience constructor to create a new search request using the system
+	 * default local host with the given client port.
 	 * <p>
 	 * 
-	 * @param responsePort port number of the client control endpoint used for the
-	 *        response, 0 &lt;= port &lt;= 0xFFFF
+	 * @param responsePort
+	 *            port number of the client control endpoint used for the
+	 *            response, 0 &lt;= port &lt;= 0xFFFF
 	 */
-	public SearchRequest(int responsePort)
-	{
+	public SearchRequest(int responsePort) {
 		super(KNXnetIPHeader.SEARCH_REQ);
 		endpoint = new HPAI((InetAddress) null, responsePort);
 	}
@@ -93,25 +94,27 @@ public class SearchRequest extends ServiceType
 	 * 
 	 * @return discovery endpoint in a HPAI
 	 */
-	public final HPAI getEndpoint()
-	{
+	public final HPAI getEndpoint() {
 		return endpoint;
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
-	short getStructLength()
-	{
+	short getStructLength() {
 		return endpoint.getStructLength();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
-	 *      (java.io.ByteArrayOutputStream)
+	 * (java.io.ByteArrayOutputStream)
 	 */
-	byte[] toByteArray(ByteArrayOutputStream os)
-	{
+	byte[] toByteArray(ByteArrayOutputStream os) {
 		final byte[] buf = endpoint.toByteArray();
 		os.write(buf, 0, buf.length);
 		return os.toByteArray();

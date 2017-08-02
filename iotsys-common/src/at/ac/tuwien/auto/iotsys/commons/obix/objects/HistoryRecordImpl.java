@@ -39,35 +39,33 @@ import obix.contracts.HistoryRecord;
 public class HistoryRecordImpl extends Obj implements HistoryRecord {
 	protected Obj value = new Obj();
 	protected Abstime abstime = new Abstime();
-	
+
 	public static final String HISTORY_RECORD_CONTRACT = "obix:HistoryRecord";
-	
-	
-	public HistoryRecordImpl(Obj value){
+
+	public HistoryRecordImpl(Obj value) {
 		this(value, new Abstime(System.currentTimeMillis()));
 	}
-	
+
 	public HistoryRecordImpl(Obj value, Abstime time) {
-		if(time != null){
+		if (time != null) {
 			abstime = new Abstime(time.getMillis(), time.getTimeZone());
-		}
-		else{
+		} else {
 			abstime = new Abstime(System.currentTimeMillis());
 		}
 		this.value = value;
-		
+
 		add(timestamp());
 		add(value());
 	}
-	
+
 	public HistoryRecordImpl(HistoryRecord record) {
 		this.value = record.value();
 		this.abstime = new Abstime(record.timestamp().getMillis());
-		
+
 		add(timestamp());
 		add(value());
 	}
-	
+
 	@Override
 	public Abstime timestamp() {
 		return abstime;
@@ -77,8 +75,8 @@ public class HistoryRecordImpl extends Obj implements HistoryRecord {
 	public Obj value() {
 		return value;
 	}
-	
-	public String getValue(){
+
+	public String getValue() {
 		return value.toString();
 	}
 

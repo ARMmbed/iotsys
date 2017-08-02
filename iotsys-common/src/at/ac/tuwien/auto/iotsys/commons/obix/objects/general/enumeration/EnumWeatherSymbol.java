@@ -31,10 +31,9 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration;
 
-import obix.contracts.Range;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherSymbol;
+import obix.contracts.Range;
 
-public interface EnumWeatherSymbol extends Range
-{
+public interface EnumWeatherSymbol extends Range {
 	public static final String HREF = "/enums/" + WeatherSymbol.NAME;
 }

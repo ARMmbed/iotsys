@@ -36,23 +36,23 @@ import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.TelegramField;
 import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.util.Converter;
 
 public class ManufacturerTelegramField extends TelegramField {
-	
-	private static int MASK_5_BIT = 0x1F; 		// FIRST 5-BIT-MASK
-	private static int MASK_10_BIT = 0x3FF; 	// FIRST 10-BIT-MASK
-			
+
+	private static int MASK_5_BIT = 0x1F; // FIRST 5-BIT-MASK
+	private static int MASK_10_BIT = 0x3FF; // FIRST 10-BIT-MASK
+
 	public void parse() {
 		int telAsInt = Converter.hexToInt(this.fieldParts.get(1) + this.fieldParts.get(0));
-		
+
 		int lastAsciiLetter = telAsInt & ManufacturerTelegramField.MASK_5_BIT;
 		char lastLetter = (char) (lastAsciiLetter + 64);
-		
+
 		int secondAsciiLetter = telAsInt - lastAsciiLetter;
 		secondAsciiLetter = secondAsciiLetter & ManufacturerTelegramField.MASK_10_BIT;
 		char secondLetter = (char) ((secondAsciiLetter / 32) + 64);
-		
+
 		int firstAsciiLetter = telAsInt - (int) lastLetter - (int) secondLetter;
 		char firstLetter = (char) ((firstAsciiLetter / 32 / 32) + 64);
-		
-		this.parsedValue =  String.valueOf(firstLetter) + secondLetter + lastLetter;
+
+		this.parsedValue = String.valueOf(firstLetter) + secondLetter + lastLetter;
 	}
 }

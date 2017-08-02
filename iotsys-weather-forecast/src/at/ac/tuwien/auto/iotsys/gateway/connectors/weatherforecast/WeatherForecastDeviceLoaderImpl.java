@@ -40,22 +40,20 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import obix.Obj;
-import obix.Uri;
-
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.impl.WeatherForecastLocationImpl;
-import at.ac.tuwien.auto.iotsys.commons.persistent.ConfigsDbImpl;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Device;
 import at.ac.tuwien.auto.iotsys.gateway.obix.objects.weatherforecast.objects.WeatherControlImpl;
 import at.ac.tuwien.auto.iotsys.gateway.obix.objects.weatherforecast.objects.WeatherObjectImplYR_NO;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import obix.Obj;
+import obix.Uri;
 
 public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 
@@ -69,16 +67,15 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		setConfiguration(devicesConfig);
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
-		
+
 		// Hard-coded connections and object creation
 		ArrayList<Connector> connectors = new ArrayList<Connector>();
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("weather-forecast");
 		int connectorsSize = 0;
-		
+
 		if (connectorsFromDb.size() <= 0) {
-			Object configuredConnectors = devicesConfig
-					.getProperty("weather-forecast.connector.name");
+			Object configuredConnectors = devicesConfig.getProperty("weather-forecast.connector.name");
 			if (configuredConnectors != null) {
 				connectorsSize = 1;
 			} else {
@@ -92,7 +89,8 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 			connectorsSize = connectorsFromDb.size();
 		log.info("Found " + connectorsSize + " weather forecast connectors.");
 		for (int connector = 0; connector < connectorsSize; connector++) {
-			HierarchicalConfiguration subConfig = devicesConfig.configurationAt("weather-forecast.connector(" + connector + ")");
+			HierarchicalConfiguration subConfig = devicesConfig
+					.configurationAt("weather-forecast.connector(" + connector + ")");
 
 			Object configuredDevices = subConfig.getProperty("device.type");
 			String connectorId = "";
@@ -102,12 +100,11 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 			try {
 				connectorId = connectorsFromDb.get(connector).get("_id").asText();
 				connectorName = connectorsFromDb.get(connector).get("name").asText();
-				enabled =  connectorsFromDb.get(connector).get("enabled").asBoolean();
-			} catch (Exception e){
+				enabled = connectorsFromDb.get(connector).get("enabled").asBoolean();
+			} catch (Exception e) {
 				log.info("Cannot fetch configuration from Database, using devices.xml");
 			}
-			
-			
+
 			if (enabled) {
 				try {
 					log.info("Creating weather forecast connector.");
@@ -115,7 +112,7 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 					forecastConnector.setName(connectorName);
 					forecastConnector.setTechnology("weather-forecast");
 					forecastConnector.setEnabled(enabled);
-					
+
 					connectors.add(forecastConnector);
 
 					int numberOfDevices = 0;
@@ -133,8 +130,7 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 					} else
 						numberOfDevices = devicesFromDb.size();
 
-					log.info(numberOfDevices
-							+ " weather forecast devices found in configuration for connector "
+					log.info(numberOfDevices + " weather forecast devices found in configuration for connector "
 							+ connectorName);
 
 					// add devices
@@ -144,16 +140,13 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 						double latitude = subConfig.getDouble("device(" + i + ").location.latitude", 0);
 						double longitude = subConfig.getDouble("device(" + i + ").location.longitude", 0);
 						long height = subConfig.getLong("device(" + i + ").location.height", 0);
-						String href = subConfig.getString("device(" + i	+ ").href");
+						String href = subConfig.getString("device(" + i + ").href");
 						String name = subConfig.getString("device(" + i + ").name");
-						Boolean refreshEnabled = subConfig.getBoolean("device("	+ i + ").refreshEnabled", true);
-						Boolean historyEnabled = subConfig.getBoolean(
-								"device(" + i + ").historyEnabled", false);
-						Boolean groupCommEnabled = subConfig.getBoolean(
-								"device(" + i + ").groupCommEnabled", false);
-						Integer historyCount = subConfig.getInt("device("
-								+ i + ").historyCount", 0);
-						
+						Boolean refreshEnabled = subConfig.getBoolean("device(" + i + ").refreshEnabled", true);
+						Boolean historyEnabled = subConfig.getBoolean("device(" + i + ").historyEnabled", false);
+						Boolean groupCommEnabled = subConfig.getBoolean("device(" + i + ").groupCommEnabled", false);
+						Integer historyCount = subConfig.getInt("device(" + i + ").historyCount", 0);
+
 						Device deviceFromDb;
 						try {
 							deviceFromDb = devicesFromDb.get(i);
@@ -164,69 +157,67 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 							groupCommEnabled = deviceFromDb.isGroupcommEnabled();
 							refreshEnabled = deviceFromDb.isRefreshEnabled();
 							historyCount = deviceFromDb.getHistoryCount();
-						} 
-						catch (Exception e) {
+						} catch (Exception e) {
 						}
-						
+
 						// Transition step: comment when done
-						Device d = new Device(type, null, null, href, name, null, historyCount, historyEnabled, groupCommEnabled, refreshEnabled);
+						Device d = new Device(type, null, null, href, name, null, historyCount, historyEnabled,
+								groupCommEnabled, refreshEnabled);
 						objectBroker.getConfigDb().prepareDevice(connectorName, d);
-						
+
 						if (type != null && name != null) {
 							try {
 								Constructor<?>[] declaredConstructors = Class.forName(type).getDeclaredConstructors();
 								for (int k = 0; k < declaredConstructors.length; k++) {
 									if (declaredConstructors[k].getParameterTypes().length == 3) {
-										// constructor that takes name, location, and connector as argument
+										// constructor that takes name,
+										// location, and connector as argument
 										Object[] args = new Object[3];
 
 										args[0] = name;
 										args[1] = new WeatherForecastLocationImpl(desc, latitude, longitude, height);
 										args[2] = forecastConnector;
 										try {
-											// create an instance of the specified weather forecast crawler
+											// create an instance of the
+											// specified weather forecast
+											// crawler
 											Obj crawler = (Obj) declaredConstructors[k].newInstance(args);
-			
-											crawler.setHref(new Uri(URLEncoder.encode(connectorName, "UTF-8") + "/" + href));
-	
-											
+
+											crawler.setHref(
+													new Uri(URLEncoder.encode(connectorName, "UTF-8") + "/" + href));
+
 											objectBroker.addObj(crawler, true);
-											
-											if(crawler instanceof WeatherObjectImplYR_NO){
+
+											if (crawler instanceof WeatherObjectImplYR_NO) {
 												WeatherObjectImplYR_NO weatherObject = (WeatherObjectImplYR_NO) crawler;
 												objectBroker.addObj(weatherObject.getChildByHref(new Uri("upcoming")));
 												objectBroker.addObj(weatherObject.getChildByHref(new Uri("location")));
 											}
 											myObjects.add(crawler);
-											//crawler.initialize();
-											
+											// crawler.initialize();
+
 											if (refreshEnabled != null && refreshEnabled) {
-												// refresh weather forecast automatically (once per hour)						
+												// refresh weather forecast
+												// automatically (once per hour)
 												objectBroker.enableObjectRefresh(crawler, 3600000);
-											}
-											else {
-												// refresh weather forecast manually											
+											} else {
+												// refresh weather forecast
+												// manually
 												crawler.refreshObject();
 											}
-											
-											if (historyEnabled != null
-													&& historyEnabled) {
-												if (historyCount != null
-														&& historyCount != 0) {
-													objectBroker
-															.addHistoryToDatapoints(
-																	crawler,
-																	historyCount);
+
+											if (historyEnabled != null && historyEnabled) {
+												if (historyCount != null && historyCount != 0) {
+													objectBroker.addHistoryToDatapoints(crawler, historyCount);
 												} else {
-													objectBroker
-															.addHistoryToDatapoints(crawler);
+													objectBroker.addHistoryToDatapoints(crawler);
 												}
 											}
-											
-											if(groupCommEnabled != null && groupCommEnabled){
+
+											if (groupCommEnabled != null && groupCommEnabled) {
 												objectBroker.enableGroupComm(crawler);
 											}
-										 
+
 											crawler.initialize();
 
 										} catch (Exception e) {
@@ -240,7 +231,7 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 						}
 					}
 					// add weather control for manual overwriting of weather
-					WeatherControlImpl weatherControl = new WeatherControlImpl("weatherControl",forecastConnector);
+					WeatherControlImpl weatherControl = new WeatherControlImpl("weatherControl", forecastConnector);
 					weatherControl.setHref(new Uri(URLEncoder.encode(connectorName, "UTF-8") + "/weatherControl"));
 					myObjects.add(weatherControl);
 					objectBroker.addObj(weatherControl, true);
@@ -266,14 +257,11 @@ public class WeatherForecastDeviceLoaderImpl implements DeviceLoader {
 	@Override
 	public void setConfiguration(XMLConfiguration devicesConfiguration) {
 		this.devicesConfig = devicesConfiguration;
-		
+
 		if (devicesConfiguration == null) {
-			try
-			{
+			try {
 				devicesConfig = new XMLConfiguration(DEVICE_CONFIGURATION_LOCATION);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				log.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}

@@ -34,11 +34,13 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface OutsideAQSensor extends Sensor{
-	public static final String AQ_OUTSIDE_CONTRACT_HREF="aqOutside";
-	public static final String AQ_OUTSIDE_CONTRACT_NAME="aqOutside";
-	
-	public static final String CONTRACT="iot:OutsideAQSensor";
-	public static final String AQ_OUTSIDE_CONTRACT = "<real name='"+OutsideAQSensor.AQ_OUTSIDE_CONTRACT_NAME+"' href='"+OutsideAQSensor.AQ_OUTSIDE_CONTRACT_HREF+"' val='0'/>";
-	public Real aqOutsideValue();  
+public interface OutsideAQSensor extends Sensor {
+	public static final String AQ_OUTSIDE_CONTRACT_HREF = "aqOutside";
+	public static final String AQ_OUTSIDE_CONTRACT_NAME = "aqOutside";
+
+	public static final String CONTRACT = "iot:OutsideAQSensor";
+	public static final String AQ_OUTSIDE_CONTRACT = "<real name='" + OutsideAQSensor.AQ_OUTSIDE_CONTRACT_NAME
+			+ "' href='" + OutsideAQSensor.AQ_OUTSIDE_CONTRACT_HREF + "' val='0'/>";
+
+	public Real aqOutsideValue();
 }

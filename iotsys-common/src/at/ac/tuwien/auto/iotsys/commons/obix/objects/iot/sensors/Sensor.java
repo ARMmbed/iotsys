@@ -34,6 +34,6 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.IObj;
 
-public interface Sensor extends IObj{
+public interface Sensor extends IObj {
 
 }

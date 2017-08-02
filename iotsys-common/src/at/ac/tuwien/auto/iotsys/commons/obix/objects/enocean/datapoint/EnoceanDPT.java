@@ -33,7 +33,6 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint;
 
 import obix.IObj;
 
-public interface EnoceanDPT extends IObj
-{
+public interface EnoceanDPT extends IObj {
 	public static final String CONTRACT = "enocean:Datapoint";
 }

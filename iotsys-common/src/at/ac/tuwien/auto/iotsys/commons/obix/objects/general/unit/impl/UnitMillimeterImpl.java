@@ -31,16 +31,15 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.DimensionImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.UnitImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitMillimeter;
+import obix.Uri;
 
-public class UnitMillimeterImpl extends UnitImpl implements UnitMillimeter
-{
-	public UnitMillimeterImpl()
-	{
-		super("millimeter", "millimeter (mm)", new Uri(UnitMillimeter.HREF), "mm", 0.001, 0, new DimensionImpl(0, 1, 0, 0, 0, 0, 0));
+public class UnitMillimeterImpl extends UnitImpl implements UnitMillimeter {
+	public UnitMillimeterImpl() {
+		super("millimeter", "millimeter (mm)", new Uri(UnitMillimeter.HREF), "mm", 0.001, 0,
+				new DimensionImpl(0, 1, 0, 0, 0, 0, 0));
 
 		// Translations
 		addTranslation("de", TranslationAttribute.displayName, "Millimeter (mm)");

@@ -34,8 +34,6 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.mbus.test;
 
 import java.util.logging.Logger;
 
-import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.TelegramManagerInterface;
-import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.MBusConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.SimpleTelegram;
 import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.Telegram;
 import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.util.Measure_Unit;
@@ -48,31 +46,31 @@ public class TelegramTest {
 	 */
 	public static void main(String[] args) {
 		String telegramString = "";
-		//TelegramManagerInterface manager = new MBusConnector();		
-	
+		// TelegramManagerInterface manager = new MBusConnector();
+
 		telegramString = "68 6A 6A 68 08 01 72 43 53 93 07 65 32 10 04 CA 00 00 00 0C 05 14 00 00 00 0C 13 13 20 00 00 0B 22 01 24 03 04 6D 12 0B D3 12 32 6C 00 00 0C 78 43 53 93 07 06 FD 0C F2 03 01 00 F6 01 0D FD 0B 05 31 32 4D 46 57 01 FD 0E 00 4C 05 14 00 00 00 4C 13 13 20 00 00 42 6C BF 1C 0F 37 FD 17 00 00 00 00 00 00 00 00 02 7A 25 00 02 78 25 00 3A 16";
-		
+
 		Telegram telegram = new Telegram();
-		telegram.createTelegram(telegramString);		
+		telegram.createTelegram(telegramString);
 		telegram.parse();
-		
-		String serialNr = telegram.getIdNr();		
+
+		String serialNr = telegram.getIdNr();
 		log.fine("Serial number: " + serialNr);
-		
+
 		SimpleTelegram simpleTelegram = null;
-		
+
 		simpleTelegram = new SimpleTelegram();
-		
-		simpleTelegram.setEnergy(new Double(telegram.getEnergyValue())/1000);
+
+		simpleTelegram.setEnergy(new Double(telegram.getEnergyValue()) / 1000);
 		simpleTelegram.setEnergyUnit(Measure_Unit.KWH);
 		log.fine("Energy is: " + telegram.getEnergyValue());
-		simpleTelegram.setVolume(new Double(telegram.getVolumeValue())*1000);
+		simpleTelegram.setVolume(new Double(telegram.getVolumeValue()) * 1000);
 		simpleTelegram.setVolumeUnit(Measure_Unit.L);
-		log.fine("Volume is: "  + simpleTelegram.getVolume() + simpleTelegram.getVolumeUnit().getValue());
-//		simpleTelegram.setPower(Double.parseDouble(telegram.getPowerValue()));
-//		simpleTelegram.setPowerUnit(Measure_Unit.W);
-//		log.fine("Power is: " + telegram.getPowerValue());
-				
+		log.fine("Volume is: " + simpleTelegram.getVolume() + simpleTelegram.getVolumeUnit().getValue());
+		// simpleTelegram.setPower(Double.parseDouble(telegram.getPowerValue()));
+		// simpleTelegram.setPowerUnit(Measure_Unit.W);
+		// log.fine("Power is: " + telegram.getPowerValue());
+
 		telegram.debugOutput();
 		simpleTelegram.debugOutput();
 	}

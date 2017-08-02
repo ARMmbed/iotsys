@@ -20,17 +20,16 @@ public class XacmlRequest extends AbstractNode {
 
 	public static final String SUBJECT_ATTRIBUTE_ID = "urn:oasis:names:tc:xacml:1.0:subject:subject-id";
 	public static final String SUBJECT_ATTRIBUTE_IP_ADDRESS = "urn:oasis:names:tc:xacml:1.0:subject:ip-address";
-	
+
 	public static final String RESOURCE_ATTRIBUTE_ID = "urn:oasis:names:tc:xacml:1.0:resource:resource-id";
 	public static final String RESOURCE_ATTRIBUTE_PROTOCOL = "urn:oasis:names:tc:xacml:1.0:resource:protocol";
 	public static final String RESOURCE_ATTRIBUTE_IP_ADDRESS = "urn:oasis:names:tc:xacml:1.0:resource:ip-address";
 	public static final String RESOURCE_ATTRIBUTE_HOSTNAME = "urn:oasis:names:tc:xacml:1.0:resource:hostname";
 	public static final String RESOURCE_ATTRIBUTE_PATH = "urn:oasis:names:tc:xacml:1.0:resource:path";
 	public static final String RESOURCE_ATTRIBUTE_SERVICENAME = "urn:tuwien:auto:smartwebgrid:resource:servicename";
-	
+
 	public static final String ACTION_ATTRIBUTE_ID = "urn:oasis:names:tc:xacml:1.0:action:action-id";
-	
-	
+
 	private RequestEntity subject = new RequestEntity("Subject");
 	private RequestEntity resource = new RequestEntity("Resource");
 	private RequestEntity action = new RequestEntity("Action");
@@ -49,30 +48,25 @@ public class XacmlRequest extends AbstractNode {
 	 *         element
 	 */
 	public String getRequestAbstract() {
-		Element request = xacmlRequest.createElementNS(
-				"urn:oasis:names:tc:SAML:2.0:protocol", "RequestAbstract");
-		xacmlRequest.createElementNS("urn:oasis:names:tc:SAML:2.0:protocol",
-				"samlp");
+		Element request = xacmlRequest.createElementNS("urn:oasis:names:tc:SAML:2.0:protocol", "RequestAbstract");
+		xacmlRequest.createElementNS("urn:oasis:names:tc:SAML:2.0:protocol", "samlp");
 		request.setPrefix("samlp");
 
 		Attr xmlns = xacmlRequest.createAttribute("xmlns");
 		xmlns.setValue("urn:oasis:names:tc:xacml:2.0:context:schema:os");
 		request.setAttributeNode(xmlns);
 
-		Attr inputCtxOnly = xacmlRequest.createAttributeNS(
-				"urn:oasis:xacml:2.0:saml:protocol:schema:os",
+		Attr inputCtxOnly = xacmlRequest.createAttributeNS("urn:oasis:xacml:2.0:saml:protocol:schema:os",
 				"xacml-samlp:InputContextOnly");
 		inputCtxOnly.setValue("true");
 		request.setAttributeNode(inputCtxOnly);
 
-		Attr returnCtx = xacmlRequest.createAttributeNS(
-				"urn:oasis:xacml:2.0:saml:protocol:schema:os",
+		Attr returnCtx = xacmlRequest.createAttributeNS("urn:oasis:xacml:2.0:saml:protocol:schema:os",
 				"xacml-samlp:ReturnContext");
 		returnCtx.setValue("true");
 		request.setAttributeNode(returnCtx);
 
-		Attr xsi = xacmlRequest.createAttributeNS(
-				"http://www.w3.org/2001/XMLSchema-instance", "xsi:type");
+		Attr xsi = xacmlRequest.createAttributeNS("http://www.w3.org/2001/XMLSchema-instance", "xsi:type");
 		xsi.setValue("xacml-samlp:XACMLAuthzDecisionQueryType");
 		request.setAttributeNode(xsi);
 
@@ -89,13 +83,11 @@ public class XacmlRequest extends AbstractNode {
 		request.setAttributeNode(version);
 
 		Attr issueInstant = xacmlRequest.createAttribute("IssueInstant");
-		issueInstant.setValue(new SimpleDateFormat(
-				"yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(new Date()));
+		issueInstant.setValue(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").format(new Date()));
 		request.setAttributeNode(issueInstant);
 
 		// add issuer tag
-		Element issuerElement = xacmlRequest.createElementNS(
-				"urn:oasis:names:tc:SAML:2.0:assertion", "Issuer");
+		Element issuerElement = xacmlRequest.createElementNS("urn:oasis:names:tc:SAML:2.0:assertion", "Issuer");
 		issuerElement.setTextContent(getIssuer());
 		issuerElement.setPrefix("saml");
 

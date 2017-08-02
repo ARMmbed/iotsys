@@ -34,59 +34,59 @@ import com.serotonin.bacnet4j.type.primitive.ObjectIdentifier;
 import com.serotonin.bacnet4j.type.primitive.UnsignedInteger;
 
 public class PropertyValues implements Iterable<ObjectPropertyReference> {
-    private final Map<ObjectPropertyReference, Encodable> values = new HashMap<ObjectPropertyReference, Encodable>();
+	private final Map<ObjectPropertyReference, Encodable> values = new HashMap<ObjectPropertyReference, Encodable>();
 
-    public void add(ObjectIdentifier oid, PropertyIdentifier pid, UnsignedInteger pin, Encodable value) {
-        values.put(new ObjectPropertyReference(oid, pid, pin), value);
-    }
+	public void add(ObjectIdentifier oid, PropertyIdentifier pid, UnsignedInteger pin, Encodable value) {
+		values.put(new ObjectPropertyReference(oid, pid, pin), value);
+	}
 
-    public Encodable getNoErrorCheck(ObjectPropertyReference opr) {
-        return values.get(opr);
-    }
+	public Encodable getNoErrorCheck(ObjectPropertyReference opr) {
+		return values.get(opr);
+	}
 
-    public Encodable get(ObjectPropertyReference opr) throws PropertyValueException {
-        Encodable e = getNoErrorCheck(opr);
+	public Encodable get(ObjectPropertyReference opr) throws PropertyValueException {
+		Encodable e = getNoErrorCheck(opr);
 
-        if (e instanceof BACnetError)
-            throw new PropertyValueException((BACnetError) e);
+		if (e instanceof BACnetError)
+			throw new PropertyValueException((BACnetError) e);
 
-        return e;
-    }
+		return e;
+	}
 
-    public Encodable getNoErrorCheck(ObjectIdentifier oid, PropertyReference ref) {
-        return getNoErrorCheck(new ObjectPropertyReference(oid, ref.getPropertyIdentifier(),
-                ref.getPropertyArrayIndex()));
-    }
+	public Encodable getNoErrorCheck(ObjectIdentifier oid, PropertyReference ref) {
+		return getNoErrorCheck(
+				new ObjectPropertyReference(oid, ref.getPropertyIdentifier(), ref.getPropertyArrayIndex()));
+	}
 
-    public Encodable getNoErrorCheck(ObjectIdentifier oid, PropertyIdentifier pid) {
-        return getNoErrorCheck(new ObjectPropertyReference(oid, pid));
-    }
+	public Encodable getNoErrorCheck(ObjectIdentifier oid, PropertyIdentifier pid) {
+		return getNoErrorCheck(new ObjectPropertyReference(oid, pid));
+	}
 
-    public Encodable get(ObjectIdentifier oid, PropertyIdentifier pid) throws PropertyValueException {
-        return get(new ObjectPropertyReference(oid, pid));
-    }
+	public Encodable get(ObjectIdentifier oid, PropertyIdentifier pid) throws PropertyValueException {
+		return get(new ObjectPropertyReference(oid, pid));
+	}
 
-    public Encodable getNullOnError(ObjectIdentifier oid, PropertyIdentifier pid) {
-        Encodable e = getNoErrorCheck(new ObjectPropertyReference(oid, pid));
+	public Encodable getNullOnError(ObjectIdentifier oid, PropertyIdentifier pid) {
+		Encodable e = getNoErrorCheck(new ObjectPropertyReference(oid, pid));
 
-        if (e instanceof BACnetError)
-            return null;
+		if (e instanceof BACnetError)
+			return null;
 
-        return e;
-    }
+		return e;
+	}
 
-    public String getString(ObjectIdentifier oid, PropertyIdentifier pid) {
-        return getNoErrorCheck(oid, pid).toString();
-    }
+	public String getString(ObjectIdentifier oid, PropertyIdentifier pid) {
+		return getNoErrorCheck(oid, pid).toString();
+	}
 
-    public String getString(ObjectIdentifier oid, PropertyIdentifier pid, String defaultValue) {
-        Encodable value = getNoErrorCheck(oid, pid);
-        if (value == null || value instanceof BACnetError)
-            return defaultValue;
-        return value.toString();
-    }
+	public String getString(ObjectIdentifier oid, PropertyIdentifier pid, String defaultValue) {
+		Encodable value = getNoErrorCheck(oid, pid);
+		if (value == null || value instanceof BACnetError)
+			return defaultValue;
+		return value.toString();
+	}
 
-    public Iterator<ObjectPropertyReference> iterator() {
-        return values.keySet().iterator();
-    }
+	public Iterator<ObjectPropertyReference> iterator() {
+		return values.keySet().iterator();
+	}
 }

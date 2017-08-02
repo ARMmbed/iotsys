@@ -20,8 +20,6 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.knx;
 
-import obix.Bool;
-import obix.Obj;
 import at.ac.tuwien.auto.calimero.GroupAddress;
 import at.ac.tuwien.auto.calimero.dptxlator.DPTXlator8BitUnsigned;
 import at.ac.tuwien.auto.calimero.exception.KNXException;
@@ -30,67 +28,70 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.FanSpeedActua
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.FanSpeedActuatorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXWatchDog;
+import obix.Bool;
+import obix.Obj;
 
-public class FanSpeedActuatorImplKnx extends FanSpeedActuatorImpl{
-	
-	//CalimeroNG
-		private GroupAddress status;
-		private GroupAddress fan;
-		
-		private KNXConnector knxConnector;
-		
-		public FanSpeedActuatorImplKnx(KNXConnector knxConnector, GroupAddress status, final GroupAddress fan){
-			super();
-			this.status = status;
-			this.fan = fan;
-			this.knxConnector = knxConnector;
-			if(status == null){
-				// add watch dog on switching group address
-				knxConnector.addWatchDog(fan, new KNXWatchDog() {
-					@Override
-					public void notifyWatchDog(byte[] apdu) {			
-						try {						
-							//DPTXlator8BitUnsigned x = new DPTXlator8BitUnsigned(DPTXlator8BitUnsigned.DPT_VALUE_1_UCOUNT);
-							
-							DPTXlator8BitUnsigned x = new DPTXlator8BitUnsigned(DPTXlator8BitUnsigned.DPT_SCALING);
-							
-							x.setData(apdu);
-																					
-							if(x.getValueUnscaled() != (short)FanSpeedActuatorImplKnx.this.fanSpeedSetpointValue.get()){
-								FanSpeedActuatorImplKnx.this.fanSpeedSetpointValue.set(x.getValueUnscaled());
-							}
-							
-						} catch (KNXException e) {
-							e.printStackTrace();
+public class FanSpeedActuatorImplKnx extends FanSpeedActuatorImpl {
+
+	// CalimeroNG
+	private GroupAddress status;
+	private GroupAddress fan;
+
+	private KNXConnector knxConnector;
+
+	public FanSpeedActuatorImplKnx(KNXConnector knxConnector, GroupAddress status, final GroupAddress fan) {
+		super();
+		this.status = status;
+		this.fan = fan;
+		this.knxConnector = knxConnector;
+		if (status == null) {
+			// add watch dog on switching group address
+			knxConnector.addWatchDog(fan, new KNXWatchDog() {
+				@Override
+				public void notifyWatchDog(byte[] apdu) {
+					try {
+						// DPTXlator8BitUnsigned x = new
+						// DPTXlator8BitUnsigned(DPTXlator8BitUnsigned.DPT_VALUE_1_UCOUNT);
+
+						DPTXlator8BitUnsigned x = new DPTXlator8BitUnsigned(DPTXlator8BitUnsigned.DPT_SCALING);
+
+						x.setData(apdu);
+
+						if (x.getValueUnscaled() != (short) FanSpeedActuatorImplKnx.this.fanSpeedSetpointValue.get()) {
+							FanSpeedActuatorImplKnx.this.fanSpeedSetpointValue.set(x.getValueUnscaled());
 						}
+
+					} catch (KNXException e) {
+						e.printStackTrace();
 					}
-				});
-			}
-		}
-		
-		public void writeObject(Obj input){
-			// A write on this object was received, update the according data point.	
-			if (input instanceof FanSpeedActuator){
-				FanSpeedActuator in = (FanSpeedActuator) input;
-				if(in.enabled().get()){
-					super.writeObject(input);				
-					knxConnector.write(fan, (int)this.fanSpeedSetpointValue().get(), ProcessCommunicator.SCALING);
 				}
-			}
-			else if(input instanceof Bool){
-				if(((Bool) input).get()){
-					super.writeObject(input);				
-					knxConnector.write(fan, (int)this.fanSpeedSetpointValue().get(), ProcessCommunicator.SCALING);
-				}
-			}
-		//	super.writeObject(input);				
-		//	knxConnector.write(fan, (int)this.fanSpeedSetpointValue().get(), ProcessCommunicator.SCALING);
+			});
 		}
-		
-		public void refreshObject(){
-			if(status != null){			
-				int value = knxConnector.readInt(status,ProcessCommunicator.SCALING);		
-				this.fanSpeedSetpointValue().set(value);
-			}		
+	}
+
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
+		if (input instanceof FanSpeedActuator) {
+			FanSpeedActuator in = (FanSpeedActuator) input;
+			if (in.enabled().get()) {
+				super.writeObject(input);
+				knxConnector.write(fan, (int) this.fanSpeedSetpointValue().get(), ProcessCommunicator.SCALING);
+			}
+		} else if (input instanceof Bool) {
+			if (((Bool) input).get()) {
+				super.writeObject(input);
+				knxConnector.write(fan, (int) this.fanSpeedSetpointValue().get(), ProcessCommunicator.SCALING);
+			}
 		}
+		// super.writeObject(input);
+		// knxConnector.write(fan, (int)this.fanSpeedSetpointValue().get(),
+		// ProcessCommunicator.SCALING);
+	}
+
+	public void refreshObject() {
+		if (status != null) {
+			int value = knxConnector.readInt(status, ProcessCommunicator.SCALING);
+			this.fanSpeedSetpointValue().set(value);
+		}
+	}
 }

@@ -52,7 +52,7 @@ import obix.contracts.About;
 public class AboutImpl extends Obj implements About {
 	private static final Logger log = Logger.getLogger(AboutImpl.class.getName());
 	private Str obixVersion = new Str("oBIX 1.1 WD 06");
-	private Str serverName  = new Str("localhost");
+	private Str serverName = new Str("localhost");
 	private Abstime serverTime = new Abstime(System.currentTimeMillis());
 	private Abstime serverBootTime = new Abstime(System.currentTimeMillis());
 	private Str vendorName = new Str("Automation Systems Group, Vienna University of Technology");
@@ -60,7 +60,7 @@ public class AboutImpl extends Obj implements About {
 	private Str productName = new Str("IoTSyS gateway");
 	private Str productVersion = new Str("0.1");
 	private Uri productURL = new Uri("http://code.google.com/p/iotsys");
-	
+
 	public AboutImpl() {
 		this.setHref(new Uri("/obix/about"));
 		this.setIs(new Contract("obix:About"));
@@ -78,13 +78,13 @@ public class AboutImpl extends Obj implements About {
 		productName.setName("productName");
 		productVersion.setName("productVersion");
 		productURL.setName("productUrl");
-		
+
 		try {
 			StringBuffer addresses = new StringBuffer();
 			Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
-			while(networkInterfaces.hasMoreElements()){
+			while (networkInterfaces.hasMoreElements()) {
 				List<InterfaceAddress> interfaceAddresses = networkInterfaces.nextElement().getInterfaceAddresses();
-				for(InterfaceAddress iface : interfaceAddresses) {
+				for (InterfaceAddress iface : interfaceAddresses) {
 					addresses.append(iface.getAddress().getHostAddress()).append(";");
 				}
 			}
@@ -93,7 +93,7 @@ public class AboutImpl extends Obj implements About {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		this.add(obixVersion);
 		this.add(serverName);
 		this.add(serverTime);
@@ -105,7 +105,7 @@ public class AboutImpl extends Obj implements About {
 		this.add(productURL);
 	}
 
-	public Str obixVersion() {		
+	public Str obixVersion() {
 		return obixVersion;
 	}
 
@@ -149,9 +149,9 @@ public class AboutImpl extends Obj implements About {
 	public Uri productUrl() {
 		return productURL;
 	}
-	
-	@Override 
-	public void refreshObject(){
+
+	@Override
+	public void refreshObject() {
 		serverTime.set(System.currentTimeMillis(), TimeZone.getDefault());
 	}
 

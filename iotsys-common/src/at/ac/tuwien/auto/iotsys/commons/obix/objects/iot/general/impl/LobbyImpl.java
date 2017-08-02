@@ -43,8 +43,8 @@ import obix.contracts.Lobby;
 public class LobbyImpl extends Obj implements Lobby {
 	private final Hashtable<String, Ref> references = new Hashtable<String, Ref>();
 	private Ref about = new Ref();
-	
-	public LobbyImpl(){
+
+	public LobbyImpl() {
 		this.setHref(new Uri("obix"));
 		about.setName("about");
 		about.setHref(new Uri("about"));
@@ -65,19 +65,19 @@ public class LobbyImpl extends Obj implements Lobby {
 	public Ref watchService() {
 		return null;
 	}
-	
-	public void addReference(String href, Ref ref){
-		synchronized(references){
+
+	public void addReference(String href, Ref ref) {
+		synchronized (references) {
 			references.put(href, ref);
-			
+
 		}
 		this.add(ref, false);
 	}
-	
-	public void removeReference(String href){
-		synchronized(references) {
+
+	public void removeReference(String href) {
+		synchronized (references) {
 			Ref ref = references.get(href);
-			if(ref != null)
+			if (ref != null)
 				this.remove(ref);
 			references.remove(href);
 		}

@@ -14,15 +14,15 @@ package javax.jmdns.impl;
  * @version 1.0 May 22, 2004 Created.
  */
 interface DNSListener {
-    /**
-     * Update a DNS record.
-     * 
-     * @param dnsCache
-     *            record cache
-     * @param now
-     *            update date
-     * @param record
-     *            DNS record
-     */
-    void updateRecord(DNSCache dnsCache, long now, DNSEntry record);
+	/**
+	 * Update a DNS record.
+	 * 
+	 * @param dnsCache
+	 *            record cache
+	 * @param now
+	 *            update date
+	 * @param record
+	 *            DNS record
+	 */
+	void updateRecord(DNSCache dnsCache, long now, DNSEntry record);
 }

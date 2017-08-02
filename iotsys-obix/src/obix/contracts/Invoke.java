@@ -1,6 +1,7 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
+import obix.Obj;
 
 /**
  * Invoke
@@ -9,8 +10,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface Invoke extends IObj
-{
+public interface Invoke extends IObj {
 	public static final String CONTRACT = "obix:Invoke";
 
 	public Obj in();

@@ -15,60 +15,61 @@ import java.util.logging.Logger;
  * 
  */
 public class RadioPacketVLD extends RadioPacket {
-    private static Logger logger = Logger.getLogger(RadioPacketVLD.class.getName());
+	private static Logger logger = Logger.getLogger(RadioPacketVLD.class.getName());
 
-    public static final byte RADIO_TYPE = (byte) 0xD2;
-    private byte CMDByte;
-    private byte UNByte;
-    private byte IOByte;
-    private long MValue; // formally need be unsigned int32
-    private byte StateByte;
+	public static final byte RADIO_TYPE = (byte) 0xD2;
+	private byte CMDByte;
+	private byte UNByte;
+	private byte IOByte;
+	private long MValue; // formally need be unsigned int32
+	private byte StateByte;
 
-    public RadioPacketVLD(RawPacket rawPacket) {
-        super(rawPacket);
-    }
+	public RadioPacketVLD(RawPacket rawPacket) {
+		super(rawPacket);
+	}
 
-    @Override
-    public void parseData() {
-        super.parseData();
-        CMDByte = (byte) (payload.getData()[1] & 0x0F);
-        logger.info("VLD CMD = " + CMDByte);
+	@Override
+	public void parseData() {
+		super.parseData();
+		CMDByte = (byte) (payload.getData()[1] & 0x0F);
+		logger.info("VLD CMD = " + CMDByte);
 
-        if (CMDByte == 0x7 && (payload.getData().length >= 7) && payload.getData()[2] == 0x60) {
-            // actuator measurement response power
-            UNByte = (byte) ((payload.getData()[2] & 0xE0) >> 5);
-            IOByte = (byte) (payload.getData()[2] & 0x1F);
-            MValue = payload.getData()[6] + (payload.getData()[5] << 8) + (payload.getData()[4] << 16) + (payload.getData()[3] << 24);
-            logger.info("new VLD MV = " + MValue);
+		if (CMDByte == 0x7 && (payload.getData().length >= 7) && payload.getData()[2] == 0x60) {
+			// actuator measurement response power
+			UNByte = (byte) ((payload.getData()[2] & 0xE0) >> 5);
+			IOByte = (byte) (payload.getData()[2] & 0x1F);
+			MValue = payload.getData()[6] + (payload.getData()[5] << 8) + (payload.getData()[4] << 16)
+					+ (payload.getData()[3] << 24);
+			logger.info("new VLD MV = " + MValue);
 
-        } else if (CMDByte == 0x4 && (payload.getData().length >= 4)) {
-            // actuator status response
-            byte value = (byte) ((payload.getData()[3] & 0x7F));
-            if (value <= 0x64) {
-                StateByte = value;
-            }
-            logger.info("new VLD STATE = " + value);
-        }
-    }
+		} else if (CMDByte == 0x4 && (payload.getData().length >= 4)) {
+			// actuator status response
+			byte value = (byte) ((payload.getData()[3] & 0x7F));
+			if (value <= 0x64) {
+				StateByte = value;
+			}
+			logger.info("new VLD STATE = " + value);
+		}
+	}
 
-    public byte getCMDByte() {
-        return CMDByte;
-    }
+	public byte getCMDByte() {
+		return CMDByte;
+	}
 
-    public byte getUNByte() {
-        return UNByte;
-    }
+	public byte getUNByte() {
+		return UNByte;
+	}
 
-    public byte getIOByte() {
-        return IOByte;
-    }
+	public byte getIOByte() {
+		return IOByte;
+	}
 
-    public long getMValue() {
-        return MValue;
-    }
+	public long getMValue() {
+		return MValue;
+	}
 
-    public byte getStateByte() {
-        return StateByte;
-    }
+	public byte getStateByte() {
+		return StateByte;
+	}
 
 }

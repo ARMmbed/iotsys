@@ -32,13 +32,13 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.Comparator;
 import obix.Bool;
 import obix.Contract;
 import obix.Int;
 import obix.Obj;
 import obix.Real;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.Comparator;
 
 public class ComparatorImpl extends Obj implements Comparator {
 	protected Real input1 = new Real();
@@ -74,7 +74,7 @@ public class ComparatorImpl extends Obj implements Comparator {
 		compareType.setDisplayName("Compare Type");
 		compareType.setRange(new Uri("/enums/compareTypes"));
 		compareType.set("eq");
-		
+
 		compareType.setHref(new Uri("compareType"));
 
 		this.add(input1);
@@ -109,8 +109,7 @@ public class ComparatorImpl extends Obj implements Comparator {
 	public void writeObject(Obj input) {
 		String resourceUriPath = "";
 		if (input.getHref() == null) {
-			resourceUriPath = input.getInvokedHref().substring(
-					input.getInvokedHref().lastIndexOf('/') + 1);
+			resourceUriPath = input.getInvokedHref().substring(input.getInvokedHref().lastIndexOf('/') + 1);
 		} else {
 			resourceUriPath = input.getHref().get();
 		}
@@ -121,40 +120,37 @@ public class ComparatorImpl extends Obj implements Comparator {
 			this.compareType.set(in.compareType().get());
 			this.enabled.set(in.enabled().get());
 		} else if (input instanceof Real) {
-			
-				
-				if ("input1".equals(resourceUriPath)) {
-					input1.set(((Real) input).get());
-				} else if ("input2".equals(resourceUriPath)) {
-					input2.set(((Real) input).get());
-				} else if("enabled".equals(resourceUriPath)){
-					enabled.set(((Real) input).get());
-				}
-			
+
+			if ("input1".equals(resourceUriPath)) {
+				input1.set(((Real) input).get());
+			} else if ("input2".equals(resourceUriPath)) {
+				input2.set(((Real) input).get());
+			} else if ("enabled".equals(resourceUriPath)) {
+				enabled.set(((Real) input).get());
+			}
+
 		} else if (input instanceof Bool) {
-			
-				if ("input1".equals(resourceUriPath)) {
-					input1.set(((Bool) input).get());
-				} else if ("input2".equals(resourceUriPath)) {
-					input2.set(((Bool) input).get());
-				} else if("enabled".equals(resourceUriPath)){
-					enabled.set(((Bool) input).get());
-				}
-			
-		}
-		else if (input instanceof Int) {
-			
-				if ("input1".equals(resourceUriPath)) {
-					input1.set(((Int) input).get());
-				} else if ("input2".equals(resourceUriPath)) {
-					input2.set(((Int) input).get());
-				} else if("enabled".equals(resourceUriPath)){
-					enabled.set(((Int) input).get());
-				}
-			
-		}
-		else if (input instanceof obix.Enum){
-			this.compareType.set( ((obix.Enum) input).get() );
+
+			if ("input1".equals(resourceUriPath)) {
+				input1.set(((Bool) input).get());
+			} else if ("input2".equals(resourceUriPath)) {
+				input2.set(((Bool) input).get());
+			} else if ("enabled".equals(resourceUriPath)) {
+				enabled.set(((Bool) input).get());
+			}
+
+		} else if (input instanceof Int) {
+
+			if ("input1".equals(resourceUriPath)) {
+				input1.set(((Int) input).get());
+			} else if ("input2".equals(resourceUriPath)) {
+				input2.set(((Int) input).get());
+			} else if ("enabled".equals(resourceUriPath)) {
+				enabled.set(((Int) input).get());
+			}
+
+		} else if (input instanceof obix.Enum) {
+			this.compareType.set(((obix.Enum) input).get());
 		}
 
 		// perform control logic

@@ -71,15 +71,15 @@ public class WeatherControlImpl extends Obj implements WeatherControl {
 			obix.Enum in = (obix.Enum) input;
 
 			manualOverwrite.set(in.get());
-			if(in.get().equals("off")){
+			if (in.get().equals("off")) {
 				connector.setManualOverwrite(ManualOverwrite.OFF);
 			}
-			
-			if(in.get().equals("Storm alarm")){
+
+			if (in.get().equals("Storm alarm")) {
 				connector.setManualOverwrite(ManualOverwrite.STORM_ALARM);
 			}
-			
-			if(in.get().equals("Storm warning")){
+
+			if (in.get().equals("Storm warning")) {
 				connector.setManualOverwrite(ManualOverwrite.STORM_WARNING);
 			}
 		}

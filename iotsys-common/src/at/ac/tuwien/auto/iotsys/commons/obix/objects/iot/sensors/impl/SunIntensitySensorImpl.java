@@ -37,9 +37,9 @@ import obix.Obj;
 import obix.Real;
 import obix.Uri;
 
-public class SunIntensitySensorImpl extends SensorImpl implements SunIntensitySensor{
+public class SunIntensitySensorImpl extends SensorImpl implements SunIntensitySensor {
 	protected Real sunIntensityValue = new Real(0);
-	
+
 	public SunIntensitySensorImpl() {
 		setIs(new Contract(SunIntensitySensor.CONTRACT));
 		sunIntensityValue.setWritable(false);
@@ -48,11 +48,12 @@ public class SunIntensitySensorImpl extends SensorImpl implements SunIntensitySe
 		sunIntensityValue.setName(SunIntensitySensor.SUN_INTENSITY_CONTRACT_NAME);
 		sunIntensityValue.setUnit(new Uri(SunIntensitySensor.SUN_INTENSITY_CONTRACT_UNIT));
 		add(sunIntensityValue);
-		
+
 	}
-	
+
 	public void writeObject(Obj input) {
 	}
+
 	@Override
 	public Real sunIntensityValue() {
 		return this.sunIntensityValue;

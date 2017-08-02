@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint;
 
 import obix.Enum;
 
-public interface EnoceanDPTBoolOnOff extends EnoceanDPTBool
-{
+public interface EnoceanDPTBoolOnOff extends EnoceanDPTBool {
 	public static final String CONTRACT = "enocean:DPTBoolOnOff";
 
 	public Enum encoding();

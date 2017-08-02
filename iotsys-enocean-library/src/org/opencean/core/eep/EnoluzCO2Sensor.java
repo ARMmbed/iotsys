@@ -26,67 +26,68 @@ import org.opencean.core.packets.RadioPacket4BS;
  */
 public class EnoluzCO2Sensor implements EEPParser {
 
-    private static final float BYTE_RANGE_MIN = 0;
+	private static final float BYTE_RANGE_MIN = 0;
 
-    private static final float BYTE_RANGE_MAX = 255f;
+	private static final float BYTE_RANGE_MAX = 255f;
 
-    private float scaleMin;
+	private float scaleMin;
 
-    private float scaleMax;
+	private float scaleMax;
 
-    private float currentValue;
+	private float currentValue;
 
-    /**
-     * Instantiates a new enoluz simple co2 sensor.
-     * 
-     * @param scaleMin
-     *            the scale min
-     * @param scaleMax
-     *            the scale max
-     */
-    public EnoluzCO2Sensor(float scaleMin, float scaleMax) {
-        this.scaleMin = scaleMin;
-        this.scaleMax = scaleMax;
-    }
+	/**
+	 * Instantiates a new enoluz simple co2 sensor.
+	 * 
+	 * @param scaleMin
+	 *            the scale min
+	 * @param scaleMax
+	 *            the scale max
+	 */
+	public EnoluzCO2Sensor(float scaleMin, float scaleMax) {
+		this.scaleMin = scaleMin;
+		this.scaleMax = scaleMax;
+	}
 
-    /**
-     * Calculates linear value of byte in the scale
-     * 
-     * @param source
-     *            the source
-     * @param scaleMin
-     *            the scale min
-     * @param scaleMax
-     *            the scale max
-     * @param byteRangeMin
-     *            the byte range min
-     * @param byteRangeMax
-     *            the byte range max
-     * @return the value in the scale
-     */
-    private float calculateValue(byte source, float scaleMin, float scaleMax, float byteRangeMin, float byteRangeMax) {
-        int rawValue = source & 0xFF;
+	/**
+	 * Calculates linear value of byte in the scale
+	 * 
+	 * @param source
+	 *            the source
+	 * @param scaleMin
+	 *            the scale min
+	 * @param scaleMax
+	 *            the scale max
+	 * @param byteRangeMin
+	 *            the byte range min
+	 * @param byteRangeMax
+	 *            the byte range max
+	 * @return the value in the scale
+	 */
+	private float calculateValue(byte source, float scaleMin, float scaleMax, float byteRangeMin, float byteRangeMax) {
+		int rawValue = source & 0xFF;
 
-        float multiplier = (scaleMax - scaleMin) / (byteRangeMax - byteRangeMin);
-        return multiplier * (rawValue - byteRangeMin) + scaleMin;
-    }
+		float multiplier = (scaleMax - scaleMin) / (byteRangeMax - byteRangeMin);
+		return multiplier * (rawValue - byteRangeMin) + scaleMin;
+	}
 
-    /**
-     * Parses DB2 for CO2 concentration
-     */
-    @Override
-    public Map<EnoceanParameterAddress, Value> parsePacket(BasicPacket packet) {
-        Map<EnoceanParameterAddress, Value> map = new HashMap<EnoceanParameterAddress, Value>();
-        if (packet instanceof RadioPacket4BS) {
-            RadioPacket4BS radioPacket4BS = (RadioPacket4BS) packet;
-            byte source = radioPacket4BS.getDb2();
+	/**
+	 * Parses DB2 for CO2 concentration
+	 */
+	@Override
+	public Map<EnoceanParameterAddress, Value> parsePacket(BasicPacket packet) {
+		Map<EnoceanParameterAddress, Value> map = new HashMap<EnoceanParameterAddress, Value>();
+		if (packet instanceof RadioPacket4BS) {
+			RadioPacket4BS radioPacket4BS = (RadioPacket4BS) packet;
+			byte source = radioPacket4BS.getDb2();
 
-            this.currentValue = this.calculateValue(source, this.scaleMin, this.scaleMax, BYTE_RANGE_MIN, BYTE_RANGE_MAX);
+			this.currentValue = this.calculateValue(source, this.scaleMin, this.scaleMax, BYTE_RANGE_MIN,
+					BYTE_RANGE_MAX);
 
-            map.put(new EnoceanParameterAddress(radioPacket4BS.getSenderId(), Parameter.CO2_CONCENTRATION), new NumberWithUnit(Unit.PPM,
-                    (int) this.currentValue));
-        }
-        return map;
-    }
+			map.put(new EnoceanParameterAddress(radioPacket4BS.getSenderId(), Parameter.CO2_CONCENTRATION),
+					new NumberWithUnit(Unit.PPM, (int) this.currentValue));
+		}
+		return map;
+	}
 
 }

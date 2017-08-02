@@ -33,23 +33,25 @@
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Bool;
-import obix.Str;
 
 /**
  * Provides the interface for a ActivitySensor (accelerometer).
  */
-public interface ActivitySensor extends Sensor{
-	public static final String CONTRACT="iot:ActivitySensor";
-	
-//	public static final String ACTIVE_CONTRACT_NAME="active";
-//	public static final String ACTIVE_CONTRACT_HREF="active";
-//	public static final String ACTIVE_CONTRACT = "<bool name='"+ ACTIVE_CONTRACT_NAME +"' href='"+ ACTIVE_CONTRACT_HREF +"' val='false'/>";	
-//	
-//	public Bool activeValue();
-	
-	public static final String FREEFALL_CONTRACT_NAME="freefall";
-	public static final String FREEFALL_CONTRACT_HREF="freefall";
-	public static final String FREEFALL_CONTRACT = "<bool name='"+ FREEFALL_CONTRACT_NAME +"' href='"+ FREEFALL_CONTRACT_HREF +"' val='false'/>";	
-	
+public interface ActivitySensor extends Sensor {
+	public static final String CONTRACT = "iot:ActivitySensor";
+
+	// public static final String ACTIVE_CONTRACT_NAME="active";
+	// public static final String ACTIVE_CONTRACT_HREF="active";
+	// public static final String ACTIVE_CONTRACT = "<bool name='"+
+	// ACTIVE_CONTRACT_NAME +"' href='"+ ACTIVE_CONTRACT_HREF +"'
+	// val='false'/>";
+	//
+	// public Bool activeValue();
+
+	public static final String FREEFALL_CONTRACT_NAME = "freefall";
+	public static final String FREEFALL_CONTRACT_HREF = "freefall";
+	public static final String FREEFALL_CONTRACT = "<bool name='" + FREEFALL_CONTRACT_NAME + "' href='"
+			+ FREEFALL_CONTRACT_HREF + "' val='false'/>";
+
 	public Bool freefallValue();
 }

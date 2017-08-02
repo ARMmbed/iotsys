@@ -34,11 +34,7 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.body;
 
 import java.util.Arrays;
 
-import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.body.TelegramBodyHeader;
-import at.ac.tuwien.auto.iotsys.gateway.connector.mbus.telegrams.body.TelegramBodyPayload;
-
-
-public class  TelegramBody {
+public class TelegramBody {
 
 	private TelegramBodyHeader bodyHeader;
 	private TelegramBodyPayload bodyPayload;
@@ -48,15 +44,15 @@ public class  TelegramBody {
 		this.bodyHeader = new TelegramBodyHeader();
 		this.bodyPayload = new TelegramBodyPayload();
 	}
-	
+
 	public TelegramBodyHeader getBodyHeader() {
 		return bodyHeader;
 	}
-	
+
 	public void setBodyHeader(TelegramBodyHeader bodyHeader) {
 		this.bodyHeader = bodyHeader;
 	}
-	
+
 	public TelegramBodyPayload getBodyPayload() {
 		return bodyPayload;
 	}
@@ -64,38 +60,40 @@ public class  TelegramBody {
 	public void setBodyPayload(TelegramBodyPayload bodyPayload) {
 		this.bodyPayload = bodyPayload;
 	}
-	
+
 	public void createTelegramBody(String[] body) {
 		// first extract header
 		this.bodyHeader.createTelegramBodyHeader(Arrays.copyOfRange(body, 0, bodyHeaderLength));
 		this.bodyPayload.createTelegramBodyPayload(Arrays.copyOfRange(body, bodyHeaderLength, body.length));
 	}
-	
+
 	public void parse() {
 		this.bodyPayload.parse();
 	}
-	
+
 	public String getIdNr() {
 		return this.bodyHeader.getIdNr();
 	}
-	
-//	public String getPowerValue() {
-//		return this.getBodyPayload().getRecords().get(1).getDataField().getParsedValue(); // TODO remove this
-//	}	
-	
+
+	// public String getPowerValue() {
+	// return
+	// this.getBodyPayload().getRecords().get(1).getDataField().getParsedValue();
+	// // TODO remove this
+	// }
+
 	public String getEnergyValue() {
 		return this.getBodyPayload().getRecords().get(0).getDataField().getParsedValue();
 	}
-	
+
 	public String getVolumeValue() {
 		return this.getBodyPayload().getRecords().get(1).getDataField().getParsedValue();
 	}
-	
+
 	public void debugOutput() {
-		if(this.bodyHeader != null) {
+		if (this.bodyHeader != null) {
 			this.bodyHeader.debugOutput();
 		}
-		if(this.bodyPayload != null) {
+		if (this.bodyPayload != null) {
 			this.bodyPayload.debugOutput();
 		}
 	}

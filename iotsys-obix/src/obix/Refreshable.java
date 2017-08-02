@@ -1,6 +1,5 @@
 package obix;
 
-public interface Refreshable
-{
+public interface Refreshable {
 	long MIN_REFRESH_INTERVAL_MS = 3000;
 }

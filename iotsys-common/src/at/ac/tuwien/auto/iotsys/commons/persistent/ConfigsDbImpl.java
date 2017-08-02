@@ -25,10 +25,10 @@ import java.util.logging.Logger;
 
 import org.ektorp.DocumentOperationResult;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Device;
-
-import com.fasterxml.jackson.databind.JsonNode;
 
 /**
  * @author Nam Giang - zang at kaist dot ac dot kr
@@ -38,14 +38,14 @@ public class ConfigsDbImpl implements ConfigsDb {
 
 	private static final Logger log = Logger.getLogger(ConfigsDbImpl.class.getName());
 	private static ConfigsDb INSTANCE;
-	
-	public static ConfigsDb getInstance(){
-		INSTANCE = ConfigsDbRepo.getInstance(); 
+
+	public static ConfigsDb getInstance() {
+		INSTANCE = ConfigsDbRepo.getInstance();
 		if (INSTANCE == null)
 			INSTANCE = new ConfigsDbImpl();
 		return INSTANCE;
 	}
-	
+
 	@Override
 	public List<JsonNode> getAllConnectors() {
 		log.severe("CONFIGS DB NOT CONNECTED");
@@ -89,8 +89,7 @@ public class ConfigsDbImpl implements ConfigsDb {
 	}
 
 	@Override
-	public List<DocumentOperationResult> addBulkConnectors(List<Connector> cs)
-			throws Exception {
+	public List<DocumentOperationResult> addBulkConnectors(List<Connector> cs) throws Exception {
 		log.severe("CONFIGS DB NOT CONNECTED");
 		return new ArrayList<DocumentOperationResult>();
 	}
@@ -240,8 +239,7 @@ public class ConfigsDbImpl implements ConfigsDb {
 	}
 
 	@Override
-	public void updateDeviceLoader(String oldDeviceLoader,
-			String newDeviceLoader) {
+	public void updateDeviceLoader(String oldDeviceLoader, String newDeviceLoader) {
 		log.severe("CONFIGS DB NOT CONNECTED");
 
 	}

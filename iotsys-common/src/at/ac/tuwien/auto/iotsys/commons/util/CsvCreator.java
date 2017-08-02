@@ -42,24 +42,24 @@ public class CsvCreator {
 	public static final CsvCreator instance = new CsvCreator();
 	private PrintWriter out;
 	private FileOutputStream fos;
-		
-	private CsvCreator(){
-		
+
+	private CsvCreator() {
+
 		try {
 			fos = new FileOutputStream(new File("eval.csv"));
 			out = new PrintWriter(fos);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	
+		}
 	}
 
-	public synchronized void writeLine(String line){
-		out.write(line +"\n");
+	public synchronized void writeLine(String line) {
+		out.write(line + "\n");
 		out.flush();
 	}
-	
-	public synchronized void close(){
+
+	public synchronized void close() {
 		out.close();
 		try {
 			fos.close();

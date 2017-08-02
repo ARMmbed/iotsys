@@ -6,6 +6,6 @@ import org.opencean.core.packets.BasicPacket;
 
 public interface EEPSerializer {
 
-    BasicPacket createPacket(EnoceanParameterAddress parameterAddress, Value value);
+	BasicPacket createPacket(EnoceanParameterAddress parameterAddress, Value value);
 
 }

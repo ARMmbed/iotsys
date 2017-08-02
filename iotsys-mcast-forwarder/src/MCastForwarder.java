@@ -1,3 +1,4 @@
+
 /*******************************************************************************
  * Copyright (c) 2014 Institute of Computer Aided Automation, Automation Systems
  * Group, TU Wien. All rights reserved.
@@ -27,9 +28,6 @@
  * This file is part of the IoTSyS project.
  ******************************************************************************/
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -66,17 +64,15 @@ public class MCastForwarder {
 		for (int i = 0; i < args.length; i++) {
 			interfaces.add(args[i]);
 		}
-				
+
 		MCastForwarder mcastForwarder = new MCastForwarder(interfaces);
 		mcastForwarder.startForwarding();
 	}
 
 	public static void test() {
 		JPacket packet = new JMemoryPacket(JProtocol.ETHERNET_ID,
-				" 001801bf 6adc0025 4bb7afec 08004500 "
-						+ " 0041a983 40004006 d69ac0a8 00342f8c "
-						+ " ca30c3ef 008f2e80 11f52ea8 4b578018 "
-						+ " ffffa6ea 00000101 080a152e ef03002a "
+				" 001801bf 6adc0025 4bb7afec 08004500 " + " 0041a983 40004006 d69ac0a8 00342f8c "
+						+ " ca30c3ef 008f2e80 11f52ea8 4b578018 " + " ffffa6ea 00000101 080a152e ef03002a "
 						+ " 2c943538 322e3430 204e4f4f 500d0a");
 
 		Ip4 ip = packet.getHeader(new Ip4());
@@ -109,8 +105,8 @@ public class MCastForwarder {
 		int pick = 0;
 
 		for (PcapIf device : alldevs) {
-			String description = (device.getDescription() != null) ? device
-					.getDescription() : "No description available.";
+			String description = (device.getDescription() != null) ? device.getDescription()
+					: "No description available.";
 			log.info("" + (i++) + "#: " + device.getName() + " " + description);
 
 			if (interfaces.contains(device.getName())) {
@@ -121,12 +117,10 @@ public class MCastForwarder {
 		}
 	}
 
-	public synchronized void forward(Inet6Address dest, Inet6Address src,
-			int udpSrcPort, int udpDestPort, int udpLength, int udpChecksum,
-			byte[] payload, String sourceDevice) {
+	public synchronized void forward(Inet6Address dest, Inet6Address src, int udpSrcPort, int udpDestPort,
+			int udpLength, int udpChecksum, byte[] payload, String sourceDevice) {
 
-		log.info("Forward " + dest.toString() + "," + src.toString() + " "
-				+ payload.length + " bytes.");
+		log.info("Forward " + dest.toString() + "," + src.toString() + " " + payload.length + " bytes.");
 		synchronized (pcaps) {
 			for (PcapIf device : pcaps.keySet()) {
 				if (!device.getName().equals(sourceDevice)) {
@@ -136,90 +130,51 @@ public class MCastForwarder {
 						byte[] packetHeader;
 						packetHeader = new byte[] {
 								// create ethernet frame
-								0x33,
-								0x33, // first two octets for mapping IPv6
-										// multicast addresses
+								0x33, 0x33, // first two octets for mapping IPv6
+											// multicast addresses
 								// last 4 octets of IPv6 multicast address,
 								// FF15::1 --> 0x00 0x00 0x00 0x01
-								dest.getAddress()[lastId - 3],
-								dest.getAddress()[lastId - 2],
-								dest.getAddress()[lastId - 1],
-								dest.getAddress()[lastId - 0],
+								dest.getAddress()[lastId - 3], dest.getAddress()[lastId - 2],
+								dest.getAddress()[lastId - 1], dest.getAddress()[lastId - 0],
 								// mac src address
-								//device.getHardwareAddress()[0],
-								//device.getHardwareAddress()[1],
-								//device.getHardwareAddress()[2],
-								//device.getHardwareAddress()[3],
-								//device.getHardwareAddress()[4],
-								//device.getHardwareAddress()[5],
-								0x00,
-								0x0d,
-								(byte)0xb9,
-								0x30,
-								0x02,
-								0x50,									
+								// device.getHardwareAddress()[0],
+								// device.getHardwareAddress()[1],
+								// device.getHardwareAddress()[2],
+								// device.getHardwareAddress()[3],
+								// device.getHardwareAddress()[4],
+								// device.getHardwareAddress()[5],
+								0x00, 0x0d, (byte) 0xb9, 0x30, 0x02, 0x50,
 								// typefield byte[] typeField = new byte[]{
-								(byte) 0x86,
-								(byte) 0xdd,
+								(byte) 0x86, (byte) 0xdd,
 								// ipv6 header, flow label and traffic class
-								0x60,
-								0x00,
-								0x00,
-								0x00,
+								0x60, 0x00, 0x00, 0x00,
 								// payload length + add udp header (4
 								// octects)
-								(byte) ( ((udpLength) & 0xFF00) >> 8),
-								(byte) ((udpLength) & 0xFF),
+								(byte) (((udpLength) & 0xFF00) >> 8), (byte) ((udpLength) & 0xFF),
 								// nextHeaderHopLimit
-								0x11,
-								0x01,
+								0x11, 0x01,
 								// src and destination,
-								src.getAddress()[0], src.getAddress()[1],
-								src.getAddress()[2], src.getAddress()[3],
-								src.getAddress()[4], src.getAddress()[5],
-								src.getAddress()[6], src.getAddress()[7],
-								src.getAddress()[8], src.getAddress()[9],
-								src.getAddress()[10], src.getAddress()[11],
-								src.getAddress()[12], src.getAddress()[13],
-								src.getAddress()[14],
-								src.getAddress()[15],
-								dest.getAddress()[0],
-								dest.getAddress()[1],
-								dest.getAddress()[2],
-								dest.getAddress()[3],
-								dest.getAddress()[4],
-								dest.getAddress()[5],
-								dest.getAddress()[6],
-								dest.getAddress()[7],
-								dest.getAddress()[8],
-								dest.getAddress()[9],
-								dest.getAddress()[10],
-								dest.getAddress()[11],
-								dest.getAddress()[12],
-								dest.getAddress()[13],
-								dest.getAddress()[14],
-								dest.getAddress()[15],
+								src.getAddress()[0], src.getAddress()[1], src.getAddress()[2], src.getAddress()[3],
+								src.getAddress()[4], src.getAddress()[5], src.getAddress()[6], src.getAddress()[7],
+								src.getAddress()[8], src.getAddress()[9], src.getAddress()[10], src.getAddress()[11],
+								src.getAddress()[12], src.getAddress()[13], src.getAddress()[14], src.getAddress()[15],
+								dest.getAddress()[0], dest.getAddress()[1], dest.getAddress()[2], dest.getAddress()[3],
+								dest.getAddress()[4], dest.getAddress()[5], dest.getAddress()[6], dest.getAddress()[7],
+								dest.getAddress()[8], dest.getAddress()[9], dest.getAddress()[10],
+								dest.getAddress()[11], dest.getAddress()[12], dest.getAddress()[13],
+								dest.getAddress()[14], dest.getAddress()[15],
 								// udp header
-								(byte) ((udpSrcPort & 0xFF00) >> 8),
-								(byte) (udpSrcPort & 0xFF),
-								(byte) ((udpDestPort & 0xFF00) >> 8),
-								(byte) (udpDestPort & 0xFF),
-								(byte) ((udpLength & 0xFF00) >> 8),
-								(byte) (udpLength & 0xFF),
-								(byte) ((udpChecksum & 0xFF00) >> 8),
-								(byte) (udpChecksum & 0xFF), };
-						byte[] packet = new byte[packetHeader.length
-								+ payload.length];
-						System.arraycopy(packetHeader, 0, packet, 0,
-								packetHeader.length);
-						System.arraycopy(payload, 0, packet,
-								packetHeader.length, payload.length);
+								(byte) ((udpSrcPort & 0xFF00) >> 8), (byte) (udpSrcPort & 0xFF),
+								(byte) ((udpDestPort & 0xFF00) >> 8), (byte) (udpDestPort & 0xFF),
+								(byte) ((udpLength & 0xFF00) >> 8), (byte) (udpLength & 0xFF),
+								(byte) ((udpChecksum & 0xFF00) >> 8), (byte) (udpChecksum & 0xFF), };
+						byte[] packet = new byte[packetHeader.length + payload.length];
+						System.arraycopy(packetHeader, 0, packet, 0, packetHeader.length);
+						System.arraycopy(payload, 0, packet, packetHeader.length, payload.length);
 
-						JPacket jpacket = new JMemoryPacket(
-								JProtocol.ETHERNET_ID, packet);
+						JPacket jpacket = new JMemoryPacket(JProtocol.ETHERNET_ID, packet);
 						jpacket.scan(Ethernet.ID);
-						Ethernet ethHeader = jpacket
-								.getHeader(new Ethernet());
+						Ethernet ethHeader = jpacket.getHeader(new Ethernet());
 						// calculate checksum
 						ethHeader.checksum(ethHeader.calculateChecksum());
 
@@ -228,10 +183,8 @@ public class MCastForwarder {
 						if (pcap.isSendPacketSupported()) {
 							pcap.sendPacket(packet);
 						} else {
-							System.err
-									.println("Cannot forward packet. PCAP interface "
-											+ device.getName()
-											+ " + does not support it.");
+							System.err.println("Cannot forward packet. PCAP interface " + device.getName()
+									+ " + does not support it.");
 						}
 
 					} else if (device.getName().startsWith("tun")) { // tunnel
@@ -244,77 +197,51 @@ public class MCastForwarder {
 						byte[] packetHeader;
 						packetHeader = new byte[] {
 								// ipv6 header, flow label and traffic class
-								0x60,
-								0x00,
-								0x00,
-								0x00,
+								0x60, 0x00, 0x00, 0x00,
 								// payload length + add udp header (4 octects)
-								(byte) ( ((udpLength) & 0xFF00) >> 8),
-								(byte) ((udpLength) & 0xFF),
+								(byte) (((udpLength) & 0xFF00) >> 8), (byte) ((udpLength) & 0xFF),
 								// nextHeaderHopLimit
-								0x11,
-								0x01,
+								0x11, 0x01,
 								// src and destination,
-								src.getAddress()[0], src.getAddress()[1],
-								src.getAddress()[2], src.getAddress()[3],
-								src.getAddress()[4], src.getAddress()[5],
-								src.getAddress()[6], src.getAddress()[7],
-								src.getAddress()[8], src.getAddress()[9],
-								src.getAddress()[10], src.getAddress()[11],
-								src.getAddress()[12], src.getAddress()[13],
-								src.getAddress()[14], src.getAddress()[15],
-								dest.getAddress()[0], dest.getAddress()[1],
-								dest.getAddress()[2], dest.getAddress()[3],
-								dest.getAddress()[4],
-								dest.getAddress()[5],
-								dest.getAddress()[6],
-								dest.getAddress()[7],
-								dest.getAddress()[8],
-								dest.getAddress()[9],
-								dest.getAddress()[10],
-								dest.getAddress()[11],
-								dest.getAddress()[12],
-								dest.getAddress()[13],
-								dest.getAddress()[14],
-								dest.getAddress()[15],
+								src.getAddress()[0], src.getAddress()[1], src.getAddress()[2], src.getAddress()[3],
+								src.getAddress()[4], src.getAddress()[5], src.getAddress()[6], src.getAddress()[7],
+								src.getAddress()[8], src.getAddress()[9], src.getAddress()[10], src.getAddress()[11],
+								src.getAddress()[12], src.getAddress()[13], src.getAddress()[14], src.getAddress()[15],
+								dest.getAddress()[0], dest.getAddress()[1], dest.getAddress()[2], dest.getAddress()[3],
+								dest.getAddress()[4], dest.getAddress()[5], dest.getAddress()[6], dest.getAddress()[7],
+								dest.getAddress()[8], dest.getAddress()[9], dest.getAddress()[10],
+								dest.getAddress()[11], dest.getAddress()[12], dest.getAddress()[13],
+								dest.getAddress()[14], dest.getAddress()[15],
 								// udp header
-								(byte) ((udpSrcPort & 0xFF00) >> 8),
-								(byte) (udpSrcPort & 0xFF),
-								(byte) ((udpDestPort & 0xFF00) >> 8),
-								(byte) (udpDestPort & 0xFF),
-								(byte) ((udpLength & 0xFF00) >> 8),
-								(byte) (udpLength & 0xFF),
-								(byte) ((udpChecksum & 0xFF00) >> 8),
-								(byte) (udpChecksum & 0xFF), };
-						byte[] packet = new byte[packetHeader.length
-								+ payload.length];
-						System.arraycopy(packetHeader, 0, packet, 0,
-								packetHeader.length);
-						System.arraycopy(payload, 0, packet,
-								packetHeader.length, payload.length);
+								(byte) ((udpSrcPort & 0xFF00) >> 8), (byte) (udpSrcPort & 0xFF),
+								(byte) ((udpDestPort & 0xFF00) >> 8), (byte) (udpDestPort & 0xFF),
+								(byte) ((udpLength & 0xFF00) >> 8), (byte) (udpLength & 0xFF),
+								(byte) ((udpChecksum & 0xFF00) >> 8), (byte) (udpChecksum & 0xFF), };
+						byte[] packet = new byte[packetHeader.length + payload.length];
+						System.arraycopy(packetHeader, 0, packet, 0, packetHeader.length);
+						System.arraycopy(payload, 0, packet, packetHeader.length, payload.length);
 
-//						JPacket jpacket = new JMemoryPacket(
-//								JProtocol.ETHERNET_ID, packet);
-//						jpacket.scan(Ethernet.ID);
-//						Ethernet ethHeader = jpacket.getHeader(new Ethernet());
-//						Udp udpHeader = jpacket.getHeader(new Udp());
-//						// calculate checksum
-//						ethHeader.checksum(ethHeader.calculateChecksum());
-//						
-//						udpHeader.checksum(udpHeader.calculateChecksum());
-					
-//						System.out
-//								.println("#####################################");
-//						System.out
-//								.println("#####################################");
-//						System.out.println("TUN: " + jpacket);
+						// JPacket jpacket = new JMemoryPacket(
+						// JProtocol.ETHERNET_ID, packet);
+						// jpacket.scan(Ethernet.ID);
+						// Ethernet ethHeader = jpacket.getHeader(new
+						// Ethernet());
+						// Udp udpHeader = jpacket.getHeader(new Udp());
+						// // calculate checksum
+						// ethHeader.checksum(ethHeader.calculateChecksum());
+						//
+						// udpHeader.checksum(udpHeader.calculateChecksum());
+
+						// System.out
+						// .println("#####################################");
+						// System.out
+						// .println("#####################################");
+						// System.out.println("TUN: " + jpacket);
 						if (pcap.isSendPacketSupported()) {
 							pcap.sendPacket(packet);
 						} else {
-							System.err
-									.println("Cannot forward packet. PCAP interface "
-											+ device.getName()
-											+ " + does not support it.");
+							System.err.println("Cannot forward packet. PCAP interface " + device.getName()
+									+ " + does not support it.");
 						}
 					}
 				}
@@ -322,8 +249,7 @@ public class MCastForwarder {
 		}
 	}
 
-	private Pcap startCaptureForInterface(List<PcapIf> alldevs, int pick,
-			final String ifName) {
+	private Pcap startCaptureForInterface(List<PcapIf> alldevs, int pick, final String ifName) {
 		log.info("opening device for pcap: " + alldevs.get(pick).getName());
 		PcapIf device = alldevs.get(pick);
 
@@ -331,8 +257,7 @@ public class MCastForwarder {
 		int flags = Pcap.MODE_PROMISCUOUS;
 		int timeout = 10 * 1000;
 		StringBuilder errbuf = new StringBuilder();
-		final Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags,
-				timeout, errbuf);
+		final Pcap pcap = Pcap.openLive(device.getName(), snaplen, flags, timeout, errbuf);
 
 		synchronized (pcaps) {
 			pcaps.put(device, pcap);
@@ -341,8 +266,7 @@ public class MCastForwarder {
 		if (pcap == null) {
 			log.info("Cannot listen.");
 		}
-		final MCastHandler<String> mcastHandler = new MCastHandler<String>(
-				port, pcap, this, device.getName());
+		final MCastHandler<String> mcastHandler = new MCastHandler<String>(port, pcap, this, device.getName());
 
 		log.info("Registered mcastHandler handler.");
 
@@ -363,16 +287,14 @@ public class MCastForwarder {
 
 class MCastHandler<String> implements PcapPacketHandler<String> {
 	private int port = 5683;
-	private static final Logger log = Logger.getLogger(MCastHandler.class
-			.getName());
+	private static final Logger log = Logger.getLogger(MCastHandler.class.getName());
 
 	private Pcap pcap = null;
 
 	private MCastForwarder mcastForwarder = null;
 	private java.lang.String devName;
 
-	public MCastHandler(int port, Pcap pcap, MCastForwarder mcastForwarder,
-			java.lang.String devName) {
+	public MCastHandler(int port, Pcap pcap, MCastForwarder mcastForwarder, java.lang.String devName) {
 		if (port != 0)
 			this.port = port;
 
@@ -404,10 +326,8 @@ class MCastHandler<String> implements PcapPacketHandler<String> {
 																// header
 				packet.getByteArray(24, destAddress);
 				try {
-					Inet6Address srcIpv6 = (Inet6Address) Inet6Address
-							.getByAddress(srcAddressByte);
-					Inet6Address destIpv6 = (Inet6Address) Inet6Address
-							.getByAddress(destAddress);
+					Inet6Address srcIpv6 = (Inet6Address) Inet6Address.getByAddress(srcAddressByte);
+					Inet6Address destIpv6 = (Inet6Address) Inet6Address.getByAddress(destAddress);
 					// extract udp header (4 byte)
 					byte[] destPortBytes = new byte[2];
 					packet.getByteArray(42, destPortBytes);
@@ -416,8 +336,7 @@ class MCastHandler<String> implements PcapPacketHandler<String> {
 					packet.getByteArray(40, srcPortBytes);
 
 					Integer srcPort = srcPortBytes[0] * 256 + srcPortBytes[1];
-					Integer destPort = destPortBytes[0] * 256
-							+ destPortBytes[1];
+					Integer destPort = destPortBytes[0] * 256 + destPortBytes[1];
 
 					byte[] lengthBytes = new byte[2];
 					packet.getByteArray(44, lengthBytes);
@@ -434,9 +353,8 @@ class MCastHandler<String> implements PcapPacketHandler<String> {
 					if (destPort == this.port && destIpv6.isMulticastAddress()) {
 
 						log.info("Received multicast message through PCAP (over tunnel adapter)s.");
-						mcastForwarder
-								.forward(destIpv6, srcIpv6, srcPort, destPort,
-										udpLength, checkSum, payload, devName);
+						mcastForwarder.forward(destIpv6, srcIpv6, srcPort, destPort, udpLength, checkSum, payload,
+								devName);
 					}
 
 				} catch (UnknownHostException e) {
@@ -469,11 +387,10 @@ class MCastHandler<String> implements PcapPacketHandler<String> {
 				if (packet.hasHeader(Ethernet.ID)) {
 					Ethernet ethernet = packet.getHeader(new Ethernet());
 					System.out.println("Captured at ethernet: " + packet);
-					
+
 				}
 				log.info("Received multicast message through PCAP.");
-				mcastForwarder.forward(dest, src, udp.source(),
-						udp.destination(), udp.length(), udp.checksum(),
+				mcastForwarder.forward(dest, src, udp.source(), udp.destination(), udp.length(), udp.checksum(),
 						udp.getPayload(), devName);
 			}
 		}

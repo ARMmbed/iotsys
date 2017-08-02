@@ -30,13 +30,18 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.models.User;
 public interface UIDb {
 
 	public String getValue(String key);
+
 	public Map<String, String> getUiStorage();
+
 	public void updateBulkKeyValue(Map<String, String> uiKeyValues);
-	
+
 	public User getUser(String name);
+
 	public void addUser(User u);
+
 	public void deleteUser(String name);
+
 	public void updateUser(String name, User u);
-	
+
 	public boolean authenticateUser(String name, String password);
 }

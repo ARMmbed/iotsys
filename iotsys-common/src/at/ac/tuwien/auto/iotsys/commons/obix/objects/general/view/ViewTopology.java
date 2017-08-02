@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view;
 
 import obix.IObj;
 
-public interface ViewTopology extends IObj
-{
+public interface ViewTopology extends IObj {
 	public static final String CONTRACT = "knx:ViewTopology";
 	public static final String HREF = "views/topology";
 }

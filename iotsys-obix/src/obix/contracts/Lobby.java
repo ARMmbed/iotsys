@@ -1,6 +1,8 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
+import obix.Op;
+import obix.Ref;
 
 /**
  * Lobby
@@ -9,8 +11,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface Lobby extends IObj
-{
+public interface Lobby extends IObj {
 	public static final String CONTRACT = "obix:Lobby";
 
 	public static final String aboutContract = "<ref name='about' is='" + About.CONTRACT + "'/>";

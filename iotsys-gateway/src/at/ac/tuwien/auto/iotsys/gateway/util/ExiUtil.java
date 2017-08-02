@@ -37,11 +37,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.StringReader;
 import java.io.StringWriter;
 
 import javax.xml.parsers.SAXParserFactory;
@@ -62,13 +60,13 @@ import org.xml.sax.SAXException;
 
 /**
  * Simple EXI util that uses Nagasena for EXI encoding and decoding.
-
+ * 
  */
 public class ExiUtil {
 	private GrammarCache schemaGrammarCache;
 	private GrammarCache defaultGrammarCache;
 	private SAXTransformerFactory saxTransformerFactory;
-	
+
 	private static final ExiUtil instance = new ExiUtil();
 
 	private ExiUtil() {
@@ -76,8 +74,7 @@ public class ExiUtil {
 
 		defaultGrammarCache = new GrammarCache(null, options);
 
-		saxTransformerFactory = (SAXTransformerFactory) SAXTransformerFactory
-				.newInstance();
+		saxTransformerFactory = (SAXTransformerFactory) SAXTransformerFactory.newInstance();
 		SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
 		saxParserFactory.setNamespaceAware(true);
 
@@ -95,7 +92,8 @@ public class ExiUtil {
 			}
 			schema = (EXISchema) EXISchema.readIn(dis);
 			schemaGrammarCache = new GrammarCache(schema, options);
-			if (fis != null) fis.close();
+			if (fis != null)
+				fis.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 			// fall back to default grammar cache
@@ -103,8 +101,7 @@ public class ExiUtil {
 		}
 	}
 
-	public byte[] encodeEXI(String source)
-			throws TransmogrifierException, EXIOptionsException, IOException {
+	public byte[] encodeEXI(String source) throws TransmogrifierException, EXIOptionsException, IOException {
 		return encodeEXI(source, false);
 	}
 
@@ -120,8 +117,7 @@ public class ExiUtil {
 			int firstSpace = source.indexOf(' '); // first space of the first
 													// element
 			StringBuffer buffer = new StringBuffer(source);
-			buffer.insert(firstSpace + 1,
-					"xmlns=\"http://obix.org/ns/schema/1.1\" ");
+			buffer.insert(firstSpace + 1, "xmlns=\"http://obix.org/ns/schema/1.1\" ");
 			source = buffer.toString();
 			transmogrifier.setEXISchema(schemaGrammarCache);
 		} else {
@@ -130,22 +126,19 @@ public class ExiUtil {
 
 		transmogrifier.setOutputStream(outBytes);
 
-		transmogrifier.encode(new InputSource(new ByteArrayInputStream(source
-				.getBytes())));
+		transmogrifier.encode(new InputSource(new ByteArrayInputStream(source.getBytes())));
 
 		return outBytes.toByteArray();
 
 	}
 
-	public String decodeEXI(byte[] source) throws FileNotFoundException,
-			IOException, SAXException, EXIOptionsException,
+	public String decodeEXI(byte[] source) throws FileNotFoundException, IOException, SAXException, EXIOptionsException,
 			TransformerConfigurationException {
 		return decodeEXI(source, false);
 	}
 
-	public String decodeEXI(byte[] source, boolean useEXISchema)
-			throws FileNotFoundException, IOException, SAXException,
-			EXIOptionsException, TransformerConfigurationException {
+	public String decodeEXI(byte[] source, boolean useEXISchema) throws FileNotFoundException, IOException,
+			SAXException, EXIOptionsException, TransformerConfigurationException {
 
 		StringWriter stringWriter = new StringWriter();
 
@@ -157,7 +150,7 @@ public class ExiUtil {
 			reader.setEXISchema(defaultGrammarCache);
 		}
 		TransformerHandler transformerHandler = saxTransformerFactory.newTransformerHandler();
-	
+
 		transformerHandler.setResult(new StreamResult(stringWriter));
 
 		reader.setContentHandler(transformerHandler);
@@ -169,8 +162,8 @@ public class ExiUtil {
 
 		return reconstitutedString;
 	}
-	
-	public static ExiUtil getInstance(){
+
+	public static ExiUtil getInstance() {
 		return instance;
 	}
 }
@@ -179,8 +172,8 @@ class StringBufferOutputStream extends OutputStream {
 	private StringBuffer textBuffer = new StringBuffer();
 
 	/**
-     * 
-     */
+	 * 
+	 */
 	public StringBufferOutputStream() {
 		super();
 	}

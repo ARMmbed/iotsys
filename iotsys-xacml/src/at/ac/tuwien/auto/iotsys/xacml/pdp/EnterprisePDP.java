@@ -2,7 +2,6 @@ package at.ac.tuwien.auto.iotsys.xacml.pdp;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
@@ -25,22 +24,21 @@ public class EnterprisePDP implements Pdp {
 	private Logger log = Logger.getLogger(EnterprisePDP.class.getName());
 
 	private String resourcePrefix = "res/";
-	
+
 	private String requestTemplate = "";
-	
+
 	private HashMap<String, String> policies = new HashMap<String, String>();
 
 	public EnterprisePDP() {
 
 	}
-	
+
 	public EnterprisePDP(String resourcePrefix) {
 		this.resourcePrefix = resourcePrefix;
 		try {
 			String readFile = resourcePrefix + "request/request.xml";
 			log.info("Reading files from " + readFile);
-			requestTemplate = FileHelper
-					.readFile(readFile);
+			requestTemplate = FileHelper.readFile(readFile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -80,29 +78,26 @@ public class EnterprisePDP implements Pdp {
 		try {
 			System.setProperty(XACMLParser.CONTEXT_KEY_DEFAULT_SCHEMA_FILE, resourcePrefix + "xacml-2.0-context.xsd");
 			System.setProperty(XACMLParser.POLICY_KEY_DEFAULT_SCHEMA_FILE, resourcePrefix + "xacml-2.0-policy.xsd");
-			
+
 			String xacmlRequest = requestTemplate.substring(0);
 
 			xacmlRequest = replaceParams(xacmlRequest, params);
 			// log.info(xacmlRequest);
 
-			Request req = XACMLParser.parseRequest(new ByteArrayInputStream(
-					xacmlRequest.getBytes()));
+			Request req = XACMLParser.parseRequest(new ByteArrayInputStream(xacmlRequest.getBytes()));
 
 			String policyFileName = PDPInterceptorSettings.getInstance().getPolicyFile();
 			String xacmlPolicy;
 			synchronized (this) {
 				if (!policies.containsKey(policyFileName)) {
-					policies.put(policyFileName, FileHelper
-							.readFile(resourcePrefix + "policies/" + policyFileName));
+					policies.put(policyFileName, FileHelper.readFile(resourcePrefix + "policies/" + policyFileName));
 				}
-				xacmlPolicy = policies.get(policyFileName);				
+				xacmlPolicy = policies.get(policyFileName);
 			}
-			
+
 			// log.info(xacmlPolicy);
 
-			AbstractPolicy policy = XACMLParser
-					.parsePolicy(new ByteArrayInputStream(xacmlPolicy.getBytes()));
+			AbstractPolicy policy = XACMLParser.parsePolicy(new ByteArrayInputStream(xacmlPolicy.getBytes()));
 
 			Result result = policy.evaluate(new EvaluationContext(req));
 			Response actualResponse = new Response(new Result[] { result });

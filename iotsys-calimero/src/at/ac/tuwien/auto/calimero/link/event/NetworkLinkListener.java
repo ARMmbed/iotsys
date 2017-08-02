@@ -27,14 +27,15 @@ import at.ac.tuwien.auto.calimero.FrameEvent;
  * 
  * @author B. Malinowsky
  */
-public interface NetworkLinkListener extends LinkListener
-{
+public interface NetworkLinkListener extends LinkListener {
 	/**
-	 * Invoked to indicate the confirmation to a preceding request to the KNX network.
+	 * Invoked to indicate the confirmation to a preceding request to the KNX
+	 * network.
 	 * <p>
 	 * Both positive and negative confirmations are provided here.
 	 * 
-	 * @param e frame event object
+	 * @param e
+	 *            frame event object
 	 */
 	void confirmation(FrameEvent e);
 }

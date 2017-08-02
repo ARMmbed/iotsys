@@ -38,28 +38,27 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.ActivitySensor;
 import obix.Bool;
 import obix.Contract;
 import obix.Obj;
-import obix.Str;
 import obix.Uri;
 
 public class ActivitySensorImpl extends SensorImpl implements ActivitySensor {
-//	protected Bool active = new Bool(false);
+	// protected Bool active = new Bool(false);
 	protected Bool freefall = new Bool(false);
-	
+
 	private static final Logger log = Logger.getLogger(ActivitySensorImpl.class.getName());
 
 	public ActivitySensorImpl() {
 		setIs(new Contract(ActivitySensor.CONTRACT));
-		
-//		active.setWritable(false);
-//		active.setHref(new Uri(ActivitySensor.ACTIVE_CONTRACT_HREF));
-//		active.setName(ActivitySensor.ACTIVE_CONTRACT_NAME);
-//		
-//		add(active);
-		
+
+		// active.setWritable(false);
+		// active.setHref(new Uri(ActivitySensor.ACTIVE_CONTRACT_HREF));
+		// active.setName(ActivitySensor.ACTIVE_CONTRACT_NAME);
+		//
+		// add(active);
+
 		freefall.setWritable(false);
 		freefall.setHref(new Uri(ActivitySensor.FREEFALL_CONTRACT_HREF));
 		freefall.setName(ActivitySensor.FREEFALL_CONTRACT_NAME);
-		
+
 		add(freefall);
 	}
 
@@ -68,20 +67,20 @@ public class ActivitySensorImpl extends SensorImpl implements ActivitySensor {
 	}
 
 	@Override
-	public void initialize(){
-		super.initialize();	
+	public void initialize() {
+		super.initialize();
 	}
-	
+
 	@Override
-	public void refreshObject(){
+	public void refreshObject() {
 		log.finest("refreshing activity sensor.");
 	}
 
-//	@Override
-//	public Bool activeValue() {
-//		return this.active;
-//	}
-	
+	// @Override
+	// public Bool activeValue() {
+	// return this.active;
+	// }
+
 	@Override
 	public Bool freefallValue() {
 		return this.freefall;

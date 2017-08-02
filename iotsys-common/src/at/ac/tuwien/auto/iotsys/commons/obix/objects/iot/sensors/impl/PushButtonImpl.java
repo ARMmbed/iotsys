@@ -39,19 +39,19 @@ import obix.Uri;
 
 public class PushButtonImpl extends SensorImpl implements PushButton {
 	protected Bool value = new Bool(false);
-	
-	public PushButtonImpl(){
+
+	public PushButtonImpl() {
 		setIs(new Contract(PushButton.CONTRACT));
 		value.setWritable(false);
 		value.setDisplayName("On/Off");
 		Uri valueUri = new Uri("value");
-	
+
 		value.setHref(valueUri);
 		value.setName("value");
 		add(value);
 	}
-	
-	public void writeObject(Obj input){
+
+	public void writeObject(Obj input) {
 	}
 
 	public Bool value() {

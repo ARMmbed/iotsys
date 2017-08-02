@@ -37,9 +37,9 @@ import obix.Obj;
 import obix.Real;
 import obix.Uri;
 
-public class IndoorBrightnessSensorImpl  extends SensorImpl implements IndoorBrightnessSensor{
+public class IndoorBrightnessSensorImpl extends SensorImpl implements IndoorBrightnessSensor {
 	protected Real roomIlluminationValue = new Real(0);
-	
+
 	public IndoorBrightnessSensorImpl() {
 		setIs(new Contract(IndoorBrightnessSensor.CONTRACT));
 		roomIlluminationValue.setWritable(false);
@@ -50,16 +50,14 @@ public class IndoorBrightnessSensorImpl  extends SensorImpl implements IndoorBri
 		roomIlluminationValue.setUnit(new Uri(IndoorBrightnessSensor.ROOM_ILLUMINATION_CONTRACT_UNIT));
 		add(roomIlluminationValue);
 	}
-	
-	
+
 	public void writeObject(Obj input) {
 		// not writable
 	}
-	
+
 	@Override
 	public Real roomIlluminationValue() {
 		return this.roomIlluminationValue;
 	}
 
-	
 }

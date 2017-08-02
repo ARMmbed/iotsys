@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration;
 
 import obix.contracts.Range;
 
-public interface EnumEnabled extends Range
-{
+public interface EnumEnabled extends Range {
 	public static final String HREF = "/enums/enabled";
 
 	public static final String KEY_ENABLED = "enabled";

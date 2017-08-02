@@ -35,8 +35,9 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 import obix.Bool;
 
 public interface CoolerActuator extends Actuator {
-	public static final String CONTRACT="iot:Cooler";
-	
+	public static final String CONTRACT = "iot:Cooler";
+
 	public static final String enabledContract = "<bool name='enabled' href='enabled' val='false'/>";
+
 	public Bool enabled();
 }

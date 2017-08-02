@@ -37,15 +37,18 @@ import obix.Op;
 
 public interface GroupComm {
 	public static final String joinGroupContract = "<op name='joinGroup' in='obix:Str' out='obix:List'/>";
+
 	public Op joinGroup();
-	
+
 	public static final String leaveGroupContract = "<op name='leaveGroup' in='obix:Str' out='obix:List'/>";
+
 	public Op leaveGroup();
-	
-	public static final String GROUPS_HREF ="groups";
-	public static final String GROUPS_NAME="groups";
-	
-	public static final String CONTRACT="iot:GroupComm";
-	public static final String GROUPS_CONTRACT = "<list name='"+ GROUPS_NAME +"' href='"+ GROUPS_HREF + "'/>";
-	public List groups();  
+
+	public static final String GROUPS_HREF = "groups";
+	public static final String GROUPS_NAME = "groups";
+
+	public static final String CONTRACT = "iot:GroupComm";
+	public static final String GROUPS_CONTRACT = "<list name='" + GROUPS_NAME + "' href='" + GROUPS_HREF + "'/>";
+
+	public List groups();
 }

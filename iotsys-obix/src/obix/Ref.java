@@ -10,8 +10,7 @@ package obix;
  * @creation 30 Mar 06
  * @version $Revision$ $Date$
  */
-public class Ref extends Obj
-{
+public class Ref extends Obj {
 
 	// //////////////////////////////////////////////////////////////
 	// Construction
@@ -20,8 +19,7 @@ public class Ref extends Obj
 	/**
 	 * Construct named Ref with specified and and href.
 	 */
-	public Ref(String name, Uri href)
-	{
+	public Ref(String name, Uri href) {
 		super(name);
 		setHref(href);
 	}
@@ -29,16 +27,14 @@ public class Ref extends Obj
 	/**
 	 * Construct named Ref.
 	 */
-	public Ref(String name)
-	{
+	public Ref(String name) {
 		super(name);
 	}
 
 	/**
 	 * Construct unnamed Ref.
 	 */
-	public Ref()
-	{
+	public Ref() {
 	}
 
 	// //////////////////////////////////////////////////////////////
@@ -48,8 +44,7 @@ public class Ref extends Obj
 	/**
 	 * Convenience for <code>getHref().isResolved()</code>.
 	 */
-	public boolean isResolved()
-	{
+	public boolean isResolved() {
 		Uri href = getHref();
 		if (href == null)
 			return false;
@@ -59,8 +54,7 @@ public class Ref extends Obj
 	/**
 	 * Convenience for <code>getHref().getResolved()</code>.
 	 */
-	public Obj getResolved()
-	{
+	public Obj getResolved() {
 		Uri href = getHref();
 		if (href == null)
 			return null;
@@ -74,24 +68,21 @@ public class Ref extends Obj
 	/**
 	 * Return "ref".
 	 */
-	public String getElement()
-	{
+	public String getElement() {
 		return "ref";
 	}
 
 	/**
 	 * Return BinObix.REF.
 	 */
-	public int getBinCode()
-	{
+	public int getBinCode() {
 		return obix.io.BinObix.REF;
 	}
 
 	/**
 	 * Debug to string is href
 	 */
-	public final String toString()
-	{
+	public final String toString() {
 		Uri href = getHref();
 		if (href == null)
 			return "null";

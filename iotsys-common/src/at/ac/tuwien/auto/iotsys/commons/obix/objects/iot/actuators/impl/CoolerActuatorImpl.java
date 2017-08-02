@@ -43,33 +43,30 @@ import obix.Uri;
 public class CoolerActuatorImpl extends ActuatorImpl implements CoolerActuator {
 
 	protected Bool enabled = new Bool();
-	
-	public CoolerActuatorImpl(){
+
+	public CoolerActuatorImpl() {
 		setIs(new Contract(CoolerActuator.CONTRACT));
 		enabled.setHref(new Uri("enabled"));
 		enabled.setName("enabled");
 		enabled.setWritable(true);
-		add(enabled);	
+		add(enabled);
 	}
-	
-	public void writeObject(Obj input){
-		
-		if(input instanceof CoolerActuator){
+
+	public void writeObject(Obj input) {
+
+		if (input instanceof CoolerActuator) {
 			CoolerActuator in = (CoolerActuator) input;
-			this.enabled.set(in.enabled().get());	
-		}
-		else if(input instanceof Bool){
+			this.enabled.set(in.enabled().get());
+		} else if (input instanceof Bool) {
 			this.enabled.set(((Bool) input).get());
-		}
-		else if(input instanceof Real){
+		} else if (input instanceof Real) {
 			this.enabled.set(((Real) input).get());
-		}
-		else if(input instanceof Int){
+		} else if (input instanceof Int) {
 			this.enabled.set(((Int) input).get());
 		}
-		
+
 	}
-	
+
 	@Override
 	public Bool enabled() {
 		return enabled;

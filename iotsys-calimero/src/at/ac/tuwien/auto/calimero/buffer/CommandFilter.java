@@ -39,33 +39,28 @@ import at.ac.tuwien.auto.calimero.datapoint.DatapointModel;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 import at.ac.tuwien.auto.calimero.exception.KNXIllegalStateException;
 
-
 /**
- * Predefined filter for filtering KNX messages of command based datapoints into the
- * associated network buffer configuration and handling requests for this kind of
- * messages.
+ * Predefined filter for filtering KNX messages of command based datapoints into
+ * the associated network buffer configuration and handling requests for this
+ * kind of messages.
  * <p>
- * Command based messages are buffered using a {@link LDataObjectQueue} (an object of this
- * type is also expected when the request method or getNextIndication method is invoked).
+ * Command based messages are buffered using a {@link LDataObjectQueue} (an
+ * object of this type is also expected when the request method or
+ * getNextIndication method is invoked).
  * 
  * @author B. Malinowsky
  */
-public class CommandFilter implements NetworkFilter, RequestFilter
-{
-	private final class QueueListenerImpl implements QueueListener
-	{
-		QueueListenerImpl()
-		{}
+public class CommandFilter implements NetworkFilter, RequestFilter {
+	private final class QueueListenerImpl implements QueueListener {
+		QueueListenerImpl() {
+		}
 
-		public void queueFilled(LDataObjectQueue queue)
-		{
+		public void queueFilled(LDataObjectQueue queue) {
 			if (userListener != null)
 				try {
 					userListener.queueFilled(queue);
-				}
-				catch (final RuntimeException e) {
-					NetworkBuffer.logger.error(
-						"L-Data queue listener unexpected behavior", e);
+				} catch (final RuntimeException e) {
+					NetworkBuffer.logger.error("L-Data queue listener unexpected behavior", e);
 				}
 		}
 	}
@@ -79,26 +74,28 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 	 * Creates a new command filter.
 	 * <p>
 	 */
-	public CommandFilter()
-	{}
+	public CommandFilter() {
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.Configuration.NetworkFilter#init
 	 * (tuwien.auto.calimero.buffer.Configuration)
 	 */
-	public void init(Configuration c)
-	{}
-	
+	public void init(Configuration c) {
+	}
+
 	/**
-	 * Sets the specified listener to receive notification of queue events of buffered
-	 * queue objects.
+	 * Sets the specified listener to receive notification of queue events of
+	 * buffered queue objects.
 	 * <p>
 	 * The listener will replace any previously set listener.
 	 * 
-	 * @param l the listener to set, use <code>null</code> for no listener
+	 * @param l
+	 *            the listener to set, use <code>null</code> for no listener
 	 */
-	public void setQueueListener(QueueListener l)
-	{
+	public void setQueueListener(QueueListener l) {
 		userListener = l;
 	}
 
@@ -109,8 +106,7 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 	 * @return <code>true</code> if at least one indication is available,
 	 *         <code>false</code> otherwise
 	 */
-	public boolean hasNewIndication()
-	{
+	public boolean hasNewIndication() {
 		synchronized (indicationKeys) {
 			return !indicationKeys.isEmpty();
 		}
@@ -119,29 +115,31 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 	/**
 	 * Returns the next available indication.
 	 * <p>
-	 * The items with the cEMI frame indications are returned in FIFO order according the
-	 * time they were supplied to the filter and buffered in the first place, i.e. an
-	 * earlier accepted frame is returned before an frame accepted at some later time.<br>
-	 * Every item is only returned once by this method, after that it is no longer marked
-	 * as new and will not cause {@link #hasNewIndication()} to return <code>true</code>
-	 * for it.<br>
+	 * The items with the cEMI frame indications are returned in FIFO order
+	 * according the time they were supplied to the filter and buffered in the
+	 * first place, i.e. an earlier accepted frame is returned before an frame
+	 * accepted at some later time.<br>
+	 * Every item is only returned once by this method, after that it is no
+	 * longer marked as new and will not cause {@link #hasNewIndication()} to
+	 * return <code>true</code> for it.<br>
 	 * If no indication is available, throws {@link KNXIllegalStateException}.
 	 * <p>
-	 * Nevertheless, the queued item might be retrieved directly through the used cache
-	 * (which is obtained by {@link Configuration#getCache()}). Whether or not an
-	 * returned item is completely consumed from the queue in the cache, i.e. removed from
-	 * the cache object in the cache, is specified in the {@link LDataObjectQueue}
-	 * containing the item at creation time (which is a task of the network filter).
+	 * Nevertheless, the queued item might be retrieved directly through the
+	 * used cache (which is obtained by {@link Configuration#getCache()}).
+	 * Whether or not an returned item is completely consumed from the queue in
+	 * the cache, i.e. removed from the cache object in the cache, is specified
+	 * in the {@link LDataObjectQueue} containing the item at creation time
+	 * (which is a task of the network filter).
 	 * <p>
-	 * Note, if the accessed queue in the cache was modified between the time the
-	 * indication was added and this method call in such a way, that the original
-	 * indication is not available anymore (for example by removal or emptied queue), that
-	 * indication might be skipped or an empty QueueItem is returned.
+	 * Note, if the accessed queue in the cache was modified between the time
+	 * the indication was added and this method call in such a way, that the
+	 * original indication is not available anymore (for example by removal or
+	 * emptied queue), that indication might be skipped or an empty QueueItem is
+	 * returned.
 	 * 
 	 * @return queue item containing cEMI frame indication
 	 */
-	public QueueItem getNextIndication()
-	{
+	public QueueItem getNextIndication() {
 		synchronized (indicationKeys) {
 			if (indicationKeys.isEmpty())
 				throw new KNXIllegalStateException("no indications");
@@ -152,11 +150,10 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 	/**
 	 * Returns the next available indication for the specified KNX address.
 	 * <p>
-	 * See {@link #getNextIndication()} for more details. In contrast to that method, this
-	 * method does not throw.
+	 * See {@link #getNextIndication()} for more details. In contrast to that
+	 * method, this method does not throw.
 	 */
-	public CEMILData request(KNXAddress dst, Configuration c)
-	{
+	public CEMILData request(KNXAddress dst, Configuration c) {
 		if (!(dst instanceof GroupAddress))
 			return null;
 		final DatapointModel m = c.getDatapointModel();
@@ -174,29 +171,32 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Applies command based filter rules on frame.
 	 * <p>
 	 * Criteria for accept:<br>
 	 * <ul>
 	 * <li>the KNX message destination address is a group address</li>
-	 * <li>there is <b>no</b> datapoint model available in the configuration, or</li>
-	 * <li>there is a datapoint model available with a datapoint identified by the
-	 * destination address <b>and</b> the datapoint is command based</li>
-	 * <li>the message is an application layer group write or group response</li>
+	 * <li>there is <b>no</b> datapoint model available in the configuration,
+	 * or</li>
+	 * <li>there is a datapoint model available with a datapoint identified by
+	 * the destination address <b>and</b> the datapoint is command based</li>
+	 * <li>the message is an application layer group write or group
+	 * response</li>
 	 * </ul>
 	 * On acceptance, the frame is stored into the configuration cache using a
-	 * {@link LDataObjectQueue} with consuming read behavior and a maximum queue size of
-	 * 10 items.<br>
+	 * {@link LDataObjectQueue} with consuming read behavior and a maximum queue
+	 * size of 10 items.<br>
 	 * For uniform handling an accepted frame is always buffered with the L-data
 	 * indication message code.
 	 * 
-	 * @param frame {@inheritDoc}
-	 * @param c {@inheritDoc}
+	 * @param frame
+	 *            {@inheritDoc}
+	 * @param c
+	 *            {@inheritDoc}
 	 */
-	public void accept(CEMI frame, Configuration c)
-	{
+	public void accept(CEMI frame, Configuration c) {
 		final Cache cache = c.getCache();
 		if (cache == null || !(frame instanceof CEMILData))
 			return;
@@ -218,8 +218,7 @@ public class CommandFilter implements NetworkFilter, RequestFilter
 		CEMILData copy;
 		try {
 			copy = (CEMILData) CEMIFactory.create(CEMILData.MC_LDATA_IND, d, f);
-		}
-		catch (final KNXFormatException e) {
+		} catch (final KNXFormatException e) {
 			NetworkBuffer.logger.error("preparing message for buffer failed", e);
 			return;
 		}

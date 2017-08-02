@@ -40,9 +40,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import obix.Obj;
-import obix.Uri;
-
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
 import org.opencean.core.ESP3Host;
@@ -50,20 +47,21 @@ import org.opencean.core.EnoceanSerialConnector;
 import org.opencean.core.address.EnoceanId;
 import org.opencean.core.common.ProtocolConnector;
 
+import com.fasterxml.jackson.databind.JsonNode;
+
 import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Device;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import obix.Obj;
+import obix.Uri;
 
 public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 
 	private XMLConfiguration devicesConfig = new XMLConfiguration();
 
-	private final static Logger log = Logger
-			.getLogger(EnoceanDeviceLoaderImpl.class.getName());
-	
+	private final static Logger log = Logger.getLogger(EnoceanDeviceLoaderImpl.class.getName());
+
 	private ArrayList<Obj> myObjects = new ArrayList<Obj>();
 
 	public EnoceanDeviceLoaderImpl() {
@@ -78,7 +76,7 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 
 	@Override
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
-        setConfiguration(devicesConfig);
+		setConfiguration(devicesConfig);
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
 		// Hard-coded connections and object creation
 
@@ -86,10 +84,9 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("enocean");
 		int connectorsSize = 0;
-		// Enocean		
+		// Enocean
 		if (connectorsFromDb.size() <= 0) {
-			Object enoceanConnectors = devicesConfig
-					.getProperty("enocean.connector.name");
+			Object enoceanConnectors = devicesConfig.getProperty("enocean.connector.name");
 			if (enoceanConnectors != null) {
 				connectorsSize = 1;
 			} else {
@@ -101,7 +98,7 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 			}
 		} else
 			connectorsSize = connectorsFromDb.size();
-		
+
 		log.info("Found " + connectorsSize + " EnOcean connectors.");
 		for (int connector = 0; connector < connectorsSize; connector++) {
 			HierarchicalConfiguration subConfig = devicesConfig.configurationAt("enocean.connector(" + connector + ")");
@@ -112,30 +109,29 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 			String senderAddress = subConfig.getString("senderAddress");
 			String serialPort = subConfig.getString("serialPort");
 			Boolean enabled = subConfig.getBoolean("enabled", false);
-			ProtocolConnector protocolConnector = new EnoceanSerialConnector();			
+			ProtocolConnector protocolConnector = new EnoceanSerialConnector();
 
 			try {
 				connectorId = connectorsFromDb.get(connector).get("_id").asText();
 				connectorName = connectorsFromDb.get(connector).get("name").asText();
-				enabled =  connectorsFromDb.get(connector).get("enabled").asBoolean();
-			} catch (Exception e){
+				enabled = connectorsFromDb.get(connector).get("enabled").asBoolean();
+			} catch (Exception e) {
 				log.info("Cannot fetch configuration from Database, using devices.xml");
 			}
-			
-			
+
 			// PropertyConfigurator.configure("log4j.properties");
 			if (enabled) {
 				try {
-					log.info("Connecting EnOcean connector to COM Port: "+ serialPort);
-			        ESP3Host esp3Host = new ESP3Host(protocolConnector);
-			        esp3Host.setSerialPortName(serialPort);
-			        if(senderAddress!=null){
-			        	esp3Host.setSenderId(senderAddress);
-			        }
-			        esp3Host.connect();
+					log.info("Connecting EnOcean connector to COM Port: " + serialPort);
+					ESP3Host esp3Host = new ESP3Host(protocolConnector);
+					esp3Host.setSerialPortName(serialPort);
+					if (senderAddress != null) {
+						esp3Host.setSenderId(senderAddress);
+					}
+					esp3Host.connect();
 
 					connectors.add(esp3Host);
-					
+
 					// start ESP3Host
 					new Thread(esp3Host).start();
 
@@ -152,14 +148,14 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 					} else
 						numberOfDevices = devicesFromDb.size();
 
-					log.info(numberOfDevices
-							+ " EnOcean devices found in configuration for connector "
-							+ connectorName);
-					
+					log.info(
+							numberOfDevices + " EnOcean devices found in configuration for connector " + connectorName);
+
 					// add devices
 					for (int i = 0; i < numberOfDevices; i++) {
-						String type = subConfig.getString("device(" + i + ").type");	
-						//List<Object> address = subConfig.getList("device(" + i + ").address");
+						String type = subConfig.getString("device(" + i + ").type");
+						// List<Object> address = subConfig.getList("device(" +
+						// i + ").address");
 						String address = subConfig.getString("device(" + i + ").address");
 						String name = subConfig.getString("device(" + i + ").name");
 						String deviceName = subConfig.getString("device(" + i + ").deviceName");
@@ -170,14 +166,14 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 						String href = subConfig.getString("device(" + i + ").href");
 
 						Boolean historyEnabled = subConfig.getBoolean("device(" + i + ").historyEnabled", false);
-						Boolean groupCommEnabled = subConfig.getBoolean( "device(" + i + ").groupCommEnabled", false);
+						Boolean groupCommEnabled = subConfig.getBoolean("device(" + i + ").groupCommEnabled", false);
 						Integer historyCount = subConfig.getInt("device(" + i + ").historyCount", 0);
 
 						Boolean refreshEnabled = subConfig.getBoolean("device(" + i + ").refreshEnabled", false);
-						
+
 						String addressString = address.toString();
-						
-						Device deviceFromDb;						
+
+						Device deviceFromDb;
 						try {
 							deviceFromDb = devicesFromDb.get(i);
 							type = deviceFromDb.getType();
@@ -189,21 +185,22 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 							groupCommEnabled = deviceFromDb.isGroupcommEnabled();
 							refreshEnabled = deviceFromDb.isRefreshEnabled();
 							historyCount = deviceFromDb.getHistoryCount();
-						} 
-						catch (Exception e) {}
-						
+						} catch (Exception e) {
+						}
+
 						// Transition step: comment when done
-						Device d = new Device(type, ipv6, addressString, href, name, null, historyCount, historyEnabled, groupCommEnabled, refreshEnabled);
-						objectBroker.getConfigDb().prepareDevice(connectorName, d);		
-						
+						Device d = new Device(type, ipv6, addressString, href, name, null, historyCount, historyEnabled,
+								groupCommEnabled, refreshEnabled);
+						objectBroker.getConfigDb().prepareDevice(connectorName, d);
+
 						log.info("type: " + type);
-						
+
 						if (type != null && address != null) {
 							try {
 								Constructor<?>[] declaredConstructors = Class.forName(type).getDeclaredConstructors();
 								for (int k = 0; k < declaredConstructors.length; k++) {
-									if (declaredConstructors[k].getParameterTypes().length == 6) { 
-							
+									if (declaredConstructors[k].getParameterTypes().length == 6) {
+
 										Object[] args = new Object[6];
 										// first arg is ESP3Host connector
 										args[0] = esp3Host;
@@ -211,20 +208,21 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 										args[2] = deviceName;
 										args[3] = displayName;
 										args[4] = display;
-										args[5] = manufacturer;										
-										
+										args[5] = manufacturer;
+
 										try {
-											// create a instance of the specified EnOcean device
+											// create a instance of the
+											// specified EnOcean device
 											Obj enoceanDevice = (Obj) declaredConstructors[k].newInstance(args);
 
-											enoceanDevice.setHref(new Uri(URLEncoder.encode(connectorName, "UTF-8") + "/" + href));
+											enoceanDevice.setHref(
+													new Uri(URLEncoder.encode(connectorName, "UTF-8") + "/" + href));
 
 											if (name != null && name.length() > 0) {
 												enoceanDevice.setName(name);
-											}											
+											}
 
-											if (ipv6 != null) 
-											{
+											if (ipv6 != null) {
 												objectBroker.addObj(enoceanDevice, ipv6);
 											} else {
 												objectBroker.addObj(enoceanDevice);
@@ -233,8 +231,7 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 											myObjects.add(enoceanDevice);
 											enoceanDevice.initialize();
 
-											if (historyEnabled != null && historyEnabled) 
-											{
+											if (historyEnabled != null && historyEnabled) {
 												if (historyCount != null && historyCount != 0) {
 													objectBroker.addHistoryToDatapoints(enoceanDevice, historyCount);
 												} else {
@@ -242,13 +239,11 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 												}
 											}
 
-											if (groupCommEnabled) 
-											{
+											if (groupCommEnabled) {
 												objectBroker.enableGroupComm(enoceanDevice);
 											}
 
-											if (refreshEnabled != null && refreshEnabled) 
-											{
+											if (refreshEnabled != null && refreshEnabled) {
 												objectBroker.enableObjectRefresh(enoceanDevice);
 											}
 
@@ -264,9 +259,9 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 									}
 								}
 							} catch (SecurityException e) {
-								e.getMessage();//.printStackTrace();
+								e.getMessage();// .printStackTrace();
 							} catch (ClassNotFoundException e) {
-								e.getMessage();//.printStackTrace();
+								e.getMessage();// .printStackTrace();
 							}
 						}
 					}
@@ -281,8 +276,8 @@ public class EnoceanDeviceLoaderImpl implements DeviceLoader {
 
 	@Override
 	public void removeDevices(ObjectBroker objectBroker) {
-		synchronized(myObjects){
-			for(Obj obj : myObjects) {
+		synchronized (myObjects) {
+			for (Obj obj : myObjects) {
 				objectBroker.removeObj(obj.getFullContextPath());
 			}
 		}

@@ -37,35 +37,37 @@ import java.util.logging.Logger;
 import javax.xml.parsers.FactoryConfigurationError;
 import javax.xml.parsers.ParserConfigurationException;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.HistoryImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherObject;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.impl.UpcomingWeatherImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.impl.WeatherForecastLocationImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.weatherforecast.WeatherForecastConnector;
 import at.ac.tuwien.auto.iotsys.obix.observer.Observer;
 import at.ac.tuwien.auto.iotsys.obix.observer.Subject;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.HistoryImpl;
-import obix.*;
+import obix.Contract;
+import obix.Obj;
+import obix.Uri;
 
 public class WeatherObjImpl extends Obj implements WeatherObject {
 	private static final Logger log = Logger.getLogger(WeatherObjImpl.class.getName());
-	
+
 	protected WeatherForecastConnector connector;
-	
+
 	protected WeatherForecastLocationImpl location;
 	protected UpcomingWeatherImpl upcoming;
 
-	public WeatherObjImpl(WeatherForecastLocationImpl location, WeatherForecastConnector connector) 
-				throws FactoryConfigurationError, ParserConfigurationException {
-		
+	public WeatherObjImpl(WeatherForecastLocationImpl location, WeatherForecastConnector connector)
+			throws FactoryConfigurationError, ParserConfigurationException {
+
 		setIs(new Contract(WeatherObject.CONTRACT));
-		
+
 		// store connector
 		if (connector != null)
 			this.connector = connector;
 		else
 			// use default connector
 			this.connector = new WeatherForecastConnector();
-		
+
 		// store location
 		if (location != null)
 			this.location = location.clone();
@@ -76,20 +78,20 @@ public class WeatherObjImpl extends Obj implements WeatherObject {
 		this.location.setName("location");
 		this.location.setHref(new Uri("location"));
 		this.location.setWritable(false);
-		
-		//objectBroker.addHistoryToDatapoints(this.location,100);
-		
+
+		// objectBroker.addHistoryToDatapoints(this.location,100);
+
 		this.location.setHidden(false);
-		
+
 		add(this.location);
 
 		this.upcoming = new UpcomingWeatherImpl();
 		this.upcoming.setName("upcoming");
 		this.upcoming.setHref(new Uri("upcoming"));
 
-		add(this.upcoming);	
-		
-		connector.attach(new Observer(){
+		add(this.upcoming);
+
+		connector.attach(new Observer() {
 
 			@Override
 			public void update(Object state) {
@@ -99,7 +101,7 @@ public class WeatherObjImpl extends Obj implements WeatherObject {
 			@Override
 			public void setSubject(Subject object) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
@@ -109,32 +111,32 @@ public class WeatherObjImpl extends Obj implements WeatherObject {
 			}
 		});
 	}
-	
+
 	public Obj location() {
 		return location;
 	}
-	
+
 	/*
-	 * Override this method to return the crawler-specific service URL using 
-	 * the crawler's location.
+	 * Override this method to return the crawler-specific service URL using the
+	 * crawler's location.
 	 */
 	@Override
 	public String getServiceURL() {
 		return "";
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		new HistoryImpl("forecast", upcoming, 10, false, false);
 	}
-	
+
 	/*
-	 * Override this method to refresh the crawler object using the 
+	 * Override this method to refresh the crawler object using the
 	 * crawler-specific web service.
 	 */
 	@Override
-	public void refreshObject(){
+	public void refreshObject() {
 		this.upcoming.temperature().setReal(7.7);
 	}
 

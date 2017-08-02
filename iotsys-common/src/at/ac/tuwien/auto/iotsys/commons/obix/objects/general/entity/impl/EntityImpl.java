@@ -34,22 +34,20 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.impl;
 
 import java.util.ArrayList;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DataPoint;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl.DatapointImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.Entity;
 import obix.Contract;
 import obix.List;
 import obix.Obj;
 import obix.Str;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DataPoint;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl.DatapointImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.Entity;
 
-public class EntityImpl extends Obj implements Entity
-{
+public class EntityImpl extends Obj implements Entity {
 	private List list;
 	private ArrayList<DataPoint> datapoints;
 
-	public EntityImpl(String name, String displayName, String display, String manufacturer, String ordernumber)
-	{
+	public EntityImpl(String name, String displayName, String display, String manufacturer, String ordernumber) {
 		super();
 
 		this.setName(name);
@@ -58,8 +56,7 @@ public class EntityImpl extends Obj implements Entity
 		this.setIs(new Contract(Entity.CONTRACT));
 		this.setHidden(true);
 
-		if (manufacturer != null)
-		{
+		if (manufacturer != null) {
 			Str man = new Str();
 			man.setName("manufacturer");
 			man.setHref(new Uri("manufacturer"));
@@ -67,8 +64,7 @@ public class EntityImpl extends Obj implements Entity
 			this.add(man);
 		}
 
-		if (ordernumber != null)
-		{
+		if (ordernumber != null) {
 			Str order = new Str();
 			order.setName("orderNumber");
 			order.setHref(new Uri("orderNumber"));
@@ -77,12 +73,10 @@ public class EntityImpl extends Obj implements Entity
 		}
 	}
 
-	public void addDatapoint(DatapointImpl datapoint)
-	{
-		if (this.datapoints == null)
-		{
+	public void addDatapoint(DatapointImpl datapoint) {
+		if (this.datapoints == null) {
 			this.list = new List("datapoints", new Contract(new String[] { "obix:ref", DataPoint.CONTRACT }));
-			this.list.setHref(new Uri("datapoints"));			
+			this.list.setHref(new Uri("datapoints"));
 			this.add(this.list);
 
 			this.datapoints = new ArrayList<DataPoint>();
@@ -90,6 +84,6 @@ public class EntityImpl extends Obj implements Entity
 
 		this.list.add(datapoint);
 		this.list.add(datapoint.getReference());
-		this.datapoints.add(datapoint);		
+		this.datapoints.add(datapoint);
 	}
 }

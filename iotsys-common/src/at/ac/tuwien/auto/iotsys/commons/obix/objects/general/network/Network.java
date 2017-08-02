@@ -33,7 +33,6 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.network;
 
 import obix.IObj;
 
-public interface Network extends IObj
-{
+public interface Network extends IObj {
 	public static final String CONTRACT = "knx:Network";
 }

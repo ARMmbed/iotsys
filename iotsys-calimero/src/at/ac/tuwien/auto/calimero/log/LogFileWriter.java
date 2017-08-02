@@ -23,21 +23,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 
-
 /**
  * A LogWriter using a file resource as output destination for log information.
  * <p>
- * A file name is supplied on creation of this log writer, the file is opened and used for
- * further logging. After {@link #close()}ing the log writer, it cannot be opened
- * anymore.<br>
+ * A file name is supplied on creation of this log writer, the file is opened
+ * and used for further logging. After {@link #close()}ing the log writer, it
+ * cannot be opened anymore.<br>
  * For output the platform's default character set is used.<br>
- * A maximum allowed file size may be specified to prevent file size explosion. If the
- * size limit is reached, the file content is deleted before any new output.
+ * A maximum allowed file size may be specified to prevent file size explosion.
+ * If the size limit is reached, the file content is deleted before any new
+ * output.
  * 
  * @author B. Malinowsky
  */
-public class LogFileWriter extends LogStreamWriter
-{
+public class LogFileWriter extends LogStreamWriter {
 	// we do a distinction of the used default character set
 	// for easier calculation of file size
 	private static final byte byteEnc;
@@ -69,19 +68,21 @@ public class LogFileWriter extends LogStreamWriter
 	private int maxSize;
 
 	/**
-	 * Creates a LogFileWriter to write to the output file named by <code>file</code>
-	 * and open the file according to <code>append</code>.
+	 * Creates a LogFileWriter to write to the output file named by
+	 * <code>file</code> and open the file according to <code>append</code>.
 	 * <p>
 	 * 
-	 * @param file file name in the file system to open or create, the path to the file
-	 *        has to exist
-	 * @param append set this true to append output at end of file, or false to start
-	 *        writing into an empty file at the beginning
-	 * @throws KNXLogException if path to file does not exist, if file can not be created
-	 *         or opened
+	 * @param file
+	 *            file name in the file system to open or create, the path to
+	 *            the file has to exist
+	 * @param append
+	 *            set this true to append output at end of file, or false to
+	 *            start writing into an empty file at the beginning
+	 * @throws KNXLogException
+	 *             if path to file does not exist, if file can not be created or
+	 *             opened
 	 */
-	public LogFileWriter(String file, boolean append) throws KNXLogException
-	{
+	public LogFileWriter(String file, boolean append) throws KNXLogException {
 		if (append) {
 			// if file does not exist, we will fail later anyway...
 			final File f = new File(file);
@@ -91,108 +92,119 @@ public class LogFileWriter extends LogStreamWriter
 		formatOutput = false;
 		try {
 			createWriter(new FileOutputStream(file, append));
-		}
-		catch (final FileNotFoundException e) {
+		} catch (final FileNotFoundException e) {
 			throw new KNXLogException(e.getMessage());
-		}
-		catch (final SecurityException e) {
+		} catch (final SecurityException e) {
 			throw new KNXLogException(e.getMessage());
 		}
 	}
 
 	/**
-	 * Like {@link #LogFileWriter(String, boolean)}, with the option to adjust the
-	 * automatic flush behavior of data.
+	 * Like {@link #LogFileWriter(String, boolean)}, with the option to adjust
+	 * the automatic flush behavior of data.
 	 * <p>
 	 * 
-	 * @param file file name in the file system to open or create
-	 * @param append set this true to append output at end of file, or false to start
-	 *        writing into an empty file at the beginning
-	 * @param autoFlush set true to force data be immediately written to file after every
-	 *        write() call, set false to buffer data and flush only on full buffer
-	 * @throws KNXLogException if file can not be created or opened
+	 * @param file
+	 *            file name in the file system to open or create
+	 * @param append
+	 *            set this true to append output at end of file, or false to
+	 *            start writing into an empty file at the beginning
+	 * @param autoFlush
+	 *            set true to force data be immediately written to file after
+	 *            every write() call, set false to buffer data and flush only on
+	 *            full buffer
+	 * @throws KNXLogException
+	 *             if file can not be created or opened
 	 */
-	public LogFileWriter(String file, boolean append, boolean autoFlush)
-		throws KNXLogException
-	{
+	public LogFileWriter(String file, boolean append, boolean autoFlush) throws KNXLogException {
 		this(file, append);
 		this.autoFlush = autoFlush;
 	}
 
 	/**
-	 * Like {@link #LogFileWriter(String, boolean)}, with the option to adjust the filter
-	 * log level for information logged by LogFileWriter.
+	 * Like {@link #LogFileWriter(String, boolean)}, with the option to adjust
+	 * the filter log level for information logged by LogFileWriter.
 	 * <p>
 	 * 
-	 * @param level log level used by this LogWriter to filter log information
-	 * @param file file name in the file system to open or create
-	 * @param append set this true to append output at end of file, or false to start
-	 *        writing into an empty file at the beginning
-	 * @throws KNXLogException if file can not be created or opened
+	 * @param level
+	 *            log level used by this LogWriter to filter log information
+	 * @param file
+	 *            file name in the file system to open or create
+	 * @param append
+	 *            set this true to append output at end of file, or false to
+	 *            start writing into an empty file at the beginning
+	 * @throws KNXLogException
+	 *             if file can not be created or opened
 	 */
-	public LogFileWriter(LogLevel level, String file, boolean append)
-		throws KNXLogException
-	{
+	public LogFileWriter(LogLevel level, String file, boolean append) throws KNXLogException {
 		this(file, append);
 		setLogLevel(level);
 	}
 
 	/**
-	 * Like {@link #LogFileWriter(LogLevel, String, boolean)}, with the option to specify
-	 * the maximum file size allowed for all output written.
+	 * Like {@link #LogFileWriter(LogLevel, String, boolean)}, with the option
+	 * to specify the maximum file size allowed for all output written.
 	 * <p>
-	 * During opening of <code>file</code>, the file size is checked to be smaller than
-	 * maxSize, otherwise the file content is erased.<br>
-	 * If a call to write() would exceed the maximum file size specified, the file content
-	 * is erased before the new log information is written.
+	 * During opening of <code>file</code>, the file size is checked to be
+	 * smaller than maxSize, otherwise the file content is erased.<br>
+	 * If a call to write() would exceed the maximum file size specified, the
+	 * file content is erased before the new log information is written.
 	 * 
-	 * @param level log level used by this LogWriter to filter log information
-	 * @param file file name in the file system to open or create
-	 * @param append set this true to append output at end of file, or false to start
-	 *        writing into an empty file at the beginning
-	 * @param maxSize maximum file size generated by this LogFileWriter
-	 * @throws KNXLogException if file can not be created or opened
+	 * @param level
+	 *            log level used by this LogWriter to filter log information
+	 * @param file
+	 *            file name in the file system to open or create
+	 * @param append
+	 *            set this true to append output at end of file, or false to
+	 *            start writing into an empty file at the beginning
+	 * @param maxSize
+	 *            maximum file size generated by this LogFileWriter
+	 * @throws KNXLogException
+	 *             if file can not be created or opened
 	 */
-	public LogFileWriter(LogLevel level, String file, boolean append, int maxSize)
-		throws KNXLogException
-	{
+	public LogFileWriter(LogLevel level, String file, boolean append, int maxSize) throws KNXLogException {
 		this(level, file, append);
 		setMaxSize(maxSize);
 		ensureMaxSize("");
 	}
 
 	/**
-	 * Like {@link #LogFileWriter(LogLevel, String, boolean, int)}, with the option to
-	 * adjust the automatic flush behavior of data.
+	 * Like {@link #LogFileWriter(LogLevel, String, boolean, int)}, with the
+	 * option to adjust the automatic flush behavior of data.
 	 * <p>
 	 * 
-	 * @param level log level used by this LogWriter to filter log information
-	 * @param file file name in the file system to open or create
-	 * @param append set this true to append output at end of file, or false to start
-	 *        writing into an empty file at the beginning
-	 * @param maxSize maximum file size generated by this LogFileWriter
-	 * @param autoFlush set true to force data be immediately written to file after every
-	 *        write() call, set false to buffer data and flush only on full buffer
-	 * @throws KNXLogException if file can not be created or opened
+	 * @param level
+	 *            log level used by this LogWriter to filter log information
+	 * @param file
+	 *            file name in the file system to open or create
+	 * @param append
+	 *            set this true to append output at end of file, or false to
+	 *            start writing into an empty file at the beginning
+	 * @param maxSize
+	 *            maximum file size generated by this LogFileWriter
+	 * @param autoFlush
+	 *            set true to force data be immediately written to file after
+	 *            every write() call, set false to buffer data and flush only on
+	 *            full buffer
+	 * @throws KNXLogException
+	 *             if file can not be created or opened
 	 */
-	public LogFileWriter(LogLevel level, String file, boolean append, int maxSize,
-		boolean autoFlush) throws KNXLogException
-	{
+	public LogFileWriter(LogLevel level, String file, boolean append, int maxSize, boolean autoFlush)
+			throws KNXLogException {
 		this(level, file, append, maxSize);
 		this.autoFlush = autoFlush;
 	}
 
 	/**
-	 * Returns the file name of the file resource used by this LogFileWriter or "" if the
-	 * log writer has already been closed.
+	 * Returns the file name of the file resource used by this LogFileWriter or
+	 * "" if the log writer has already been closed.
 	 * <p>
-	 * The file name is the same as supplied on creation of this LogWriter, no path
-	 * resolving etc. was done.
+	 * The file name is the same as supplied on creation of this LogWriter, no
+	 * path resolving etc. was done.
 	 * 
 	 * @return file name
 	 */
-	public final String getFileName()
-	{
+	public final String getFileName() {
 		return file;
 	}
 
@@ -202,56 +214,56 @@ public class LogFileWriter extends LogStreamWriter
 	 * The value is only set if <code>size</code> >= 0.<br>
 	 * If <code>size</code> has a value of 0, no file size limit is enforced.
 	 * 
-	 * @param size new allowed file size in bytes
+	 * @param size
+	 *            new allowed file size in bytes
 	 */
-	public final void setMaxSize(int size)
-	{
+	public final void setMaxSize(int size) {
 		if (size >= 0)
 			maxSize = size;
 	}
 
 	/**
-	 * Returns the maximum allowed file size generated by this LogFileWriter, or 0 if no
-	 * maximum was set.
+	 * Returns the maximum allowed file size generated by this LogFileWriter, or
+	 * 0 if no maximum was set.
 	 * <p>
 	 * 
 	 * @return maximum file size in bytes
 	 */
-	public final int getMaxSize()
-	{
+	public final int getMaxSize() {
 		return maxSize;
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.log.LogStreamWriter#write
-	 * (java.lang.String, tuwien.auto.calimero.log.LogLevel, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.log.LogStreamWriter#write (java.lang.String,
+	 * tuwien.auto.calimero.log.LogLevel, java.lang.String)
 	 */
-	public void write(String logService, LogLevel level, String msg)
-	{
+	public void write(String logService, LogLevel level, String msg) {
 		doFileWrite(logService, level, msg, null);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.log.LogStreamWriter#write
-	 * (java.lang.String, tuwien.auto.calimero.log.LogLevel, java.lang.String,
-	 * java.lang.Throwable)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.log.LogStreamWriter#write (java.lang.String,
+	 * tuwien.auto.calimero.log.LogLevel, java.lang.String, java.lang.Throwable)
 	 */
-	public void write(String logService, LogLevel level, String msg, Throwable t)
-	{
+	public void write(String logService, LogLevel level, String msg, Throwable t) {
 		doFileWrite(logService, level, msg, t);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.log.LogStreamWriter#close()
 	 */
-	public void close()
-	{
+	public void close() {
 		super.close();
 		file = "";
 	}
 
-	private void doFileWrite(String logService, LogLevel level, String msg, Throwable t)
-	{
+	private void doFileWrite(String logService, LogLevel level, String msg, Throwable t) {
 		if (logAllowed(level)) {
 			final String s = formatOutput(logService, level, msg, t);
 			ensureMaxSize(s);
@@ -262,8 +274,7 @@ public class LogFileWriter extends LogStreamWriter
 		}
 	}
 
-	private void ensureMaxSize(String msg)
-	{
+	private void ensureMaxSize(String msg) {
 		if (maxSize == 0)
 			return;
 		synchronized (this) {
@@ -276,19 +287,16 @@ public class LogFileWriter extends LogStreamWriter
 					createWriter(new FileOutputStream(fileName));
 					file = fileName;
 					logSize = 0;
-				}
-				catch (final FileNotFoundException e) {
+				} catch (final FileNotFoundException e) {
 					getErrorHandler().error(this, "on creation of file " + fileName, e);
-				}
-				catch (final SecurityException e) {
+				} catch (final SecurityException e) {
 					getErrorHandler().error(this, "access denied", e);
 				}
 			}
 		}
 	}
 
-	private int getByteLength(String s)
-	{
+	private int getByteLength(String s) {
 		if (byteEnc == 1)
 			return s.length();
 		if (byteEnc == 2)

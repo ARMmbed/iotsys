@@ -4,6 +4,6 @@ import org.opencean.core.common.values.Value;
 
 public interface ParameterValueChangeListener {
 
-    void valueChanged(ParameterAddress parameterId, Value value);
+	void valueChanged(ParameterAddress parameterId, Value value);
 
 }

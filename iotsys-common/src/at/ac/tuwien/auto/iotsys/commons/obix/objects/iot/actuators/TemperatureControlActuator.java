@@ -35,34 +35,42 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 import obix.Bool;
 import obix.Real;
 
-public interface TemperatureControlActuator extends Actuator{
-	public static final String CONTRACT="iot:TemperatureControlActuator";
-	
-	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_NAME="actPosSetpFreshAirValue";
-	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF="actPosSetpFreshAirValue";
-	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_UNIT="obix:units/percent";
-	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT = "<int name='"+ACT_POS_SETP_FRESH_AIR_CONTRACT_NAME+"' href='"+ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF+"' val='0'/>";
-	
+public interface TemperatureControlActuator extends Actuator {
+	public static final String CONTRACT = "iot:TemperatureControlActuator";
+
+	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_NAME = "actPosSetpFreshAirValue";
+	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF = "actPosSetpFreshAirValue";
+	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT = "<int name='" + ACT_POS_SETP_FRESH_AIR_CONTRACT_NAME
+			+ "' href='" + ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF + "' val='0'/>";
+
 	public static final String ACTUAL_VALUE_NAME = "actualValue";
 	public static final String ACTUAL_VALUE_HREF = "actualValue";
 	public static final String ACTUAL_VALUE_UNIT = "oibx:units/celsius";
-	public static final String ACTUAL_VALUE_CONTRACT = "<real name='" + ACTUAL_VALUE_NAME + "' href='" + ACTUAL_VALUE_HREF + "' unit='" + ACTUAL_VALUE_UNIT + "'/>";
+	public static final String ACTUAL_VALUE_CONTRACT = "<real name='" + ACTUAL_VALUE_NAME + "' href='"
+			+ ACTUAL_VALUE_HREF + "' unit='" + ACTUAL_VALUE_UNIT + "'/>";
+
 	public Real actualValue();
-	
+
 	public static final String TARGET_VALUE_NAME = "targetValue";
 	public static final String TARGET_VALUE_HREF = "targetValue";
 	public static final String TARGET_VALUE_UNIT = "obix:units/celsius";
-	public static final String TARGET_VALUE_CONTRACT  = "<real name='" + TARGET_VALUE_NAME + "' href='" + TARGET_VALUE_HREF + "' unit='" + TARGET_VALUE_UNIT + "'/>";
+	public static final String TARGET_VALUE_CONTRACT = "<real name='" + TARGET_VALUE_NAME + "' href='"
+			+ TARGET_VALUE_HREF + "' unit='" + TARGET_VALUE_UNIT + "'/>";
+
 	public Real targetValue();
-	
+
 	public static final String ACTUAL_TARGET_VALUE_NAME = "actualTargetValue";
 	public static final String ACTUAL_TARGET_VALUE_HREF = "actualTargetValue";
 	public static final String ACTUAL_TARGET_VALUE_UNIT = "obix:units/celsius";
-	public static final String ACTUAL_TARGET_VALUE_CONTRACT  = "<real name='" + ACTUAL_TARGET_VALUE_NAME + "' href='" + ACTUAL_TARGET_VALUE_HREF + "' unit='" + ACTUAL_TARGET_VALUE_UNIT + "'/>";
+	public static final String ACTUAL_TARGET_VALUE_CONTRACT = "<real name='" + ACTUAL_TARGET_VALUE_NAME + "' href='"
+			+ ACTUAL_TARGET_VALUE_HREF + "' unit='" + ACTUAL_TARGET_VALUE_UNIT + "'/>";
+
 	public Real actualTargetValue();
-	
+
 	public static final String ACTIVE_NAME = "active";
 	public static final String ACTIVE_HREF = "active";
 	public static final String ACTIVE_CONTRACT = "<bool name='" + ACTIVE_NAME + "' href='" + ACTIVE_HREF + "'/>";
+
 	public Bool active();
 }

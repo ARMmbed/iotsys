@@ -32,26 +32,23 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.sensors.impl.coap;
 
-//import java.util.logging.Logger;
-
-import ch.ethz.inf.vs.californium.coap.Response;
-import ch.ethz.inf.vs.californium.coap.ResponseHandler;
-
-import obix.Obj;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.ActivitySensorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
+import obix.Obj;
 
 public class ActivitySensorImplCoap extends ActivitySensorImpl implements IoTSySDevice {
-	//private static final Logger log = Logger.getLogger(TemperatureSensorImplCoap.class.getName());
-	
+	// private static final Logger log =
+	// Logger.getLogger(TemperatureSensorImplCoap.class.getName());
+
 	private CoapConnector coapConnector;
-	private String busAddress; 
+	private String busAddress;
 	private boolean isObserved;
 	private boolean shouldObserve;
 	private boolean forwardGroupAddress;
-	
-	public ActivitySensorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve, boolean forwardGroupAddress){
+
+	public ActivitySensorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve,
+			boolean forwardGroupAddress) {
 		// technology specific initialization
 		this.coapConnector = coapConnector;
 		this.busAddress = busAddress;
@@ -59,70 +56,78 @@ public class ActivitySensorImplCoap extends ActivitySensorImpl implements IoTSyS
 		this.shouldObserve = shouldObserve;
 		this.forwardGroupAddress = forwardGroupAddress;
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
-		if(shouldObserve && !forwardGroupAddress)
+		if (shouldObserve && !forwardGroupAddress)
 			addWatchDog();
 	}
-	
-	public void addWatchDog(){
-//		coapConnector.createWatchDog(busAddress, ACTIVE_CONTRACT_HREF, new ResponseHandler() {
-//			public void handleResponse(Response response) {	
-//					String payload = response.getPayloadString().trim();
-//					
-//					if(payload.equals("") || payload.equals("TooManyObservers")) return;
-//					
-//					if(payload.startsWith("Added")) {
-//						isObserved = true;
-//						return;
-//					}
-//					
-//					String bool = CoapConnector.extractAttribute("bool", "val", payload);
-//					ActivitySensorImplCoap.this.activeValue().set(Boolean.valueOf(bool));
-//			}
-//		});	
-//		coapConnector.createWatchDog(busAddress, FREEFALL_CONTRACT_HREF, new ResponseHandler() {
-//			public void handleResponse(Response response) {	
-//					String payload = response.getPayloadString().trim();
-//					
-//					if(payload.equals("") || payload.equals("TooManyObservers")) return;
-//					
-//					if(payload.startsWith("Added")) {
-//						isObserved = true;
-//						return;
-//					}
-//					
-//					String bool = CoapConnector.extractAttribute("bool", "val", payload);
-//					ActivitySensorImplCoap.this.freefallValue().set(Boolean.valueOf(bool));
-//			}
-//		});	
-	}
-	
-	@Override
-	public void writeObject(Obj input){
-		//Sensor not writable
+
+	public void addWatchDog() {
+		// coapConnector.createWatchDog(busAddress, ACTIVE_CONTRACT_HREF, new
+		// ResponseHandler() {
+		// public void handleResponse(Response response) {
+		// String payload = response.getPayloadString().trim();
+		//
+		// if(payload.equals("") || payload.equals("TooManyObservers")) return;
+		//
+		// if(payload.startsWith("Added")) {
+		// isObserved = true;
+		// return;
+		// }
+		//
+		// String bool = CoapConnector.extractAttribute("bool", "val", payload);
+		// ActivitySensorImplCoap.this.activeValue().set(Boolean.valueOf(bool));
+		// }
+		// });
+		// coapConnector.createWatchDog(busAddress, FREEFALL_CONTRACT_HREF, new
+		// ResponseHandler() {
+		// public void handleResponse(Response response) {
+		// String payload = response.getPayloadString().trim();
+		//
+		// if(payload.equals("") || payload.equals("TooManyObservers")) return;
+		//
+		// if(payload.startsWith("Added")) {
+		// isObserved = true;
+		// return;
+		// }
+		//
+		// String bool = CoapConnector.extractAttribute("bool", "val", payload);
+		// ActivitySensorImplCoap.this.freefallValue().set(Boolean.valueOf(bool));
+		// }
+		// });
 	}
 
 	@Override
-	public void refreshObject(){
-//		//value is the protected instance variable of the base class (ActivitySensorImpl)
-//		if(active != null && !isObserved){
-//			Boolean value = coapConnector.readBoolean(busAddress, ACTIVE_CONTRACT_HREF);
-//			// this calls the implementation of the base class, which triggers also
-//			// oBIX services (e.g. watches, history) and CoAP observe!			
-//			this.activeValue().set(value); 
-//		}	
-//		
-//		//value is the protected instance variable of the base class (ActivitySensorImpl)
-//		if(freefall != null && !isObserved){
-//			Boolean value = coapConnector.readBoolean(busAddress, FREEFALL_CONTRACT_HREF);
-//			// this calls the implementation of the base class, which triggers also
-//			// oBIX services (e.g. watches, history) and CoAP observe!			
-//			this.freefallValue().set(value); 
-//		}
+	public void writeObject(Obj input) {
+		// Sensor not writable
+	}
+
+	@Override
+	public void refreshObject() {
+		// //value is the protected instance variable of the base class
+		// (ActivitySensorImpl)
+		// if(active != null && !isObserved){
+		// Boolean value = coapConnector.readBoolean(busAddress,
+		// ACTIVE_CONTRACT_HREF);
+		// // this calls the implementation of the base class, which triggers
+		// also
+		// // oBIX services (e.g. watches, history) and CoAP observe!
+		// this.activeValue().set(value);
+		// }
+		//
+		// //value is the protected instance variable of the base class
+		// (ActivitySensorImpl)
+		// if(freefall != null && !isObserved){
+		// Boolean value = coapConnector.readBoolean(busAddress,
+		// FREEFALL_CONTRACT_HREF);
+		// // this calls the implementation of the base class, which triggers
+		// also
+		// // oBIX services (e.g. watches, history) and CoAP observe!
+		// this.freefallValue().set(value);
+		// }
 	}
 
 	@Override
@@ -132,6 +137,6 @@ public class ActivitySensorImplCoap extends ActivitySensorImpl implements IoTSyS
 
 	@Override
 	public boolean forwardGroupAddress() {
-		return forwardGroupAddress; 
+		return forwardGroupAddress;
 	}
 }

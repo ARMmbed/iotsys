@@ -1,8 +1,7 @@
 package at.ac.tuwien.auto.iotsys.commons;
 
+public class ObjectBrokerHelper {
 
-public class ObjectBrokerHelper{
-	
 	private static ObjectBroker instance;
 
 	public static ObjectBroker getInstance() {

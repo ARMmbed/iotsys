@@ -22,30 +22,31 @@ package at.ac.tuwien.auto.calimero.link;
 import at.ac.tuwien.auto.calimero.exception.KNXException;
 
 /**
- * Thrown to indicate an illegal operation invoked on an already closed network link.
+ * Thrown to indicate an illegal operation invoked on an already closed network
+ * link.
  * 
  * @author B. Malinowsky
  */
-public class KNXLinkClosedException extends KNXException
-{
+public class KNXLinkClosedException extends KNXException {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Constructs a new <code>KNXLinkClosedException</code> without a detail message.
-	 * <p>
-	 */
-	public KNXLinkClosedException()
-	{}
-
-	/**
-	 * Constructs a new <code>KNXLinkClosedException</code> with the specified detail
+	 * Constructs a new <code>KNXLinkClosedException</code> without a detail
 	 * message.
 	 * <p>
-	 * 
-	 * @param s the detail message
 	 */
-	public KNXLinkClosedException(String s)
-	{
+	public KNXLinkClosedException() {
+	}
+
+	/**
+	 * Constructs a new <code>KNXLinkClosedException</code> with the specified
+	 * detail message.
+	 * <p>
+	 * 
+	 * @param s
+	 *            the detail message
+	 */
+	public KNXLinkClosedException(String s) {
 		super(s);
 	}
 }

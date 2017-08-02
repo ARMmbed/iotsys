@@ -1,6 +1,7 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
+import obix.Obj;
 
 /**
  * PointAlarm
@@ -9,8 +10,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface PointAlarm extends IObj, Alarm
-{
+public interface PointAlarm extends IObj, Alarm {
 	public static final String CONTRACT = "obix:PointAlarm";
 
 	public Obj alarmValue();

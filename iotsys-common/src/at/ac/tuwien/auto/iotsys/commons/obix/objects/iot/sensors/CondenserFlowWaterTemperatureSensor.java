@@ -34,11 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface CondenserFlowWaterTemperatureSensor extends Sensor{
-	public static final String TEMP_FLOW_WATER_CONDENSER_CONTRACT_NAME="tempFlowWaterCondense";
-	public static final String TEMP_FLOW_WATER_CONDENSER_CONTRACT_HREF="tempFlowWaterCondense";
-	
-	public static final String CONTRACT="iot:CondenserFlowWaterTemperatureSensor";
-	public static final String TEMP_FLOW_WATER_CONDENSER_CONTRACT = "<real name='"+TEMP_FLOW_WATER_CONDENSER_CONTRACT_NAME+"' href='"+TEMP_FLOW_WATER_CONDENSER_CONTRACT_HREF+"' val='0'/>";
+public interface CondenserFlowWaterTemperatureSensor extends Sensor {
+	public static final String TEMP_FLOW_WATER_CONDENSER_CONTRACT_NAME = "tempFlowWaterCondense";
+	public static final String TEMP_FLOW_WATER_CONDENSER_CONTRACT_HREF = "tempFlowWaterCondense";
+
+	public static final String CONTRACT = "iot:CondenserFlowWaterTemperatureSensor";
+	public static final String TEMP_FLOW_WATER_CONDENSER_CONTRACT = "<real name='"
+			+ TEMP_FLOW_WATER_CONDENSER_CONTRACT_NAME + "' href='" + TEMP_FLOW_WATER_CONDENSER_CONTRACT_HREF
+			+ "' val='0'/>";
+
 	public Real tempFlowWaterCondenserValue();
 }

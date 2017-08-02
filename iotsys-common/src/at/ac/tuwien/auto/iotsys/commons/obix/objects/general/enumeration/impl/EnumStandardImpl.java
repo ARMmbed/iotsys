@@ -31,19 +31,16 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumStandard;
+import obix.Uri;
 
-public class EnumStandardImpl extends RangeImpl implements EnumStandard
-{
-	public EnumStandardImpl()
-	{
+public class EnumStandardImpl extends RangeImpl implements EnumStandard {
+	public EnumStandardImpl() {
 		super(new Uri(EnumStandard.HREF));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		addElement(new ObjElement(EnumStandard.KEY_BACNET, "BACnet"));
 		addElement(new ObjElement(EnumStandard.KEY_KNX, "KNX"));
 		addElement(new ObjElement(EnumStandard.KEY_LONWORKS, "LonWorks"));

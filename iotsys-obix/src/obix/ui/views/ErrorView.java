@@ -1,45 +1,47 @@
 /*
  * This code licensed to public domain
  */
-package obix.ui.views;  
+package obix.ui.views;
 
 import java.awt.BorderLayout;
 
-import javax.swing.*;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 
-import obix.ui.*;
+import obix.ui.Pane;
+import obix.ui.Shell;
+import obix.ui.Utils;
+import obix.ui.View;
 
 /**
  * ErrorView is what we show when there is a problem showing a uri.
  *
- * @author    Brian Frank
- * @creation  13 Sept 05
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @creation 13 Sept 05
+ * @version $Revision$ $Date$
  */
-public class ErrorView
-  extends View
-{                   
-    
-////////////////////////////////////////////////////////////////
-// Construction 
-////////////////////////////////////////////////////////////////
+public class ErrorView extends View {
 
-  public ErrorView(Shell shell, Throwable problem)
-  {             
-    super(shell, "Error", null);       
-    
-    JLabel title = new JLabel("ERROR  " + problem.toString(), icon, JLabel.LEFT);
-    JScrollPane details = new JScrollPane(new JTextArea(Utils.toString(problem)));
-    
-    add(new Pane(title, 10),   BorderLayout.NORTH);          
-    add(new Pane(details, 0, 10, 10, 10), BorderLayout.CENTER);          
-  }
+	////////////////////////////////////////////////////////////////
+	// Construction
+	////////////////////////////////////////////////////////////////
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+	public ErrorView(Shell shell, Throwable problem) {
+		super(shell, "Error", null);
 
-  static final ImageIcon icon = Utils.icon("x32/error.png");
- 
-  
+		JLabel title = new JLabel("ERROR  " + problem.toString(), icon, JLabel.LEFT);
+		JScrollPane details = new JScrollPane(new JTextArea(Utils.toString(problem)));
+
+		add(new Pane(title, 10), BorderLayout.NORTH);
+		add(new Pane(details, 0, 10, 10, 10), BorderLayout.CENTER);
+	}
+
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	static final ImageIcon icon = Utils.icon("x32/error.png");
+
 }

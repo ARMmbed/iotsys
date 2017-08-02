@@ -6,16 +6,15 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherSymb
  * symbols according to http://om.yr.no/forklaring/symbol/
  */
 public class WeatherSymbolImpl implements WeatherSymbol {
-		
-	
+
 	public static int GetByName(String name) {
 		int id;
-		
+
 		if (name == null)
 			name = NAME_UNKNOWN;
-		
+
 		name = name.toLowerCase();
-		
+
 		if (name.equals(NAME_SUN))
 			id = ID_SUN;
 		else if (name.equals(NAME_FAIR))
@@ -59,7 +58,7 @@ public class WeatherSymbolImpl implements WeatherSymbol {
 
 		return id;
 	}
-	
+
 	public static String GetByID(int id) {
 		String name;
 

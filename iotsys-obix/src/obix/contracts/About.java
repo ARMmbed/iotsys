@@ -1,6 +1,9 @@
 package obix.contracts;
 
-import obix.*;
+import obix.Abstime;
+import obix.IObj;
+import obix.Str;
+import obix.Uri;
 
 /**
  * About
@@ -9,8 +12,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface About extends IObj
-{
+public interface About extends IObj {
 	public static final String CONTRACT = "obix:About";
 
 	public Str obixVersion();

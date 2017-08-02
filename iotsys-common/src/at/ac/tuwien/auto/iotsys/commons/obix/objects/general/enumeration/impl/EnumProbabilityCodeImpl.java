@@ -31,23 +31,20 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
-import obix.Contract;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumProbabilityCode;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.ProbabilityCode;
+import obix.Contract;
+import obix.Uri;
 
-public class EnumProbabilityCodeImpl extends RangeImpl implements EnumProbabilityCode
-{
-	public EnumProbabilityCodeImpl()
-	{
+public class EnumProbabilityCodeImpl extends RangeImpl implements EnumProbabilityCode {
+	public EnumProbabilityCodeImpl() {
 		super(new Uri(EnumProbabilityCode.HREF));
 
 		this.setOf(new Contract("obix:int"));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		addElement(new IntElement(ProbabilityCode.NAME_UNKNOWN, ProbabilityCode.ID_UNKNOWN));
 		addElement(new IntElement(ProbabilityCode.NAME_HIGHLY_PROBABLE, ProbabilityCode.ID_HIGHLY_PROBABLE));
 		addElement(new IntElement(ProbabilityCode.NAME_PROBABLE, ProbabilityCode.ID_PROBABLE));

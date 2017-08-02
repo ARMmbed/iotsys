@@ -1,6 +1,7 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
+import obix.List;
 
 /**
  * WatchIn
@@ -9,8 +10,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface WatchIn extends IObj
-{
+public interface WatchIn extends IObj {
 	public static final String CONTRACT = "obix:WatchIn";
 
 	public static final String hrefsContract = "<list name='hrefs' of='" + WatchInItem.CONTRACT + "'/>";

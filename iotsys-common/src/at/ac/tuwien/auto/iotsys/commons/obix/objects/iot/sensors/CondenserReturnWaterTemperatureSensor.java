@@ -34,11 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface CondenserReturnWaterTemperatureSensor extends Sensor{
-	public static final String TEMP_RETURN_WATER_CONDENSER_CONTRACT_NAME="tempReturnCondenser";
-	public static final String TEMP_RETURN_WATER_CONDENSER_CONTRACT_HREF="tempReturnCondenser";
-	
-	public static final String CONTRACT="iot:CondenserReturnWaterTemperatureSensor";
-	public static final String TEMP_RETURN_WATER_CONDENSER_CONTRACT = "<real name='"+CondenserReturnWaterTemperatureSensor.TEMP_RETURN_WATER_CONDENSER_CONTRACT_NAME+"' href='"+CondenserReturnWaterTemperatureSensor.TEMP_RETURN_WATER_CONDENSER_CONTRACT_HREF+"' val='0'/>";
+public interface CondenserReturnWaterTemperatureSensor extends Sensor {
+	public static final String TEMP_RETURN_WATER_CONDENSER_CONTRACT_NAME = "tempReturnCondenser";
+	public static final String TEMP_RETURN_WATER_CONDENSER_CONTRACT_HREF = "tempReturnCondenser";
+
+	public static final String CONTRACT = "iot:CondenserReturnWaterTemperatureSensor";
+	public static final String TEMP_RETURN_WATER_CONDENSER_CONTRACT = "<real name='"
+			+ CondenserReturnWaterTemperatureSensor.TEMP_RETURN_WATER_CONDENSER_CONTRACT_NAME + "' href='"
+			+ CondenserReturnWaterTemperatureSensor.TEMP_RETURN_WATER_CONDENSER_CONTRACT_HREF + "' val='0'/>";
+
 	public Real tempReturnCondenserValue();
 }

@@ -32,20 +32,18 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPST_1_1;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingOnOff;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl.EncodingsImpl;
 import obix.Contract;
 import obix.Enum;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPST_1_1;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingOnOff;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl.EncodingsImpl;
 
-public abstract class DPST_1_1_Impl extends DPT_1_Impl implements DPST_1_1
-{
+public abstract class DPST_1_1_Impl extends DPT_1_Impl implements DPST_1_1 {
 	private Enum encoding = new Enum();
 
-	public DPST_1_1_Impl(String name, String displayName, String display, boolean writable, boolean readable)
-	{
+	public DPST_1_1_Impl(String name, String displayName, String display, boolean writable, boolean readable) {
 		// constructor
 		super(name, displayName, display, writable, readable);
 
@@ -63,21 +61,18 @@ public abstract class DPST_1_1_Impl extends DPT_1_Impl implements DPST_1_1
 	}
 
 	@Override
-	public void writeObject(Obj input)
-	{
+	public void writeObject(Obj input) {
 		super.writeObject(input);
 		this.refreshObject();
 	}
 
 	@Override
-	public void refreshObject()
-	{
+	public void refreshObject() {
 		this.encoding.set(EncodingsImpl.getInstance().getEncoding(EncodingOnOff.HREF).getName(this.value()));
 	}
 
 	@Override
-	public obix.Enum encoding()
-	{
+	public obix.Enum encoding() {
 		return encoding;
 	}
 }

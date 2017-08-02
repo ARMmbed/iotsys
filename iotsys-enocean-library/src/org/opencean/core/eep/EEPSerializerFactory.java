@@ -7,13 +7,13 @@ import org.opencean.core.common.EEPId;
 
 public class EEPSerializerFactory {
 
-    private Map<EEPId, EEPSerializer> parser = new HashMap<EEPId, EEPSerializer>();
+	private Map<EEPId, EEPSerializer> parser = new HashMap<EEPId, EEPSerializer>();
 
-    public EEPSerializerFactory() {
-    }
+	public EEPSerializerFactory() {
+	}
 
-    public EEPSerializer getSerializerFor(EEPId profile) {
-        return parser.get(profile);
-    }
+	public EEPSerializer getSerializerFor(EEPId profile) {
+		return parser.get(profile);
+	}
 
 }

@@ -34,11 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface IndoorLuminanceSensor extends Sensor{
-	public static final String INDOOR_LUMINANCE_CONTRACT_HREF="indoorLuminance";
-	public static final String INDOOR_LUMINANCE_CONTRACT_NAME="indoorLuminance";
-	
-	public static final String CONTRACT="iot:IndoorLuminanceSensor";
-	public static final String INDOOR_LUMINANCE_CONTRACT = "<real name='"+IndoorLuminanceSensor.INDOOR_LUMINANCE_CONTRACT_NAME+"' href='"+IndoorLuminanceSensor.INDOOR_LUMINANCE_CONTRACT_HREF+"' val='0'/>";
-	public Real indoorLuminanceValue();  
+public interface IndoorLuminanceSensor extends Sensor {
+	public static final String INDOOR_LUMINANCE_CONTRACT_HREF = "indoorLuminance";
+	public static final String INDOOR_LUMINANCE_CONTRACT_NAME = "indoorLuminance";
+
+	public static final String CONTRACT = "iot:IndoorLuminanceSensor";
+	public static final String INDOOR_LUMINANCE_CONTRACT = "<real name='"
+			+ IndoorLuminanceSensor.INDOOR_LUMINANCE_CONTRACT_NAME + "' href='"
+			+ IndoorLuminanceSensor.INDOOR_LUMINANCE_CONTRACT_HREF + "' val='0'/>";
+
+	public Real indoorLuminanceValue();
 }

@@ -25,13 +25,12 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
 import at.ac.tuwien.auto.calimero.knxnetip.util.HPAI;
 
-
 /**
  * Represents a KNXnet/IP connection state request.
  * <p>
- * Connection state requests are sent by a client during an established client / server
- * communication connection to check the connection state, i.e. they are part of a
- * heartbeat monitoring procedure.
+ * Connection state requests are sent by a client during an established client /
+ * server communication connection to check the connection state, i.e. they are
+ * part of a heartbeat monitoring procedure.
  * <p>
  * Objects of this type are immutable.
  * 
@@ -39,8 +38,7 @@ import at.ac.tuwien.auto.calimero.knxnetip.util.HPAI;
  * @author Bernhard Erb
  * @see at.ac.tuwien.auto.calimero.knxnetip.servicetype.ConnectionstateResponse
  */
-public class ConnectionstateRequest extends ServiceType
-{
+public class ConnectionstateRequest extends ServiceType {
 	private final short channelid;
 	private final HPAI endpt;
 
@@ -48,13 +46,14 @@ public class ConnectionstateRequest extends ServiceType
 	 * Creates a connection state request out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing a connection state request structure
-	 * @param offset start offset of request in <code>data</code>
-	 * @throws KNXFormatException if no connection state request was found or invalid
-	 *         structure
+	 * @param data
+	 *            byte array containing a connection state request structure
+	 * @param offset
+	 *            start offset of request in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no connection state request was found or invalid structure
 	 */
-	public ConnectionstateRequest(byte[] data, int offset) throws KNXFormatException
-	{
+	public ConnectionstateRequest(byte[] data, int offset) throws KNXFormatException {
 		super(KNXnetIPHeader.CONNECTIONSTATE_REQ);
 		if (data.length - offset < 3)
 			throw new KNXFormatException("buffer too short for request");
@@ -66,12 +65,13 @@ public class ConnectionstateRequest extends ServiceType
 	 * Creates a new connection state request.
 	 * <p>
 	 * 
-	 * @param channelID communication channel ID of the open connection, 0 &lt;= id &lt;=
-	 *        255
-	 * @param ctrlEP control endpoint of the client
+	 * @param channelID
+	 *            communication channel ID of the open connection, 0 &lt;= id
+	 *            &lt;= 255
+	 * @param ctrlEP
+	 *            control endpoint of the client
 	 */
-	public ConnectionstateRequest(short channelID, HPAI ctrlEP)
-	{
+	public ConnectionstateRequest(short channelID, HPAI ctrlEP) {
 		super(KNXnetIPHeader.CONNECTIONSTATE_REQ);
 		if (channelID < 0 || channelID > 0xFF)
 			throw new KNXIllegalArgumentException("channel ID out of range [0..255]");
@@ -80,14 +80,13 @@ public class ConnectionstateRequest extends ServiceType
 	}
 
 	/**
-	 * Returns the communication channel ID of the connection this connection state
-	 * request belongs to.
+	 * Returns the communication channel ID of the connection this connection
+	 * state request belongs to.
 	 * <p>
 	 * 
 	 * @return channel ID as unsigned byte
 	 */
-	public final short getChannelID()
-	{
+	public final short getChannelID() {
 		return channelid;
 	}
 
@@ -97,25 +96,27 @@ public class ConnectionstateRequest extends ServiceType
 	 * 
 	 * @return control endpoint in a HPAI
 	 */
-	public final HPAI getControlEndpoint()
-	{
+	public final HPAI getControlEndpoint() {
 		return endpt;
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
-	short getStructLength()
-	{
+	short getStructLength() {
 		return (short) (2 + endpt.getStructLength());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
-	 *      (java.io.ByteArrayOutputStream)
+	 * (java.io.ByteArrayOutputStream)
 	 */
-	byte[] toByteArray(ByteArrayOutputStream os)
-	{
+	byte[] toByteArray(ByteArrayOutputStream os) {
 		os.write(channelid);
 		os.write(0);
 		final byte[] buf = endpt.toByteArray();

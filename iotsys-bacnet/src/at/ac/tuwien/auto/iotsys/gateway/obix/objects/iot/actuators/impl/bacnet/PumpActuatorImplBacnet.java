@@ -23,36 +23,34 @@
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.bacnet;
 
 import static at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector.BACNET_PRIORITY;
-import obix.Obj;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.PumpActuatorImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
 
 import com.serotonin.bacnet4j.exception.BACnetException;
 import com.serotonin.bacnet4j.exception.PropertyValueException;
 import com.serotonin.bacnet4j.type.Encodable;
 import com.serotonin.bacnet4j.type.primitive.Real;
 
-public class PumpActuatorImplBacnet extends PumpActuatorImpl{
-	private BacnetDataPointInfo valueDP;	
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.PumpActuatorImpl;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
+import obix.Obj;
+
+public class PumpActuatorImplBacnet extends PumpActuatorImpl {
+	private BacnetDataPointInfo valueDP;
 	private BACnetConnector bacnetConnector;
 
-	public PumpActuatorImplBacnet(BACnetConnector bacnetConnector,
-			BacnetDataPointInfo valueDP) {
+	public PumpActuatorImplBacnet(BACnetConnector bacnetConnector, BacnetDataPointInfo valueDP) {
 		this.bacnetConnector = bacnetConnector;
 		this.valueDP = valueDP;
 	}
 
 	public void refreshObject() {
 		try {
-			Encodable property = bacnetConnector.readProperty(
-					valueDP.getDeviceIdentifier(),
-					valueDP.getObjectIdentifier(),
-					valueDP.getPropertyIdentifier());
+			Encodable property = bacnetConnector.readProperty(valueDP.getDeviceIdentifier(),
+					valueDP.getObjectIdentifier(), valueDP.getPropertyIdentifier());
 
 			if (property instanceof Real) {
 				value.set((int) ((Real) property).floatValue());
-			}			
+			}
 		} catch (BACnetException e) {
 			e.printStackTrace();
 		} catch (PropertyValueException e) {
@@ -60,15 +58,15 @@ public class PumpActuatorImplBacnet extends PumpActuatorImpl{
 		}
 	}
 
-	public void writeObject(Obj input) {		
+	public void writeObject(Obj input) {
 		super.writeObject(input);
-		
+
 		try {
 			bacnetConnector.writeProperty(valueDP.getDeviceIdentifier(), valueDP.getObjectIdentifier(),
-					valueDP.getPropertyIdentifier(), new Real( (float) this.value().get()), BACNET_PRIORITY);			
-		} catch (BACnetException e) {		
+					valueDP.getPropertyIdentifier(), new Real((float) this.value().get()), BACNET_PRIORITY);
+		} catch (BACnetException e) {
 			e.printStackTrace();
-		} catch (PropertyValueException e) {			
+		} catch (PropertyValueException e) {
 			e.printStackTrace();
 		}
 	}

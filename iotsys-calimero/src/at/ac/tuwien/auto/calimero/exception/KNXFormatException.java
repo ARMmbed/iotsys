@@ -20,79 +20,82 @@
 package at.ac.tuwien.auto.calimero.exception;
 
 /**
- * Thrown when some value or content is not in accordance with the expected or requested
- * format or result.
+ * Thrown when some value or content is not in accordance with the expected or
+ * requested format or result.
  * <p>
  * 
  * @author B. Malinowsky
  */
-public class KNXFormatException extends KNXException
-{
+public class KNXFormatException extends KNXException {
 	private static final long serialVersionUID = 1L;
 
 	private final String item;
 
 	/**
-	 * Constructs a new <code>KNXFormatException</code> without a detail message.
+	 * Constructs a new <code>KNXFormatException</code> without a detail
+	 * message.
 	 * <p>
 	 */
-	public KNXFormatException()
-	{
+	public KNXFormatException() {
 		item = null;
 	}
 
 	/**
-	 * Constructs a new <code>KNXFormatException</code> with the specified detail
-	 * message.
+	 * Constructs a new <code>KNXFormatException</code> with the specified
+	 * detail message.
 	 * <p>
 	 * 
-	 * @param s the detail message
+	 * @param s
+	 *            the detail message
 	 */
-	public KNXFormatException(String s)
-	{
+	public KNXFormatException(String s) {
 		super(s);
 		item = null;
 	}
 
 	/**
-	 * Constructs a new <code>KNXFormatException</code> with the specified detail
-	 * message and the invalid item.
+	 * Constructs a new <code>KNXFormatException</code> with the specified
+	 * detail message and the invalid item.
 	 * <p>
 	 * 
-	 * @param s the detail message
-	 * @param item value, content or piece of information causing this exception (allowed
-	 *        to be <code>null</code>)
+	 * @param s
+	 *            the detail message
+	 * @param item
+	 *            value, content or piece of information causing this exception
+	 *            (allowed to be <code>null</code>)
 	 */
-	public KNXFormatException(String s, String item)
-	{
+	public KNXFormatException(String s, String item) {
 		super(s);
 		this.item = item;
 	}
 
 	/**
-	 * Constructs a new <code>KNXFormatException</code> with the specified detail
-	 * message and the invalid item value of type int.
+	 * Constructs a new <code>KNXFormatException</code> with the specified
+	 * detail message and the invalid item value of type int.
 	 * <p>
-	 * The <code>item</code> value is formatted into a hexadecimal string representation
-	 * using the format "0x" prefix + value (e.g. "0x23" for an item value of 23).
+	 * The <code>item</code> value is formatted into a hexadecimal string
+	 * representation using the format "0x" prefix + value (e.g. "0x23" for an
+	 * item value of 23).
 	 * 
-	 * @param s the detail message
-	 * @param item the value causing this exception
+	 * @param s
+	 *            the detail message
+	 * @param item
+	 *            the value causing this exception
 	 */
-	public KNXFormatException(String s, int item)
-	{
+	public KNXFormatException(String s, int item) {
 		super(s);
 		this.item = "0x" + Integer.toHexString(item);
 	}
 
 	/**
-	 * Returns the value, content or piece of information which caused the exception.
+	 * Returns the value, content or piece of information which caused the
+	 * exception.
 	 * <p>
 	 * 
-	 * @return item representation as string, or <code>null</code> if no item was set
+	 * @return item representation as string, or <code>null</code> if no item
+	 *         was set
 	 */
-	public final String getItem()
-	{
+	public final String getItem() {
 		return item;
 	}
 }

@@ -30,16 +30,15 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
  * 
  * @author B. Malinowsky
  */
-public class LDataObject extends CacheObject
-{
+public class LDataObject extends CacheObject {
 	/**
 	 * Creates a {@link LDataObject} holding the <code>frame</code> argument.
 	 * <p>
 	 * 
-	 * @param frame {@link CEMILData} frame
+	 * @param frame
+	 *            {@link CEMILData} frame
 	 */
-	public LDataObject(CEMILData frame)
-	{
+	public LDataObject(CEMILData frame) {
 		super(frame.getDestination(), frame);
 	}
 
@@ -48,29 +47,31 @@ public class LDataObject extends CacheObject
 	 * <code>value</code>.
 	 * <p>
 	 * If <code>value</code> is not of type {@link CEMILData}, the methods
-	 * {@link #setFrame(CEMILData)} and {@link #getFrame()} have to be overridden.
+	 * {@link #setFrame(CEMILData)} and {@link #getFrame()} have to be
+	 * overridden.
 	 * 
-	 * @param key key of this cache object
-	 * @param value value hold by this cache object
+	 * @param key
+	 *            key of this cache object
+	 * @param value
+	 *            value hold by this cache object
 	 */
-	protected LDataObject(KNXAddress key, Object value)
-	{
+	protected LDataObject(KNXAddress key, Object value) {
 		super(key, value);
 	}
 
 	/**
 	 * Sets a new {@link CEMILData} <code>frame</code> for this cache object.
 	 * <p>
-	 * The key generated out of <code>frame</code> (i.e. out of the KNX address of
-	 * <code>frame</code>) has to be equal to the key of this {@link LDataObject},
-	 * as returned from {@link #getKey()}. Otherwise a
+	 * The key generated out of <code>frame</code> (i.e. out of the KNX address
+	 * of <code>frame</code>) has to be equal to the key of this
+	 * {@link LDataObject}, as returned from {@link #getKey()}. Otherwise a
 	 * {@link KNXIllegalArgumentException} will be thrown.<br>
 	 * Note that on successful set the timestamp is renewed.
 	 * 
-	 * @param frame the new {@link CEMILData} frame to set
+	 * @param frame
+	 *            the new {@link CEMILData} frame to set
 	 */
-	public synchronized void setFrame(CEMILData frame)
-	{
+	public synchronized void setFrame(CEMILData frame) {
 		if (!frame.getDestination().equals(getKey()))
 			throw new KNXIllegalArgumentException("frame key differs from cache key");
 		value = frame;
@@ -84,8 +85,7 @@ public class LDataObject extends CacheObject
 	 * 
 	 * @return the {@link CEMILData} frame, or <code>null</code>
 	 */
-	public synchronized CEMILData getFrame()
-	{
+	public synchronized CEMILData getFrame() {
 		return (CEMILData) value;
 	}
 }

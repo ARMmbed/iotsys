@@ -28,8 +28,7 @@ import at.ac.tuwien.auto.calimero.IndividualAddress;
  * 
  * @author B. Malinowsky
  */
-public class TPSettings extends KNXMediumSettings
-{
+public class TPSettings extends KNXMediumSettings {
 	/**
 	 * Default setting for TP0, device address is 0.0.0.
 	 * <p>
@@ -48,13 +47,15 @@ public class TPSettings extends KNXMediumSettings
 	 * Creates a new settings container with TP medium specific information.
 	 * <p>
 	 * 
-	 * @param device individual device address to use as source address in KNX messages,
-	 *        specifying <code>null</code> uses the individual address 0.0.0
-	 * @param mediumTP1 <code>true</code> if communicating on TP1, <code>false</code>
-	 *        if communicating on TP0
+	 * @param device
+	 *            individual device address to use as source address in KNX
+	 *            messages, specifying <code>null</code> uses the individual
+	 *            address 0.0.0
+	 * @param mediumTP1
+	 *            <code>true</code> if communicating on TP1, <code>false</code>
+	 *            if communicating on TP0
 	 */
-	public TPSettings(IndividualAddress device, boolean mediumTP1)
-	{
+	public TPSettings(IndividualAddress device, boolean mediumTP1) {
 		super(device);
 		tp1 = mediumTP1;
 	}
@@ -64,20 +65,21 @@ public class TPSettings extends KNXMediumSettings
 	 * <p>
 	 * The device address is initialized to 0.0.0.
 	 * 
-	 * @param mediumTP1 <code>true</code> if communicating on TP1, <code>false</code>
-	 *        if communicating on TP0
+	 * @param mediumTP1
+	 *            <code>true</code> if communicating on TP1, <code>false</code>
+	 *            if communicating on TP0
 	 */
-	public TPSettings(boolean mediumTP1)
-	{
+	public TPSettings(boolean mediumTP1) {
 		super(null);
 		tp1 = mediumTP1;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.medium.KNXMediumSettings#getMedium()
 	 */
-	public short getMedium()
-	{
+	public short getMedium() {
 		return tp1 ? MEDIUM_TP1 : MEDIUM_TP0;
 	}
 
@@ -87,8 +89,7 @@ public class TPSettings extends KNXMediumSettings
 	 * 
 	 * @return <code>true</code> for TP1, <code>false</code> for TP0
 	 */
-	public final boolean isTP1()
-	{
+	public final boolean isTP1() {
 		return tp1;
 	}
 }

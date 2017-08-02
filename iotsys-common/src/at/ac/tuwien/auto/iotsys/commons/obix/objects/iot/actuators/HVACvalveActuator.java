@@ -34,30 +34,42 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 
 import obix.Int;
 
-public interface HVACvalveActuator  extends Actuator{
-	public static final String CONTRACT="HVACvalveActuator";
-	
-	public static final String ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_NAME="actPosSetpHeatStageAValue";
-	public static final String ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_HREF="actPosSetpHeatStageAValue";
-	public static final String ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_UNIT="obix:units/percent";
-	public static final String ACT_POS_SETP_HEAT_STAGE_A_CONTRACT = "<int name='"+ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_NAME+"' href='"+ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_HREF+"' val='0'/>";
+public interface HVACvalveActuator extends Actuator {
+	public static final String CONTRACT = "HVACvalveActuator";
+
+	public static final String ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_NAME = "actPosSetpHeatStageAValue";
+	public static final String ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_HREF = "actPosSetpHeatStageAValue";
+	public static final String ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ACT_POS_SETP_HEAT_STAGE_A_CONTRACT = "<int name='"
+			+ ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_NAME + "' href='" + ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_HREF
+			+ "' val='0'/>";
+
 	public Int actPosSetpHeatStageAValue();
-	
-	public static final String ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_NAME="actPosSetpHeatStageBValue";
-	public static final String ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_HREF="actPosSetpHeatStageBValue";
-	public static final String ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_UNIT="obix:units/percent";
-	public static final String ACT_POS_SETP_HEAT_STAGE_B_CONTRACT = "<int name='"+ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_NAME+"' href='"+ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_HREF+"' val='0'/>";
+
+	public static final String ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_NAME = "actPosSetpHeatStageBValue";
+	public static final String ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_HREF = "actPosSetpHeatStageBValue";
+	public static final String ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ACT_POS_SETP_HEAT_STAGE_B_CONTRACT = "<int name='"
+			+ ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_NAME + "' href='" + ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_HREF
+			+ "' val='0'/>";
+
 	public Int actPosSetpHeatStageBValue();
-	
-	public static final String ACT_POS_SETP_COOL_STAGE_A_CONTRACT_NAME="actPosSetpCoolStageAValue";
-	public static final String ACT_POS_SETP_COOL_STAGE_A_CONTRACT_HREF="actPosSetpCoolStageAValue";
-	public static final String ACT_POS_SETP_COOL_STAGE_A_CONTRACT_UNIT="obix:units/percent";
-	public static final String ACT_POS_SETP_COOL_STAGE_A_CONTRACT = "<int name='"+ACT_POS_SETP_COOL_STAGE_A_CONTRACT_NAME+"' href='"+ACT_POS_SETP_COOL_STAGE_A_CONTRACT_HREF+"' val='0'/>";	
+
+	public static final String ACT_POS_SETP_COOL_STAGE_A_CONTRACT_NAME = "actPosSetpCoolStageAValue";
+	public static final String ACT_POS_SETP_COOL_STAGE_A_CONTRACT_HREF = "actPosSetpCoolStageAValue";
+	public static final String ACT_POS_SETP_COOL_STAGE_A_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ACT_POS_SETP_COOL_STAGE_A_CONTRACT = "<int name='"
+			+ ACT_POS_SETP_COOL_STAGE_A_CONTRACT_NAME + "' href='" + ACT_POS_SETP_COOL_STAGE_A_CONTRACT_HREF
+			+ "' val='0'/>";
+
 	public Int actPosSetpCoolStageAValue();
-	
-	public static final String ACT_POS_SETP_COOL_STAGE_B_CONTRACT_NAME="actPosSetpCoolStageBValue";
-	public static final String ACT_POS_SETP_COOL_STAGE_B_CONTRACT_HREF="actPosSetpCoolStageBValue";
-	public static final String ACT_POS_SETP_COOL_STAGE_B_CONTRACT_UNIT="obix:units/percent";
-	public static final String ACT_POS_SETP_COOL_STAGE_B_CONTRACT = "<int name='"+ACT_POS_SETP_COOL_STAGE_B_CONTRACT_NAME+"' href='"+ACT_POS_SETP_COOL_STAGE_B_CONTRACT_HREF+"' val='0'/>";	
+
+	public static final String ACT_POS_SETP_COOL_STAGE_B_CONTRACT_NAME = "actPosSetpCoolStageBValue";
+	public static final String ACT_POS_SETP_COOL_STAGE_B_CONTRACT_HREF = "actPosSetpCoolStageBValue";
+	public static final String ACT_POS_SETP_COOL_STAGE_B_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ACT_POS_SETP_COOL_STAGE_B_CONTRACT = "<int name='"
+			+ ACT_POS_SETP_COOL_STAGE_B_CONTRACT_NAME + "' href='" + ACT_POS_SETP_COOL_STAGE_B_CONTRACT_HREF
+			+ "' val='0'/>";
+
 	public Int actPosSetpCoolStageBValue();
 }

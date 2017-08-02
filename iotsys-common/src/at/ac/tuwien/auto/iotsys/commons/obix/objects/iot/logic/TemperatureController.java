@@ -38,28 +38,36 @@ import obix.Real;
 
 public interface TemperatureController extends IObj {
 	public static final String CONTRACT = "iot:TemperatureController";
-	
+
 	public static final String setpointContract = "<real name='setpoint' href='setpoint' val='0'/>";
+
 	public Real setpoint();
-	
+
 	public static final String temperatureContract = "<real name='temperature' href='temperature' val='0'/>";
+
 	public Real temperature();
-	
+
 	public static final String controlValueContract = "<real name='controlValue' href='controlValue' val='0'/>";
+
 	public Real controlValue();
-	
+
 	public static final String enabledContract = "<bool name='enabled' href='enabled' val='false'/>";
+
 	public Bool enabled();
-	
+
 	public static final String toleranceContract = "<real name='tolerance' href='tolerance' val='0'/>";
+
 	public Real tolerance();
-	
+
 	public static final String setpointAdjustmentContract = "<real name='setpointAdjustment' href='setpointAdjustment' val='0'/>";
+
 	public Real setpointAdjustment();
-	
+
 	public static final String saveEnergyFactor = "<real name='saveEnergy' href='tolercance' val='0'/>";
+
 	public Real saveEnergyFactor();
-	
+
 	public static final String saveEnergyEnabled = "<bool name='saveEnergyEnabled' href='saveEnergyEnabled' val='false'/>";
-	public Bool saveEnergyEnabled();		
+
+	public Bool saveEnergyEnabled();
 }

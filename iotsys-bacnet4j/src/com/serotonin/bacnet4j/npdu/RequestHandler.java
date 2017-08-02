@@ -28,8 +28,8 @@ import com.serotonin.bacnet4j.service.unconfirmed.UnconfirmedRequestService;
 import com.serotonin.bacnet4j.type.constructed.Address;
 
 public interface RequestHandler {
-    AcknowledgementService handleConfirmedRequest(Address from, Network network, byte invokeId,
-            ConfirmedRequestService serviceRequest) throws BACnetException;
+	AcknowledgementService handleConfirmedRequest(Address from, Network network, byte invokeId,
+			ConfirmedRequestService serviceRequest) throws BACnetException;
 
-    void handleUnconfirmedRequest(Address from, Network network, UnconfirmedRequestService serviceRequest);
+	void handleUnconfirmedRequest(Address from, Network network, UnconfirmedRequestService serviceRequest);
 }

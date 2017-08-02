@@ -49,33 +49,33 @@ public class TelegramTest {
 	public static void main(String[] args) {
 		String telegramString = "";
 		TelegramManagerInterface manager = new WMBusConnector();
-		
-		String aesKey =  "66 77 66 77 66 77 66 77 66 77 66 77 66 77 66 77";
-	
+
+		String aesKey = "66 77 66 77 66 77 66 77 66 77 66 77 66 77 66 77";
+
 		telegramString = "3E 44 2D 4C 74 44 00 15 1E 02 7A 04 00 30 85 16 D9 B7 3C F2 A6 6B 34 2A 49 E3 7B 80 5A A7 86 D3 E8 9F 3E BD CD E2 0D 7E DC 79 B8 CD 45 37 CB 95 50 1F 55 4B EE 52 F6 0A F5 F1 EA D3 82 54 E3";
-		
+
 		Telegram telegram = new Telegram();
 		telegram.createTelegram(telegramString, false);
-		if(telegram.decryptTelegram(aesKey) == false) {
+		if (telegram.decryptTelegram(aesKey) == false) {
 			log.severe("Decryption of AES telegram not possible.");
 			return;
 		}
 		telegram.parse();
-		
-		String serialNr = telegram.getSerialNr();		
+
+		String serialNr = telegram.getSerialNr();
 		log.fine("Serial number: " + serialNr);
-		
+
 		SimpleTelegram simpleTelegram = null;
-		
+
 		simpleTelegram = new SimpleTelegram();
-		
+
 		simpleTelegram.setEnergy(new Double(telegram.getEnergyValue()));
 		simpleTelegram.setEnergyUnit(Measure_Unit.WH);
 		log.fine("Energy is: " + telegram.getEnergyValue());
 		simpleTelegram.setPower(Double.parseDouble(telegram.getPowerValue()));
 		simpleTelegram.setEnergyUnit(Measure_Unit.W);
 		log.fine("Power is: " + telegram.getPowerValue());
-				
+
 		telegram.debugOutput();
 	}
 

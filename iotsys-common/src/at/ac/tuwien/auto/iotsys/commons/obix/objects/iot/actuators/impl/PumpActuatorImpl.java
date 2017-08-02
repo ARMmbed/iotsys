@@ -40,38 +40,35 @@ import obix.Obj;
 import obix.Real;
 import obix.Uri;
 
-public class PumpActuatorImpl extends ActuatorImpl implements PumpActuator{
+public class PumpActuatorImpl extends ActuatorImpl implements PumpActuator {
 	protected Int value = new Int(0);
-	
-	public PumpActuatorImpl(){
+
+	public PumpActuatorImpl() {
 		setIs(new Contract(PumpActuator.CONTRACT));
 		value.setWritable(true);
 		value.setHref(new Uri("value"));
-		value.setName("value");		
+		value.setName("value");
 		value.setMin(0);
 		value.setMax(100);
 		this.add(value);
 	}
-	
-	public void writeObject(Obj input){		
-		
-		if(input instanceof PumpActuator){
-			PumpActuator in = (PumpActuator) input;//			
+
+	public void writeObject(Obj input) {
+
+		if (input instanceof PumpActuator) {
+			PumpActuator in = (PumpActuator) input;//
 			this.value.set(in.value().get());
-			
-		}
-		else if(input instanceof Int){
+
+		} else if (input instanceof Int) {
 			this.value.set(((Int) input).get());
-		}
-		else if(input instanceof Bool){
+		} else if (input instanceof Bool) {
 			this.value.set(((Bool) input).get());
-		}
-		else if(input instanceof Real){
+		} else if (input instanceof Real) {
 			this.value.set(((Real) input).get());
-		}	
+		}
 	}
-	
+
 	public Int value() {
 		return this.value;
-	}	
+	}
 }

@@ -24,11 +24,11 @@ import java.io.ByteArrayOutputStream;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
 
-
 /**
  * Represents a KNXnet/IP connection state response.
  * <p>
- * Connection state responses are sent by a server in reply to a connection state request.
+ * Connection state responses are sent by a server in reply to a connection
+ * state request.
  * <p>
  * Objects of this type are immutable.
  * 
@@ -36,8 +36,7 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
  * @author Bernhard Erb
  * @see at.ac.tuwien.auto.calimero.knxnetip.servicetype.ConnectionstateRequest
  */
-public class ConnectionstateResponse extends ServiceType
-{
+public class ConnectionstateResponse extends ServiceType {
 	private final short channelid;
 	private final short status;
 
@@ -45,13 +44,15 @@ public class ConnectionstateResponse extends ServiceType
 	 * Creates a connection state response out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing a connection state response structure
-	 * @param offset start offset of response in <code>data</code>
-	 * @throws KNXFormatException if no connection state response was found or invalid
-	 *         structure
+	 * @param data
+	 *            byte array containing a connection state response structure
+	 * @param offset
+	 *            start offset of response in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no connection state response was found or invalid
+	 *             structure
 	 */
-	public ConnectionstateResponse(byte[] data, int offset) throws KNXFormatException
-	{
+	public ConnectionstateResponse(byte[] data, int offset) throws KNXFormatException {
 		super(KNXnetIPHeader.CONNECTIONSTATE_RES);
 		if (data.length - offset < 2)
 			throw new KNXFormatException("buffer too short for response");
@@ -63,12 +64,13 @@ public class ConnectionstateResponse extends ServiceType
 	 * Creates a new connection state request.
 	 * <p>
 	 * 
-	 * @param channelID communication channel ID passed with the corresponding connection
-	 *        state request, 0 &lt;= id &lt;= 255
-	 * @param status status of the connection, 0 &lt;= status &lt;= 255
+	 * @param channelID
+	 *            communication channel ID passed with the corresponding
+	 *            connection state request, 0 &lt;= id &lt;= 255
+	 * @param status
+	 *            status of the connection, 0 &lt;= status &lt;= 255
 	 */
-	public ConnectionstateResponse(short channelID, short status)
-	{
+	public ConnectionstateResponse(short channelID, short status) {
 		super(KNXnetIPHeader.CONNECTIONSTATE_RES);
 		if (channelID < 0 || channelID > 0xFF)
 			throw new KNXIllegalArgumentException("channel ID out of range [0..255]");
@@ -84,8 +86,7 @@ public class ConnectionstateResponse extends ServiceType
 	 * 
 	 * @return channel ID as unsigned byte
 	 */
-	public final short getChannelID()
-	{
+	public final short getChannelID() {
 		return channelid;
 	}
 
@@ -95,8 +96,7 @@ public class ConnectionstateResponse extends ServiceType
 	 * 
 	 * @return status code as unsigned byte
 	 */
-	public final short getStatus()
-	{
+	public final short getStatus() {
 		return status;
 	}
 
@@ -106,8 +106,7 @@ public class ConnectionstateResponse extends ServiceType
 	 * 
 	 * @return short description of status as string
 	 */
-	public String getStatusString()
-	{
+	public String getStatusString() {
 		switch (status) {
 		case ErrorCodes.NO_ERROR:
 			return "the connection state is normal";
@@ -122,20 +121,23 @@ public class ConnectionstateResponse extends ServiceType
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * tuwien.auto.calimero.knxnetip.servicetype.ServiceType#getStructLength()
 	 */
-	short getStructLength()
-	{
+	short getStructLength() {
 		return 2;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.knxnetip.servicetype.ServiceType#toByteArray
-	 *      (java.io.ByteArrayOutputStream)
+	 * (java.io.ByteArrayOutputStream)
 	 */
-	byte[] toByteArray(ByteArrayOutputStream os)
-	{
+	byte[] toByteArray(ByteArrayOutputStream os) {
 		os.write(channelid);
 		os.write(status);
 		return os.toByteArray();

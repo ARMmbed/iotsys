@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint;
 
 import obix.Real;
 
-public interface DPT_5_A extends DataPoint
-{
+public interface DPT_5_A extends DataPoint {
 	public static final String CONTRACT = "knx:DPT-5-A";
 
 	public Real value();

@@ -12,8 +12,7 @@ import at.ac.tuwien.auto.iotsys.obix.OperationHandler;
  * @creation 27 Apr 05
  * @version $Revision$ $Date$
  */
-public class Op extends Obj
-{
+public class Op extends Obj {
 
 	// //////////////////////////////////////////////////////////////
 	// Constructor
@@ -22,8 +21,7 @@ public class Op extends Obj
 	/**
 	 * Construct named Op with specified input and output parameters.
 	 */
-	public Op(String name, Contract in, Contract out)
-	{
+	public Op(String name, Contract in, Contract out) {
 		super(name);
 		setIn(in);
 		setOut(out);
@@ -32,16 +30,14 @@ public class Op extends Obj
 	/**
 	 * Construct named Op.
 	 */
-	public Op(String name)
-	{
+	public Op(String name) {
 		this(name, null, null);
 	}
 
 	/**
 	 * Construct unnamed Op.
 	 */
-	public Op()
-	{
+	public Op() {
 		this(null, null, null);
 	}
 
@@ -52,32 +48,28 @@ public class Op extends Obj
 	/**
 	 * Get the input argument contract.
 	 */
-	public Contract getIn()
-	{
+	public Contract getIn() {
 		return in;
 	}
 
 	/**
 	 * Set operations input contract.
 	 */
-	public void setIn(Contract in)
-	{
+	public void setIn(Contract in) {
 		this.in = (in != null) ? in : Contract.Obj;
 	}
 
 	/**
 	 * Get output contract.
 	 */
-	public Contract getOut()
-	{
+	public Contract getOut() {
 		return out;
 	}
 
 	/**
 	 * Set the operation's output contract.
 	 */
-	public void setOut(Contract out)
-	{
+	public void setOut(Contract out) {
 		this.out = (out != null) ? out : Contract.Obj;
 	}
 
@@ -88,8 +80,7 @@ public class Op extends Obj
 	/**
 	 * Include signature in display string if display attribute is unspecified.
 	 */
-	public String toDisplayString()
-	{
+	public String toDisplayString() {
 		if (getDisplay() != null)
 			return getDisplay();
 
@@ -105,26 +96,22 @@ public class Op extends Obj
 	/**
 	 * Return "op".
 	 */
-	public String getElement()
-	{
+	public String getElement() {
 		return "op";
 	}
 
 	/**
 	 * Return BinObix.OP.
 	 */
-	public int getBinCode()
-	{
+	public int getBinCode() {
 		return obix.io.BinObix.OP;
 	}
 
-	public OperationHandler getOperationHandler()
-	{
+	public OperationHandler getOperationHandler() {
 		return operationHandler;
 	}
 
-	public void setOperationHandler(OperationHandler operationHandler)
-	{
+	public void setOperationHandler(OperationHandler operationHandler) {
 		this.operationHandler = operationHandler;
 	}
 

@@ -34,11 +34,13 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface SupplyAQSensor extends Sensor{
-	public static final String AQ_SUPPLY_AIR_CONTRACT_NAME="aqSupplyAir";
-	public static final String AQ_SUPPLY_AIR_CONTRACT_HREF="aqSupplyAir";
-	
-	public static final String CONTRACT="iot:SupplyAQSensor";
-	public static final String AQ_SUPPLY_AIR_CONTRACT = "<real name='"+SupplyAQSensor.AQ_SUPPLY_AIR_CONTRACT_NAME+"' href='"+SupplyAQSensor.AQ_SUPPLY_AIR_CONTRACT_HREF+"' val='0'/>";
-	public Real aqSupplyAirValue();  
+public interface SupplyAQSensor extends Sensor {
+	public static final String AQ_SUPPLY_AIR_CONTRACT_NAME = "aqSupplyAir";
+	public static final String AQ_SUPPLY_AIR_CONTRACT_HREF = "aqSupplyAir";
+
+	public static final String CONTRACT = "iot:SupplyAQSensor";
+	public static final String AQ_SUPPLY_AIR_CONTRACT = "<real name='" + SupplyAQSensor.AQ_SUPPLY_AIR_CONTRACT_NAME
+			+ "' href='" + SupplyAQSensor.AQ_SUPPLY_AIR_CONTRACT_HREF + "' val='0'/>";
+
+	public Real aqSupplyAirValue();
 }

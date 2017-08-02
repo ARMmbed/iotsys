@@ -32,128 +32,121 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.AirDamperActuator;
 import obix.Contract;
 import obix.Int;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.AirDamperActuator;
 
-public class AirDamperActuatorImpl extends ActuatorImpl implements AirDamperActuator{
+public class AirDamperActuatorImpl extends ActuatorImpl implements AirDamperActuator {
 	protected Int actPosSetpFreshAirValue = new Int(0);
 	protected Int actPosSetpSupplyAirValue = new Int(0);
 	protected Int actPosSetpDischargeAirValue = new Int(0);
 	protected Int actPosSetpExtractAirValue = new Int(0);
-	
+
 	public AirDamperActuatorImpl() {
-	
+
 		setIs(new Contract(AirDamperActuator.CONTRACT));
-		
-		//actPosSetpFreshAirValue
+
+		// actPosSetpFreshAirValue
 		actPosSetpFreshAirValue.setWritable(true);
 		Uri actPosSetpFreshAirValueUri = new Uri(AirDamperActuator.ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF);
 		actPosSetpFreshAirValue.setHref(actPosSetpFreshAirValueUri);
 		actPosSetpFreshAirValue.setName(AirDamperActuator.ACT_POS_SETP_FRESH_AIR_CONTRACT_NAME);
 		actPosSetpFreshAirValue.setUnit(new Uri(AirDamperActuator.ACT_POS_SETP_FRESH_AIR_CONTRACT_UNIT));
 		add(actPosSetpFreshAirValue);
-		
-		//actPosSetpSupplyAirValue
+
+		// actPosSetpSupplyAirValue
 		actPosSetpSupplyAirValue.setWritable(true);
 		Uri actPosSetpSupplyAirValueUri = new Uri(AirDamperActuator.ACT_POS_SETP_SUPPLY_AIR_CONTRACT_HREF);
 		actPosSetpSupplyAirValue.setHref(actPosSetpSupplyAirValueUri);
 		actPosSetpSupplyAirValue.setName(AirDamperActuator.ACT_POS_SETP_SUPPLY_AIR_CONTRACT_NAME);
 		actPosSetpSupplyAirValue.setUnit(new Uri(AirDamperActuator.ACT_POS_SETP_SUPPLY_AIR_CONTRACT_UNIT));
 		add(actPosSetpSupplyAirValue);
-		
-		//actPosSetpDischargeAirValue
+
+		// actPosSetpDischargeAirValue
 		actPosSetpDischargeAirValue.setWritable(true);
 		Uri actPosSetpDischargeAirValueUri = new Uri(AirDamperActuator.ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_HREF);
 		actPosSetpDischargeAirValue.setHref(actPosSetpDischargeAirValueUri);
 		actPosSetpDischargeAirValue.setName(AirDamperActuator.ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_NAME);
 		actPosSetpDischargeAirValue.setUnit(new Uri(AirDamperActuator.ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_UNIT));
 		add(actPosSetpDischargeAirValue);
-		
-		//actPosSetpExtractAirValue
+
+		// actPosSetpExtractAirValue
 		actPosSetpExtractAirValue.setWritable(true);
 		Uri actPosSetpExtractAirValueUri = new Uri(AirDamperActuator.ACT_POS_SETP_EXTRACT_AIR_CONTRACT_HREF);
 		actPosSetpExtractAirValue.setHref(actPosSetpExtractAirValueUri);
 		actPosSetpExtractAirValue.setName(AirDamperActuator.ACT_POS_SETP_EXTRACT_AIR_CONTRACT_NAME);
 		actPosSetpExtractAirValue.setUnit(new Uri(AirDamperActuator.ACT_POS_SETP_EXTRACT_AIR_CONTRACT_UNIT));
 		add(actPosSetpExtractAirValue);
-		
+
 	}
-	
-	
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.		
+
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
 		long newActPosSetpFreshAirValue = 0;
 		long newActPosSetpSupplyAirValue = 0;
 		long newActPosSetpDischargeAirValue = 0;
 		long newActPosSetpExtractAirValue = 0;
-				
-		if(input instanceof AirDamperActuator){
-			AirDamperActuator in = (AirDamperActuator) input;
-									
-				newActPosSetpFreshAirValue = in.actPosSetpFreshAirValue().get();
-				this.actPosSetpFreshAirValue.set(newActPosSetpFreshAirValue);
-			
-				newActPosSetpSupplyAirValue = in.actPosSetpSupplyAirValue().get();
-				this.actPosSetpSupplyAirValue.set(newActPosSetpSupplyAirValue);
 
-				newActPosSetpDischargeAirValue = in.actPosSetpDischargeAirValue().get();
-				this.actPosSetpDischargeAirValue.set(newActPosSetpDischargeAirValue);
-	
-				newActPosSetpExtractAirValue = in.actPosSetpExtractAirValue().get();
-				this.actPosSetpExtractAirValue.set(newActPosSetpExtractAirValue);	
+		if (input instanceof AirDamperActuator) {
+			AirDamperActuator in = (AirDamperActuator) input;
+
+			newActPosSetpFreshAirValue = in.actPosSetpFreshAirValue().get();
+			this.actPosSetpFreshAirValue.set(newActPosSetpFreshAirValue);
+
+			newActPosSetpSupplyAirValue = in.actPosSetpSupplyAirValue().get();
+			this.actPosSetpSupplyAirValue.set(newActPosSetpSupplyAirValue);
+
+			newActPosSetpDischargeAirValue = in.actPosSetpDischargeAirValue().get();
+			this.actPosSetpDischargeAirValue.set(newActPosSetpDischargeAirValue);
+
+			newActPosSetpExtractAirValue = in.actPosSetpExtractAirValue().get();
+			this.actPosSetpExtractAirValue.set(newActPosSetpExtractAirValue);
 		}
-		
-		//Decide shich child are requested
-		else if(input instanceof Int){
-			if(input.getHref() == null){
+
+		// Decide shich child are requested
+		else if (input instanceof Int) {
+			if (input.getHref() == null) {
 				String resourceUriPath = input.getInvokedHref().substring(input.getInvokedHref().lastIndexOf('/') + 1);
-				
-				if(AirDamperActuator.ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF.equals(resourceUriPath)){
-						newActPosSetpFreshAirValue = ((Int) input).get();
-						this.actPosSetpFreshAirValue.set(newActPosSetpFreshAirValue);
-				}
-				else if (AirDamperActuator.ACT_POS_SETP_SUPPLY_AIR_CONTRACT_HREF.equals(resourceUriPath)){
-						newActPosSetpSupplyAirValue = ((Int) input).get();
-						this.actPosSetpSupplyAirValue.set(newActPosSetpSupplyAirValue);
-				}
-				else if (AirDamperActuator.ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_HREF.equals(resourceUriPath)){
-						newActPosSetpDischargeAirValue = ((Int) input).get();
-						this.actPosSetpDischargeAirValue.set(newActPosSetpDischargeAirValue);
-				}
-				else if (AirDamperActuator.ACT_POS_SETP_EXTRACT_AIR_CONTRACT_HREF.equals(resourceUriPath)){
-						newActPosSetpExtractAirValue = ((Int) input).get();
-						this.actPosSetpExtractAirValue.set(newActPosSetpExtractAirValue);
-				}
-				
-			}
-			else{
-				if (AirDamperActuator.ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF.equals(input.getHref().toString())){
+
+				if (AirDamperActuator.ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF.equals(resourceUriPath)) {
 					newActPosSetpFreshAirValue = ((Int) input).get();
 					this.actPosSetpFreshAirValue.set(newActPosSetpFreshAirValue);
-				}
-				else if (AirDamperActuator.ACT_POS_SETP_SUPPLY_AIR_CONTRACT_HREF.equals(input.getHref().toString())){
+				} else if (AirDamperActuator.ACT_POS_SETP_SUPPLY_AIR_CONTRACT_HREF.equals(resourceUriPath)) {
 					newActPosSetpSupplyAirValue = ((Int) input).get();
 					this.actPosSetpSupplyAirValue.set(newActPosSetpSupplyAirValue);
-				}
-				else if (AirDamperActuator.ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_HREF.equals(input.getHref().toString())){
+				} else if (AirDamperActuator.ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_HREF.equals(resourceUriPath)) {
 					newActPosSetpDischargeAirValue = ((Int) input).get();
 					this.actPosSetpDischargeAirValue.set(newActPosSetpDischargeAirValue);
-				}
-				else if (AirDamperActuator.ACT_POS_SETP_EXTRACT_AIR_CONTRACT_HREF.equals(input.getHref().toString())){
+				} else if (AirDamperActuator.ACT_POS_SETP_EXTRACT_AIR_CONTRACT_HREF.equals(resourceUriPath)) {
 					newActPosSetpExtractAirValue = ((Int) input).get();
 					this.actPosSetpExtractAirValue.set(newActPosSetpExtractAirValue);
 				}
-			  
+
+			} else {
+				if (AirDamperActuator.ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF.equals(input.getHref().toString())) {
+					newActPosSetpFreshAirValue = ((Int) input).get();
+					this.actPosSetpFreshAirValue.set(newActPosSetpFreshAirValue);
+				} else if (AirDamperActuator.ACT_POS_SETP_SUPPLY_AIR_CONTRACT_HREF.equals(input.getHref().toString())) {
+					newActPosSetpSupplyAirValue = ((Int) input).get();
+					this.actPosSetpSupplyAirValue.set(newActPosSetpSupplyAirValue);
+				} else if (AirDamperActuator.ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_HREF
+						.equals(input.getHref().toString())) {
+					newActPosSetpDischargeAirValue = ((Int) input).get();
+					this.actPosSetpDischargeAirValue.set(newActPosSetpDischargeAirValue);
+				} else if (AirDamperActuator.ACT_POS_SETP_EXTRACT_AIR_CONTRACT_HREF
+						.equals(input.getHref().toString())) {
+					newActPosSetpExtractAirValue = ((Int) input).get();
+					this.actPosSetpExtractAirValue.set(newActPosSetpExtractAirValue);
+				}
+
 			}
 
 		}
-		
+
 	}
-	
-	
+
 	@Override
 	public Int actPosSetpFreshAirValue() {
 		return this.actPosSetpFreshAirValue;

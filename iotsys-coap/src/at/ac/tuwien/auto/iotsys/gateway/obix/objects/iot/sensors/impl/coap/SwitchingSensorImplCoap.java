@@ -32,26 +32,28 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.sensors.impl.coap;
 
-//import java.util.logging.Logger;
-
-import ch.ethz.inf.vs.californium.coap.Response;
-import ch.ethz.inf.vs.californium.coap.ResponseHandler;
-
-import obix.Obj;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.SwitchingSensorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
 
+//import java.util.logging.Logger;
+
+import ch.ethz.inf.vs.californium.coap.Response;
+import ch.ethz.inf.vs.californium.coap.ResponseHandler;
+import obix.Obj;
+
 public class SwitchingSensorImplCoap extends SwitchingSensorImpl implements IoTSySDevice {
-	//private static final Logger log = Logger.getLogger(SwitchingSensorImplCoap.class.getName());
-	
+	// private static final Logger log =
+	// Logger.getLogger(SwitchingSensorImplCoap.class.getName());
+
 	private CoapConnector coapConnector;
-	private String busAddress; 
+	private String busAddress;
 	private boolean isObserved;
 	private boolean shouldObserve;
 	private boolean forwardGroupAddress;
-	
-	public SwitchingSensorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve, boolean forwardGroupAddress){
+
+	public SwitchingSensorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve,
+			boolean forwardGroupAddress) {
 		// technology specific initialization
 		this.coapConnector = coapConnector;
 		this.busAddress = busAddress;
@@ -59,47 +61,50 @@ public class SwitchingSensorImplCoap extends SwitchingSensorImpl implements IoTS
 		this.shouldObserve = shouldObserve;
 		this.forwardGroupAddress = forwardGroupAddress;
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
-		if(shouldObserve)
+		if (shouldObserve)
 			addWatchDog();
 	}
-	
-	public void addWatchDog(){
+
+	public void addWatchDog() {
 		coapConnector.createWatchDog(busAddress, "value", new ResponseHandler() {
-			public void handleResponse(Response response) {	
+			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-				
-				if(payload.equals("") || payload.equals("TooManyObservers")) return;
-				
-				if(payload.startsWith("Added")) {
+
+				if (payload.equals("") || payload.equals("TooManyObservers"))
+					return;
+
+				if (payload.startsWith("Added")) {
 					isObserved = true;
 					return;
 				}
-				boolean temp = Boolean.parseBoolean( CoapConnector.extractAttribute("bool", "val",payload));
+				boolean temp = Boolean.parseBoolean(CoapConnector.extractAttribute("bool", "val", payload));
 				SwitchingSensorImplCoap.this.switchOnOffValue().set(temp);
 
 			}
-		});	
+		});
 	}
-	
+
 	@Override
-	public void writeObject(Obj input){
-		//not writable
+	public void writeObject(Obj input) {
+		// not writable
 	}
-	
+
 	@Override
-	public void refreshObject(){
-		//switchOnOffValue is the protected instance variable of the base class (SwitchingSensorImpl)
-		if(switchOnOffValue() != null  && !isObserved){
+	public void refreshObject() {
+		// switchOnOffValue is the protected instance variable of the base class
+		// (SwitchingSensorImpl)
+		if (switchOnOffValue() != null && !isObserved) {
 			Boolean value = coapConnector.readBoolean(busAddress, "switchOnOff");
-			// this calls the implementation of the base class, which triggers also
-			// oBIX services (e.g. watches, history) and CoAP observe!			
-			this.switchOnOffValue().set(value); 
-		}	
+			// this calls the implementation of the base class, which triggers
+			// also
+			// oBIX services (e.g. watches, history) and CoAP observe!
+			this.switchOnOffValue().set(value);
+		}
 	}
 
 	@Override
@@ -109,6 +114,6 @@ public class SwitchingSensorImplCoap extends SwitchingSensorImpl implements IoTS
 
 	@Override
 	public boolean forwardGroupAddress() {
-		return forwardGroupAddress;	
+		return forwardGroupAddress;
 	}
 }

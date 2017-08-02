@@ -30,42 +30,38 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import obix.Obj;
-import obix.Uri;
-
 import org.apache.commons.configuration.HierarchicalConfiguration;
 import org.apache.commons.configuration.XMLConfiguration;
+
+import com.fasterxml.jackson.databind.JsonNode;
 
 import at.ac.tuwien.auto.calimero.GroupAddress;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
-import at.ac.tuwien.auto.iotsys.commons.persistent.ConfigsDbImpl;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Device;
-
-import com.fasterxml.jackson.databind.JsonNode;
+import obix.Obj;
+import obix.Uri;
 
 public class KNXDeviceLoaderImpl implements DeviceLoader {
-	private static Logger log = Logger.getLogger(KNXDeviceLoaderImpl.class
-			.getName());
+	private static Logger log = Logger.getLogger(KNXDeviceLoaderImpl.class.getName());
 
 	private XMLConfiguration devicesConfig;
-	
+
 	private ArrayList<Obj> myObjects = new ArrayList<Obj>();
 
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		setConfiguration(devicesConfig);
 		objectBroker.getConfigDb().prepareDeviceLoader(getClass().getName());
-		
+
 		ArrayList<Connector> connectors = new ArrayList<Connector>();
 
 		List<JsonNode> connectorsFromDb = objectBroker.getConfigDb().getConnectors("knx");
 		int connectorsSize = 0;
 
 		if (connectorsFromDb.size() <= 0) {
-			Object knxConnectors = devicesConfig
-					.getProperty("knx.connector.name");
+			Object knxConnectors = devicesConfig.getProperty("knx.connector.name");
 
 			if (knxConnectors != null) {
 				connectorsSize = 1;
@@ -74,15 +70,20 @@ public class KNXDeviceLoaderImpl implements DeviceLoader {
 			if (knxConnectors instanceof Collection<?>) {
 				connectorsSize = ((Collection<?>) knxConnectors).size();
 			}
-		} else 
+		} else
 			connectorsSize = connectorsFromDb.size();
-		
+
 		for (int connector = 0; connector < connectorsSize; connector++) {
 
-			HierarchicalConfiguration subConfig = devicesConfig
-					.configurationAt("knx.connector(" + connector + ")");
-			
-			Object knxConfiguredDevices = subConfig.getProperty("device.type");// just to get the number of devices
+			HierarchicalConfiguration subConfig = devicesConfig.configurationAt("knx.connector(" + connector + ")");
+
+			Object knxConfiguredDevices = subConfig.getProperty("device.type");// just
+																				// to
+																				// get
+																				// the
+																				// number
+																				// of
+																				// devices
 			String connectorId = "";
 			String connectorName = subConfig.getString("name");
 			String routerIP = subConfig.getString("router.ip");
@@ -93,28 +94,27 @@ public class KNXDeviceLoaderImpl implements DeviceLoader {
 			try {
 				connectorId = connectorsFromDb.get(connector).get("_id").asText();
 				connectorName = connectorsFromDb.get(connector).get("name").asText();
-				enabled =  connectorsFromDb.get(connector).get("enabled").asBoolean();
-				routerIP =  connectorsFromDb.get(connector).get("routerHostname").asText();
+				enabled = connectorsFromDb.get(connector).get("enabled").asBoolean();
+				routerIP = connectorsFromDb.get(connector).get("routerHostname").asText();
 				routerPort = connectorsFromDb.get(connector).get("routerPort").asInt();
 				localIP = connectorsFromDb.get(connector).get("localIP").asText();
-			} catch (Exception e){
+			} catch (Exception e) {
 				log.info("Cannot fetch configuration from Database, using devices.xml");
 			}
-			
+
 			if (enabled) {
 				try {
-					KNXConnector knxConnector = new KNXConnector(routerIP,
-							routerPort, localIP);
+					KNXConnector knxConnector = new KNXConnector(routerIP, routerPort, localIP);
 					knxConnector.setName(connectorName);
 					knxConnector.setTechnology("knx");
 					knxConnector.setEnabled(enabled);
 					knxConnector.connect();
 					connectors.add(knxConnector);
-					
+
 					int numberOfDevices = 0;
 					List<Device> devicesFromDb = objectBroker.getConfigDb().getDevices(connectorId);
-					
-					if (connectorsFromDb.size() <= 0){
+
+					if (connectorsFromDb.size() <= 0) {
 						if (knxConfiguredDevices != null) {
 							numberOfDevices = 1; // there is at least one
 													// device.
@@ -125,37 +125,27 @@ public class KNXDeviceLoaderImpl implements DeviceLoader {
 						}
 					} else
 						numberOfDevices = devicesFromDb.size();
-					
-					log.info(numberOfDevices
-							+ " KNX devices found in configuration for connector "
-							+ connectorName);
+
+					log.info(numberOfDevices + " KNX devices found in configuration for connector " + connectorName);
 					for (int i = 0; i < numberOfDevices; i++) {
-						
-						String type = subConfig.getString("device(" + i
-								+ ").type");
-						List<Object> address = subConfig.getList("device("
-								+ i + ").address");
+
+						String type = subConfig.getString("device(" + i + ").type");
+						List<Object> address = subConfig.getList("device(" + i + ").address");
 						String addressString = address.toString();
-						
-						String ipv6 = subConfig.getString("device(" + i
-								+ ").ipv6");
-						String href = subConfig.getString("device(" + i
-								+ ").href");
-						
-						String name = subConfig.getString("device(" + i
-								+ ").name");
-						
+
+						String ipv6 = subConfig.getString("device(" + i + ").ipv6");
+						String href = subConfig.getString("device(" + i + ").href");
+
+						String name = subConfig.getString("device(" + i + ").name");
+
 						String displayName = subConfig.getString("device(" + i + ").displayName");
 
-						Boolean historyEnabled = subConfig.getBoolean(
-								"device(" + i + ").historyEnabled", false);
-						
-						Boolean groupCommEnabled = subConfig.getBoolean(
-								"device(" + i + ").groupCommEnabled", false);
+						Boolean historyEnabled = subConfig.getBoolean("device(" + i + ").historyEnabled", false);
 
-						Integer historyCount = subConfig.getInt("device("
-								+ i + ").historyCount", 0);
-						
+						Boolean groupCommEnabled = subConfig.getBoolean("device(" + i + ").groupCommEnabled", false);
+
+						Integer historyCount = subConfig.getInt("device(" + i + ").historyCount", 0);
+
 						Boolean refreshEnabled = subConfig.getBoolean("device(" + i + ").refreshEnabled", false);
 
 						Device deviceFromDb;
@@ -164,7 +154,7 @@ public class KNXDeviceLoaderImpl implements DeviceLoader {
 							type = deviceFromDb.getType();
 							addressString = deviceFromDb.getAddress();
 							String subAddr[] = addressString.substring(1, addressString.length() - 1).split(", ");
-							address = Arrays.asList((Object[])subAddr);
+							address = Arrays.asList((Object[]) subAddr);
 							ipv6 = deviceFromDb.getIpv6();
 							href = deviceFromDb.getHref();
 							name = deviceFromDb.getName();
@@ -173,48 +163,41 @@ public class KNXDeviceLoaderImpl implements DeviceLoader {
 							groupCommEnabled = deviceFromDb.isGroupcommEnabled();
 							refreshEnabled = deviceFromDb.isRefreshEnabled();
 							historyCount = deviceFromDb.getHistoryCount();
-						} 
-						catch (Exception e) {
+						} catch (Exception e) {
 						}
-						
+
 						// Transition step: comment when done
-						Device d = new Device(type, ipv6, addressString, href, name, displayName, historyCount, historyEnabled, groupCommEnabled, refreshEnabled);
+						Device d = new Device(type, ipv6, addressString, href, name, displayName, historyCount,
+								historyEnabled, groupCommEnabled, refreshEnabled);
 						objectBroker.getConfigDb().prepareDevice(connectorName, d);
-						
+
 						if (type != null && address != null) {
 							int addressCount = address.size();
 							try {
-								Constructor<?>[] declaredConstructors = Class
-										.forName(type)
-										.getDeclaredConstructors();
+								Constructor<?>[] declaredConstructors = Class.forName(type).getDeclaredConstructors();
 								for (int k = 0; k < declaredConstructors.length; k++) {
-									if (declaredConstructors[k]
-											.getParameterTypes().length == addressCount + 1) { // constructor
-																								// that
-																								// takes
-																								// the
-																								// KNX
-																								// connector
-																								// and
-																								// group
-																								// address
-																								// as
-																								// argument
-										Object[] args = new Object[address
-												.size() + 1];
+									if (declaredConstructors[k].getParameterTypes().length == addressCount + 1) { // constructor
+																													// that
+																													// takes
+																													// the
+																													// KNX
+																													// connector
+																													// and
+																													// group
+																													// address
+																													// as
+																													// argument
+										Object[] args = new Object[address.size() + 1];
 										// first arg is KNX connector
 
 										args[0] = knxConnector;
 										for (int l = 1; l <= address.size(); l++) {
 											try {
-												String adr = (String) address
-														.get(l - 1);
-												if (adr == null
-														|| adr.equals("null")) {
+												String adr = (String) address.get(l - 1);
+												if (adr == null || adr.equals("null")) {
 													args[l] = null;
 												} else {
-													args[l] = new GroupAddress(
-															adr);
+													args[l] = new GroupAddress(adr);
 												}
 											} catch (KNXFormatException e) {
 												e.printStackTrace();
@@ -223,17 +206,16 @@ public class KNXDeviceLoaderImpl implements DeviceLoader {
 										try {
 											// create a instance of the
 											// specified KNX device
-											Obj knxDevice = (Obj) declaredConstructors[k]
-													.newInstance(args);
-										
-											knxDevice
-													.setHref(new Uri(URLEncoder.encode(connectorName, "UTF-8") + "/" + href));
-											
-											if(name != null && name.length() > 0){
+											Obj knxDevice = (Obj) declaredConstructors[k].newInstance(args);
+
+											knxDevice.setHref(
+													new Uri(URLEncoder.encode(connectorName, "UTF-8") + "/" + href));
+
+											if (name != null && name.length() > 0) {
 												knxDevice.setName(name);
 											}
-											
-											if(displayName != null && displayName.length() > 0){
+
+											if (displayName != null && displayName.length() > 0) {
 												knxDevice.setDisplayName(displayName);
 											}
 
@@ -242,30 +224,24 @@ public class KNXDeviceLoaderImpl implements DeviceLoader {
 											} else {
 												objectBroker.addObj(knxDevice);
 											}
-											
+
 											myObjects.add(knxDevice);
 
 											knxDevice.initialize();
 
-											if (historyEnabled != null
-													&& historyEnabled) {
-												if (historyCount != null
-														&& historyCount != 0) {
-													objectBroker
-															.addHistoryToDatapoints(
-																	knxDevice,
-																	historyCount);
+											if (historyEnabled != null && historyEnabled) {
+												if (historyCount != null && historyCount != 0) {
+													objectBroker.addHistoryToDatapoints(knxDevice, historyCount);
 												} else {
-													objectBroker
-															.addHistoryToDatapoints(knxDevice);
+													objectBroker.addHistoryToDatapoints(knxDevice);
 												}
 											}
-											
-											if(groupCommEnabled){
+
+											if (groupCommEnabled) {
 												objectBroker.enableGroupComm(knxDevice);
 											}
-											
-											if(refreshEnabled != null && refreshEnabled){
+
+											if (refreshEnabled != null && refreshEnabled) {
 												objectBroker.enableObjectRefresh(knxDevice);
 											}
 
@@ -299,13 +275,12 @@ public class KNXDeviceLoaderImpl implements DeviceLoader {
 
 	@Override
 	public void removeDevices(ObjectBroker objectBroker) {
-		synchronized(myObjects){
-			for(Obj obj : myObjects) {
+		synchronized (myObjects) {
+			for (Obj obj : myObjects) {
 				objectBroker.removeObj(obj.getFullContextPath());
 			}
 		}
 	}
-	
 
 	@Override
 	public void setConfiguration(XMLConfiguration devicesConfiguration) {

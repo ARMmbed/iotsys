@@ -38,27 +38,24 @@ import java.net.SocketException;
 import java.util.Hashtable;
 import java.util.logging.Logger;
 
+import at.ac.tuwien.auto.iotsys.commons.PropertiesLoader;
+import at.ac.tuwien.auto.iotsys.gateway.service.GroupCommService;
+import at.ac.tuwien.auto.iotsys.gateway.util.EXIEncoder;
 import ch.ethz.inf.vs.californium.coap.CommunicatorFactory;
 import ch.ethz.inf.vs.californium.coap.Message.messageType;
 import ch.ethz.inf.vs.californium.coap.PUTRequest;
 import ch.ethz.inf.vs.californium.coap.registries.MediaTypeRegistry;
-import ch.ethz.inf.vs.californium.layers.MulticastUDPLayer;
-import ch.ethz.inf.vs.californium.layers.MulticastUDPLayer.REQUEST_TYPE;
 import obix.Bool;
 import obix.Int;
 import obix.Obj;
 import obix.Real;
 import obix.io.ObixEncoder;
-import at.ac.tuwien.auto.iotsys.commons.PropertiesLoader;
-import at.ac.tuwien.auto.iotsys.gateway.service.GroupCommService;
-import at.ac.tuwien.auto.iotsys.gateway.util.EXIEncoder;
 
 /**
  * This class takes care for the group communication.
  */
 public class GroupCommServiceImpl implements GroupCommService {
-	private static final Logger log = Logger
-			.getLogger(GroupCommServiceImpl.class.getName());
+	private static final Logger log = Logger.getLogger(GroupCommServiceImpl.class.getName());
 
 	private final static GroupCommServiceImpl instance = new GroupCommServiceImpl();
 
@@ -69,10 +66,9 @@ public class GroupCommServiceImpl implements GroupCommService {
 	private boolean INTERNAL_NOTFICATION = true;
 
 	private GroupCommServiceImpl() {
-		MCAST_ENABLED = Boolean.parseBoolean(PropertiesLoader.getInstance()
-				.getProperties().getProperty("iotsys.gateway.mcast", "true"));
-		INTERNAL_NOTFICATION = Boolean.parseBoolean(PropertiesLoader
-				.getInstance().getProperties()
+		MCAST_ENABLED = Boolean.parseBoolean(
+				PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.mcast", "true"));
+		INTERNAL_NOTFICATION = Boolean.parseBoolean(PropertiesLoader.getInstance().getProperties()
 				.getProperty("iotsys.gateway.internalNotification", "true"));
 	}
 
@@ -85,8 +81,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 
 		log.finest("Handle request for " + group + ", " + payload);
 		synchronized (groupObjectPerAddress) {
-			Hashtable<String, Obj> groupObjects = groupObjectPerAddress
-					.get(group);
+			Hashtable<String, Obj> groupObjects = groupObjectPerAddress.get(group);
 
 			if (groupObjects != null) {
 				for (Obj obj : groupObjects.values()) {
@@ -98,28 +93,25 @@ public class GroupCommServiceImpl implements GroupCommService {
 				log.info("No group objects found!");
 			}
 		}
-		
-		// for coap proxy objects the values should be updated if a write on the group address is seen
+
+		// for coap proxy objects the values should be updated if a write on the
+		// group address is seen
 		// this is only executed for bas
 		synchronized (receiverObjectPerAddress) {
-			Hashtable<String, Obj> groupObjects = receiverObjectPerAddress
-					.get(group);
+			Hashtable<String, Obj> groupObjects = receiverObjectPerAddress.get(group);
 
 			if (groupObjects != null) {
 				for (Obj obj : groupObjects.values()) {
 					payload.setHref(obj.getHref());
 					log.finest("Setting on " + obj.getHref());
-					if(payload instanceof Bool){
-						obj.setBool( ((Bool) payload).getBool());
-					}
-					else if(payload instanceof Real){
+					if (payload instanceof Bool) {
+						obj.setBool(((Bool) payload).getBool());
+					} else if (payload instanceof Real) {
 						obj.setReal(((Real) payload).getReal());
-					}				
-					else if(payload instanceof Int){
+					} else if (payload instanceof Int) {
 						obj.setInt(((Int) payload).getInt());
 					}
-						
-				
+
 				}
 			} else {
 				log.info("No group objects found as receiver!");
@@ -130,8 +122,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 	@Override
 	public void registerObject(Inet6Address group, Obj obj) {
 		synchronized (groupObjectPerAddress) {
-			Hashtable<String, Obj> groupObjects = groupObjectPerAddress
-					.get(group);
+			Hashtable<String, Obj> groupObjects = groupObjectPerAddress.get(group);
 
 			if (groupObjects != null) {
 				groupObjects.put(obj.getFullContextPath(), obj);
@@ -154,8 +145,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 	@Override
 	public void unregisterObject(Inet6Address group, Obj obj) {
 		synchronized (groupObjectPerAddress) {
-			Hashtable<String, Obj> groupObjects = groupObjectPerAddress
-					.get(group);
+			Hashtable<String, Obj> groupObjects = groupObjectPerAddress.get(group);
 
 			if (groupObjects != null) {
 				groupObjects.remove(obj.getFullContextPath());
@@ -178,8 +168,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 	@Override
 	public void sendUpdate(final Inet6Address group, final Obj state) {
 
-		log.finest("Sending new state of object " + state + " to group "
-				+ group.getHostAddress());
+		log.finest("Sending new state of object " + state + " to group " + group.getHostAddress());
 
 		// notify internal group objects
 		if (INTERNAL_NOTFICATION) {
@@ -187,7 +176,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 			// REQUEST_TYPE.LOCAL_REQUEST){
 			// Thread run = new Thread(){
 			// public void run(){
-//			MulticastUDPLayer.setRequestType(REQUEST_TYPE.LOCAL_REQUEST);
+			// MulticastUDPLayer.setRequestType(REQUEST_TYPE.LOCAL_REQUEST);
 			GroupCommServiceImpl.this.handleRequest(group, state);
 			// }
 			// };
@@ -206,8 +195,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 				try {
 					byte[] payload = EXIEncoder.getInstance().toBytes(b, true);
 					// work around application octet stream
-					putRequest
-							.setContentType(MediaTypeRegistry.APPLICATION_OCTET_STREAM);
+					putRequest.setContentType(MediaTypeRegistry.APPLICATION_OCTET_STREAM);
 					putRequest.setPayload(payload);
 				} catch (Exception e) {
 					// fall back to XML encoding
@@ -223,8 +211,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 				try {
 					byte[] payload = EXIEncoder.getInstance().toBytes(r, true);
 					// work around application octet stream
-					putRequest
-							.setContentType(MediaTypeRegistry.APPLICATION_OCTET_STREAM);
+					putRequest.setContentType(MediaTypeRegistry.APPLICATION_OCTET_STREAM);
 					putRequest.setPayload(payload);
 				} catch (Exception e) {
 					// fall back to XML encoding
@@ -239,8 +226,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 				try {
 					byte[] payload = EXIEncoder.getInstance().toBytes(i, true);
 					// work around application octet stream
-					putRequest
-							.setContentType(MediaTypeRegistry.APPLICATION_OCTET_STREAM);
+					putRequest.setContentType(MediaTypeRegistry.APPLICATION_OCTET_STREAM);
 					putRequest.setPayload(payload);
 				} catch (Exception e) {
 					// fall back to XML encoding
@@ -263,8 +249,7 @@ public class GroupCommServiceImpl implements GroupCommService {
 	@Override
 	public void registerAsReceiver(Inet6Address group, Obj obj) {
 		synchronized (receiverObjectPerAddress) {
-			Hashtable<String, Obj> groupObjects = receiverObjectPerAddress
-					.get(group);
+			Hashtable<String, Obj> groupObjects = receiverObjectPerAddress.get(group);
 
 			if (groupObjects != null) {
 				groupObjects.put(obj.getFullContextPath(), obj);
@@ -282,14 +267,13 @@ public class GroupCommServiceImpl implements GroupCommService {
 				}
 			}
 		}
-		
+
 	}
-	
+
 	@Override
 	public void unregisterReceiverObject(Inet6Address group, Obj obj) {
 		synchronized (receiverObjectPerAddress) {
-			Hashtable<String, Obj> groupObjects = receiverObjectPerAddress
-					.get(group);
+			Hashtable<String, Obj> groupObjects = receiverObjectPerAddress.get(group);
 
 			if (groupObjects != null) {
 				groupObjects.remove(obj.getFullContextPath());
@@ -307,6 +291,6 @@ public class GroupCommServiceImpl implements GroupCommService {
 				}
 			}
 		}
-		
+
 	}
 }

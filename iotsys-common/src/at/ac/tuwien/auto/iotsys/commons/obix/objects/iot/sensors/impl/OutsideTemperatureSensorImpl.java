@@ -37,10 +37,10 @@ import obix.Obj;
 import obix.Real;
 import obix.Uri;
 
-public class OutsideTemperatureSensorImpl extends SensorImpl implements OutsideTemperatureSensor{
-	
+public class OutsideTemperatureSensorImpl extends SensorImpl implements OutsideTemperatureSensor {
+
 	protected Real tempOutsideValue = new Real(0);
-	
+
 	public OutsideTemperatureSensorImpl() {
 		setIs(new Contract(OutsideTemperatureSensor.CONTRACT));
 		tempOutsideValue.setWritable(false);
@@ -51,7 +51,7 @@ public class OutsideTemperatureSensorImpl extends SensorImpl implements OutsideT
 		tempOutsideValue.setUnit(new Uri(OutsideTemperatureSensor.TEMP_OUTSIDE_CONTRACT_UNIT));
 		add(tempOutsideValue);
 	}
-	
+
 	public void writeObject(Obj input) {
 	}
 
@@ -59,6 +59,5 @@ public class OutsideTemperatureSensorImpl extends SensorImpl implements OutsideT
 	public Real tempOutsideValue() {
 		return this.tempOutsideValue;
 	}
-	
 
 }

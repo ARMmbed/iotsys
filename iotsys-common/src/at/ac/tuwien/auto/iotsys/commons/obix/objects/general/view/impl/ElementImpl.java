@@ -32,22 +32,20 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 import obix.Contract;
 import obix.IObj;
 import obix.List;
 import obix.Obj;
 import obix.Ref;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 
-public abstract class ElementImpl extends Obj implements IObj
-{
+public abstract class ElementImpl extends Obj implements IObj {
 	private List elements = null;
 	private List instances = null;
 	private int instanceCount = 0;
 
-	public ElementImpl(String name, String displayName, String display, Contract is)
-	{
+	public ElementImpl(String name, String displayName, String display, Contract is) {
 		this.setName(name);
 		this.setDisplay(display);
 		this.setDisplayName(displayName);
@@ -55,10 +53,8 @@ public abstract class ElementImpl extends Obj implements IObj
 		this.setHref(new Uri(UriEncoder.getEscapedUri(displayName)));
 	}
 
-	protected void addElement(ElementImpl element)
-	{
-		if (this.elements == null)
-		{
+	protected void addElement(ElementImpl element) {
+		if (this.elements == null) {
 			this.elements = new List();
 			this.initElements(elements);
 			this.add(this.elements);
@@ -66,10 +62,8 @@ public abstract class ElementImpl extends Obj implements IObj
 		this.elements.add(element);
 	}
 
-	protected Obj addInstance(Obj obj, Contract is)
-	{
-		if (instances == null)
-		{
+	protected Obj addInstance(Obj obj, Contract is) {
+		if (instances == null) {
 			this.instances = new List();
 			this.initInstances(instances);
 			this.add(this.instances);

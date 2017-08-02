@@ -34,9 +34,10 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Bool;
 
-public interface PushButton extends Sensor{
-	public static final String CONTRACT="iot:PushButton";
-	
+public interface PushButton extends Sensor {
+	public static final String CONTRACT = "iot:PushButton";
+
 	public static final String valueContract = "<bool name='value' href='value' val='false'/>";
+
 	public Bool value();
 }

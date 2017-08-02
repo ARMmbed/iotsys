@@ -3,15 +3,14 @@ package at.ac.tuwien.auto.iotsys.commons;
 import java.util.HashMap;
 import java.util.List;
 
-import obix.Obj;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.persistent.ConfigsDb;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
+import obix.Obj;
+import obix.Uri;
 
-public interface ObjectBroker
-{
-	//public abstract boolean doNotListCategorylessObjs();
-	
+public interface ObjectBroker {
+	// public abstract boolean doNotListCategorylessObjs();
+
 	public abstract HashMap<String, String> get_ipv6MappingTable();
 
 	public abstract Obj pullObj(Uri href, boolean refreshObject);
@@ -37,7 +36,7 @@ public interface ObjectBroker
 	public void addHistoryToDatapoints(Obj obj);
 
 	public void enableGroupComm(Obj obj);
-	
+
 	public void enableGroupComm(Obj obj, Connector connector, String adr);
 
 	public void addHistoryToDatapoints(Obj obj, int countMax);
@@ -53,9 +52,9 @@ public interface ObjectBroker
 	public MdnsResolver getMDnsResolver();
 
 	public void setMdnsResolver(MdnsResolver resolver);
-	
+
 	public void initDevices(String devicesConfigFile);
-	
+
 	public void addConnectors(List<Connector> connectors);
 
 	public void removeConnectors(List<Connector> connectors);

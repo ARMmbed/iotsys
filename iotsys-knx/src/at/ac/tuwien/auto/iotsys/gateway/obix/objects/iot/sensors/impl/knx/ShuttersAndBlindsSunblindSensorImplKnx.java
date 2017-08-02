@@ -43,45 +43,46 @@ import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXWatchDog;
 
 public class ShuttersAndBlindsSunblindSensorImplKnx extends ShuttersAndBlindsSunblindSensorImpl {
 	private GroupAddress observation;
-	
+
 	private KNXConnector connector;
-	
+
 	public static final Logger knxBus = KNXConnector.knxBus;
-	
-	public ShuttersAndBlindsSunblindSensorImplKnx(KNXConnector connector , GroupAddress observation) {
+
+	public ShuttersAndBlindsSunblindSensorImplKnx(KNXConnector connector, GroupAddress observation) {
 		this.observation = observation;
-		this.connector = connector;	
+		this.connector = connector;
 	}
 
 	public void createWatchDog() {
 		connector.addWatchDog(observation, new KNXWatchDog() {
 			@Override
-			public void notifyWatchDog(byte[] apdu) {			
+			public void notifyWatchDog(byte[] apdu) {
 				try {
 					DPTXlatorBoolean x = new DPTXlatorBoolean(DPTXlatorBoolean.DPT_UPDOWN);
 					x.setData(apdu);
-//					
-//					for(int i=0; i< apdu.length; i++) {
-//						System.out.print(apdu[i]);
-//					}
-					
+					//
+					// for(int i=0; i< apdu.length; i++) {
+					// System.out.print(apdu[i]);
+					// }
+
 					moveUpDownValue.set(x.getValueBoolean());
-					
-					//CsvCreator.instance.writeLine(System.currentTimeMillis() + ";" + observation.getRawAddress() + ";" + x.getValueBoolean());
-									
+
+					// CsvCreator.instance.writeLine(System.currentTimeMillis()
+					// + ";" + observation.getRawAddress() + ";" +
+					// x.getValueBoolean());
+
 					// notify observers of this oBIX object
 					ShuttersAndBlindsSunblindSensorImplKnx.this.notifyObservers();
-				} 				
-				catch (KNXException e) {			
+				} catch (KNXException e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		createWatchDog();
-	}	
+	}
 }

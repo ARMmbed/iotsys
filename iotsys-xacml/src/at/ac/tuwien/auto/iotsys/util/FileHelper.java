@@ -7,17 +7,16 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class FileHelper {
-	
+
 	public static String readFile(String path) throws IOException {
 		// System.out.println(System.getProperty("java.class.path"));
-		
-		InputStream in = Thread.currentThread().getContextClassLoader()
-				.getResourceAsStream(path);
+
+		InputStream in = Thread.currentThread().getContextClassLoader().getResourceAsStream(path);
 		if (in == null) {
 			in = new FileInputStream(path);
 		}
 		// System.out.println(path);
-		
+
 		try {
 			BufferedReader br = new BufferedReader(new InputStreamReader(in));
 			StringBuffer builder = new StringBuffer();

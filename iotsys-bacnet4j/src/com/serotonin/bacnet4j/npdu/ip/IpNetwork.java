@@ -36,115 +36,113 @@ import com.serotonin.util.ArrayUtils;
 import com.serotonin.util.queue.ByteQueue;
 
 public class IpNetwork extends BACnetNetwork {
-    private static final int DEFAULT_PORT = 0xbac0;
-    private static final int MESSAGE_LENGTH = 1476;
-    
-    private static final Logger log = Logger.getLogger(IpNetwork.class.getName());
+	private static final int DEFAULT_PORT = 0xbac0;
+	private static final int MESSAGE_LENGTH = 1476;
 
-    private int port = DEFAULT_PORT;
+	private static final Logger log = Logger.getLogger(IpNetwork.class.getName());
 
-    // Runtime fields.
-    private DatagramSocket socket;
+	private int port = DEFAULT_PORT;
 
-    public IpNetwork() {
-        // no op
-    }
+	// Runtime fields.
+	private DatagramSocket socket;
 
-    public IpNetwork(int port) {
-        this.port = port;
-    }
+	public IpNetwork() {
+		// no op
+	}
 
-    public void init() throws BACnetException {
-        try {
-            socket = new DatagramSocket(port);
-            // TODO get the timeout from somewhere else
-            socket.setSoTimeout(5000);
-        }
-        catch (SocketException e) {
-            throw new BACnetException(e);
-        }
-    }
+	public IpNetwork(int port) {
+		this.port = port;
+	}
 
-    public void destroy() {
-        socket.close();
-    }
+	public void init() throws BACnetException {
+		try {
+			socket = new DatagramSocket(port);
+			// TODO get the timeout from somewhere else
+			socket.setSoTimeout(5000);
+		} catch (SocketException e) {
+			throw new BACnetException(e);
+		}
+	}
 
-    public void send(APDU apdu, String host) throws BACnetException {
-        send(apdu, host, DEFAULT_PORT);
-    }
+	public void destroy() {
+		socket.close();
+	}
 
-    public void send(APDU apdu, String host, int port) throws BACnetException {
-        ByteQueue queue = new ByteQueue();
+	public void send(APDU apdu, String host) throws BACnetException {
+		send(apdu, host, DEFAULT_PORT);
+	}
 
-        // BACnet virtual link layer detail
-        queue.push(0x81); // BACnet/IP
-        queue.push(0xa); // Original-Unicast-NPDU
-        queue.push(0x0); // Length MSB
-        queue.push(0x11); // Length LSB
+	public void send(APDU apdu, String host, int port) throws BACnetException {
+		ByteQueue queue = new ByteQueue();
 
-        // Protocol version, always 1.
-        queue.push((byte) 1);
+		// BACnet virtual link layer detail
+		queue.push(0x81); // BACnet/IP
+		queue.push(0xa); // Original-Unicast-NPDU
+		queue.push(0x0); // Length MSB
+		queue.push(0x11); // Length LSB
 
-        // Only confirmed requests expect a response
-        if (apdu instanceof ConfirmedRequest)
-            queue.push((byte) 4);
-        else
-            queue.push((byte) 0);
+		// Protocol version, always 1.
+		queue.push((byte) 1);
 
-        apdu.write(queue);
+		// Only confirmed requests expect a response
+		if (apdu instanceof ConfirmedRequest)
+			queue.push((byte) 4);
+		else
+			queue.push((byte) 0);
 
-        byte[] data = queue.popAll();
+		apdu.write(queue);
 
-        try {
-            // TODO get the retries from somewhere else
-            int attempts = 2 + 1;
+		byte[] data = queue.popAll();
 
-            while (true) {
-                // Send the request.
-                sendImpl(data, host, port);
+		try {
+			// TODO get the retries from somewhere else
+			int attempts = 2 + 1;
 
-                // Recieve the response.
-                try {
-                    // TODO
-                    // ipResponse = receiveImpl();
-                    receiveImpl();
-                }
-                catch (SocketTimeoutException e) {
-                    attempts--;
-                    if (attempts > 0)
-                        // Try again.
-                        continue;
+			while (true) {
+				// Send the request.
+				sendImpl(data, host, port);
 
-                    throw new BACnetException(e);
-                }
+				// Recieve the response.
+				try {
+					// TODO
+					// ipResponse = receiveImpl();
+					receiveImpl();
+				} catch (SocketTimeoutException e) {
+					attempts--;
+					if (attempts > 0)
+						// Try again.
+						continue;
 
-                // We got the response
-                break;
-            }
+					throw new BACnetException(e);
+				}
 
-            // return ipResponse.getModbusResponse();
-        }
-        catch (IOException e) {
-            throw new BACnetException(e);
-        }
-    }
+				// We got the response
+				break;
+			}
 
-    private void sendImpl(byte[] data, String host, int port) throws IOException {
-        DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName(host), port);
-        socket.send(packet);
-    }
+			// return ipResponse.getModbusResponse();
+		} catch (IOException e) {
+			throw new BACnetException(e);
+		}
+	}
 
-    private void receiveImpl() throws IOException {
-        DatagramPacket packet = new DatagramPacket(new byte[MESSAGE_LENGTH], MESSAGE_LENGTH);
-        socket.receive(packet);
+	private void sendImpl(byte[] data, String host, int port) throws IOException {
+		DatagramPacket packet = new DatagramPacket(data, data.length, InetAddress.getByName(host), port);
+		socket.send(packet);
+	}
 
-        // TODO We could verify that the packet was received from the same address to which the request was sent,
-        // but let's not bother with that yet.
+	private void receiveImpl() throws IOException {
+		DatagramPacket packet = new DatagramPacket(new byte[MESSAGE_LENGTH], MESSAGE_LENGTH);
+		socket.receive(packet);
 
-        log.finer(packet.getAddress() + ":" + packet.getPort());
-        log.finer(ArrayUtils.toHexString(packet.getData(), packet.getOffset(), packet.getLength()));
+		// TODO We could verify that the packet was received from the same
+		// address to which the request was sent,
+		// but let's not bother with that yet.
 
-        ByteQueue queue = new ByteQueue(packet.getData(), 0, packet.getLength());
-        log.finer(queue.toString());
-    }
+		log.finer(packet.getAddress() + ":" + packet.getPort());
+		log.finer(ArrayUtils.toHexString(packet.getData(), packet.getOffset(), packet.getLength()));
+
+		ByteQueue queue = new ByteQueue(packet.getData(), 0, packet.getLength());
+		log.finer(queue.toString());
+	}
 }

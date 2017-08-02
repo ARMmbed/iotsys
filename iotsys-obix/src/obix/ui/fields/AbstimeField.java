@@ -1,68 +1,64 @@
 /*
  * This code licensed to public domain
  */
-package obix.ui.fields;  
+package obix.ui.fields;
 
-import java.awt.*;
-import java.util.*;
-import javax.swing.*;
-import obix.*;
-import obix.ui.*;  
+import java.awt.BorderLayout;
+import java.util.TimeZone;
+
+import javax.swing.JTextField;
+
+import obix.Abstime;
+import obix.Obj;
+import obix.ui.ObjField;
 
 /**
  * AbstimeField
  *
- * @author    Brian Frank
- * @creation  26 Sept 05
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @creation 26 Sept 05
+ * @version $Revision$ $Date$
  */
-public class AbstimeField
-  extends ObjField
-{                   
+public class AbstimeField extends ObjField {
 
-////////////////////////////////////////////////////////////////
-// Constructor
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Constructor
+	////////////////////////////////////////////////////////////////
 
-  public AbstimeField()
-  {
-    add(textField, BorderLayout.CENTER); 
-    registerForChanged(textField);
-  }
+	public AbstimeField() {
+		add(textField, BorderLayout.CENTER);
+		registerForChanged(textField);
+	}
 
-////////////////////////////////////////////////////////////////
-// Methods
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Methods
+	////////////////////////////////////////////////////////////////
 
-  protected void doSetEditable(boolean editable)
-  { 
-    textField.setEditable(editable);
-  }
+	protected void doSetEditable(boolean editable) {
+		textField.setEditable(editable);
+	}
 
-  protected void doLoad(Obj val)
-  {                       
-    Abstime v = (Abstime)val;                                 
-    if (val.isNull() || v.getMillis() == 0)    
-      textField.setText("null");
-    else
-      textField.setText(v.encodeVal());
-  }
-  
-  protected void doSave(Obj val) 
-    throws Exception
-  {         
-    Abstime v = (Abstime)val; 
-    String text = textField.getText();
-    if (text.equals("null"))
-      v.set(0, TimeZone.getDefault());
-    else
-      v.decodeVal(text);
-  }
+	protected void doLoad(Obj val) {
+		Abstime v = (Abstime) val;
+		if (val.isNull() || v.getMillis() == 0)
+			textField.setText("null");
+		else
+			textField.setText(v.encodeVal());
+	}
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+	protected void doSave(Obj val) throws Exception {
+		Abstime v = (Abstime) val;
+		String text = textField.getText();
+		if (text.equals("null"))
+			v.set(0, TimeZone.getDefault());
+		else
+			v.decodeVal(text);
+	}
 
-  JTextField textField = new JTextField("", 30);
- 
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	JTextField textField = new JTextField("", 30);
+
 }

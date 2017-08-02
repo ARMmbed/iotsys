@@ -24,21 +24,21 @@ import com.serotonin.bacnet4j.type.primitive.BitString;
 import com.serotonin.util.queue.ByteQueue;
 
 public class LogStatus extends BitString {
-    private static final long serialVersionUID = 2623926749486653669L;
+	private static final long serialVersionUID = 2623926749486653669L;
 
-    public LogStatus(boolean logDisabled, boolean bufferPurged) {
-        super(new boolean[] { logDisabled, bufferPurged });
-    }
+	public LogStatus(boolean logDisabled, boolean bufferPurged) {
+		super(new boolean[] { logDisabled, bufferPurged });
+	}
 
-    public LogStatus(ByteQueue queue) {
-        super(queue);
-    }
+	public LogStatus(ByteQueue queue) {
+		super(queue);
+	}
 
-    public boolean isLogDisabled() {
-        return getValue()[0];
-    }
+	public boolean isLogDisabled() {
+		return getValue()[0];
+	}
 
-    public boolean isBufferPurged() {
-        return getValue()[1];
-    }
+	public boolean isBufferPurged() {
+		return getValue()[1];
+	}
 }

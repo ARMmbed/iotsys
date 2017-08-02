@@ -45,7 +45,7 @@ public class DIFETelegramField extends TelegramField {
 	public void setExtensionBit(boolean extensionBit) {
 		this.extensionBit = extensionBit;
 	}
-	
+
 	public void debugOutput() {
 		System.out.println("DIFE-Field: ");
 		System.out.println("\tExtension-Bit: \t" + this.extensionBit);

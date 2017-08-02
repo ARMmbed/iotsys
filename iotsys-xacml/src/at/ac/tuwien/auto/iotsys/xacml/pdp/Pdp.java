@@ -6,7 +6,6 @@ import at.ac.tuwien.auto.iotsys.commons.interceptor.Parameter;
 
 public interface Pdp {
 
-	public boolean evaluate(String resource, String subject, String action,
-			Map<Parameter, String> params);
-	
+	public boolean evaluate(String resource, String subject, String action, Map<Parameter, String> params);
+
 }

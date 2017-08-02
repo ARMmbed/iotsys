@@ -1,6 +1,8 @@
 package obix.contracts;
 
-import obix.*;
+import obix.Abstime;
+import obix.IObj;
+import obix.Int;
 
 /**
  * HistoryAppendOut
@@ -9,8 +11,7 @@ import obix.*;
  * @creation 10 July 13
  * @version $Revision$ $Date$
  */
-public interface HistoryAppendOut extends IObj
-{
+public interface HistoryAppendOut extends IObj {
 	public static final String CONTRACT = "obix:HistoryAppendOut";
 
 	public static final String numAddedContract = "<int name='numAdded' val='0' min='0'/>";

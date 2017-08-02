@@ -32,8 +32,6 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.connector.wmbus;
 
-import gnu.io.CommPortIdentifier;
-
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.logging.Logger;
@@ -46,69 +44,72 @@ import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.SimpleTelegram
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.Telegram;
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.util.Measure_Unit;
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.test.SmartMeterTestTelegrams;
+import gnu.io.CommPortIdentifier;
 
-public class WMBusConnector extends Connector implements TelegramManagerInterface{
+public class WMBusConnector extends Connector implements TelegramManagerInterface {
 	private static final Logger log = Logger.getLogger(WMBusConnector.class.getName());
-	
-	private final Hashtable<String, ArrayList<WMBusWatchDog>> watchDogs = new Hashtable<String, ArrayList<WMBusWatchDog>>();	
+
+	private final Hashtable<String, ArrayList<WMBusWatchDog>> watchDogs = new Hashtable<String, ArrayList<WMBusWatchDog>>();
 
 	private ArrayList<SimpleTelegram> simpleTestTelegrams;
-	
-	private ComPortReader comPortReader; 
-	
+
+	private ComPortReader comPortReader;
+
 	private String aesKey;
-	
+
 	private String serialPort;
-	
-	public WMBusConnector(){
-		
+
+	public WMBusConnector() {
+
 	}
-	
-	public WMBusConnector(String serialPort ){
-		this.serialPort = serialPort;		
-	}		
-	
+
+	public WMBusConnector(String serialPort) {
+		this.serialPort = serialPort;
+	}
+
 	public void addWatchDog(String serialNr, WMBusWatchDog wmbusWatchDog) {
 		log.finest("Adding watchdog for serial number: " + serialNr);
-		synchronized(watchDogs){
+		synchronized (watchDogs) {
 			if (!watchDogs.containsKey(serialNr)) {
 				watchDogs.put(serialNr, new ArrayList<WMBusWatchDog>());
 			}
 			watchDogs.get(serialNr).add(wmbusWatchDog);
 		}
 	}
-			
-	
-	/* (non-Javadoc)
-	 * @see at.ac.auto.smartmeter.TelegramManagerInterface#addTelegram(java.lang.String)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * at.ac.auto.smartmeter.TelegramManagerInterface#addTelegram(java.lang.
+	 * String)
 	 */
 	@Override
 	public void addTelegram(String telegramString) {
 		this.createTelegram(telegramString);
 	}
-	
+
 	private Telegram createTelegram(String telegramString) {
 		return this.createTelegram(telegramString, 0);
 	}
-	
+
 	private Telegram createTelegram(String telegramString, long timeStamp) {
 		log.fine("Received WMBus telegram.");
 		Telegram telegram = new Telegram();
 		telegram.createTelegram(telegramString, false);
-		if(telegram.decryptTelegram(aesKey) == false) {
+		if (telegram.decryptTelegram(aesKey) == false) {
 			log.severe("Decryption of AES telegram not possible.");
 			return null;
 		}
 		telegram.parse();
-		
-		String serialNr = telegram.getSerialNr();		
+
+		String serialNr = telegram.getSerialNr();
 		log.fine("Serial number: " + serialNr);
-		
+
 		SimpleTelegram simpleTelegram = null;
-		if(timeStamp == 0) {
+		if (timeStamp == 0) {
 			simpleTelegram = new SimpleTelegram();
-		}
-		else {
+		} else {
 			simpleTelegram = new SimpleTelegram(timeStamp);
 		}
 		simpleTelegram.setEnergy(new Double(telegram.getEnergyValue()));
@@ -117,63 +118,70 @@ public class WMBusConnector extends Connector implements TelegramManagerInterfac
 		simpleTelegram.setPower(Double.parseDouble(telegram.getPowerValue()));
 		simpleTelegram.setEnergyUnit(Measure_Unit.W);
 		log.fine("Power is: " + telegram.getPowerValue());
-		
-		synchronized(watchDogs){
-			if(watchDogs.containsKey(serialNr)){
+
+		synchronized (watchDogs) {
+			if (watchDogs.containsKey(serialNr)) {
 				// notfiy listeners
 				ArrayList<WMBusWatchDog> arrayList = watchDogs.get(serialNr);
 				log.finest("Notifying watchdog for telegram from smart meter with serial number " + serialNr);
-				for(WMBusWatchDog watchDog : arrayList){
+				for (WMBusWatchDog watchDog : arrayList) {
 					watchDog.notifyWatchDog(simpleTelegram.getPower(), simpleTelegram.getEnergy() / 1000);
 					watchDog.notifyWatchDog(simpleTelegram);
 				}
 			}
 		}
-				
-		//telegram.debugOutput();
-		
+
+		// telegram.debugOutput();
+
 		return telegram;
 	}
-	
-	/* (non-Javadoc)
-	 * @see at.ac.auto.smartmeter.TelegramManagerInterface#addTelegram(at.ac.auto.smartmeter.telegrams.Telegram)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * at.ac.auto.smartmeter.TelegramManagerInterface#addTelegram(at.ac.auto.
+	 * smartmeter.telegrams.Telegram)
 	 */
 	@Override
 	public void addTelegram(Telegram telegram) {
-	
+
 	}
-	
+
 	public void loadTelegrams() {
 		simpleTestTelegrams = new ArrayList<SimpleTelegram>();
-		for(int i = 0; i < SmartMeterTestTelegrams.telegrams.length; i++) {
+		for (int i = 0; i < SmartMeterTestTelegrams.telegrams.length; i++) {
 			long curTime = new java.util.Date().getTime();
-			// just for some test values set the timestamp in 10 minute intervalls
-			curTime = curTime + 600000*i;
-			
+			// just for some test values set the timestamp in 10 minute
+			// intervalls
+			curTime = curTime + 600000 * i;
+
 			Telegram tel = this.createTelegram(SmartMeterTestTelegrams.telegrams[i], curTime);
-			
+
 			SimpleTelegram simpleTelegram = new SimpleTelegram(curTime);
-			simpleTelegram.setEnergy(new Double(tel.getBody().getBodyPayload().getRecords().get(3).getDataField().getParsedValue()));
+			simpleTelegram.setEnergy(
+					new Double(tel.getBody().getBodyPayload().getRecords().get(3).getDataField().getParsedValue()));
 			simpleTelegram.setEnergyUnit(Measure_Unit.WH);
-			simpleTelegram.setPower(Double.parseDouble(tel.getBody().getBodyPayload().getRecords().get(5).getDataField().getParsedValue()));
+			simpleTelegram.setPower(Double
+					.parseDouble(tel.getBody().getBodyPayload().getRecords().get(5).getDataField().getParsedValue()));
 			simpleTelegram.setEnergyUnit(Measure_Unit.W);
 			simpleTestTelegrams.add(simpleTelegram);
 		}
 	}
 
 	public void registerAESKey(String serialNr, String aesKey) {
-		this.aesKey = aesKey;		
-	}	
-	
-	public void connect(){
-		CommPortIdentifier portId = ComPortReader.lookupPorts(serialPort);
-		comPortReader =  new ComPortReader(portId, this);
+		this.aesKey = aesKey;
 	}
-	
-	public void disconnect(){
+
+	public void connect() {
+		CommPortIdentifier portId = ComPortReader.lookupPorts(serialPort);
+		comPortReader = new ComPortReader(portId, this);
+	}
+
+	public void disconnect() {
 		comPortReader.closePort();
 	}
-	
+
 	@Override
 	@JsonIgnore
 	public boolean isCoap() {
@@ -187,6 +195,5 @@ public class WMBusConnector extends Connector implements TelegramManagerInterfac
 	public void setSerialPort(String serialPort) {
 		this.serialPort = serialPort;
 	}
-	
-	
+
 }

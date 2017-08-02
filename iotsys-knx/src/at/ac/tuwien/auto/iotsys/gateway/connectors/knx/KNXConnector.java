@@ -30,6 +30,8 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.logging.Logger;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import at.ac.tuwien.auto.calimero.CloseEvent;
 import at.ac.tuwien.auto.calimero.GroupAddress;
 import at.ac.tuwien.auto.calimero.cemi.CEMILData;
@@ -41,8 +43,6 @@ import at.ac.tuwien.auto.calimero.link.medium.TPSettings;
 import at.ac.tuwien.auto.calimero.process.ProcessCommunicator;
 import at.ac.tuwien.auto.calimero.process.ProcessCommunicatorImpl;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 public class KNXConnector extends Connector {
 	private String routerHostname;
@@ -83,8 +83,7 @@ public class KNXConnector extends Connector {
 
 	private final Hashtable<Integer, ArrayList<KNXWatchDog>> watchDogs = new Hashtable<Integer, ArrayList<KNXWatchDog>>();
 
-	private static final Logger log = Logger.getLogger(KNXConnector.class
-			.getName());
+	private static final Logger log = Logger.getLogger(KNXConnector.class.getName());
 
 	public KNXConnector(String routerHostname, int routerPort, String localIP) {
 		this.routerHostname = routerHostname;
@@ -94,30 +93,24 @@ public class KNXConnector extends Connector {
 
 	public void connect() throws UnknownHostException, KNXException {
 		synchronized (this) {
-			log.info("Connecting KNX tunnel - Tunnel, " + localIP + ", "
-					+ routerHostname + ", " + routerPort);
+			log.info("Connecting KNX tunnel - Tunnel, " + localIP + ", " + routerHostname + ", " + routerPort);
 
 			if ("auto".equals(localIP)) {
 				log.finest("auto detetecting local IP.");
 				String detectedLocalIP = "";
 				int curSimilarity = 0;
-				InetAddress routerAddress = InetAddress
-						.getByName(routerHostname);
+				InetAddress routerAddress = InetAddress.getByName(routerHostname);
 
 				try {
-					Enumeration<NetworkInterface> networkInterfaces = NetworkInterface
-							.getNetworkInterfaces();
+					Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
 
 					while (networkInterfaces.hasMoreElements()) {
 						NetworkInterface ni = networkInterfaces.nextElement();
-						Enumeration<InetAddress> inetAddresses = ni
-								.getInetAddresses();
+						Enumeration<InetAddress> inetAddresses = ni.getInetAddresses();
 						while (inetAddresses.hasMoreElements()) {
-							InetAddress inetAddress = inetAddresses
-									.nextElement();
+							InetAddress inetAddress = inetAddresses.nextElement();
 							String hostAddress = inetAddress.getHostAddress();
-							int sim = similarity(
-									routerAddress.getHostAddress(), hostAddress);
+							int sim = similarity(routerAddress.getHostAddress(), hostAddress);
 							if (sim >= curSimilarity) {
 								curSimilarity = sim;
 								detectedLocalIP = hostAddress;
@@ -129,16 +122,12 @@ public class KNXConnector extends Connector {
 					e.printStackTrace();
 				}
 				localIP = detectedLocalIP;
-				log.finest("detectedLocalIP: " + localIP + " with similarity "
-						+ curSimilarity);
+				log.finest("detectedLocalIP: " + localIP + " with similarity " + curSimilarity);
 			}
-			nl = new KNXNetworkLinkIP(KNXNetworkLinkIP.TUNNEL,
-					new InetSocketAddress(InetAddress.getByName(localIP), 0),
-					new InetSocketAddress(
-							InetAddress.getByName(routerHostname), routerPort),
-					false, new TPSettings(false));
-			log.info("My individiual KNX address is: "
-					+ nl.getKNXMedium().getDeviceAddress());
+			nl = new KNXNetworkLinkIP(KNXNetworkLinkIP.TUNNEL, new InetSocketAddress(InetAddress.getByName(localIP), 0),
+					new InetSocketAddress(InetAddress.getByName(routerHostname), routerPort), false,
+					new TPSettings(false));
+			log.info("My individiual KNX address is: " + nl.getKNXMedium().getDeviceAddress());
 			pc = new ProcessCommunicatorImpl(nl);
 
 			connected = true;
@@ -147,9 +136,9 @@ public class KNXConnector extends Connector {
 			log.info("KNX tunnel established.");
 		}
 	}
-	
+
 	@JsonIgnore
-	public ProcessCommunicator getProcessCommunicator(){
+	public ProcessCommunicator getProcessCommunicator() {
 		return pc;
 	}
 
@@ -183,8 +172,7 @@ public class KNXConnector extends Connector {
 			e.printStackTrace();
 		}
 	}
-	
-	
+
 	public void write(GroupAddress a, int value, String scaled) {
 		try {
 			if (!isConnected()) {
@@ -215,7 +203,7 @@ public class KNXConnector extends Connector {
 				return;
 			}
 			log.finest("Writing " + value + " on " + a);
-			pc.write(a, (float)value);
+			pc.write(a, (float) value);
 		} catch (KNXException e) {
 			e.printStackTrace();
 		}
@@ -250,8 +238,7 @@ public class KNXConnector extends Connector {
 		}
 		return null;
 	}
-	
-	
+
 	public float readFloat(GroupAddress a) {
 		try {
 			if (!isConnected()) {
@@ -266,8 +253,7 @@ public class KNXConnector extends Connector {
 		}
 		return 0;
 	}
-	
-	
+
 	public long readUint(GroupAddress a) {
 		try {
 			if (!isConnected()) {
@@ -282,20 +268,18 @@ public class KNXConnector extends Connector {
 		}
 		return 0;
 	}
-	
-	
+
 	public void write(GroupAddress a, long value) {
 		try {
 			if (!isConnected()) {
 				return;
 			}
 			log.finest("Writing " + value + " on " + a);
-			pc.write(a, (long)value);
+			pc.write(a, (long) value);
 		} catch (KNXException e) {
 			e.printStackTrace();
 		}
 	}
-
 
 	public String read(Datapoint dp) {
 		try {
@@ -314,7 +298,6 @@ public class KNXConnector extends Connector {
 		}
 	}
 
-	
 	public boolean readBool(GroupAddress a) {
 		try {
 			if (!isConnected()) {
@@ -339,11 +322,9 @@ public class KNXConnector extends Connector {
 	public void addWatchDog(GroupAddress observation, KNXWatchDog knxWatchDog) {
 		synchronized (watchDogs) {
 			if (!watchDogs.containsKey(observation.getRawAddress())) {
-				watchDogs.put(observation.getRawAddress(),
-						new ArrayList<KNXWatchDog>());
+				watchDogs.put(observation.getRawAddress(), new ArrayList<KNXWatchDog>());
 			}
-			log.finest("Adding watchdog for address "
-					+ observation.getRawAddress());
+			log.finest("Adding watchdog for address " + observation.getRawAddress());
 			watchDogs.get(observation.getRawAddress()).add(knxWatchDog);
 		}
 	}
@@ -356,12 +337,11 @@ public class KNXConnector extends Connector {
 
 			GroupAddress target = (GroupAddress) data.getDestination(); // getDestinationAddress();
 			log.info("Received frame for " + target + " from " + data.getSource());
-			
+
 			synchronized (watchDogs) {
 
 				if (watchDogs.containsKey(target.getRawAddress())) {
-					for (KNXWatchDog dog : watchDogs
-							.get(target.getRawAddress())) {
+					for (KNXWatchDog dog : watchDogs.get(target.getRawAddress())) {
 						dog.notifyWatchDog(data.getPayload());// getData());
 					}
 				}
@@ -396,7 +376,7 @@ public class KNXConnector extends Connector {
 	public void removeNetworkListener(NetworkLinkListener listener) {
 		nl.removeLinkListener(listener);
 	}
-	
+
 	@Override
 	@JsonIgnore
 	public boolean isCoap() {

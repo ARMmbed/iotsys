@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view;
 
 import obix.IObj;
 
-public interface ViewFunctional extends IObj
-{
+public interface ViewFunctional extends IObj {
 	public static final String CONTRACT = "knx:ViewFunctional";
 	public static final String HREF = "views/functional";
 }

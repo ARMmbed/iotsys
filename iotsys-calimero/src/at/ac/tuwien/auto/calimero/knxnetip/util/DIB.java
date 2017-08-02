@@ -25,16 +25,16 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * Description Information Block (DIB).
  * <p>
  * A DIB is used to return device specific information.<br>
- * This DIB is a common base for more detailed description formats contained in DIBs. For
- * usage of the different description information available, refer to the DIB subtypes.
+ * This DIB is a common base for more detailed description formats contained in
+ * DIBs. For usage of the different description information available, refer to
+ * the DIB subtypes.
  * <p>
- * The currently known valid descriptor type codes (KNXnet/IP core specification v1.2) are
- * defined as available DIB constants.
+ * The currently known valid descriptor type codes (KNXnet/IP core specification
+ * v1.2) are defined as available DIB constants.
  * 
  * @author B. Malinowsky
  */
-public abstract class DIB
-{
+public abstract class DIB {
 	/**
 	 * Description type code for device information e.g. KNX medium.
 	 * <p>
@@ -60,12 +60,14 @@ public abstract class DIB
 	 * Creates a new DIB out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing DIB structure
-	 * @param offset start offset of DIB in <code>data</code>
-	 * @throws KNXFormatException if no DIB found or invalid structure
+	 * @param data
+	 *            byte array containing DIB structure
+	 * @param offset
+	 *            start offset of DIB in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no DIB found or invalid structure
 	 */
-	protected DIB(byte[] data, int offset) throws KNXFormatException
-	{
+	protected DIB(byte[] data, int offset) throws KNXFormatException {
 		if (data.length - offset < 2)
 			throw new KNXFormatException("buffer too short for DIB header");
 		size = (short) (data[offset] & 0xFF);
@@ -77,13 +79,12 @@ public abstract class DIB
 	/**
 	 * Returns the description type code of this DIB.
 	 * <p>
-	 * The type code specifies which kind of description information is contained in the
-	 * DIB.
+	 * The type code specifies which kind of description information is
+	 * contained in the DIB.
 	 * 
 	 * @return description type code as unsigned byte
 	 */
-	public final short getDescTypeCode()
-	{
+	public final short getDescTypeCode() {
 		return type;
 	}
 
@@ -93,8 +94,7 @@ public abstract class DIB
 	 * 
 	 * @return structure length as unsigned byte
 	 */
-	public final short getStructLength()
-	{
+	public final short getStructLength() {
 		return size;
 	}
 
@@ -104,8 +104,7 @@ public abstract class DIB
 	 * 
 	 * @return byte array containing structure
 	 */
-	public byte[] toByteArray()
-	{
+	public byte[] toByteArray() {
 		final byte[] buf = new byte[size];
 		buf[0] = (byte) size;
 		buf[1] = (byte) type;

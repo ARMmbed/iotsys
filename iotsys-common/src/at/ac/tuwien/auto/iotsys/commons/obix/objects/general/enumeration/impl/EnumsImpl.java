@@ -33,11 +33,6 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
 import java.util.TreeMap;
 
-import obix.Contract;
-import obix.IObj;
-import obix.List;
-import obix.Uri;
-import obix.contracts.Range;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumCompareTypes;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumConnector;
@@ -51,15 +46,18 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumSta
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumStringCompareTypes;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumWeatherManualOverwrite;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumWeatherSymbol;
+import obix.Contract;
+import obix.IObj;
+import obix.List;
+import obix.Uri;
+import obix.contracts.Range;
 
-public class EnumsImpl extends List implements IObj
-{
+public class EnumsImpl extends List implements IObj {
 	private TreeMap<String, RangeImpl> enums;
 
 	private static final EnumsImpl instance = new EnumsImpl();
 
-	private EnumsImpl()
-	{
+	private EnumsImpl() {
 		this.setName("enums");
 		this.setOf(new Contract(Range.CONTRACT));
 		this.setHref(new Uri("/enums"));
@@ -81,8 +79,7 @@ public class EnumsImpl extends List implements IObj
 		enums.put(EnumWeatherManualOverwrite.HREF, new EnumWeatherManualOverwriteImpl());
 
 		// Add enumerations
-		for (RangeImpl e : enums.values())
-		{
+		for (RangeImpl e : enums.values()) {
 			e.setHref(e.getRelativePath());
 
 			this.add(e);
@@ -90,13 +87,11 @@ public class EnumsImpl extends List implements IObj
 		}
 	}
 
-	public static EnumsImpl getInstance()
-	{
+	public static EnumsImpl getInstance() {
 		return instance;
 	}
 
-	public RangeImpl getEnum(String href)
-	{
+	public RangeImpl getEnum(String href) {
 		return enums.get(href);
 	}
 }

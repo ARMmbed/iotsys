@@ -28,73 +28,88 @@ import java.util.List;
  * 
  * @author B. Malinowsky
  */
-public interface XMLWriter
-{
+public interface XMLWriter {
 	/**
 	 * Sets the output destination for this XML writer.
 	 * <p>
-	 * If this XML writer was already closed, setting a new output has no effect.
+	 * If this XML writer was already closed, setting a new output has no
+	 * effect.
 	 * 
-	 * @param output a writer for output
-	 * @param close <code>true</code> if the specified writer should be closed on
-	 *        {@link #close()}, <code>false</code> to leave it open
+	 * @param output
+	 *            a writer for output
+	 * @param close
+	 *            <code>true</code> if the specified writer should be closed on
+	 *            {@link #close()}, <code>false</code> to leave it open
 	 */
 	void setOutput(Writer output, boolean close);
 
 	/**
-	 * Writes the XML declaration, specifying standalone document declaration and encoding
-	 * declaration.
+	 * Writes the XML declaration, specifying standalone document declaration
+	 * and encoding declaration.
 	 * <p>
 	 * The version information is always <code>1.0</code>.<br>
-	 * Note that an arbitrary encoding might be specified in the declaration. It is not
-	 * necessarily checked by the XML writer whether the actual output meets that
-	 * encoding. The user is responsible to specify the encoding matching the output
-	 * writer.
+	 * Note that an arbitrary encoding might be specified in the declaration. It
+	 * is not necessarily checked by the XML writer whether the actual output
+	 * meets that encoding. The user is responsible to specify the encoding
+	 * matching the output writer.
 	 * 
-	 * @param standalone <code>true</code> if there are no external markup declarations,
-	 *        <code>false</code> to indicates that there are or may be such external
-	 *        markup declarations
-	 * @param encoding character encoding (for example "UTF-8"), case-insensitive, (IANA
-	 *        registered name)
-	 * @throws KNXMLException on output error
+	 * @param standalone
+	 *            <code>true</code> if there are no external markup
+	 *            declarations, <code>false</code> to indicates that there are
+	 *            or may be such external markup declarations
+	 * @param encoding
+	 *            character encoding (for example "UTF-8"), case-insensitive,
+	 *            (IANA registered name)
+	 * @throws KNXMLException
+	 *             on output error
 	 */
 	void writeDeclaration(boolean standalone, String encoding) throws KNXMLException;
 
 	/**
 	 * Writes a new element to the current position in a document.
 	 * <p>
-	 * Predefined entities in <code>text</code> are replaced with references before
-	 * write.
+	 * Predefined entities in <code>text</code> are replaced with references
+	 * before write.
 	 * 
-	 * @param name element name, the element's type
-	 * @param att attribute specifications for this element, empty list or
-	 *        <code>null</code> for no attributes
-	 * @param text text to write, the character data, <code>null</code> for no data
-	 * @throws KNXMLException on output error
+	 * @param name
+	 *            element name, the element's type
+	 * @param att
+	 *            attribute specifications for this element, empty list or
+	 *            <code>null</code> for no attributes
+	 * @param text
+	 *            text to write, the character data, <code>null</code> for no
+	 *            data
+	 * @throws KNXMLException
+	 *             on output error
 	 */
 	void writeElement(String name, List att, String text) throws KNXMLException;
 
 	/**
 	 * Writes an empty element tag to the current position in a document.
 	 * <p>
-	 * Note that an empty element tag has no content and {@link #endElement()} does not
-	 * recognize such elements.
+	 * Note that an empty element tag has no content and {@link #endElement()}
+	 * does not recognize such elements.
 	 * 
-	 * @param name element name, the element's type
-	 * @param att attribute specifications for this element, empty list or
-	 *        <code>null</code> for no attributes
-	 * @throws KNXMLException on output error
+	 * @param name
+	 *            element name, the element's type
+	 * @param att
+	 *            attribute specifications for this element, empty list or
+	 *            <code>null</code> for no attributes
+	 * @throws KNXMLException
+	 *             on output error
 	 */
 	void writeEmptyElement(String name, List att) throws KNXMLException;
 
 	/**
 	 * Writes a comment to the current position in a document.
 	 * <p>
-	 * The text of the comment is wrapped with "&lt;!--" and "--&gt;" by this method. The
-	 * string "--" (double-hyphen) must not occur within comments.
+	 * The text of the comment is wrapped with "&lt;!--" and "--&gt;" by this
+	 * method. The string "--" (double-hyphen) must not occur within comments.
 	 * 
-	 * @param comment text of the comment
-	 * @throws KNXMLException on output error
+	 * @param comment
+	 *            text of the comment
+	 * @throws KNXMLException
+	 *             on output error
 	 */
 	void writeComment(String comment) throws KNXMLException;
 
@@ -102,17 +117,20 @@ public interface XMLWriter
 	 * Writes character data to the current position in a document.
 	 * <p>
 	 * Character data can be put into CDATA sections.<br>
-	 * CDATA sections begin with the string "&lt;![CDATA[" and end with the string
-	 * "]]&gt;". A CDATA section is used to escape text with characters which would be
-	 * recognized as markup otherwise.<br>
-	 * Predefined entities in <code>text</code> are replaced before write, iff the
-	 * character data to write is no CDATA section. Data in CDATA sections is not
-	 * modified.
+	 * CDATA sections begin with the string "&lt;![CDATA[" and end with the
+	 * string "]]&gt;". A CDATA section is used to escape text with characters
+	 * which would be recognized as markup otherwise.<br>
+	 * Predefined entities in <code>text</code> are replaced before write, iff
+	 * the character data to write is no CDATA section. Data in CDATA sections
+	 * is not modified.
 	 * 
-	 * @param text text to write, the character data
-	 * @param isCDATASection <code>true</code> to write data into CDATA section,
-	 *        <code>false</code> to write default character data
-	 * @throws KNXMLException on output error
+	 * @param text
+	 *            text to write, the character data
+	 * @param isCDATASection
+	 *            <code>true</code> to write data into CDATA section,
+	 *            <code>false</code> to write default character data
+	 * @throws KNXMLException
+	 *             on output error
 	 */
 	void writeCharData(String text, boolean isCDATASection) throws KNXMLException;
 
@@ -120,7 +138,8 @@ public interface XMLWriter
 	 * Closes the current element.
 	 * <p>
 	 * 
-	 * @throws KNXMLException on output error
+	 * @throws KNXMLException
+	 *             on output error
 	 */
 	void endElement() throws KNXMLException;
 
@@ -128,16 +147,18 @@ public interface XMLWriter
 	 * Closes all open elements and flushes buffered data to output.
 	 * <p>
 	 * 
-	 * @throws KNXMLException on output error
+	 * @throws KNXMLException
+	 *             on output error
 	 */
 	void endAllElements() throws KNXMLException;
 
 	/**
 	 * Closes this XML writer.
 	 * <p>
-	 * If this XML writer is already closed, no action is performed. All open elements are
-	 * closed. If for an output source was specified to get closed on invocation of this
-	 * method, it is closed (calling {@link Writer#close()} before return.
+	 * If this XML writer is already closed, no action is performed. All open
+	 * elements are closed. If for an output source was specified to get closed
+	 * on invocation of this method, it is closed (calling
+	 * {@link Writer#close()} before return.
 	 * 
 	 * @throws KNXMLException
 	 * @see XMLWriter#endAllElements()

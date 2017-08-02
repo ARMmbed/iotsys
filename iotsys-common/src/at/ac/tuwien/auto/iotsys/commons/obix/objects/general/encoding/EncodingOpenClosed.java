@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding;
 
 import obix.contracts.Range;
 
-public interface EncodingOpenClosed extends Range
-{
+public interface EncodingOpenClosed extends Range {
 	public static final String HREF = "/encodings/openclosed";
 
 	public static final String KEY_OPEN = "open";

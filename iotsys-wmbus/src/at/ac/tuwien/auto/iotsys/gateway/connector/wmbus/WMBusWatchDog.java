@@ -36,5 +36,6 @@ import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.SimpleTelegram
 
 public interface WMBusWatchDog {
 	public void notifyWatchDog(double power, double energy);
+
 	public void notifyWatchDog(SimpleTelegram telegram);
 }

@@ -61,8 +61,10 @@ public class MdnsResolverImpl implements MdnsResolver {
 	private ConcurrentMap<String, String> recordDict = new ConcurrentHashMap<String, String>();
 	private ExecutorService executor;
 	private JmDNS jmdns;
-	private String gwIp = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.authNsAddr6", "fe80::acbc:b659:71db:5cb7%20");
-	private String domain = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.authDomain", "local.");
+	private String gwIp = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.authNsAddr6",
+			"fe80::acbc:b659:71db:5cb7%20");
+	private String domain = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.authDomain",
+			"local.");
 
 	private MdnsResolverImpl() {
 		try {
@@ -152,13 +154,15 @@ public class MdnsResolverImpl implements MdnsResolver {
 					subServiceType = c.toString().substring(c.toString().lastIndexOf(".") + 1);
 				}
 			}
-		
-		if(subServiceType == null){
+
+		if (subServiceType == null) {
 			return;
 		}
 		subServiceType = subServiceType.toLowerCase();
-		ServiceInfo subTypedServiceCoAP = ServiceInfo.create("_obix._coap." + domain, deviceName, "_" + subServiceType, 5683, null);
-		ServiceInfo subTypedServiceHTTP = ServiceInfo.create("_obix._http." + domain, deviceName, "_" + subServiceType, 8080, null);
+		ServiceInfo subTypedServiceCoAP = ServiceInfo.create("_obix._coap." + domain, deviceName, "_" + subServiceType,
+				5683, null);
+		ServiceInfo subTypedServiceHTTP = ServiceInfo.create("_obix._http." + domain, deviceName, "_" + subServiceType,
+				8080, null);
 
 		// / Making bonjour happy
 		final HashMap<String, String> values = new HashMap<String, String>();
@@ -181,12 +185,12 @@ public class MdnsResolverImpl implements MdnsResolver {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		if (executor != null) {
 			executor.execute(new ServiceRegistra(subTypedServiceCoAP));
 			executor.execute(new ServiceRegistra(subTypedServiceHTTP));
-		
-			executor.execute(new ServiceRegistra(serviceCoAP));		
+
+			executor.execute(new ServiceRegistra(serviceCoAP));
 			executor.execute(new ServiceRegistra(serviceHTTP));
 		}
 	}

@@ -22,26 +22,27 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.bacnet.impl;
 
-import obix.Contract;
-import obix.Real;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.bacnet.AnalogValue;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
+import obix.Contract;
+import obix.Real;
 
 public class AnalogValueImpl extends AnalogBacnetObj implements AnalogValue {
 	protected Real value = new Real(0);
-	
+
 	public AnalogValueImpl(BACnetConnector bacnetConnector, BacnetDataPointInfo dataPointInfo) {
 		super(bacnetConnector, dataPointInfo);
-		
+
 		setIs(new Contract(AnalogValue.CONTRACT));
 		value().setWritable(true);
 	}
-	
+
 	@Override
 	protected void refreshWritable() {
 		// Value Objects are writable if Out_Of_Service is True
-		// or if Present_Value is commandable (PriorityArray and RelinquishDefault exist)
+		// or if Present_Value is commandable (PriorityArray and
+		// RelinquishDefault exist)
 		value().setWritable(isOutOfService() || isValueCommandable());
 	}
 }

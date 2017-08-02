@@ -19,43 +19,47 @@ public abstract class AlarmObserver implements Observer {
 	private Alarm currentAlarm;
 	private boolean stateful, acked;
 	private AlarmCondition alarmCondition;
-	
+
 	public AlarmObserver(AlarmSubject alarmSubject, AlarmCondition alarmCondition, boolean stateful, boolean acked) {
 		this.alarmSubject = alarmSubject;
 		this.alarmCondition = alarmCondition;
 		this.stateful = stateful;
 		this.acked = acked;
 	}
-	
+
 	/**
-	 * @param source the alarm source to be checked for an alarm condition
-	 * @return <code>true</code> if <code>source</code> is currently in an alarm condition, <code>false</code> otherwise
+	 * @param source
+	 *            the alarm source to be checked for an alarm condition
+	 * @return <code>true</code> if <code>source</code> is currently in an alarm
+	 *         condition, <code>false</code> otherwise
 	 */
 	private boolean inAlarmCondition() {
-		if (alarmCondition == null) return false;
+		if (alarmCondition == null)
+			return false;
 		return alarmCondition.inAlarmCondition(source);
 	}
-	
+
 	/**
 	 * Generates a new alarm
+	 * 
 	 * @return the generated alarm
 	 */
 	public abstract Alarm generateAlarm();
-	
+
 	private void notifyAlarmSubject(Alarm alarm) {
 		if (alarmSubject != null)
 			alarmSubject.addAlarm(alarm);
 	}
-	
+
 	@Override
 	public synchronized void update(Object state) {
 		if (inAlarmCondition()) {
 			this.setOffNormal();
-		} else if(currentAlarm != null) {
+		} else if (currentAlarm != null) {
 			this.setNormal();
 		}
 	}
-	
+
 	/**
 	 * Called when the observed alarm source goes into alarm condition.
 	 * Generates an alarm and notifies the alarm subject.
@@ -65,24 +69,24 @@ public abstract class AlarmObserver implements Observer {
 			currentAlarm = generateAlarm();
 			notifyAlarmSubject(currentAlarm);
 		}
-		
+
 		getTarget().setOffNormal(currentAlarm);
 	}
-	
+
 	/**
-	 * Called when the observed alarm source goes out of alarm condition.
-	 * Sets the normal timestamp on stateful alarms.
+	 * Called when the observed alarm source goes out of alarm condition. Sets
+	 * the normal timestamp on stateful alarms.
 	 */
 	public void setNormal() {
 		getTarget().setToNormal(currentAlarm);
-		
+
 		if (currentAlarm instanceof StatefulAlarm) {
 			setNormalTimestamp((StatefulAlarm) currentAlarm);
 		}
-		
+
 		currentAlarm = null;
 	}
-	
+
 	private void setNormalTimestamp(StatefulAlarm alarm) {
 		Abstime normalTimestamp = alarm.normalTimestamp();
 		if (normalTimestamp != null) {
@@ -90,18 +94,20 @@ public abstract class AlarmObserver implements Observer {
 			normalTimestamp.setNull(false);
 		}
 	}
-	
+
 	public AlarmSource getTarget() {
 		if (target == null)
 			return source;
-		
+
 		return target;
 	}
-	
+
 	/**
-	 * Sets the target.
-	 * Generated Alarms should have their source set to this target.
-	 * @param target an AlarmSource, that functions as source for generated alarms 
+	 * Sets the target. Generated Alarms should have their source set to this
+	 * target.
+	 * 
+	 * @param target
+	 *            an AlarmSource, that functions as source for generated alarms
 	 * @return
 	 */
 	public AlarmObserver setTarget(AlarmSource target) {
@@ -111,8 +117,9 @@ public abstract class AlarmObserver implements Observer {
 
 	public void setSubject(Subject object) {
 		if (object instanceof AlarmSource) {
-			if (source != null && source != object) source.detach(this);
-			
+			if (source != null && source != object)
+				source.detach(this);
+
 			source = (AlarmSource) object;
 		}
 	}

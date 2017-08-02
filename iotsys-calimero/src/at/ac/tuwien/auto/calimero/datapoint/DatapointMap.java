@@ -32,16 +32,14 @@ import at.ac.tuwien.auto.calimero.xml.KNXMLException;
 import at.ac.tuwien.auto.calimero.xml.XMLReader;
 import at.ac.tuwien.auto.calimero.xml.XMLWriter;
 
-
 /**
- * A datapoint model storing datapoints with no defined order or hierarchy using a map
- * implementation.
+ * A datapoint model storing datapoints with no defined order or hierarchy using
+ * a map implementation.
  * <p>
  * 
  * @author B. Malinowsky
  */
-public class DatapointMap implements DatapointModel
-{
+public class DatapointMap implements DatapointModel {
 	private static final String TAG_DATAPOINTS = "datapoints";
 
 	private final Map points;
@@ -50,72 +48,75 @@ public class DatapointMap implements DatapointModel
 	 * Creates a new empty datapoint map.
 	 * <p>
 	 */
-	public DatapointMap()
-	{
+	public DatapointMap() {
 		points = Collections.synchronizedMap(new HashMap(20));
 	}
 
 	/**
-	 * Creates a new datapoint map and adds all <code>datapoints</code> to the map.
+	 * Creates a new datapoint map and adds all <code>datapoints</code> to the
+	 * map.
 	 * <p>
-	 * A datapoint to be added has to be unique according its main address, the attempt to
-	 * add two datapoints using the same main address results in a
+	 * A datapoint to be added has to be unique according its main address, the
+	 * attempt to add two datapoints using the same main address results in a
 	 * KNXIllegalArgumentException.
 	 * 
-	 * @param datapoints collection with entries of type {@link Datapoint}
-	 * @throws KNXIllegalArgumentException on duplicate datapoint
+	 * @param datapoints
+	 *            collection with entries of type {@link Datapoint}
+	 * @throws KNXIllegalArgumentException
+	 *             on duplicate datapoint
 	 */
-	public DatapointMap(Collection datapoints)
-	{
+	public DatapointMap(Collection datapoints) {
 		// not all HashSets put additional capacity in HashSet(Collection) ctor
 		final Map m = new HashMap(Math.max(2 * datapoints.size(), 11));
 		for (final Iterator i = datapoints.iterator(); i.hasNext();) {
 			final Datapoint dp = (Datapoint) i.next();
 			if (m.containsKey(dp.getMainAddress()))
-				throw new KNXIllegalArgumentException("duplicate datapoint "
-					+ dp.getMainAddress());
+				throw new KNXIllegalArgumentException("duplicate datapoint " + dp.getMainAddress());
 			m.put(dp.getMainAddress(), dp);
 		}
 		points = Collections.synchronizedMap(m);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.DatapointModel#add
 	 * (tuwien.auto.calimero.datapoint.Datapoint)
 	 */
-	public void add(Datapoint dp)
-	{
+	public void add(Datapoint dp) {
 		synchronized (points) {
 			if (points.containsKey(dp.getMainAddress()))
-				throw new KNXIllegalArgumentException("duplicate datapoint "
-					+ dp.getMainAddress());
+				throw new KNXIllegalArgumentException("duplicate datapoint " + dp.getMainAddress());
 			points.put(dp.getMainAddress(), dp);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.DatapointModel#remove
 	 * (tuwien.auto.calimero.datapoint.Datapoint)
 	 */
-	public void remove(Datapoint dp)
-	{
+	public void remove(Datapoint dp) {
 		points.remove(dp.getMainAddress());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.DatapointModel#removeAll()
 	 */
-	public void removeAll()
-	{
+	public void removeAll() {
 		points.clear();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.DatapointModel#get
 	 * (tuwien.auto.calimero.GroupAddress)
 	 */
-	public Datapoint get(GroupAddress main)
-	{
+	public Datapoint get(GroupAddress main) {
 		return (Datapoint) points.get(main);
 	}
 
@@ -126,59 +127,61 @@ public class DatapointMap implements DatapointModel
 	 * 
 	 * @return unmodifiable collection with entries of type {@link Datapoint}
 	 */
-	public Collection getDatapoints()
-	{
+	public Collection getDatapoints() {
 		return Collections.unmodifiableCollection(points.values());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.DatapointModel#contains
 	 * (tuwien.auto.calimero.GroupAddress)
 	 */
-	public boolean contains(GroupAddress main)
-	{
+	public boolean contains(GroupAddress main) {
 		return points.containsKey(main);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.DatapointModel#contains
 	 * (tuwien.auto.calimero.datapoint.Datapoint)
 	 */
-	public boolean contains(Datapoint dp)
-	{
+	public boolean contains(Datapoint dp) {
 		return points.containsKey(dp.getMainAddress());
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.DatapointModel#load
 	 * (tuwien.auto.calimero.xml.XMLReader)
 	 */
-	public void load(XMLReader r) throws KNXMLException
-	{
+	public void load(XMLReader r) throws KNXMLException {
 		if (r.getPosition() != XMLReader.START_TAG)
 			r.read();
 		final Element e = r.getCurrent();
 		if (r.getPosition() != XMLReader.START_TAG || !e.getName().equals(TAG_DATAPOINTS))
-			throw new KNXMLException(TAG_DATAPOINTS + " element not found", e != null ? e
-				.getName() : null, r.getLineNumber());
+			throw new KNXMLException(TAG_DATAPOINTS + " element not found", e != null ? e.getName() : null,
+					r.getLineNumber());
 		synchronized (points) {
 			while (r.read() == XMLReader.START_TAG) {
 				final Datapoint dp = Datapoint.create(r);
 				if (points.containsKey(dp.getMainAddress()))
-					throw new KNXMLException(TAG_DATAPOINTS + " element contains "
-						+ "duplicate datapoint", dp.getMainAddress().toString(), r
-						.getLineNumber());
+					throw new KNXMLException(TAG_DATAPOINTS + " element contains " + "duplicate datapoint",
+							dp.getMainAddress().toString(), r.getLineNumber());
 				points.put(dp.getMainAddress(), dp);
 			}
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.datapoint.DatapointModel#save
 	 * (tuwien.auto.calimero.xml.XMLWriter)
 	 */
-	public void save(XMLWriter w) throws KNXMLException
-	{
+	public void save(XMLWriter w) throws KNXMLException {
 		w.writeElement(TAG_DATAPOINTS, Collections.EMPTY_LIST, null);
 		synchronized (points) {
 			for (final Iterator i = points.values().iterator(); i.hasNext();)

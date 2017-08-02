@@ -32,20 +32,18 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DataPoint;
+import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 import obix.Contract;
 import obix.Obj;
 import obix.Str;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DataPoint;
-import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 
-public abstract class DatapointImpl extends Obj implements DataPoint
-{
+public abstract class DatapointImpl extends Obj implements DataPoint {
 	protected Str function = new Str();
 	protected Str unit = new Str();
 
-	public DatapointImpl(String name, String displayName, String display, boolean writable, boolean readable)
-	{
+	public DatapointImpl(String name, String displayName, String display, boolean writable, boolean readable) {
 		// attributes
 		this.setName(name);
 		this.setDisplay(display);
@@ -63,38 +61,30 @@ public abstract class DatapointImpl extends Obj implements DataPoint
 		this.addIs(new Contract(DataPoint.CONTRACT));
 	}
 
-	public void addIs(Contract is)
-	{
-		if (this.getIs() != null)
-		{
+	public void addIs(Contract is) {
+		if (this.getIs() != null) {
 			Uri[] uris = new Uri[is.size() + this.getIs().size()];
 			int i = 0;
 
-			for (Uri uri : is.list())
-			{
+			for (Uri uri : is.list()) {
 				uris[i++] = uri;
 			}
 
-			for (Uri uri : this.getIs().list())
-			{
+			for (Uri uri : this.getIs().list()) {
 				uris[i++] = uri;
 			}
 
 			this.setIs(new Contract(uris));
-		}
-		else
-		{
+		} else {
 			this.setIs(is);
 		}
 	}
 
-	public boolean isValueWritable()
-	{
+	public boolean isValueWritable() {
 		return false;
 	}
 
-	public boolean isValueReadable()
-	{
+	public boolean isValueReadable() {
 		return false;
 	}
 }

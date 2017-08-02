@@ -31,8 +31,8 @@ public class CertificateCoder {
 	 * @return PrivateKey
 	 * @throws Exception
 	 */
-	private static PrivateKey getPrivateKeyByKeyStore(String keyStorePath,
-			String alias, String password) throws Exception {
+	private static PrivateKey getPrivateKeyByKeyStore(String keyStorePath, String alias, String password)
+			throws Exception {
 
 		KeyStore ks = getKeyStore(keyStorePath, password);
 
@@ -47,8 +47,7 @@ public class CertificateCoder {
 	 * @return PublicKey
 	 * @throws Exception
 	 */
-	private static PublicKey getPublicKeyByCertificate(String certificatePath)
-			throws Exception {
+	private static PublicKey getPublicKeyByCertificate(String certificatePath) throws Exception {
 
 		Certificate certificate = getCertificate(certificatePath);
 
@@ -63,11 +62,9 @@ public class CertificateCoder {
 	 * @return Certificate
 	 * @throws Exception
 	 */
-	private static Certificate getCertificate(String certificatePath)
-			throws Exception {
+	private static Certificate getCertificate(String certificatePath) throws Exception {
 
-		CertificateFactory certificateFactory = CertificateFactory
-				.getInstance(CERT_TYPE);
+		CertificateFactory certificateFactory = CertificateFactory.getInstance(CERT_TYPE);
 
 		FileInputStream in = new FileInputStream(certificatePath);
 
@@ -87,8 +84,7 @@ public class CertificateCoder {
 	 * @return Certificate
 	 * @throws Exception
 	 */
-	private static Certificate getCertificate(String keyStorePath,
-			String alias, String password) throws Exception {
+	private static Certificate getCertificate(String keyStorePath, String alias, String password) throws Exception {
 
 		KeyStore ks = getKeyStore(keyStorePath, password);
 
@@ -104,10 +100,9 @@ public class CertificateCoder {
 	 * @return KeyStore
 	 * @throws Exception
 	 */
-	private static KeyStore getKeyStore(String keyStorePath, String password)
-			throws Exception {
+	private static KeyStore getKeyStore(String keyStorePath, String password) throws Exception {
 
-		KeyStore ks = KeyStore.getInstance("JKS"); 
+		KeyStore ks = KeyStore.getInstance("JKS");
 		FileInputStream is = new FileInputStream(keyStorePath);
 
 		ks.load(is, password.toCharArray());
@@ -128,11 +123,10 @@ public class CertificateCoder {
 	 * @return byte[] Encrypted message
 	 * @throws Exception
 	 */
-	public static byte[] encryptByPrivateKey(byte[] data, String keyStorePath,
-			String alias, String password) throws Exception {
+	public static byte[] encryptByPrivateKey(byte[] data, String keyStorePath, String alias, String password)
+			throws Exception {
 
-		PrivateKey privateKey = getPrivateKeyByKeyStore(keyStorePath, alias,
-				password);
+		PrivateKey privateKey = getPrivateKeyByKeyStore(keyStorePath, alias, password);
 
 		Cipher cipher = Cipher.getInstance(privateKey.getAlgorithm());
 		cipher.init(Cipher.ENCRYPT_MODE, privateKey);
@@ -152,11 +146,10 @@ public class CertificateCoder {
 	 * @return byte[] Decrypted message
 	 * @throws Exception
 	 */
-	public static byte[] decryptByPrivateKey(byte[] data, String keyStorePath,
-			String alias, String password) throws Exception {
+	public static byte[] decryptByPrivateKey(byte[] data, String keyStorePath, String alias, String password)
+			throws Exception {
 
-		PrivateKey privateKey = getPrivateKeyByKeyStore(keyStorePath, alias,
-				password);
+		PrivateKey privateKey = getPrivateKeyByKeyStore(keyStorePath, alias, password);
 
 		Cipher cipher = Cipher.getInstance(privateKey.getAlgorithm());
 
@@ -174,8 +167,7 @@ public class CertificateCoder {
 	 * @return byte[] Encrypted message
 	 * @throws Exception
 	 */
-	public static byte[] encryptByPublicKey(byte[] data, String certificatePath)
-			throws Exception {
+	public static byte[] encryptByPublicKey(byte[] data, String certificatePath) throws Exception {
 
 		PublicKey publicKey = getPublicKeyByCertificate(certificatePath);
 
@@ -194,14 +186,13 @@ public class CertificateCoder {
 	 * @return byte[] Decrypted message
 	 * @throws Exception
 	 */
-	public static byte[] decryptByPublicKey(byte[] data, String certificatePath)
-			throws Exception {
+	public static byte[] decryptByPublicKey(byte[] data, String certificatePath) throws Exception {
 
-		PublicKey publicKey = getPublicKeyByCertificate(certificatePath); 
-		
+		PublicKey publicKey = getPublicKeyByCertificate(certificatePath);
+
 		Cipher cipher = Cipher.getInstance(publicKey.getAlgorithm());
 		cipher.init(Cipher.DECRYPT_MODE, publicKey);
-		
+
 		return cipher.doFinal(data);
 	}
 
@@ -209,26 +200,22 @@ public class CertificateCoder {
 	 * Sign datas
 	 * 
 	 * @param keyStorePath
-	 * @param alias 
+	 * @param alias
 	 * @param password
-
+	 * 
 	 * @return byte[] Signature
 	 * @throws Exception
 	 */
-	public static byte[] sign(byte[] sign, String keyStorePath, String alias,
-			String password) throws Exception {
+	public static byte[] sign(byte[] sign, String keyStorePath, String alias, String password) throws Exception {
 
-		X509Certificate x509Certificate = (X509Certificate) getCertificate(
-				keyStorePath, alias, password);
+		X509Certificate x509Certificate = (X509Certificate) getCertificate(keyStorePath, alias, password);
 
-		Signature signature = Signature.getInstance(x509Certificate
-				.getSigAlgName()); 
-		PrivateKey privateKey = getPrivateKeyByKeyStore(keyStorePath, alias,
-				password); 
-		
+		Signature signature = Signature.getInstance(x509Certificate.getSigAlgName());
+		PrivateKey privateKey = getPrivateKeyByKeyStore(keyStorePath, alias, password);
+
 		signature.initSign(privateKey);
 		signature.update(sign);
-		
+
 		return signature.sign();
 	}
 
@@ -239,18 +226,16 @@ public class CertificateCoder {
 	 * @param sign
 	 * @param certificatePath
 	 * 
-	 * @return boolean 
+	 * @return boolean
 	 * @throws Exception
 	 */
-	public static boolean verify(byte[] data, byte[] sign,
-			String certificatePath) throws Exception {
+	public static boolean verify(byte[] data, byte[] sign, String certificatePath) throws Exception {
 
-		X509Certificate x509Certificate = (X509Certificate) getCertificate(certificatePath); 
-		Signature signature = Signature.getInstance(x509Certificate
-				.getSigAlgName()); 
+		X509Certificate x509Certificate = (X509Certificate) getCertificate(certificatePath);
+		Signature signature = Signature.getInstance(x509Certificate.getSigAlgName());
 
 		signature.update(data);
-		
+
 		return signature.verify(sign);
 	}
 }

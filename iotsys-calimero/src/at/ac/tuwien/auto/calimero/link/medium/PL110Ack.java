@@ -27,19 +27,20 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * 
  * @author B. Malinowsky
  */
-public class PL110Ack extends RawAckBase
-{
+public class PL110Ack extends RawAckBase {
 	/**
 	 * Creates a new PL110 acknowledge frame out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing the acknowledge frame
-	 * @param offset start offset of frame structure in <code>data</code>, offset &gt;=
-	 *        0
-	 * @throws KNXFormatException if no valid acknowledge frame was found
+	 * @param data
+	 *            byte array containing the acknowledge frame
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, offset
+	 *            &gt;= 0
+	 * @throws KNXFormatException
+	 *             if no valid acknowledge frame was found
 	 */
-	public PL110Ack(byte[] data, int offset) throws KNXFormatException
-	{
+	public PL110Ack(byte[] data, int offset) throws KNXFormatException {
 		final int ctrl = data[offset] & 0xff;
 		if (ctrl == ACK)
 			ack = ACK;

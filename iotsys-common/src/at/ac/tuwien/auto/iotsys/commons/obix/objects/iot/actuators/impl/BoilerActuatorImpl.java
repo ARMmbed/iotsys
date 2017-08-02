@@ -42,32 +42,30 @@ import obix.Uri;
 
 public class BoilerActuatorImpl extends ActuatorImpl implements BoilerActuator {
 	protected Bool enabled = new Bool();
-	
-	public BoilerActuatorImpl(){
+
+	public BoilerActuatorImpl() {
 		setIs(new Contract(BoilerActuator.CONTRACT));
 		enabled.setWritable(true);
 		enabled.setHref(new Uri("enabled"));
-		enabled.setName("enabled");				
+		enabled.setName("enabled");
 		add(enabled);
 	}
-	
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.		
 
-		if(input instanceof BoilerActuator){
-			BoilerActuator in = (BoilerActuator) input;		
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
+
+		if (input instanceof BoilerActuator) {
+			BoilerActuator in = (BoilerActuator) input;
 			this.enabled.set(in.enabled().get());
-			
-		}
-		else if(input instanceof Bool){
+
+		} else if (input instanceof Bool) {
 			this.enabled.set(((Bool) input).getBool());
-		}
-		else if(input instanceof Int){
-			this.enabled.set( ((Int) input).get());
-		} else if(input instanceof Real){
+		} else if (input instanceof Int) {
+			this.enabled.set(((Int) input).get());
+		} else if (input instanceof Real) {
 			this.enabled.set(((Real) input).get());
 		}
-		
+
 	}
 
 	@Override

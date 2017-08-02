@@ -38,18 +38,21 @@ import obix.Int;
 /**
  * Provides the interface for a Fan Speed Actuator.
  */
-public interface FanSpeedActuator extends Actuator{
-	public static final String CONTRACT="iot:FanSpeedActuator";
-	
-	public static final String FAN_SPEED_SETPOINT_CONTRACT_NAME="fanSpeedSetpointValue";
-	public static final String FAN_SPEED_SETPOINT_CONTRACT_HREF="fanSpeedSetpoint";
-	public static final String FAN_SPEED_SETPOINT_CONTRACT_UNIT="obix:units/percent";
-	public static final String FAN_SPEED_SETPOINT_CONTRACT = "<int name='"+FAN_SPEED_SETPOINT_CONTRACT_NAME+"' href='"+FAN_SPEED_SETPOINT_CONTRACT_HREF+"' val='0'/>";
-	
-	public static final String ENABLED_CONTRACT_NAME="enabled";
-	public static final String ENBALED_CONTRACT_HREF="enabled";
-	public static final String ENABLED_CONTRACT = "<bool name='" + ENABLED_CONTRACT_NAME + "' href='" + ENBALED_CONTRACT_HREF + "' val='false'/>";
-		
+public interface FanSpeedActuator extends Actuator {
+	public static final String CONTRACT = "iot:FanSpeedActuator";
+
+	public static final String FAN_SPEED_SETPOINT_CONTRACT_NAME = "fanSpeedSetpointValue";
+	public static final String FAN_SPEED_SETPOINT_CONTRACT_HREF = "fanSpeedSetpoint";
+	public static final String FAN_SPEED_SETPOINT_CONTRACT_UNIT = "obix:units/percent";
+	public static final String FAN_SPEED_SETPOINT_CONTRACT = "<int name='" + FAN_SPEED_SETPOINT_CONTRACT_NAME
+			+ "' href='" + FAN_SPEED_SETPOINT_CONTRACT_HREF + "' val='0'/>";
+
+	public static final String ENABLED_CONTRACT_NAME = "enabled";
+	public static final String ENBALED_CONTRACT_HREF = "enabled";
+	public static final String ENABLED_CONTRACT = "<bool name='" + ENABLED_CONTRACT_NAME + "' href='"
+			+ ENBALED_CONTRACT_HREF + "' val='false'/>";
+
 	public Int fanSpeedSetpointValue();
+
 	public Bool enabled();
 }

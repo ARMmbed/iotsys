@@ -3,81 +3,76 @@
  */
 package obix.asm;
 
-import java.util.*;
+import java.util.ArrayList;
 
 /**
- * @author    Brian Frank
- * @creation  15 Mar 00
- * @version   $Revision: 2$ $Date: 3/28/2005 9:22:41 AM$
+ * @author Brian Frank
+ * @creation 15 Mar 00
+ * @version $Revision: 2$ $Date: 3/28/2005 9:22:41 AM$
  */
-public abstract class MemberInfo
-{  
+public abstract class MemberInfo {
 
-////////////////////////////////////////////////////////////////
-// Constructors
-////////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////
+	// Constructors
+	////////////////////////////////////////////////////////////////
 
-  MemberInfo(Assembler asm, int name, int type, int accessFlags)
-  {
-    this.asm = asm;
-    this.cp = asm.cp;
-    this.name = name;
-    this.type = type;
-    this.accessFlags = accessFlags;
-  }
+	MemberInfo(Assembler asm, int name, int type, int accessFlags) {
+		this.asm = asm;
+		this.cp = asm.cp;
+		this.name = name;
+		this.type = type;
+		this.accessFlags = accessFlags;
+	}
 
-  MemberInfo(Assembler asm, String name, String type, int accessFlags)
-  {
-    this.asm = asm;
-    this.cp = asm.cp;
-    this.name = cp.utf(name);
-    this.type = cp.utf(type);
-    this.accessFlags = accessFlags;
-  }
+	MemberInfo(Assembler asm, String name, String type, int accessFlags) {
+		this.asm = asm;
+		this.cp = asm.cp;
+		this.name = cp.utf(name);
+		this.type = cp.utf(type);
+		this.accessFlags = accessFlags;
+	}
 
-  MemberInfo(Assembler asm, int name, String type, int accessFlags)
-  {
-    this.asm = asm;
-    this.cp = asm.cp;
-    this.name = name;
-    this.type = cp.utf(type);
-    this.accessFlags = accessFlags;
-  }
+	MemberInfo(Assembler asm, int name, String type, int accessFlags) {
+		this.asm = asm;
+		this.cp = asm.cp;
+		this.name = name;
+		this.type = cp.utf(type);
+		this.accessFlags = accessFlags;
+	}
 
-////////////////////////////////////////////////////////////////
-// Attributes
-////////////////////////////////////////////////////////////////  
+	////////////////////////////////////////////////////////////////
+	// Attributes
+	////////////////////////////////////////////////////////////////
 
-  public void addAttribute(AttributeInfo ai)
-  {
-    if (attributes == null) attributes = new ArrayList(5);
-    attributes.add(ai);
-  }
+	public void addAttribute(AttributeInfo ai) {
+		if (attributes == null)
+			attributes = new ArrayList(5);
+		attributes.add(ai);
+	}
 
-////////////////////////////////////////////////////////////////
-// Compile
-////////////////////////////////////////////////////////////////  
+	////////////////////////////////////////////////////////////////
+	// Compile
+	////////////////////////////////////////////////////////////////
 
-  void compile(Buffer buf)
-  {
-    int attrLen = attributes == null ? 0 : attributes.size();
-    
-    buf.u2(accessFlags);
-    buf.u2(name);
-    buf.u2(type);
-    buf.u2(attrLen);
-    for(int i=0; i<attrLen; ++i)
-      ((AttributeInfo)attributes.get(i)).compile(buf);
-  }
+	void compile(Buffer buf) {
+		int attrLen = attributes == null ? 0 : attributes.size();
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
+		buf.u2(accessFlags);
+		buf.u2(name);
+		buf.u2(type);
+		buf.u2(attrLen);
+		for (int i = 0; i < attrLen; ++i)
+			((AttributeInfo) attributes.get(i)).compile(buf);
+	}
 
-  public final Assembler asm;
-  public final ConstantPool cp;
-  public final int name;
-  public final int type;
-  public final int accessFlags;
-  ArrayList attributes;
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	public final Assembler asm;
+	public final ConstantPool cp;
+	public final int name;
+	public final int type;
+	public final int accessFlags;
+	ArrayList attributes;
 }

@@ -41,9 +41,14 @@ import java.util.ArrayList;
 
 public interface MdnsResolver {
 	public void addToRecordDict(String name, String addr);
+
 	public int getNumberOfRecord();
+
 	public void registerDevice(String name, Class<?> deviceClass, String ipv6);
+
 	public void unregisterAllDevice();
+
 	public String resolve(String name);
+
 	public ArrayList<String> reverseResolve(String ipv6);
 }

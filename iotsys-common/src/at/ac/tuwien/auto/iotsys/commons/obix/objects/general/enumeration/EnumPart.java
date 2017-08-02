@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration;
 
 import obix.contracts.Range;
 
-public interface EnumPart extends Range
-{
+public interface EnumPart extends Range {
 	public static final String HREF = "/enums/part";
 
 	public static final String KEY_BUILDING = "building";

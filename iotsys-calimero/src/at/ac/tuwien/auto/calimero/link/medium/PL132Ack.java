@@ -22,16 +22,16 @@ package at.ac.tuwien.auto.calimero.link.medium;
 /**
  * Raw acknowledge frame on PL132 communication medium.
  * <p>
- * The acknowledge on PL132 medium is handled using the frame checksum in the associated
- * frame request.<br>
- * A positive acknowledgment frame contains the sequence of bits received in the FCS field
- * of the associated L-data request. A negative acknowledgment contains the bitwise
- * complement of the checksum received with the L-data request.
+ * The acknowledge on PL132 medium is handled using the frame checksum in the
+ * associated frame request.<br>
+ * A positive acknowledgment frame contains the sequence of bits received in the
+ * FCS field of the associated L-data request. A negative acknowledgment
+ * contains the bitwise complement of the checksum received with the L-data
+ * request.
  * 
  * @author B. Malinowsky
  */
-public class PL132Ack extends RawAckBase
-{
+public class PL132Ack extends RawAckBase {
 	/**
 	 * Negative acknowledge type, reception buffer is full.
 	 * <p>
@@ -41,8 +41,9 @@ public class PL132Ack extends RawAckBase
 	public static final int FULL = 0x100;
 
 	/**
-	 * The kind of acknowledge is unknown, because no checksum from the frame request is
-	 * available for comparison, or the delivered checksum in the ack-frame is invalid.
+	 * The kind of acknowledge is unknown, because no checksum from the frame
+	 * request is available for comparison, or the delivered checksum in the
+	 * ack-frame is invalid.
 	 * <p>
 	 * 
 	 * @see #getAckType()
@@ -55,15 +56,17 @@ public class PL132Ack extends RawAckBase
 	 * Creates a new PL132 acknowledge frame out of a byte array.
 	 * <p>
 	 * The type of acknowledge returned for the created frame is always
-	 * {@link PL132Ack#UNKNOWN_ACK}, since no checksum of the associated frame request is
-	 * supplied. Use {@link #getChecksum()} to determine the type of acknowledge.
+	 * {@link PL132Ack#UNKNOWN_ACK}, since no checksum of the associated frame
+	 * request is supplied. Use {@link #getChecksum()} to determine the type of
+	 * acknowledge.
 	 * 
-	 * @param data byte array containing the acknowledge frame
-	 * @param offset start offset of frame structure in <code>data</code>, offset &gt;=
-	 *        0
+	 * @param data
+	 *            byte array containing the acknowledge frame
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, offset
+	 *            &gt;= 0
 	 */
-	public PL132Ack(byte[] data, int offset)
-	{
+	public PL132Ack(byte[] data, int offset) {
 		final int hi = data[offset] & 0xff;
 		fcs = hi << 8 | (data[offset + 1] & 0xff);
 		ack = UNKNOWN_ACK;
@@ -73,13 +76,15 @@ public class PL132Ack extends RawAckBase
 	 * Creates a new PL132 acknowledge frame out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing the acknowledge frame
-	 * @param offset start offset of frame structure in <code>data</code>, offset &gt;=
-	 *        0
-	 * @param requestChecksum checksum of the associated frame request
+	 * @param data
+	 *            byte array containing the acknowledge frame
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, offset
+	 *            &gt;= 0
+	 * @param requestChecksum
+	 *            checksum of the associated frame request
 	 */
-	public PL132Ack(byte[] data, int offset, int requestChecksum)
-	{
+	public PL132Ack(byte[] data, int offset, int requestChecksum) {
 		final int hi = data[offset] & 0xff;
 		fcs = hi << 8 | data[offset + 1] & 0xff;
 		if (fcs == requestChecksum)
@@ -96,16 +101,16 @@ public class PL132Ack extends RawAckBase
 	 * 
 	 * @return checksum as unsigned short
 	 */
-	public final int getChecksum()
-	{
+	public final int getChecksum() {
 		return fcs;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.medium.RawAckBase#toString()
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return ack == ACK ? "ACK" : ack == FULL ? "FULL" : "unknown ack";
 	}
 }

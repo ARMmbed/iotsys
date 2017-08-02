@@ -35,28 +35,33 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic;
 import obix.Bool;
 import obix.IObj;
 
-public interface LogicBinaryOperation extends IObj{
+public interface LogicBinaryOperation extends IObj {
 	public static final String BIN_OP_AND = "and";
 	public static final String BIN_OP_OR = "or";
 	public static final String BIN_OP_XOR = "xor";
 	public static final String BIN_OP_NAND = "nand";
 	public static final String BIN_OP_NOR = "nor";
-	
+
 	public static final String CONTRACT = "iot:LogicBinaryOperation";
-	
+
 	public static final String input1Contract = "<bool name='input1' href='input1' val='0'/>";
+
 	public Bool input1();
-	
+
 	public static final String input2Contract = "<bool name='input2' href='input2' val='0'/>";
+
 	public Bool input2();
-	
+
 	public static final String resultContract = "<bool name='result' href='result' val='0'/>";
+
 	public Bool result();
-	
+
 	public static final String enabledContract = "<bool name='enabled' href='enable' val='false'/>";
+
 	public Bool enabled();
-	
+
 	public static final String operationTypeContract = "<enum name='logicOperationType' href='logicOperationType' range='/enums/logicOperationTypes'/>";
-	public obix.Enum logicOperationType();	
+
+	public obix.Enum logicOperationType();
 
 }

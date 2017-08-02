@@ -42,21 +42,26 @@ public interface Comparator extends IObj {
 	public static final String COMPARE_TYPE_GTE = "gte";
 	public static final String COMPARE_TYPE_LT = "lt";
 	public static final String COMPARE_TYPE_LTE = "lte";
-	
+
 	public static final String CONTRACT = "iot:Comparator";
-	
+
 	public static final String input1Contract = "<real name='input1' href='input1' val='0'/>";
+
 	public Real input1();
-	
+
 	public static final String input2Contract = "<real name='input2' href='input2' val='0'/>";
+
 	public Real input2();
-	
+
 	public static final String resultContract = "<bool name='result' href='result' val='false'/>";
+
 	public Bool result();
-	
+
 	public static final String enabledContract = "<bool name='enabled' href='enable' val='false'/>";
+
 	public Bool enabled();
-	
+
 	public static final String compareTypeContract = "<enum name='compareType' href='compareType' range='/enums/compareType'/>";
-	public obix.Enum compareType();	
+
+	public obix.Enum compareType();
 }

@@ -43,46 +43,46 @@ import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXWatchDog;
 
 public class PushButtonImplKnx extends PushButtonImpl {
 	private GroupAddress observation;
-	
+
 	private KNXConnector connector;
-	
+
 	public static final Logger knxBus = KNXConnector.knxBus;
-	
-	public PushButtonImplKnx(KNXConnector connector , GroupAddress observation) {
+
+	public PushButtonImplKnx(KNXConnector connector, GroupAddress observation) {
 		this.observation = observation;
-		this.connector = connector;	
+		this.connector = connector;
 	}
 
 	public void createWatchDog() {
 		connector.addWatchDog(observation, new KNXWatchDog() {
 			@Override
-			public void notifyWatchDog(byte[] apdu) {			
+			public void notifyWatchDog(byte[] apdu) {
 				try {
 					DPTXlatorBoolean x = new DPTXlatorBoolean(DPTXlatorBoolean.DPT_SWITCH);
 					x.setData(apdu);
-					
-//					for(int i=0; i< apdu.length; i++) {
-//						System.out.print(apdu[i]);
-//					}
-					
-//					CsvCreator.instance.writeLine("" + System.currentTimeMillis() + ";" + observation.toString() + ";" + x.getValueBoolean());
-					
+
+					// for(int i=0; i< apdu.length; i++) {
+					// System.out.print(apdu[i]);
+					// }
+
+					// CsvCreator.instance.writeLine("" +
+					// System.currentTimeMillis() + ";" + observation.toString()
+					// + ";" + x.getValueBoolean());
+
 					value.set(x.getValueBoolean());
 
-									
 					// notify observers of this oBIX object
 					PushButtonImplKnx.this.notifyObservers();
-				} 				
-				catch (KNXException e) {			
+				} catch (KNXException e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		createWatchDog();
-	}	
+	}
 }

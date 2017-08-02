@@ -31,7 +31,6 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint;
 
-public interface EnoceanDPTRealTemp extends EnoceanDPTReal
-{
+public interface EnoceanDPTRealTemp extends EnoceanDPTReal {
 	public static final String CONTRACT = "enocean:DPTRealTemp";
 }

@@ -24,20 +24,22 @@ import java.io.ByteArrayOutputStream;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
 
-
 /**
- * The common KNXnet/IP header used at the first position in every KNXnet/IP frame.
+ * The common KNXnet/IP header used at the first position in every KNXnet/IP
+ * frame.
  * <p>
- * It contains the protocol version, length of this header, the total frame length and the
- * service type identifier of the service carried by the frame. The header, most
- * certainly, is followed by a KNXnet/IP body, depending on the service type, i.e. every
- * KNXnet/IP frame consists at least of this header.
+ * It contains the protocol version, length of this header, the total frame
+ * length and the service type identifier of the service carried by the frame.
+ * The header, most certainly, is followed by a KNXnet/IP body, depending on the
+ * service type, i.e. every KNXnet/IP frame consists at least of this header.
  * <p>
- * The header itself, however, only consists of the pure header structure, it will not
- * store or read any frame body content.<br>
- * It is used for KNXnet/IP frame to retrieve general information in the first place,
- * followed by processing of the frame through more specific service types.<br>
- * Most service type identifiers are listed as public constants in this header interface.
+ * The header itself, however, only consists of the pure header structure, it
+ * will not store or read any frame body content.<br>
+ * It is used for KNXnet/IP frame to retrieve general information in the first
+ * place, followed by processing of the frame through more specific service
+ * types.<br>
+ * Most service type identifiers are listed as public constants in this header
+ * interface.
  * <p>
  * The KNXnet/IP implementation status is 1.0.
  * <p>
@@ -45,8 +47,7 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
  * 
  * @author B. Malinowsky
  */
-public class KNXnetIPHeader
-{
+public class KNXnetIPHeader {
 	/**
 	 * Service type identifier for a connect request.
 	 * <p>
@@ -115,14 +116,15 @@ public class KNXnetIPHeader
 	public static final int DEVICE_CONFIGURATION_REQ = 0x0310;
 
 	/**
-	 * Service type identifier to confirm the reception of the configuration request.
+	 * Service type identifier to confirm the reception of the configuration
+	 * request.
 	 * <p>
 	 */
 	public static final int DEVICE_CONFIGURATION_ACK = 0x0311;
 
 	/**
-	 * Service type identifier to send and receive single KNX frames between client and
-	 * server.
+	 * Service type identifier to send and receive single KNX frames between
+	 * client and server.
 	 * <p>
 	 */
 	public static final int TUNNELING_REQ = 0x0420;
@@ -134,13 +136,15 @@ public class KNXnetIPHeader
 	public static final int TUNNELING_ACK = 0x0421;
 
 	/**
-	 * Service type identifier for sending KNX telegrams over IP networks with multicast.
+	 * Service type identifier for sending KNX telegrams over IP networks with
+	 * multicast.
 	 * <p>
 	 */
 	public static final int ROUTING_IND = 0x0530;
 
 	/**
-	 * Service type identifier to indicate the loss of routing messages with multicast.
+	 * Service type identifier to indicate the loss of routing messages with
+	 * multicast.
 	 * <p>
 	 */
 	public static final int ROUTING_LOST_MSG = 0x0531;
@@ -159,16 +163,20 @@ public class KNXnetIPHeader
 	private final short version;
 
 	/**
-	 * Creates a new KNXnet/IP header by reading in the header of a KNXnet/IP frame.
+	 * Creates a new KNXnet/IP header by reading in the header of a KNXnet/IP
+	 * frame.
 	 * <p>
 	 * 
-	 * @param frame byte array with contained KNXnet/IP frame
-	 * @param offset start offset of KNXnet/IP header structure in <code>frame</code>
-	 * @throws KNXFormatException if <code>frame</code> is too short for header, on
-	 *         wrong header size or not supported KNXnet/IP protocol version
+	 * @param frame
+	 *            byte array with contained KNXnet/IP frame
+	 * @param offset
+	 *            start offset of KNXnet/IP header structure in
+	 *            <code>frame</code>
+	 * @throws KNXFormatException
+	 *             if <code>frame</code> is too short for header, on wrong
+	 *             header size or not supported KNXnet/IP protocol version
 	 */
-	public KNXnetIPHeader(byte[] frame, int offset) throws KNXFormatException
-	{
+	public KNXnetIPHeader(byte[] frame, int offset) throws KNXFormatException {
 		if (frame.length - offset < HEADER_SIZE_10)
 			throw new KNXFormatException("buffer too short for KNXnet/IP header");
 		int i = offset;
@@ -183,24 +191,25 @@ public class KNXnetIPHeader
 		totalsize = (high << 8) | low;
 
 		if (headersize != HEADER_SIZE_10)
-			throw new KNXFormatException("unsupported header size, expected "
-				+ HEADER_SIZE_10, headersize);
+			throw new KNXFormatException("unsupported header size, expected " + HEADER_SIZE_10, headersize);
 		if (version != KNXNETIP_VERSION_10)
-			throw new KNXFormatException("unsupported KNXnet/IP protocol "
-				+ "version, expected " + KNXNETIP_VERSION_10, version);
+			throw new KNXFormatException("unsupported KNXnet/IP protocol " + "version, expected " + KNXNETIP_VERSION_10,
+					version);
 	}
 
 	/**
-	 * Creates a new KNXnet/IP header for the given service and frame body length.
+	 * Creates a new KNXnet/IP header for the given service and frame body
+	 * length.
 	 * <p>
 	 * 
-	 * @param serviceType service type identifier specifying the service followed after
-	 *        the header, 0 &lt;= type &lt;= 0xFFFF
-	 * @param bodyLength length of the frame body, i.e. byte length of the following
-	 *        service structure
+	 * @param serviceType
+	 *            service type identifier specifying the service followed after
+	 *            the header, 0 &lt;= type &lt;= 0xFFFF
+	 * @param bodyLength
+	 *            length of the frame body, i.e. byte length of the following
+	 *            service structure
 	 */
-	public KNXnetIPHeader(int serviceType, int bodyLength)
-	{
+	public KNXnetIPHeader(int serviceType, int bodyLength) {
 		if (bodyLength < 0)
 			throw new IllegalArgumentException("negative length of message body");
 		if (serviceType < 0 || serviceType > 0xFFFF)
@@ -217,8 +226,7 @@ public class KNXnetIPHeader
 	 * 
 	 * @return service type as unsigned short
 	 */
-	public final int getServiceType()
-	{
+	public final int getServiceType() {
 		return service;
 	}
 
@@ -228,8 +236,7 @@ public class KNXnetIPHeader
 	 * 
 	 * @return protocol version as unsigned byte
 	 */
-	public int getVersion()
-	{
+	public int getVersion() {
 		return KNXNETIP_VERSION_10;
 	}
 
@@ -239,21 +246,19 @@ public class KNXnetIPHeader
 	 * 
 	 * @return the length in bytes
 	 */
-	public int getStructLength()
-	{
+	public int getStructLength() {
 		return HEADER_SIZE_10;
 	}
 
 	/**
 	 * Returns the total length of the KNXnet/IP frame the header is part of.
 	 * <p>
-	 * The total length is calculated by adding the header length and the length of the
-	 * service contained in the frame.
+	 * The total length is calculated by adding the header length and the length
+	 * of the service contained in the frame.
 	 * 
 	 * @return the total length in bytes
 	 */
-	public final int getTotalLength()
-	{
+	public final int getTotalLength() {
 		return totalsize;
 	}
 
@@ -263,8 +268,7 @@ public class KNXnetIPHeader
 	 * 
 	 * @return byte array containing structure
 	 */
-	public byte[] toByteArray()
-	{
+	public byte[] toByteArray() {
 		final ByteArrayOutputStream os = new ByteArrayOutputStream();
 		os.write(headersize);
 		os.write(version);
@@ -281,15 +285,12 @@ public class KNXnetIPHeader
 	 * 
 	 * @return a string representation of the object
 	 */
-	public String toString()
-	{
-		return "KNXnet/IP " + (version / 0x10) + "." + (version % 0x10) + ", "
-			+ getSvcName(service) + " (0x" + Integer.toHexString(service)
-			+ "), header size " + headersize + " total " + totalsize;
+	public String toString() {
+		return "KNXnet/IP " + (version / 0x10) + "." + (version % 0x10) + ", " + getSvcName(service) + " (0x"
+				+ Integer.toHexString(service) + "), header size " + headersize + " total " + totalsize;
 	}
 
-	static String getSvcName(int svcType)
-	{
+	static String getSvcName(int svcType) {
 		switch (svcType) {
 		case CONNECT_REQ:
 			return "connect.req";

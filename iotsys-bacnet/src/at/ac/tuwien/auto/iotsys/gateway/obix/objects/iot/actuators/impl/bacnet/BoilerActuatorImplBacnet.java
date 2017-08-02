@@ -25,36 +25,33 @@ import static at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector
 
 import java.util.logging.Logger;
 
-import obix.Obj;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.BoilerActuatorImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
-
 import com.serotonin.bacnet4j.exception.BACnetException;
 import com.serotonin.bacnet4j.exception.PropertyValueException;
 import com.serotonin.bacnet4j.type.Encodable;
+
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.BoilerActuatorImpl;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BACnetConnector;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.bacnet.BacnetDataPointInfo;
+import obix.Obj;
 
 public class BoilerActuatorImplBacnet extends BoilerActuatorImpl {
 	private static final Logger log = Logger.getLogger(BoilerActuatorImplBacnet.class.getName());
 	private BacnetDataPointInfo switchDP;
 	private BACnetConnector bacnetConnector;
-	
-	public BoilerActuatorImplBacnet(BACnetConnector bacnetConnector,
-			BacnetDataPointInfo switchDP) {
+
+	public BoilerActuatorImplBacnet(BACnetConnector bacnetConnector, BacnetDataPointInfo switchDP) {
 		this.switchDP = switchDP;
 		this.bacnetConnector = bacnetConnector;
 	}
 
 	public void refreshObject() {
 		try {
-			Encodable property = bacnetConnector.readProperty(
-					switchDP.getDeviceIdentifier(),
-					switchDP.getObjectIdentifier(),
-					switchDP.getPropertyIdentifier());
+			Encodable property = bacnetConnector.readProperty(switchDP.getDeviceIdentifier(),
+					switchDP.getObjectIdentifier(), switchDP.getPropertyIdentifier());
 
-			if (property instanceof  com.serotonin.bacnet4j.type.primitive.Boolean) {
+			if (property instanceof com.serotonin.bacnet4j.type.primitive.Boolean) {
 				enabled.set(((com.serotonin.bacnet4j.type.primitive.Boolean) property).booleanValue());
-			}			
+			}
 
 		} catch (BACnetException e) {
 			// TODO Auto-generated catch block
@@ -71,7 +68,8 @@ public class BoilerActuatorImplBacnet extends BoilerActuatorImpl {
 		log.finest("Writing on boiler: " + switchDP + " value: " + enabled.get());
 		try {
 			bacnetConnector.writeProperty(switchDP.getDeviceIdentifier(), switchDP.getObjectIdentifier(),
-					switchDP.getPropertyIdentifier(), new com.serotonin.bacnet4j.type.primitive.Enumerated(enabled.get()?1:0), BACNET_PRIORITY);			
+					switchDP.getPropertyIdentifier(),
+					new com.serotonin.bacnet4j.type.primitive.Enumerated(enabled.get() ? 1 : 0), BACNET_PRIORITY);
 		} catch (BACnetException e) {
 			e.printStackTrace();
 		} catch (PropertyValueException e) {

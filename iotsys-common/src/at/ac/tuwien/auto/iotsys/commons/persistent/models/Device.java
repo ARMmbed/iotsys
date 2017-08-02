@@ -38,13 +38,12 @@ public class Device extends CouchDbDocument {
 	private boolean historyEnabled;
 	private boolean groupcommEnabled;
 	private boolean refreshEnabled;
-	
-	public Device(){}
-	
-	public Device(String type2, String ipv62, String address2, String href2,
-			String name2, String displayName2, Integer historyCount2,
-			boolean historyEnabled2, boolean groupCommEnabled2,
-			boolean refreshEnabled2) {
+
+	public Device() {
+	}
+
+	public Device(String type2, String ipv62, String address2, String href2, String name2, String displayName2,
+			Integer historyCount2, boolean historyEnabled2, boolean groupCommEnabled2, boolean refreshEnabled2) {
 		this.type = type2;
 		this.ipv6 = ipv62;
 		this.address = address2;
@@ -56,8 +55,8 @@ public class Device extends CouchDbDocument {
 		this.groupcommEnabled = groupCommEnabled2;
 		this.refreshEnabled = refreshEnabled2;
 	}
-	public Device(String type2, String ipv62, String addressString,
-			String href2, String name2, Integer historyCount2,
+
+	public Device(String type2, String ipv62, String addressString, String href2, String name2, Integer historyCount2,
 			boolean historyEnabled2, boolean groupCommEnabled2) {
 		this(type2, ipv62, addressString, href2, name2, "", historyCount2, historyEnabled2, groupCommEnabled2, false);
 	}
@@ -65,68 +64,89 @@ public class Device extends CouchDbDocument {
 	public String getConnectorId() {
 		return connectorId;
 	}
+
 	public void setConnectorId(String connectorId) {
 		this.connectorId = connectorId;
 	}
+
 	public String getType() {
 		return type;
 	}
+
 	public void setType(String type) {
 		this.type = type;
 	}
+
 	public String getIpv6() {
 		return ipv6;
 	}
+
 	public void setIpv6(String ipv6) {
 		this.ipv6 = ipv6;
 	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
 	public String getHref() {
 		return href;
 	}
+
 	public void setHref(String href) {
 		this.href = href;
 	}
+
 	public int getHistoryCount() {
 		return historyCount;
 	}
+
 	public void setHistoryCount(int historyCount) {
 		this.historyCount = historyCount;
 	}
+
 	public boolean isHistoryEnabled() {
 		return historyEnabled;
 	}
+
 	public void setHistoryEnabled(boolean historyEnabled) {
 		this.historyEnabled = historyEnabled;
 	}
+
 	public boolean isGroupcommEnabled() {
 		return groupcommEnabled;
 	}
+
 	public void setGroupcommEnabled(boolean groupcommEnabled) {
 		this.groupcommEnabled = groupcommEnabled;
 	}
+
 	public boolean isRefreshEnabled() {
 		return refreshEnabled;
 	}
+
 	public void setRefreshEnabled(boolean refreshEnabled) {
 		this.refreshEnabled = refreshEnabled;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getDisplayName() {
 		return displayName;
 	}
+
 	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
-	}	
-	
+	}
+
 }

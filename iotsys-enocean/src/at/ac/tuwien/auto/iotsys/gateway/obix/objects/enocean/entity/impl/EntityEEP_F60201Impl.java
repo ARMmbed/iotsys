@@ -44,122 +44,118 @@ import org.opencean.core.packets.BasicPacket;
 import org.opencean.core.packets.RadioPacketRPS;
 import org.opencean.core.utils.Bits;
 
-import obix.Bool;
-import obix.Int;
-import obix.Obj;
-import obix.Str;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.impl.EnoceanDPTBoolOnOffImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.impl.EnoceanDPTBoolPressedReleasedImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.EntityEEP_F60201;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl.EnoceanEntityImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.EncodingPressedReleased;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding.impl.EncodingsImpl;
+import obix.Bool;
+import obix.Int;
+import obix.Obj;
+import obix.Str;
 
 //constructor
-public class EntityEEP_F60201Impl extends EnoceanEntityImpl implements EntityEEP_F60201
-{	
+public class EntityEEP_F60201Impl extends EnoceanEntityImpl implements EntityEEP_F60201 {
 	private static Logger log = Logger.getLogger(EntityEEP_F60201Impl.class.getName());
-		
-	protected final ESP3Host esp3Host;	
-	protected final EnoceanId id;			
+
+	protected final ESP3Host esp3Host;
+	protected final EnoceanId id;
 	EnoceanDPTBoolOnOffImpl datapoint_lightonoff;
 	EnoceanDPTBoolPressedReleasedImpl datapoint_energybow;
 
-	public EntityEEP_F60201Impl(ESP3Host esp3Host, EnoceanId id, String name, String displayName, String display, String manufacturer)
-	{
+	public EntityEEP_F60201Impl(ESP3Host esp3Host, EnoceanId id, String name, String displayName, String display,
+			String manufacturer) {
 		super(name, displayName, display, manufacturer);
-		
-		this.esp3Host = esp3Host;		
-		this.id = id;	
+
+		this.esp3Host = esp3Host;
+		this.id = id;
 		this.setWritable(true);
 		this.setReadable(true);
-		
+
 		// add datapoints of the EEP
 		// Create and add new datapoint for the switch, channel B
-		datapoint_lightonoff = new EnoceanDPTBoolOnOffImpl("WallTransmitterChB", "Switch, Channel B", "On/Off", this, true, true);
+		datapoint_lightonoff = new EnoceanDPTBoolOnOffImpl("WallTransmitterChB", "Switch, Channel B", "On/Off", this,
+				true, true);
 		datapoint_lightonoff.addTranslation("de-DE", TranslationAttribute.displayName, "Schalter, Kanal B");
 		this.addDatapoint(datapoint_lightonoff);
-		
+
 		// Create and add new datapoint for the teach in mode
-		datapoint_energybow = new EnoceanDPTBoolPressedReleasedImpl("WallTransmitterEnergyBow", "Energy Bow", "Pressed/Released", this, false, false);
+		datapoint_energybow = new EnoceanDPTBoolPressedReleasedImpl("WallTransmitterEnergyBow", "Energy Bow",
+				"Pressed/Released", this, false, false);
 		datapoint_energybow.addTranslation("de-DE", TranslationAttribute.displayName, "Energieart");
-		this.addDatapoint(datapoint_energybow);	
-		
+		this.addDatapoint(datapoint_energybow);
+
 		// Add a new watchdog for value changes
 		esp3Host.addWatchDog(id, new EnoceanWatchdog() {
-			
+
 			@Override
 			public void notifyWatchDog(BasicPacket packet) {
 				if (packet instanceof RadioPacketRPS) {
-		            RadioPacketRPS radioPacketRPS = (RadioPacketRPS) packet;
-		            Bool pressbit = new Bool(Bits.isBitSet(radioPacketRPS.getDataByte(), 4));
-		            if (radioPacketRPS.getDataByte() == ByteStateAndStatus.ON ) { 
-						log.info("EnOcean device with ID " +radioPacketRPS.getSenderId().toString() + ": switch on");
-		            	// set datapoint_lightonoff to ON 
-		            	datapoint_lightonoff.setValue(new Bool(true));		            	
-					} else if (radioPacketRPS.getDataByte() == ByteStateAndStatus.OFF ) { 
-						log.info("EnOcean device with ID " +radioPacketRPS.getSenderId().toString() + ": switch off");
-		            	// set datapoint_lightonoff to OFF 
-						datapoint_lightonoff.setValue(new Bool(false));				            	
+					RadioPacketRPS radioPacketRPS = (RadioPacketRPS) packet;
+					Bool pressbit = new Bool(Bits.isBitSet(radioPacketRPS.getDataByte(), 4));
+					if (radioPacketRPS.getDataByte() == ByteStateAndStatus.ON) {
+						log.info("EnOcean device with ID " + radioPacketRPS.getSenderId().toString() + ": switch on");
+						// set datapoint_lightonoff to ON
+						datapoint_lightonoff.setValue(new Bool(true));
+					} else if (radioPacketRPS.getDataByte() == ByteStateAndStatus.OFF) {
+						log.info("EnOcean device with ID " + radioPacketRPS.getSenderId().toString() + ": switch off");
+						// set datapoint_lightonoff to OFF
+						datapoint_lightonoff.setValue(new Bool(false));
 					}
-		            
-		            log.info("EnOcean device with ID " +radioPacketRPS.getSenderId().toString() + ": Energy bow: " 
-		            		+EncodingsImpl.getInstance().getEncoding(EncodingPressedReleased.HREF).getName(pressbit)); 
-		            datapoint_energybow.setValue(pressbit);
-		            EntityEEP_F60201Impl.this.notifyObservers();
-		        }					
+
+					log.info("EnOcean device with ID " + radioPacketRPS.getSenderId().toString() + ": Energy bow: "
+							+ EncodingsImpl.getInstance().getEncoding(EncodingPressedReleased.HREF).getName(pressbit));
+					datapoint_energybow.setValue(pressbit);
+					EntityEEP_F60201Impl.this.notifyObservers();
+				}
 			}
 		});
-	}	
-	
+	}
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
 	}
 
 	@Override
-	public void writeObject(Obj input){
-		super.writeObject(input);				
-		
+	public void writeObject(Obj input) {
+		super.writeObject(input);
+
 		// check if it's possible to write a new value to the object
-		if (this.isWritable())
-		{
-			log.info("Start writing value " +input);
-			String value="OFF";		
-			
-			// check the type the value of the new parameter			
-			if (input instanceof Str)
-			{
-				value = ((Str)input).get().equalsIgnoreCase("ON")?"ON":"OFF";				
-			} else if (input instanceof Bool)
-			{
-				value = ((Bool)input).get()?"ON":"OFF";
+		if (this.isWritable()) {
+			log.info("Start writing value " + input);
+			String value = "OFF";
+
+			// check the type the value of the new parameter
+			if (input instanceof Str) {
+				value = ((Str) input).get().equalsIgnoreCase("ON") ? "ON" : "OFF";
+			} else if (input instanceof Bool) {
+				value = ((Bool) input).get() ? "ON" : "OFF";
+			} else if (input instanceof Int) {
+				value = (((Int) input).get() != 0) ? "ON" : "OFF";
 			}
-			else if (input instanceof Int)
-			{
-				value = (((Int)input).get()!=0)?"ON":"OFF";				
-			}			
-			
-			// create a new EnOcean packet with the new state 
+
+			// create a new EnOcean packet with the new state
 			StateChanger change = new StateChanger();
-			BasicPacket packet = change.changeState(value, id, EEPId.EEP_F6_02_01.toString());       
-		    log.info("Write: Send packet: " + packet.toString());
-		    esp3Host.sendRadio(packet);
+			BasicPacket packet = change.changeState(value, id, EEPId.EEP_F6_02_01.toString());
+			log.info("Write: Send packet: " + packet.toString());
+			esp3Host.sendRadio(packet);
 		}
-      
+
 	}
 
 	@Override
-	public void refreshObject(){	
-		// here we need to read from the bus, only if the read flag is set at the data point
-		if(this.isReadable())	
-		{
-			//	value can not be read from a wall transmitter
+	public void refreshObject() {
+		// here we need to read from the bus, only if the read flag is set at
+		// the data point
+		if (this.isReadable()) {
+			// value can not be read from a wall transmitter
 		}
 
 		// run refresh from super class
-		super.refreshObject();		
+		super.refreshObject();
 	}
-	
+
 }

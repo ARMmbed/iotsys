@@ -30,7 +30,6 @@
  * This file is part of the IoTSyS project.
  ******************************************************************************/
 
-
 package at.ac.tuwien.auto.iotsys.gateway.connectors.virtual;
 
 import java.util.logging.Logger;
@@ -41,8 +40,7 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 
 public class VirtualConnector extends Connector {
 
-	private static final Logger log = Logger.getLogger(VirtualConnector.class
-			.getName());
+	private static final Logger log = Logger.getLogger(VirtualConnector.class.getName());
 
 	@Override
 	public void connect() throws Exception {
@@ -70,7 +68,7 @@ public class VirtualConnector extends Connector {
 	public void writeDouble(Object busAddress, Double value) {
 
 	}
-	
+
 	@Override
 	@JsonIgnore
 	public boolean isCoap() {

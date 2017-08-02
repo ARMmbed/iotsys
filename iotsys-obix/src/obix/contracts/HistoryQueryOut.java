@@ -1,6 +1,9 @@
 package obix.contracts;
 
-import obix.*;
+import obix.Abstime;
+import obix.IObj;
+import obix.Int;
+import obix.List;
 
 /**
  * HistoryQueryOut
@@ -9,8 +12,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface HistoryQueryOut extends IObj
-{
+public interface HistoryQueryOut extends IObj {
 	public static final String CONTRACT = "obix:HistoryQueryOut";
 
 	public static final String countContract = "<int name='count' val='0' min='0'/>";

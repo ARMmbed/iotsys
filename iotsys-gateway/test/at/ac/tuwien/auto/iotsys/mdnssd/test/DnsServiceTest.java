@@ -55,7 +55,7 @@ public class DnsServiceTest extends AbstractGatewayTest {
 
 	@Before
 	public void initialize() {
-		
+
 		try {
 			n = (Named) Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.NamedImpl").newInstance();
 		} catch (InstantiationException e) {
@@ -88,9 +88,9 @@ public class DnsServiceTest extends AbstractGatewayTest {
 		env.put("java.naming.provider.url", "dns://localhost");
 
 	}
-	
+
 	@After
-	public void finalize(){
+	public void finalize() {
 		n.stopNamedService();
 	}
 
@@ -98,47 +98,52 @@ public class DnsServiceTest extends AbstractGatewayTest {
 	 * Test method for
 	 * {@link at.ac.tuwien.auto.iotsys.mdnssd.Named#startNamedService()}.
 	 */
-//	@Test
-//	public void testStartNamedService() {
-//		n.startNamedService();
-//		for (int i = 0; i < testDeviceNames.length; i++) {
-//
-//			Attributes returnAttributes = null;
-//			NamingEnumeration<?> attributeEnum = null;
-//
-//			DirContext ictx;
-//			try {
-//				ictx = new InitialDirContext(env);
-//				returnAttributes = ictx.getAttributes(testDeviceNames[i], new String[] { "AAAA" });
-//				if (returnAttributes.size() > 0) {
-//					attributeEnum = returnAttributes.get("AAAA").getAll();
-//					while (attributeEnum.hasMore())
-//						assertEquals(testDeviceAddr[i], (String) attributeEnum.next());
-//				}
-//			} catch (NamingException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		}
-//	}
+	// @Test
+	// public void testStartNamedService() {
+	// n.startNamedService();
+	// for (int i = 0; i < testDeviceNames.length; i++) {
+	//
+	// Attributes returnAttributes = null;
+	// NamingEnumeration<?> attributeEnum = null;
+	//
+	// DirContext ictx;
+	// try {
+	// ictx = new InitialDirContext(env);
+	// returnAttributes = ictx.getAttributes(testDeviceNames[i], new String[] {
+	// "AAAA" });
+	// if (returnAttributes.size() > 0) {
+	// attributeEnum = returnAttributes.get("AAAA").getAll();
+	// while (attributeEnum.hasMore())
+	// assertEquals(testDeviceAddr[i], (String) attributeEnum.next());
+	// }
+	// } catch (NamingException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
+	// }
 
 	/**
 	 * Test method for
 	 * {@link at.ac.tuwien.auto.iotsys.mdnssd.Named#stopNamedService()}.
-	 * @throws NamingException, CommunicationException 
+	 * 
+	 * @throws NamingException,
+	 *             CommunicationException
 	 */
-//	@Test
-//	public void testStopNamedService() {
-//		if (n.isStart())
-//			n.stopNamedService();
-//		
-//		DirContext ictx;
-//		try {
-//			ictx = new InitialDirContext(env);
-//			Attributes a = ictx.getAttributes("sunblind1.testdevices.iotsys.auto.tuwien.ac.at", new String[] { "AAAA" });
-//			fail();
-//		} catch (NamingException e) {
-//		} 
-//	}
+	// @Test
+	// public void testStopNamedService() {
+	// if (n.isStart())
+	// n.stopNamedService();
+	//
+	// DirContext ictx;
+	// try {
+	// ictx = new InitialDirContext(env);
+	// Attributes a =
+	// ictx.getAttributes("sunblind1.testdevices.iotsys.auto.tuwien.ac.at", new
+	// String[] { "AAAA" });
+	// fail();
+	// } catch (NamingException e) {
+	// }
+	// }
 
 }

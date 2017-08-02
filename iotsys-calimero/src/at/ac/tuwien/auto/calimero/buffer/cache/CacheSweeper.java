@@ -25,14 +25,13 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
  * Used to remove expired entries from a cache.
  * <p>
  * The cache sweeper is running in its own thread, waking up for work every
- * sweep time interval set by the user. Then {@link Cache#removeExpired()}
- * is invoked on the specified cache.
+ * sweep time interval set by the user. Then {@link Cache#removeExpired()} is
+ * invoked on the specified cache.
  * 
  * @author B. Malinowsky
  * @see Cache
  */
-public final class CacheSweeper extends Thread
-{
+public final class CacheSweeper extends Thread {
 	// interval in seconds
 	private volatile int sweepInterval;
 	private Cache cache;
@@ -43,12 +42,13 @@ public final class CacheSweeper extends Thread
 	 * <code>sweepInterval</code>.
 	 * <p>
 	 * 
-	 * @param cache the cache for which {@link Cache#removeExpired()} should be
-	 *        invoked
-	 * @param sweepInterval lapse of time between sweeping in seconds
+	 * @param cache
+	 *            the cache for which {@link Cache#removeExpired()} should be
+	 *            invoked
+	 * @param sweepInterval
+	 *            lapse of time between sweeping in seconds
 	 */
-	public CacheSweeper(Cache cache, int sweepInterval)
-	{
+	public CacheSweeper(Cache cache, int sweepInterval) {
 		super("CacheSweeper");
 		this.cache = cache;
 		setSweepInterval(sweepInterval);
@@ -63,10 +63,10 @@ public final class CacheSweeper extends Thread
 	 * If the cache sweeper is in waiting state for next sweep, the new interval
 	 * is immediately applied and checked against elapsed time.
 	 * 
-	 * @param interval new time interval between sweeping in seconds
+	 * @param interval
+	 *            new time interval between sweeping in seconds
 	 */
-	public void setSweepInterval(int interval)
-	{
+	public void setSweepInterval(int interval) {
 		if (interval <= 0)
 			throw new KNXIllegalArgumentException("sweep interval has to be > 0");
 		synchronized (lock) {
@@ -76,14 +76,13 @@ public final class CacheSweeper extends Thread
 	}
 
 	/**
-	 * Returns the time interval between {@link Cache#removeExpired()} calls used by
-	 * this cache sweeper.
+	 * Returns the time interval between {@link Cache#removeExpired()} calls
+	 * used by this cache sweeper.
 	 * <p>
 	 * 
 	 * @return the time in seconds
 	 */
-	public int getSweepInterval()
-	{
+	public int getSweepInterval() {
 		return sweepInterval;
 	}
 
@@ -91,19 +90,19 @@ public final class CacheSweeper extends Thread
 	 * Stops the sweeper and quits the thread.
 	 * <p>
 	 */
-	public void stopSweeper()
-	{
+	public void stopSweeper() {
 		synchronized (lock) {
 			cache = null;
 			lock.notify();
 		}
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Thread#run()
 	 */
-	public void run()
-	{
+	public void run() {
 		while (true) {
 			final long start = System.currentTimeMillis();
 			long remaining;
@@ -114,8 +113,8 @@ public final class CacheSweeper extends Thread
 				while (remaining > 0 && cache != null) {
 					try {
 						lock.wait(remaining);
+					} catch (final InterruptedException e) {
 					}
-					catch (final InterruptedException e) {}
 					remaining = start + sweepInterval * 1000 - System.currentTimeMillis();
 				}
 				if (cache == null)

@@ -27,16 +27,17 @@ import com.serotonin.util.queue.ByteQueue;
 
 public class DefaultExceptionListener implements ExceptionListener {
 	private static final Logger log = Logger.getLogger(DefaultExceptionListener.class.getName());
-    public void unimplementedVendorService(UnsignedInteger vendorId, UnsignedInteger serviceNumber, ByteQueue queue) {
-       log.fine("Received unimplemented vendor service: vendor id=" + vendorId + ", service number="
-                + serviceNumber + ", bytes (with context id)=" + queue);
-    }
 
-    public void receivedException(Exception e) {
-        e.printStackTrace();
-    }
+	public void unimplementedVendorService(UnsignedInteger vendorId, UnsignedInteger serviceNumber, ByteQueue queue) {
+		log.fine("Received unimplemented vendor service: vendor id=" + vendorId + ", service number=" + serviceNumber
+				+ ", bytes (with context id)=" + queue);
+	}
 
-    public void receivedThrowable(Throwable t) {
-        t.printStackTrace();
-    }
+	public void receivedException(Exception e) {
+		e.printStackTrace();
+	}
+
+	public void receivedThrowable(Throwable t) {
+		t.printStackTrace();
+	}
 }

@@ -1,6 +1,6 @@
 package obix.contracts;
 
-import obix.*;
+import obix.ContractRegistry;
 
 /**
  * ContractInit
@@ -9,11 +9,9 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public class ContractInit
-{
+public class ContractInit {
 
-	public static void init()
-	{
+	public static void init() {
 		ContractRegistry.put(BadUriErr.CONTRACT, "obix.contracts.BadUriErr");
 		ContractRegistry.put(UnsupportedErr.CONTRACT, "obix.contracts.UnsupportedErr");
 		ContractRegistry.put(PermissionErr.CONTRACT, "obix.contracts.PermissionErr");

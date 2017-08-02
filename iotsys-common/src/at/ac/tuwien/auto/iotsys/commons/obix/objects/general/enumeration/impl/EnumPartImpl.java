@@ -31,19 +31,16 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumPart;
+import obix.Uri;
 
-public class EnumPartImpl extends RangeImpl implements EnumPart
-{
-	public EnumPartImpl()
-	{
+public class EnumPartImpl extends RangeImpl implements EnumPart {
+	public EnumPartImpl() {
 		super(new Uri(EnumPart.HREF));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		addElement(new ObjElement(EnumPart.KEY_BUILDING, "Building"));
 		addElement(new ObjElement(EnumPart.KEY_BUILDINGPART, "BuildingPart"));
 		addElement(new ObjElement(EnumPart.KEY_FLOOR, "Floor"));

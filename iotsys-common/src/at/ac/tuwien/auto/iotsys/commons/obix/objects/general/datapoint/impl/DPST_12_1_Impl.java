@@ -32,14 +32,12 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPST_12_1;
 import obix.Contract;
 import obix.Obj;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.DPST_12_1;
 
-public abstract class DPST_12_1_Impl extends DPT_12_Impl implements DPST_12_1
-{
-	public DPST_12_1_Impl(String name, String displayName, String display, boolean writable, boolean readable)
-	{
+public abstract class DPST_12_1_Impl extends DPT_12_Impl implements DPST_12_1 {
+	public DPST_12_1_Impl(String name, String displayName, String display, boolean writable, boolean readable) {
 		// constructor)
 		super(name, displayName, display, writable, readable);
 
@@ -49,8 +47,7 @@ public abstract class DPST_12_1_Impl extends DPT_12_Impl implements DPST_12_1
 	}
 
 	@Override
-	public void writeObject(Obj input)
-	{
+	public void writeObject(Obj input) {
 		super.writeObject(input);
 	}
 }

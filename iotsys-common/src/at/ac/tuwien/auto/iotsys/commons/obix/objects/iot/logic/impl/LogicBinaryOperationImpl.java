@@ -32,13 +32,13 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.LogicBinaryOperation;
 import obix.Bool;
 import obix.Contract;
 import obix.Int;
 import obix.Obj;
 import obix.Real;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.LogicBinaryOperation;
 
 public class LogicBinaryOperationImpl extends Obj implements LogicBinaryOperation {
 	protected Bool input1 = new Bool();
@@ -107,8 +107,7 @@ public class LogicBinaryOperationImpl extends Obj implements LogicBinaryOperatio
 	public void writeObject(Obj input) {
 		String resourceUriPath = "";
 		if (input.getHref() == null) {
-			resourceUriPath = input.getInvokedHref().substring(
-					input.getInvokedHref().lastIndexOf('/') + 1);
+			resourceUriPath = input.getInvokedHref().substring(input.getInvokedHref().lastIndexOf('/') + 1);
 		} else {
 			resourceUriPath = input.getHref().get();
 		}
@@ -149,9 +148,8 @@ public class LogicBinaryOperationImpl extends Obj implements LogicBinaryOperatio
 				enabled.set(((Int) input).get());
 			}
 
-		}
-		else if (input instanceof obix.Enum){
-			this.logicOperationType.set( ((obix.Enum) input).get() );
+		} else if (input instanceof obix.Enum) {
+			this.logicOperationType.set(((obix.Enum) input).get());
 		}
 
 		// perform control logic
@@ -164,7 +162,7 @@ public class LogicBinaryOperationImpl extends Obj implements LogicBinaryOperatio
 				result.set(input1.get() ^ input2.get());
 			} else if (LogicBinaryOperation.BIN_OP_NAND.equals(logicOperationType.get())) {
 				result.set(!(input1.get() && input2.get()));
-			}  else if (LogicBinaryOperation.BIN_OP_NOR.equals(logicOperationType.get())) {
+			} else if (LogicBinaryOperation.BIN_OP_NOR.equals(logicOperationType.get())) {
 				result.set(!(input1.get() || input2.get()));
 			}
 		}

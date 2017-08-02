@@ -33,6 +33,6 @@
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 public class RoomAQSensorConstants {
-	public static final String AQ_ROOM_CONTRACT_NAME="aqRoom";
-	public static final String AQ_ROOM_CONTRACT_HREF="aqRoom";
+	public static final String AQ_ROOM_CONTRACT_NAME = "aqRoom";
+	public static final String AQ_ROOM_CONTRACT_HREF = "aqRoom";
 }

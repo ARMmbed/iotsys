@@ -34,33 +34,33 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.ConfigsDbRepo;
 public class ConfigsDbTest {
 
 	static ConfigsDb cd;
-	
+
 	@BeforeClass
 	public static void setUp() {
 		cd = ConfigsDbRepo.getInstance();
 		org.junit.Assume.assumeTrue(cd != null);
 	}
-	
+
 	@Test
-	public void testCrudDeviceLoader(){
-		
+	public void testCrudDeviceLoader() {
+
 		String dloader = "at.ac.tuwien.auto.iotsys.gateway.connector.ttttttttttt";
 		String dloaderToUpdate = "at.ac.tuwien.auto.iotsys.gateway.connector.eeeeeeeeee";
-		
+
 		try {
 			cd.addDeviceLoader(dloader);
 		} catch (Exception e) {
 			System.out.println("Exception in adding device loader, probably overwriting the old one with an ADD");
 		}
-		
+
 		assertTrue(cd.getDeviceLoader(dloader) > -1);
-		
+
 		cd.updateDeviceLoader(dloader, dloaderToUpdate);
-		
+
 		assertTrue(cd.getDeviceLoader(dloaderToUpdate) > -1);
-		
+
 		cd.deleteDeviceLoader(dloaderToUpdate);
-		
+
 		assertTrue(cd.getDeviceLoader(dloaderToUpdate) == -1);
 		assertTrue(cd.getDeviceLoader(dloader) == -1);
 	}

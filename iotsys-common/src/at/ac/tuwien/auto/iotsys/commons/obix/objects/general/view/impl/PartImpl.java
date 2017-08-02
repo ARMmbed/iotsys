@@ -32,20 +32,18 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.impl.EntityImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumPart;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl.EnumsImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Part;
 import obix.Contract;
 import obix.Enum;
 import obix.List;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.impl.EntityImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumPart;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl.EnumsImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Part;
 
-public class PartImpl extends ElementImpl implements Part
-{
-	public PartImpl(String name, String displayName, String display, String type)
-	{
+public class PartImpl extends ElementImpl implements Part {
+	public PartImpl(String name, String displayName, String display, String type) {
 		super(name, displayName, display, new Contract(Part.CONTRACT));
 
 		Enum t = new Enum();
@@ -57,28 +55,24 @@ public class PartImpl extends ElementImpl implements Part
 	}
 
 	@Override
-	public void initElements(List elements)
-	{
+	public void initElements(List elements) {
 		elements.setName("parts");
 		elements.setHref(new Uri("parts"));
 		elements.setOf(new Contract(Part.CONTRACT));
 	}
 
 	@Override
-	public void initInstances(List instances)
-	{
+	public void initInstances(List instances) {
 		instances.setName("instances");
 		instances.setHref(new Uri("instances"));
 		instances.setOf(new Contract(Part.CONTRACT_INSTANCE));
 	}
 
-	public void addPart(PartImpl part)
-	{
+	public void addPart(PartImpl part) {
 		this.addElement(part);
 	}
 
-	public Obj addInstance(EntityImpl entity)
-	{
+	public Obj addInstance(EntityImpl entity) {
 		return addInstance((Obj) entity, new Contract(Part.CONTRACT_INSTANCE));
 	}
 }

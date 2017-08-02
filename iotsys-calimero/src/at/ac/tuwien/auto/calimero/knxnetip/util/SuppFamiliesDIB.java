@@ -39,11 +39,9 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * @see at.ac.tuwien.auto.calimero.knxnetip.servicetype.DescriptionResponse
  */
 
-public class SuppFamiliesDIB extends DIB
-{
-	private static final String[] familyNames = {
-		null, null, "Core", "Device Management", "Tunneling", "Routing",
-		"Remote Logging", "Remote Configuration/Diagnosis", "Object Server" };
+public class SuppFamiliesDIB extends DIB {
+	private static final String[] familyNames = { null, null, "Core", "Device Management", "Tunneling", "Routing",
+			"Remote Logging", "Remote Configuration/Diagnosis", "Object Server" };
 
 	private final Map map = new HashMap();
 
@@ -51,17 +49,18 @@ public class SuppFamiliesDIB extends DIB
 	 * Creates a supported families DIB out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing the service families DIB structure
-	 * @param offset start offset of DIB in <code>data</code>
-	 * @throws KNXFormatException if no DIB found or invalid structure
+	 * @param data
+	 *            byte array containing the service families DIB structure
+	 * @param offset
+	 *            start offset of DIB in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no DIB found or invalid structure
 	 */
-	public SuppFamiliesDIB(byte[] data, int offset) throws KNXFormatException
-	{
+	public SuppFamiliesDIB(byte[] data, int offset) throws KNXFormatException {
 		super(data, offset);
 		if (type != SUPP_SVC_FAMILIES)
 			throw new KNXFormatException("not a supported service families DIB", type);
-		final ByteArrayInputStream is =
-			new ByteArrayInputStream(data, offset + 2, data.length - offset - 2);
+		final ByteArrayInputStream is = new ByteArrayInputStream(data, offset + 2, data.length - offset - 2);
 		for (int i = 2; i < size; i += 2) {
 			final short family = (short) is.read();
 			map.put(new Short(family), new Short((short) is.read()));
@@ -69,16 +68,17 @@ public class SuppFamiliesDIB extends DIB
 	}
 
 	/**
-	 * Returns all supported service families, each family together with the version it is
-	 * implemented and supported up to.
+	 * Returns all supported service families, each family together with the
+	 * version it is implemented and supported up to.
 	 * <p>
-	 * The returned set holds <code>Map.Entry</code> items, with the service family of type
-	 * {@link Short} being the key, and the version of type {@link Short} being the value.
+	 * The returned set holds <code>Map.Entry</code> items, with the service
+	 * family of type {@link Short} being the key, and the version of type
+	 * {@link Short} being the value.
 	 * 
-	 * @return an unmodifiable set containing supported entries (family-version pair)
+	 * @return an unmodifiable set containing supported entries (family-version
+	 *         pair)
 	 */
-	public final Set getFamilies()
-	{
+	public final Set getFamilies() {
 		return Collections.unmodifiableSet(map.entrySet());
 	}
 
@@ -87,11 +87,11 @@ public class SuppFamiliesDIB extends DIB
 	 * <p>
 	 * If the service family is not supported, 0 is returned.
 	 * 
-	 * @param family supported service family to lookup
+	 * @param family
+	 *            supported service family to lookup
 	 * @return version as unsigned byte, or 0
 	 */
-	public final short getVersion(short family)
-	{
+	public final short getVersion(short family) {
 		return ((Short) map.get(new Short(family))).shortValue();
 	}
 
@@ -99,19 +99,20 @@ public class SuppFamiliesDIB extends DIB
 	 * Returns the service family name for the supplied family ID.
 	 * <p>
 	 * 
-	 * @param family service family ID to get name for
+	 * @param family
+	 *            service family ID to get name for
 	 * @return family name as string, or <code>null</code> on no name available
 	 */
-	public final String getFamilyName(short family)
-	{
+	public final String getFamilyName(short family) {
 		return family < familyNames.length ? familyNames[family] : null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.knxnetip.util.DIB#toByteArray()
 	 */
-	public byte[] toByteArray()
-	{
+	public byte[] toByteArray() {
 		final byte[] buf = super.toByteArray();
 		int i = 2;
 		for (final Iterator it = map.entrySet().iterator(); it.hasNext();) {
@@ -128,8 +129,7 @@ public class SuppFamiliesDIB extends DIB
 	 * 
 	 * @return a string representation of the DIB object
 	 */
-	public String toString()
-	{
+	public String toString() {
 		final StringBuffer buf = new StringBuffer();
 		for (final Iterator i = map.entrySet().iterator(); i.hasNext();) {
 			final Map.Entry entry = (Map.Entry) i.next();

@@ -10,8 +10,7 @@ package obix.io;
  * @creation 1 Sep 09
  * @version $Revision$ $Date$
  */
-public interface BinObix
-{
+public interface BinObix {
 
 	// more bit
 	public static final int MORE = 0x80;
@@ -67,14 +66,20 @@ public interface BinObix
 	public static final int REAL_F4 = 0; // IEEE 32-bit float
 	public static final int REAL_F8 = 1; // IEEE 64-bit float
 	public static final int STR_UTF8 = 0; // null-terminated UTF-8 string
-	public static final int STR_PREV = 1; // u2 index of previously encoded string
-	public static final int ABSTIME_SEC = 0; // signed 32-bit int secs since epoch
-	public static final int ABSTIME_NS = 1; // signed 64-bit int nanoseconds since epoch
+	public static final int STR_PREV = 1; // u2 index of previously encoded
+											// string
+	public static final int ABSTIME_SEC = 0; // signed 32-bit int secs since
+												// epoch
+	public static final int ABSTIME_NS = 1; // signed 64-bit int nanoseconds
+											// since epoch
 	public static final int RELTIME_SEC = 0; // signed 32-bit int secs
 	public static final int RELTIME_NS = 1; // signed 64-bit int nanoseconds
-	public static final int TIME_SEC = 0; // signed 32-bit int secs since midnight
-	public static final int TIME_NS = 1; // signed 64-bit int nanoseconds since midnight
-	public static final int DATE_YYMD = 0; // u2 year, u1 month 1-12, u1 day 1-31
+	public static final int TIME_SEC = 0; // signed 32-bit int secs since
+											// midnight
+	public static final int TIME_NS = 1; // signed 64-bit int nanoseconds since
+											// midnight
+	public static final int DATE_YYMD = 0; // u2 year, u1 month 1-12, u1 day
+											// 1-31
 
 	public static final int STATUS_0_DISABLED = 0;
 	public static final int STATUS_0_FAULT = 1;

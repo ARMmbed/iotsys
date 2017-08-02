@@ -34,25 +34,25 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Bool;;
 
-public interface ShuttersAndBlindsSunblindSensor extends Sensor{
-	public static final String MOVE_UP_DOWN_CONTRACT_NAME="moveUpDownValue";
-	public static final String MOVE_UP_DOWN_CONTRACT_HREF="moveUpDown";
+public interface ShuttersAndBlindsSunblindSensor extends Sensor {
+	public static final String MOVE_UP_DOWN_CONTRACT_NAME = "moveUpDownValue";
+	public static final String MOVE_UP_DOWN_CONTRACT_HREF = "moveUpDown";
 
-	public static final String DEDICATED_STOP_CONTRACT_NAME="dedicatedStopValue";
-	public static final String DEDICATED_STOP_CONTRACT_HREF="dedicatedStop";
+	public static final String DEDICATED_STOP_CONTRACT_NAME = "dedicatedStopValue";
+	public static final String DEDICATED_STOP_CONTRACT_HREF = "dedicatedStop";
 
-	
-	
-	public static final String CONTRACT="iot:ShuttersAndBlindsSunblindSensor";
-	
-	//To move sunblind up (0) and down (1)
-	public static final String MOVE_UP_DOWN_CONTRACT = "<bool name="+MOVE_UP_DOWN_CONTRACT_NAME+" href="+MOVE_UP_DOWN_CONTRACT_HREF+" val='false'/>";
-	
-	//To stop the sunblind
-	public static final String DEDICATED_STOP_CONTRACT = "<bool name="+DEDICATED_STOP_CONTRACT_NAME+" href="+DEDICATED_STOP_CONTRACT_HREF+" val='false'/>";
-	
+	public static final String CONTRACT = "iot:ShuttersAndBlindsSunblindSensor";
+
+	// To move sunblind up (0) and down (1)
+	public static final String MOVE_UP_DOWN_CONTRACT = "<bool name=" + MOVE_UP_DOWN_CONTRACT_NAME + " href="
+			+ MOVE_UP_DOWN_CONTRACT_HREF + " val='false'/>";
+
+	// To stop the sunblind
+	public static final String DEDICATED_STOP_CONTRACT = "<bool name=" + DEDICATED_STOP_CONTRACT_NAME + " href="
+			+ DEDICATED_STOP_CONTRACT_HREF + " val='false'/>";
+
 	public Bool moveUpDownValue();
+
 	public Bool dedicatedStopValue();
-	
+
 }
- 

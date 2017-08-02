@@ -31,7 +31,6 @@
  ******************************************************************************/
 package at.ac.tuwien.auto.iotsys.commons.obix.objects;
 
-import obix.ContractRegistry;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.bacnet.AnalogInput;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.bacnet.AnalogOutput;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.bacnet.AnalogValue;
@@ -56,7 +55,6 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumEna
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumPart;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumPriority;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumStandard;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumWeatherManualOverwrite;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.network.Network;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.parameter.ParameterDimming;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitCelsius;
@@ -84,8 +82,8 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.SunblindActua
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.TextDisplayActuator;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.BinaryOperation;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.Comparator;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.RoomTemperatureControlSimulation;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.LogicBinaryOperation;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.RoomTemperatureControlSimulation;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.TemperatureController;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.WindowInfluenceSimulation;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.IndoorBrightnessSensor;
@@ -100,24 +98,23 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.TemperatureSens
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.WindowSensor;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sim.HVACSimulation;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sim.HVACSimulationSuitcase;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherForecastLocation;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherManualOverwrite;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherObject;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.WeatherForecastLocation;
+import obix.ContractRegistry;
 
-public class ContractInit
-{
+public class ContractInit {
 
-	public static void init()
-	{
-		try
-		{
+	public static void init() {
+		try {
 			ContractRegistry.put(LightSwitchActuator.CONTRACT, LightSwitchActuator.class.getName());
 			ContractRegistry.put(BrightnessActuator.CONTRACT, BrightnessActuator.class.getName());
 			ContractRegistry.put(PushButton.CONTRACT, PushButton.class.getName());
 			ContractRegistry.put(TemperatureSensor.CONTRACT, TemperatureSensor.class.getName());
 
 			// Sensor
-			ContractRegistry.put(ShuttersAndBlindsSunblindSensor.CONTRACT, ShuttersAndBlindsSunblindSensor.class.getName());
+			ContractRegistry.put(ShuttersAndBlindsSunblindSensor.CONTRACT,
+					ShuttersAndBlindsSunblindSensor.class.getName());
 			ContractRegistry.put(PresenceDetectorSensor.CONTRACT, PresenceDetectorSensor.class.getName());
 			ContractRegistry.put(RoomRelativeHumiditySensor.CONTRACT, RoomRelativeHumiditySensor.class.getName());
 			ContractRegistry.put(SunIntensitySensor.CONTRACT, SunIntensitySensor.class.getName());
@@ -137,7 +134,7 @@ public class ContractInit
 			ContractRegistry.put(SunblindActuator.CONTRACT, SunblindActuator.class.getName());
 			ContractRegistry.put(SimpleHVACvalveActuator.CONTRACT, SimpleHVACvalveActuator.class.getName());
 			ContractRegistry.put(TextDisplayActuator.CONTRACT, TextDisplayActuator.class.getName());
-			
+
 			ContractRegistry.put(GroupComm.CONTRACT, GroupComm.class.getName());
 			// ContractRegistry.put(TemperatureControlActuator.CONTRACT,
 			// TemperatureControlActuator.class.getName());
@@ -159,13 +156,14 @@ public class ContractInit
 			ContractRegistry.put(TemperatureController.CONTRACT, TemperatureController.class.getName());
 			ContractRegistry.put(BinaryOperation.CONTRACT, BinaryOperation.class.getName());
 			ContractRegistry.put(LogicBinaryOperation.CONTRACT, LogicBinaryOperation.class.getName());
-			ContractRegistry.put(RoomTemperatureControlSimulation.CONTRACT, RoomTemperatureControlSimulation.class.getName());
+			ContractRegistry.put(RoomTemperatureControlSimulation.CONTRACT,
+					RoomTemperatureControlSimulation.class.getName());
 			ContractRegistry.put(WindowInfluenceSimulation.CONTRACT, WindowInfluenceSimulation.class.getName());
-			
+
 			// Simulation
 			ContractRegistry.put(HVACSimulation.CONTRACT, HVACSimulation.class.getName());
 			ContractRegistry.put(HVACSimulationSuitcase.CONTRACT, HVACSimulationSuitcase.class.getName());
-			
+
 			// Gateway Commons
 			ContractRegistry.put(DataPoint.CONTRACT, DataPoint.class.getName());
 			ContractRegistry.put(DPT_1.CONTRACT, DPT_1.class.getName());
@@ -199,11 +197,10 @@ public class ContractInit
 
 			// Weather forecast
 			ContractRegistry.put(WeatherObject.CONTRACT, WeatherObject.class.getName());
-			
+
 			ContractRegistry.put(WeatherManualOverwrite.CONTRACT, WeatherManualOverwrite.class.getName());
 
 			ContractRegistry.put(WeatherForecastLocation.CONTRACT, WeatherForecastLocation.class.getName());
-			
 
 			// FIXME the following contracts have already used hrefs (obix:Unit)
 			ContractRegistry.put(UnitCelsius.CONTRACT, UnitCelsius.class.getName());
@@ -220,9 +217,7 @@ public class ContractInit
 			ContractRegistry.put(ViewFunctional.CONTRACT, ViewFunctional.class.getName());
 			ContractRegistry.put(ViewTopology.CONTRACT, ViewTopology.class.getName());
 
-		}
-		finally
-		{
+		} finally {
 			ContractRegistry.buildReverseMap();
 		}
 	}

@@ -38,36 +38,37 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class PropertiesLoader {
-	
+
 	private final static PropertiesLoader _instance = new PropertiesLoader();
-	
+
 	private Properties properties = new Properties();
-	
+
 	public static final String CONFIG_PROPERTIES_LOCATION = "config/iotsys.properties";
-	
-	public PropertiesLoader(){
+
+	public PropertiesLoader() {
 		load();
 	}
-	
-	public static PropertiesLoader getInstance(){
+
+	public static PropertiesLoader getInstance() {
 		return _instance;
 	}
 
-	public void reload(){
-		
+	public void reload() {
+
 		load();
 	}
+
 	public void load() {
-//		InputStream propIn = Thread.currentThread().getContextClassLoader()
-//				.getResourceAsStream(filename);	
-		
+		// InputStream propIn = Thread.currentThread().getContextClassLoader()
+		// .getResourceAsStream(filename);
+
 		InputStream propIn = getClass().getClassLoader().getResourceAsStream(CONFIG_PROPERTIES_LOCATION);
 		FileInputStream propFi = null;
-		
+
 		try {
-			if (propIn != null){
-				synchronized(this){
-						properties.load(propIn);
+			if (propIn != null) {
+				synchronized (this) {
+					properties.load(propIn);
 				}
 			} else {
 				propFi = new FileInputStream(CONFIG_PROPERTIES_LOCATION);
@@ -78,8 +79,8 @@ public class PropertiesLoader {
 			throw new RuntimeException(e);
 		}
 	}
-	
-	public Properties getProperties(){
+
+	public Properties getProperties() {
 		return properties;
 	}
 }

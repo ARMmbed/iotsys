@@ -33,13 +33,15 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface OutsideTemperatureSensor extends Sensor{
-	public static final String TEMP_OUTSIDE_CONTRACT_NAME="tempOutside";
-	public static final String TEMP_OUTSIDE_CONTRACT_HREF="tempOutside";
-	public static final String TEMP_OUTSIDE_CONTRACT_UNIT="obix:units/celsius";
-	
-	public static final String CONTRACT="iot:OutsideTemperatureSensor";
-	public static final String TEMP_OUTSIDE_CONTRACT = "<real name='"+TEMP_OUTSIDE_CONTRACT_NAME+"' href='"+TEMP_OUTSIDE_CONTRACT_HREF+"' val='0'/>";
+public interface OutsideTemperatureSensor extends Sensor {
+	public static final String TEMP_OUTSIDE_CONTRACT_NAME = "tempOutside";
+	public static final String TEMP_OUTSIDE_CONTRACT_HREF = "tempOutside";
+	public static final String TEMP_OUTSIDE_CONTRACT_UNIT = "obix:units/celsius";
+
+	public static final String CONTRACT = "iot:OutsideTemperatureSensor";
+	public static final String TEMP_OUTSIDE_CONTRACT = "<real name='" + TEMP_OUTSIDE_CONTRACT_NAME + "' href='"
+			+ TEMP_OUTSIDE_CONTRACT_HREF + "' val='0'/>";
+
 	public Real tempOutsideValue();
-	
+
 }

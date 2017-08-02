@@ -39,44 +39,42 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors.impl.OutsideTem
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXConnector;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.knx.KNXWatchDog;
 
-public class OutsideTemperatureSensorImplKnx extends OutsideTemperatureSensorImpl{
+public class OutsideTemperatureSensorImplKnx extends OutsideTemperatureSensorImpl {
 	private KNXConnector connector;
 	private GroupAddress observation;
-	
-	
+
 	public OutsideTemperatureSensorImplKnx(KNXConnector connector, GroupAddress observation) {
 		this.connector = connector;
 		this.observation = observation;
 	}
-	
-	
+
 	public void createWatchDog() {
-		
+
 		connector.addWatchDog(observation, new KNXWatchDog() {
-			
+
 			@Override
-			public void notifyWatchDog(byte[] apdu) {			
+			public void notifyWatchDog(byte[] apdu) {
 				try {
-					
+
 					// KNX DPT 9.001
-					DPTXlator2ByteFloat knxData = new DPTXlator2ByteFloat(DPTXlator2ByteFloat.DPT_TEMPERATURE);					
+					DPTXlator2ByteFloat knxData = new DPTXlator2ByteFloat(DPTXlator2ByteFloat.DPT_TEMPERATURE);
 					knxData.setData(apdu, 0);
-					
+
 					tempOutsideValue.set(knxData.getValueFloat(1));
 
-				} 
-				
-				catch (KNXException e){
+				}
+
+				catch (KNXException e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		createWatchDog();
-	}	
-	
+	}
+
 }

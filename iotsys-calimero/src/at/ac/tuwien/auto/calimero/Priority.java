@@ -28,10 +28,10 @@ import at.ac.tuwien.auto.calimero.exception.KNXIllegalArgumentException;
  * 
  * @author B. Malinowsky
  */
-public final class Priority
-{
+public final class Priority {
 	/**
-	 * System priority, reserved for high priority management and system configuration.
+	 * System priority, reserved for high priority management and system
+	 * configuration.
 	 * <p>
 	 */
 	public static final Priority SYSTEM = new Priority(0x00);
@@ -55,14 +55,13 @@ public final class Priority
 	public static final Priority LOW = new Priority(0x03);
 
 	/**
-	 * Constant with the 2 Bit representation of this priority used in the message
-	 * priority field.
+	 * Constant with the 2 Bit representation of this priority used in the
+	 * message priority field.
 	 * <p>
 	 */
 	public final byte value;
 
-	private Priority(int v)
-	{
+	private Priority(int v) {
 		value = (byte) v;
 	}
 
@@ -70,11 +69,11 @@ public final class Priority
 	 * Returns the priority of the supplied priority value code.
 	 * <p>
 	 * 
-	 * @param value priority value code, 0 &lt;= value &lt;= 3
+	 * @param value
+	 *            priority value code, 0 &lt;= value &lt;= 3
 	 * @return the corresponding priority object
 	 */
-	public static Priority get(int value)
-	{
+	public static Priority get(int value) {
 		if (value == 1)
 			return NORMAL;
 		if (value == 0)
@@ -98,12 +97,12 @@ public final class Priority
 	 * </ul>
 	 * These are in accordance with the ones returned by {@link #toString()}.
 	 * 
-	 * @param value priority value in textual representation, value is treated case
-	 *        insensitive
+	 * @param value
+	 *            priority value in textual representation, value is treated
+	 *            case insensitive
 	 * @return the corresponding priority object
 	 */
-	public static Priority get(String value)
-	{
+	public static Priority get(String value) {
 		if ("system".equalsIgnoreCase(value))
 			return SYSTEM;
 		if ("normal".equalsIgnoreCase(value))
@@ -127,9 +126,7 @@ public final class Priority
 	 * 
 	 * @return priority as string
 	 */
-	public String toString()
-	{
-		return value == 0 ? "system" : value == 1 ? "normal" : value == 2 ? "urgent"
-			: "low";
+	public String toString() {
+		return value == 0 ? "system" : value == 1 ? "normal" : value == 2 ? "urgent" : "low";
 	}
 }

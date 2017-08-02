@@ -26,7 +26,7 @@ import java.util.HashMap;
 
 public class BacnetUnits {
 	private static final HashMap<Integer, String> units = new HashMap<Integer, String>();
-	
+
 	static {
 		// Acceleration
 		units.put(166, "metersPerSecondPerSecond");
@@ -241,7 +241,7 @@ public class BacnetUnits {
 		units.put(189, "wattsPerMeterPerDegreeKelvin");
 		units.put(141, "wattsPerSquareMeterDegreeKelvin");
 	}
-	
+
 	public static String getUnit(int unit) {
 		return units.get(unit);
 	}

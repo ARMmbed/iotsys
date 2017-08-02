@@ -18,33 +18,34 @@ import com.serotonin.bacnet4j.util.PropertyValues;
  * @author Matthew Lohbihler
  */
 public class QuickTest {
-    public static void main(String[] args) throws Exception {
-        LocalDevice localDevice = new LocalDevice(2222, "128.130.56.255");
-        try {
-            localDevice.initialize();
-            localDevice.sendBroadcast(2068, new WhoIsRequest(null, null));
-            
-            Thread.sleep(10000);
-            
-            RemoteDevice d = localDevice.getRemoteDevices().get(0);
-            localDevice.getExtendedDeviceInformation(d);
-            
-            ObjectIdentifier oid = new ObjectIdentifier(ObjectType.binaryValue, 0);
-            PropertyReferences refs = new PropertyReferences();
-            refs.add(oid, PropertyIdentifier.all);
-            
-            PropertyValues pvs = localDevice.readProperties(d, refs);
-            for (ObjectPropertyReference opr : pvs)
-                System.out.println(pvs.getNoErrorCheck(opr));
-            
-//            Encodable value = new com.serotonin.bacnet4j.type.primitive.Boolean(true);
-//            //Encodable value = BinaryPV.active;
-//            WritePropertyRequest wpr = new WritePropertyRequest(oid, PropertyIdentifier.presentValue, null, value, null);
-//            System.out.println(localDevice.send(d, wpr));
-//            Thread.sleep(2000);
-        }
-        finally {
-            localDevice.terminate();
-        }
-    }
+	public static void main(String[] args) throws Exception {
+		LocalDevice localDevice = new LocalDevice(2222, "128.130.56.255");
+		try {
+			localDevice.initialize();
+			localDevice.sendBroadcast(2068, new WhoIsRequest(null, null));
+
+			Thread.sleep(10000);
+
+			RemoteDevice d = localDevice.getRemoteDevices().get(0);
+			localDevice.getExtendedDeviceInformation(d);
+
+			ObjectIdentifier oid = new ObjectIdentifier(ObjectType.binaryValue, 0);
+			PropertyReferences refs = new PropertyReferences();
+			refs.add(oid, PropertyIdentifier.all);
+
+			PropertyValues pvs = localDevice.readProperties(d, refs);
+			for (ObjectPropertyReference opr : pvs)
+				System.out.println(pvs.getNoErrorCheck(opr));
+
+			// Encodable value = new
+			// com.serotonin.bacnet4j.type.primitive.Boolean(true);
+			// //Encodable value = BinaryPV.active;
+			// WritePropertyRequest wpr = new WritePropertyRequest(oid,
+			// PropertyIdentifier.presentValue, null, value, null);
+			// System.out.println(localDevice.send(d, wpr));
+			// Thread.sleep(2000);
+		} finally {
+			localDevice.terminate();
+		}
+	}
 }

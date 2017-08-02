@@ -17,8 +17,7 @@ import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
  * @author Markus Jung
  */
 public class TestClientActivator implements BundleActivator, ServiceListener {
-	private static final Logger log = Logger
-			.getLogger(TestClientActivator.class.getName());
+	private static final Logger log = Logger.getLogger(TestClientActivator.class.getName());
 
 	private TestClient testClient = null;
 
@@ -39,19 +38,21 @@ public class TestClientActivator implements BundleActivator, ServiceListener {
 
 		Bundle[] bundles = context.getBundles();
 		for (Bundle bundle : bundles) {
-			if(bundle.getSymbolicName() != null){
-				if(bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.virtual") && bundle.getState() == Bundle.ACTIVE){
+			if (bundle.getSymbolicName() != null) {
+				if (bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.virtual")
+						&& bundle.getState() == Bundle.ACTIVE) {
 					virtualActive = true;
-				} else if(bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.knx") && bundle.getState() == Bundle.ACTIVE){
+				} else if (bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.knx")
+						&& bundle.getState() == Bundle.ACTIVE) {
 					knxActive = true;
-				} else if(bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.gateway") && bundle.getState() == Bundle.ACTIVE){
+				} else if (bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.gateway")
+						&& bundle.getState() == Bundle.ACTIVE) {
 					gatewayActive = true;
 				}
 			}
 		}
 
-		ServiceReference serviceReference = context
-				.getServiceReference(ObjectBroker.class.getName());
+		ServiceReference serviceReference = context.getServiceReference(ObjectBroker.class.getName());
 		if (serviceReference == null) {
 			log.severe("Could not find a running object broker to register devices!");
 
@@ -59,8 +60,7 @@ public class TestClientActivator implements BundleActivator, ServiceListener {
 
 			synchronized (this) {
 				log.info("Starting test client.");
-				ObjectBroker objectBroker = (ObjectBroker) context
-						.getService(serviceReference);
+				ObjectBroker objectBroker = (ObjectBroker) context.getService(serviceReference);
 				testClient = new TestClient(objectBroker);
 
 			}
@@ -83,26 +83,26 @@ public class TestClientActivator implements BundleActivator, ServiceListener {
 	@Override
 	public void serviceChanged(ServiceEvent event) {
 		log.info("Service changed.");
-		// require VirtualConnector and KNXConnector and ObjectBroker to be started
+		// require VirtualConnector and KNXConnector and ObjectBroker to be
+		// started
 
 		Bundle[] bundles = context.getBundles();
 		for (Bundle bundle : bundles) {
-			if(bundle.getSymbolicName() != null){
-				if(bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.virtual") && bundle.getState() == Bundle.ACTIVE){
+			if (bundle.getSymbolicName() != null) {
+				if (bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.virtual")
+						&& bundle.getState() == Bundle.ACTIVE) {
 					virtualActive = true;
-				} else if(bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.knx") && bundle.getState() == Bundle.ACTIVE){
+				} else if (bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.knx")
+						&& bundle.getState() == Bundle.ACTIVE) {
 					knxActive = true;
-				} else if(bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.gateway") && bundle.getState() == Bundle.ACTIVE){
+				} else if (bundle.getSymbolicName().equals("at.ac.tuwien.auto.iotsys.gateway")
+						&& bundle.getState() == Bundle.ACTIVE) {
 					gatewayActive = true;
 				}
 			}
 		}
 
-		
-		
-
-		String[] objectClass = (String[]) event.getServiceReference()
-				.getProperty("objectClass");
+		String[] objectClass = (String[]) event.getServiceReference().getProperty("objectClass");
 		if (event.getType() == ServiceEvent.REGISTERED) {
 			if (objectClass[0].equals(ObjectBroker.class.getName())) {
 
@@ -110,8 +110,7 @@ public class TestClientActivator implements BundleActivator, ServiceListener {
 					log.info("ObjectBroker detected.");
 
 					if (!started) {
-						ObjectBroker objectBroker = (ObjectBroker) context
-								.getService(event.getServiceReference());
+						ObjectBroker objectBroker = (ObjectBroker) context.getService(event.getServiceReference());
 						objectBrokerDetected = true;
 						try {
 							testClient = new TestClient(objectBroker);

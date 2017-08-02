@@ -27,7 +27,6 @@ import at.ac.tuwien.auto.calimero.DataUnitBuilder;
 import at.ac.tuwien.auto.calimero.IndividualAddress;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 
-
 /**
  * Represents a device description information block.
  * <p>
@@ -37,8 +36,7 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * @author B. Malinowsky
  * @see at.ac.tuwien.auto.calimero.knxnetip.servicetype.DescriptionResponse
  */
-public class DeviceDIB extends DIB
-{
+public class DeviceDIB extends DIB {
 	/**
 	 * KNX medium code for twisted pair 0 (2400 bit/s), inherited from BatiBUS.
 	 * <p>
@@ -84,23 +82,23 @@ public class DeviceDIB extends DIB
 	 * Creates a device DIB out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing device DIB structure
-	 * @param offset start offset of DIB in <code>data</code>
-	 * @throws KNXFormatException if no DIB found or invalid structure
+	 * @param data
+	 *            byte array containing device DIB structure
+	 * @param offset
+	 *            start offset of DIB in <code>data</code>
+	 * @throws KNXFormatException
+	 *             if no DIB found or invalid structure
 	 */
-	public DeviceDIB(byte[] data, int offset) throws KNXFormatException
-	{
+	public DeviceDIB(byte[] data, int offset) throws KNXFormatException {
 		super(data, offset);
 		if (type != DEVICE_INFO)
 			throw new KNXFormatException("DIB is not of type device info", type);
 		if (size < DIB_SIZE)
 			throw new KNXFormatException("device info DIB too short", size);
-		final ByteArrayInputStream is =
-			new ByteArrayInputStream(data, offset + 2, data.length - offset - 2);
+		final ByteArrayInputStream is = new ByteArrayInputStream(data, offset + 2, data.length - offset - 2);
 		knxmedium = (short) is.read();
 		devicestatus = (short) is.read();
-		address =
-			new IndividualAddress(new byte[] { (byte) is.read(), (byte) is.read(), });
+		address = new IndividualAddress(new byte[] { (byte) is.read(), (byte) is.read(), });
 		projectInstallID = (is.read() << 8) | is.read();
 		is.read(serial, 0, serial.length);
 		is.read(mcaddress, 0, mcaddress.length);
@@ -120,8 +118,7 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return individual address as {@link IndividualAddress}
 	 */
-	public final IndividualAddress getAddress()
-	{
+	public final IndividualAddress getAddress() {
 		return address;
 	}
 
@@ -132,8 +129,7 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return status as unsigned byte
 	 */
-	public final short getDeviceStatus()
-	{
+	public final short getDeviceStatus() {
 		return devicestatus;
 	}
 
@@ -143,8 +139,7 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return KNX medium as unsigned byte
 	 */
-	public final short getKNXMedium()
-	{
+	public final short getKNXMedium() {
 		return knxmedium;
 	}
 
@@ -155,8 +150,7 @@ public class DeviceDIB extends DIB
 	 * @return KNX medium as string format
 	 * @see #getKNXMedium()
 	 */
-	public String getKNXMediumString()
-	{
+	public String getKNXMediumString() {
 		switch (knxmedium) {
 		case MEDIUM_TP0:
 			return "TP0";
@@ -179,8 +173,7 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return byte array containing MAC address
 	 */
-	public final byte[] getMACAddress()
-	{
+	public final byte[] getMACAddress() {
 		return (byte[]) mac.clone();
 	}
 
@@ -190,8 +183,7 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return MAC address as string format
 	 */
-	public final String getMACAddressString()
-	{
+	public final String getMACAddressString() {
 		return DataUnitBuilder.toHex(mac, "-");
 	}
 
@@ -202,48 +194,46 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return multicast address as byte array
 	 */
-	public final byte[] getMulticastAddress()
-	{
+	public final byte[] getMulticastAddress() {
 		return (byte[]) mcaddress.clone();
 	}
 
 	/**
 	 * Returns the project-installation identifier of this device.
 	 * <p>
-	 * This ID uniquely identifies a device in a project with more than one installation.
-	 * The lowest 4 bits specify the installation number, bit 4 to 15 (MSB) contain the
-	 * project number.
+	 * This ID uniquely identifies a device in a project with more than one
+	 * installation. The lowest 4 bits specify the installation number, bit 4 to
+	 * 15 (MSB) contain the project number.
 	 * 
 	 * @return project installation identifier as unsigned short
 	 */
-	public final int getProjectInstallID()
-	{
+	public final int getProjectInstallID() {
 		return projectInstallID;
 	}
 
 	/**
 	 * Returns the project number for the device.
 	 * <p>
-	 * The project number is the upper 12 bits of the project-installation identifier.
+	 * The project number is the upper 12 bits of the project-installation
+	 * identifier.
 	 * 
 	 * @return project number as 12 bit unsigned value
 	 * @see #getProjectInstallID()
 	 */
-	public final short getProject()
-	{
+	public final short getProject() {
 		return (short) (projectInstallID >> 4);
 	}
 
 	/**
 	 * Returns the installation number for the device.
 	 * <p>
-	 * The installation number is the lower 4 bits of the project-installation identifier.
+	 * The installation number is the lower 4 bits of the project-installation
+	 * identifier.
 	 * 
 	 * @return installation number as 4 bit unsigned value
 	 * @see #getProjectInstallID()
 	 */
-	public final byte getInstallation()
-	{
+	public final byte getInstallation() {
 		return (byte) (projectInstallID & 0x0F);
 	}
 
@@ -254,8 +244,7 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return byte array with serial number
 	 */
-	public final byte[] getSerialNumber()
-	{
+	public final byte[] getSerialNumber() {
 		return (byte[]) serial.clone();
 	}
 
@@ -265,21 +254,19 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return serial number as string
 	 */
-	public final String getSerialNumberString()
-	{
+	public final String getSerialNumberString() {
 		return DataUnitBuilder.toHex(serial, null);
 	}
 
 	/**
 	 * Returns the device friendly name.
 	 * <p>
-	 * This name is used to display a device in textual format. The maximum name length is
-	 * 30 characters.
+	 * This name is used to display a device in textual format. The maximum name
+	 * length is 30 characters.
 	 * 
 	 * @return device name as string
 	 */
-	public final String getName()
-	{
+	public final String getName() {
 		return name;
 	}
 
@@ -289,25 +276,24 @@ public class DeviceDIB extends DIB
 	 * 
 	 * @return a string representation of the object
 	 */
-	public String toString()
-	{
+	public String toString() {
 		InetAddress mc = null;
 		try {
 			mc = InetAddress.getByAddress(getMulticastAddress());
+		} catch (final UnknownHostException ignore) {
 		}
-		catch (final UnknownHostException ignore) {}
-		return "device " + address + " \"" + name + "\" KNX medium "
-			+ getKNXMediumString() + ", installation " + getInstallation() + " project "
-			+ getProject() + " (project-installation-ID " + projectInstallID + ")"
-			+ ", routing multicast address " + mc + ", MAC address "
-			+ getMACAddressString() + ", S/N 0x" + getSerialNumberString();
+		return "device " + address + " \"" + name + "\" KNX medium " + getKNXMediumString() + ", installation "
+				+ getInstallation() + " project " + getProject() + " (project-installation-ID " + projectInstallID + ")"
+				+ ", routing multicast address " + mc + ", MAC address " + getMACAddressString() + ", S/N 0x"
+				+ getSerialNumberString();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.knxnetip.util.DIB#toByteArray()
 	 */
-	public byte[] toByteArray()
-	{
+	public byte[] toByteArray() {
 		final byte[] buf = super.toByteArray();
 		int i = 2;
 		buf[i++] = (byte) knxmedium;

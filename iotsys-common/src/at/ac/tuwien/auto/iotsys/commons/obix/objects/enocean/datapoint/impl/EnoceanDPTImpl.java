@@ -32,29 +32,27 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPT;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl.EnoceanEntityImpl;
+import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 import obix.Contract;
 import obix.Obj;
 import obix.Str;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.datapoint.EnoceanDPT;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl.EnoceanEntityImpl;
-import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 
-public abstract class EnoceanDPTImpl extends Obj implements EnoceanDPT
-{
+public abstract class EnoceanDPTImpl extends Obj implements EnoceanDPT {
 	protected EnoceanEntityImpl entity;
 	protected Str function = new Str();
 	protected Str unit = new Str();
 
-	public EnoceanDPTImpl(String name, String displayName, String display, EnoceanEntityImpl entity)
-	{
+	public EnoceanDPTImpl(String name, String displayName, String display, EnoceanEntityImpl entity) {
 		// attributes
 		this.setName(name);
 		this.setDisplay(display);
 		this.setDisplayName(displayName);
 		this.setHidden(false);
-		
-		if(entity != null){
+
+		if (entity != null) {
 			this.entity = entity;
 		}
 
@@ -67,42 +65,34 @@ public abstract class EnoceanDPTImpl extends Obj implements EnoceanDPT
 		this.addIs(new Contract(EnoceanDPT.CONTRACT));
 	}
 
-	public void addIs(Contract is)
-	{
-		if (this.getIs() != null)
-		{
+	public void addIs(Contract is) {
+		if (this.getIs() != null) {
 			Uri[] uris = new Uri[is.size() + this.getIs().size()];
 			int i = 0;
 
-			for (Uri uri : is.list())
-			{
+			for (Uri uri : is.list()) {
 				uris[i++] = uri;
 			}
 
-			for (Uri uri : this.getIs().list())
-			{
+			for (Uri uri : this.getIs().list()) {
 				uris[i++] = uri;
 			}
 
 			this.setIs(new Contract(uris));
-		}
-		else
-		{
+		} else {
 			this.setIs(is);
 		}
 	}
 
-	public boolean isValueWritable()
-	{
+	public boolean isValueWritable() {
 		return false;
 	}
 
-	public boolean isValueReadable()
-	{
+	public boolean isValueReadable() {
 		return false;
 	}
-	
+
 	abstract public void setValue(Obj value);
-	
+
 	abstract public Obj getValue();
 }

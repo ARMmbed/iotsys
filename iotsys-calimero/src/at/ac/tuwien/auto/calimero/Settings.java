@@ -20,13 +20,13 @@
 package at.ac.tuwien.auto.calimero;
 
 /**
- * General settings used in Calimero as well as Calimero related user information.
+ * General settings used in Calimero as well as Calimero related user
+ * information.
  * <p>
  * 
  * @author B. Malinowsky
  */
-public final class Settings
-{
+public final class Settings {
 	private static final String version = "2.0-alpha 3";
 	private static final String calimero = "Calimero 2.0";
 
@@ -42,8 +42,8 @@ public final class Settings
 
 	private static final ClassLoader cl = ClassLoader.getSystemClassLoader();
 
-	private Settings()
-	{}
+	private Settings() {
+	}
 
 	/**
 	 * Returns the Calimero library version as string representation.
@@ -53,25 +53,26 @@ public final class Settings
 	 * 
 	 * @return version as string
 	 */
-	public static String getLibraryVersion()
-	{
+	public static String getLibraryVersion() {
 		return version;
 	}
 
 	/**
-	 * Returns a default library header representation with general/usage information.
+	 * Returns a default library header representation with general/usage
+	 * information.
 	 * <p>
-	 * It includes stuff like the library name, library version, name and institute of the
-	 * 'Vienna University of Technology' where the library was developed, and copyright.
-	 * The returned information parts are divided using the newline ('\n') character.
+	 * It includes stuff like the library name, library version, name and
+	 * institute of the 'Vienna University of Technology' where the library was
+	 * developed, and copyright. The returned information parts are divided
+	 * using the newline ('\n') character.
 	 * 
-	 * @param verbose <code>true</code> to return all header information just mentioned,
-	 *        <code>false</code> to only return library name and version comprised of
-	 *        one line (no line separators)
+	 * @param verbose
+	 *            <code>true</code> to return all header information just
+	 *            mentioned, <code>false</code> to only return library name and
+	 *            version comprised of one line (no line separators)
 	 * @return header as string
 	 */
-	public static String getLibraryHeader(boolean verbose)
-	{
+	public static String getLibraryHeader(boolean verbose) {
 		if (!verbose)
 			return calimero + " version " + version;
 		final StringBuffer buf = new StringBuffer();
@@ -84,42 +85,33 @@ public final class Settings
 	}
 
 	/**
-	 * Returns a listing containing all library bundles stating the bundle's presence for
-	 * use.
+	 * Returns a listing containing all library bundles stating the bundle's
+	 * presence for use.
 	 * <p>
-	 * For loading a bundle, the default system class loader is used. A bundle is present
-	 * if it can be loaded using the class loader, otherwise it is considered not
-	 * available for use.<br>
-	 * An available bundle entry starts with a '+' and consists of a short bundle name and
-	 * the base package identifier string, a bundle not present starts with '-' and
-	 * consists of a short name and is marked with the suffix "- not available".<br>
-	 * The bundle entries in the returned string are separated using the newline ('\n')
-	 * character.
+	 * For loading a bundle, the default system class loader is used. A bundle
+	 * is present if it can be loaded using the class loader, otherwise it is
+	 * considered not available for use.<br>
+	 * An available bundle entry starts with a '+' and consists of a short
+	 * bundle name and the base package identifier string, a bundle not present
+	 * starts with '-' and consists of a short name and is marked with the
+	 * suffix "- not available".<br>
+	 * The bundle entries in the returned string are separated using the newline
+	 * ('\n') character.
 	 * 
 	 * @return the bundle listing as string
 	 */
-	public static String getBundleListing()
-	{
+	public static String getBundleListing() {
 		final StringBuffer buf = new StringBuffer();
-		buf.append(getBundle("log service", "tuwien.auto.calimero.log.LogService", 1)
-			+ sep);
+		buf.append(getBundle("log service", "tuwien.auto.calimero.log.LogService", 1) + sep);
 		buf.append(getBundle("cEMI", "tuwien.auto.calimero.cemi.CEMI", 1)).append(sep);
-		buf.append(getBundle("KNXnet/IP",
-			"tuwien.auto.calimero.knxnetip.KNXnetIPConnection", 1)).append(sep);
-		buf.append(getBundle("serial", "tuwien.auto.calimero.serial.FT12Connection", 1))
-			.append(sep);
-		buf.append(getBundle("KNX network link",
-			"tuwien.auto.calimero.link.KNXNetworkLink", 1)).append(sep);
-		buf.append(getBundle("DPT translator",
-			"tuwien.auto.calimero.dptxlator.DPTXlator", 1)).append(sep);
-		buf.append(getBundle("data points", "tuwien.auto.calimero.datapoint.Datapoint",
-			1)).append(sep);
-		buf.append(getBundle("network buffer",
-			"tuwien.auto.calimero.buffer.NetworkBuffer", 1)).append(sep);
-		buf.append(getBundle("process", "tuwien.auto.calimero.process."
-			+ "ProcessCommunicator", 1)	+ sep);
-		buf.append(getBundle("management", "tuwien.auto.calimero.mgmt.ManagementClient",
-			1)).append(sep);
+		buf.append(getBundle("KNXnet/IP", "tuwien.auto.calimero.knxnetip.KNXnetIPConnection", 1)).append(sep);
+		buf.append(getBundle("serial", "tuwien.auto.calimero.serial.FT12Connection", 1)).append(sep);
+		buf.append(getBundle("KNX network link", "tuwien.auto.calimero.link.KNXNetworkLink", 1)).append(sep);
+		buf.append(getBundle("DPT translator", "tuwien.auto.calimero.dptxlator.DPTXlator", 1)).append(sep);
+		buf.append(getBundle("data points", "tuwien.auto.calimero.datapoint.Datapoint", 1)).append(sep);
+		buf.append(getBundle("network buffer", "tuwien.auto.calimero.buffer.NetworkBuffer", 1)).append(sep);
+		buf.append(getBundle("process", "tuwien.auto.calimero.process." + "ProcessCommunicator", 1) + sep);
+		buf.append(getBundle("management", "tuwien.auto.calimero.mgmt.ManagementClient", 1)).append(sep);
 		buf.append(getBundle("XML", "tuwien.auto.calimero.xml.def.DefaultXMLReader", 2));
 		return buf.toString();
 	}
@@ -130,14 +122,15 @@ public final class Settings
 	 * <p>
 	 * Recognized options for output:
 	 * <ul>
-	 * <li>no options: default library header information and bundle listing</li>
+	 * <li>no options: default library header information and bundle
+	 * listing</li>
 	 * <li>-v, --version: prints library name and version</li>
 	 * </ul>
 	 * 
-	 * @param args argument list with options controlling output information
+	 * @param args
+	 *            argument list with options controlling output information
 	 */
-	public static void main(String[] args)
-	{
+	public static void main(String[] args) {
 		if (args.length > 0 && (args[0].equals("--version") || args[0].equals("-v")))
 			out(getLibraryHeader(false));
 		else {
@@ -149,8 +142,7 @@ public final class Settings
 
 	// for now, this works by loading one class as representative from a bundle
 	// to check availability, then class name is truncated to bundle id
-	private static String getBundle(String friendlyName, String className, int truncate)
-	{
+	private static String getBundle(String friendlyName, String className, int truncate) {
 		try {
 			cl.loadClass(className);
 			int start = className.length();
@@ -158,19 +150,17 @@ public final class Settings
 				start = className.lastIndexOf('.', start - 1);
 			final String bundle = className.substring(0, start);
 			return "+ " + friendlyName + align(friendlyName) + "- " + bundle;
+		} catch (final ClassNotFoundException e) {
+		} catch (final NoClassDefFoundError e) {
 		}
-		catch (final ClassNotFoundException e) {}
-		catch (final NoClassDefFoundError e) {}
 		return "- " + friendlyName + align(friendlyName) + "- not available";
 	}
 
-	private static String align(String friendlyName)
-	{
+	private static String align(String friendlyName) {
 		return bundleAlignment.substring(friendlyName.length());
 	}
 
-	private static void out(String s)
-	{
+	private static void out(String s) {
 		System.out.println(s);
 	}
 }

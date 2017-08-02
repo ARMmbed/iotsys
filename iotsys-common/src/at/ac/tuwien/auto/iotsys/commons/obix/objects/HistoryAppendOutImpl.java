@@ -42,74 +42,68 @@ import obix.Uri;
 import obix.contracts.HistoryAppendOut;
 
 public class HistoryAppendOutImpl extends Obj implements HistoryAppendOut {
-	
+
 	public static final String HISTORY_APPENDOUT_CONTRACT = "obix:HistoryAppendOut";
-	
+
 	private Int numAdded = new Int();
 	private Int newCount = new Int();
 	private Abstime newStart = new Abstime();
 	private Abstime newEnd = new Abstime();
 
+	public HistoryAppendOutImpl(List<HistoryRecordImpl> newRecords, List<Obj> historyRecords) {
 
-	public HistoryAppendOutImpl(List<HistoryRecordImpl> newRecords, List<Obj> historyRecords) {	
-	
 		setIs(new Contract(HISTORY_APPENDOUT_CONTRACT));
-		
+
 		numAdded.setName("numAdded");
 		numAdded.setHref(new Uri("numAdded"));
-		
+
 		newCount.setName("newCount");
 		newCount.setHref(new Uri("newCount"));
-		
+
 		newStart.setName("newStart");
 		newStart.setHref(new Uri("newStart"));
-		
+
 		newEnd.setName("newEnd");
 		newEnd.setHref(new Uri("newEnd"));
-		
+
 		newCount.set(historyRecords.size(), false);
 		numAdded.set(newRecords.size(), false);
-		
+
 		if (historyRecords.size() == 0) {
 			newStart.setNull(true);
 			newEnd.setNull(true);
 		} else {
-			Abstime start = ((HistoryRecordImpl) historyRecords.get(historyRecords.size()-1)).timestamp();
+			Abstime start = ((HistoryRecordImpl) historyRecords.get(historyRecords.size() - 1)).timestamp();
 			newStart.set(start.get(), start.getTimeZone());
-			
+
 			Abstime end = ((HistoryRecordImpl) historyRecords.get(0)).timestamp();
 			newEnd.set(end.get(), end.getTimeZone());
 		}
-		
+
 		add(numAdded);
 		add(newCount);
 		add(newStart);
 		add(newEnd);
 	}
 
-
 	@Override
 	public Int numAdded() {
 		return numAdded;
 	}
-
 
 	@Override
 	public Int newCount() {
 		return newCount;
 	}
 
-
 	@Override
 	public Abstime newStart() {
 		return newStart;
 	}
 
-
 	@Override
 	public Abstime newEnd() {
 		return newEnd;
 	}
-
 
 }

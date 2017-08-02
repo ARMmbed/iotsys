@@ -31,19 +31,16 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumCompareTypes;
+import obix.Uri;
 
-public class EnumCompareTypesImpl extends RangeImpl implements EnumCompareTypes
-{
-	public EnumCompareTypesImpl()
-	{
+public class EnumCompareTypesImpl extends RangeImpl implements EnumCompareTypes {
+	public EnumCompareTypesImpl() {
 		super(new Uri(EnumCompareTypes.HREF));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		addElement(new ObjElement(EnumCompareTypes.KEY_EQ));
 		addElement(new ObjElement(EnumCompareTypes.KEY_LT));
 		addElement(new ObjElement(EnumCompareTypes.KEY_LTE));

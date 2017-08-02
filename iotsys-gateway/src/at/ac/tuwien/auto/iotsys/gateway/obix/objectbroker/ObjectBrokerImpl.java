@@ -39,13 +39,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import obix.Contract;
-import obix.ContractRegistry;
-import obix.Err;
-import obix.Obj;
-import obix.Op;
-import obix.Ref;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.MdnsResolver;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.AboutImpl;
@@ -60,9 +53,15 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.ConfigsDbImpl;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
 import at.ac.tuwien.auto.iotsys.gateway.DeviceLoaderImpl;
 import at.ac.tuwien.auto.iotsys.gateway.service.GroupCommHelper;
+import obix.Contract;
+import obix.ContractRegistry;
+import obix.Err;
+import obix.Obj;
+import obix.Op;
+import obix.Ref;
+import obix.Uri;
 
-public class ObjectBrokerImpl implements ObjectBroker
-{
+public class ObjectBrokerImpl implements ObjectBroker {
 	private static final Logger log = Logger.getLogger(ObjectBrokerImpl.class.getName());
 
 	private final Obj rootObject;
@@ -82,20 +81,18 @@ public class ObjectBrokerImpl implements ObjectBroker
 	private ObjectRefresher objectRefresher = new ObjectRefresher();
 
 	private MdnsResolver resolver;
-	
+
 	private ConfigsDb configsDb;
-	
+
 	private DeviceLoaderImpl deviceLoader;
-	
+
 	private ArrayList<Connector> connectors = new ArrayList<Connector>();
 
-	static
-	{
+	static {
 		((ObjectBrokerImpl) instance).initInternals();
 	}
 
-	private ObjectBrokerImpl()
-	{
+	private ObjectBrokerImpl() {
 		rootObject = new Obj();
 		rootObject.setHref(new Uri("http://localhost/"));
 
@@ -109,13 +106,11 @@ public class ObjectBrokerImpl implements ObjectBroker
 	}
 
 	@Override
-	public HashMap<String, String> get_ipv6MappingTable()
-	{
+	public HashMap<String, String> get_ipv6MappingTable() {
 		return ipv6Mapping;
 	}
 
-	private void initInternals()
-	{
+	private void initInternals() {
 		addObj(iotLobby, false);
 		addObj(watchServiceImpl);
 		addObj(alarmSubjectImpl);
@@ -127,18 +122,16 @@ public class ObjectBrokerImpl implements ObjectBroker
 
 		Thread t = new Thread(objectRefresher);
 		t.start();
-		
+
 		setConfigDb(ConfigsDbImpl.getInstance());
 	}
 
 	@Override
-	public synchronized Obj pullObj(Uri href, boolean refreshObject)
-	{		
+	public synchronized Obj pullObj(Uri href, boolean refreshObject) {
 		Obj o = rootObject.getByHref(href);
 
 		// if the object could not be found, return an error
-		if (o == null)
-		{
+		if (o == null) {
 			Err error = new Err("Object not found");
 			error.setIs(new Contract("obix:BadUriErr"));
 			return error;
@@ -146,20 +139,18 @@ public class ObjectBrokerImpl implements ObjectBroker
 
 		if (refreshObject)
 			o.refreshObject();
-		
+
 		return o;
 	}
 
 	@Override
-	public synchronized Obj pushObj(Uri href, Obj input, boolean isOp) throws Exception
-	{
+	public synchronized Obj pushObj(Uri href, Obj input, boolean isOp) throws Exception {
 		Obj o = pullObj(href, false);
 
 		if (o == null)
 			throw new Exception("Object with URI " + href.get() + " not found");
 		// write to the object should be handled by the according class
-		if (!isOp)
-		{
+		if (!isOp) {
 			input.setInvokedHref(href.get());
 			log.finer("Writing on " + o);
 			o.writeObject(input);
@@ -170,88 +161,78 @@ public class ObjectBrokerImpl implements ObjectBroker
 	}
 
 	@Override
-	public synchronized void addObj(Obj o, String ipv6Address)
-	{
+	public synchronized void addObj(Obj o, String ipv6Address) {
 		addObj(o);
 
-		try
-		{
+		try {
 			// generate Inet6Address in format "/:::::::"
 			Inet6Address generateIPv6Address = (Inet6Address) Inet6Address.getByName(ipv6Address);
 
 			String href = o.getFullContextPath();
 			ipv6Mapping.put(generateIPv6Address.toString(), href);
-			if (resolver != null)
-			{
+			if (resolver != null) {
 				resolver.addToRecordDict(href, ipv6Address);
 				resolver.registerDevice(href, o.getClass(), ipv6Address);
 			}
-		}
-		catch (UnknownHostException e)
-		{
+		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public synchronized String getIPv6LinkedHref(String ipv6Address)
-	{
+	public synchronized String getIPv6LinkedHref(String ipv6Address) {
 		return ipv6Mapping.get(ipv6Address);
 	}
 
 	@Override
-	public synchronized boolean containsIPv6(String ipv6Address)
-	{
+	public synchronized boolean containsIPv6(String ipv6Address) {
 		return ipv6Mapping.containsKey(ipv6Address);
 	}
 
 	@Override
-	public synchronized void addObj(Obj o)
-	{
+	public synchronized void addObj(Obj o) {
 		addObj(o, true);
 	}
 
 	@Override
-	public synchronized void addObj(Obj o, boolean listInLobby)
-	{
+	public synchronized void addObj(Obj o, boolean listInLobby) {
 		Obj root = o.getRoot();
-//		String rootHref = root.getHref().get();
-//		if (doNotListCategorylessObjs()) {
-//			if (!rootHref.contains("/") || rootHref.startsWith("/")) { 
-//				//Do not list objects that have no "HREF" parents
-//				listInLobby = false;
-//			}
-//		}
-		if (root != rootObject)
-		{
+		// String rootHref = root.getHref().get();
+		// if (doNotListCategorylessObjs()) {
+		// if (!rootHref.contains("/") || rootHref.startsWith("/")) {
+		// //Do not list objects that have no "HREF" parents
+		// listInLobby = false;
+		// }
+		// }
+		if (root != rootObject) {
 			rootObject.add(root, false);
 		}
-		if (listInLobby)
-		{
+		if (listInLobby) {
 			Ref ref = new Ref(null, new Uri(o.getFullContextPath()));
 			ref.setIs(o.getIs());
 			ref.setName(o.getName());
 			ref.setDisplayName(o.getDisplayName());
 			iotLobby.addReference(o.getFullContextPath(), ref);
 		}
-		
-		// TODO: Re-apply written object from database, currently not work in OSGi model
-//		WritableObject wo = WriteableObjectDbImpl.getInstance().getPersistedObject(o.getFullContextPath());
-//		if (wo != null){
-//			try {
-//				Obj input = ObixDecoder.fromString(wo.getDataStream());
-//				pushObj(new Uri(wo.getHref()), input, false);
-//			} catch (XException ex) {
-//				ex.printStackTrace();
-//			} catch (Exception ex) {
-//				ex.printStackTrace();
-//			}
-//		}
+
+		// TODO: Re-apply written object from database, currently not work in
+		// OSGi model
+		// WritableObject wo =
+		// WriteableObjectDbImpl.getInstance().getPersistedObject(o.getFullContextPath());
+		// if (wo != null){
+		// try {
+		// Obj input = ObixDecoder.fromString(wo.getDataStream());
+		// pushObj(new Uri(wo.getHref()), input, false);
+		// } catch (XException ex) {
+		// ex.printStackTrace();
+		// } catch (Exception ex) {
+		// ex.printStackTrace();
+		// }
+		// }
 	}
 
 	@Override
-	public synchronized void removeObj(String href)
-	{
+	public synchronized void removeObj(String href) {
 		Obj toRemove = pullObj(new Uri(href), false);
 		toRemove.removeThis();
 
@@ -262,12 +243,10 @@ public class ObjectBrokerImpl implements ObjectBroker
 	}
 
 	@Override
-	public synchronized Obj invokeOp(Uri uri, Obj input)
-	{
+	public synchronized Obj invokeOp(Uri uri, Obj input) {
 		Obj obj = pullObj(uri, true);
 
-		if (obj instanceof Op)
-		{
+		if (obj instanceof Op) {
 			Op op = (Op) obj;
 			if (op.getOperationHandler() != null)
 				return op.getOperationHandler().invoke(input);
@@ -277,22 +256,20 @@ public class ObjectBrokerImpl implements ObjectBroker
 	}
 
 	@Override
-	public synchronized String getCoRELinks()
-	{
+	public synchronized String getCoRELinks() {
 		return getCoRELinks(rootObject).toString();
 	}
 
-	private StringBuffer getCoRELinks(Obj obj)
-	{
+	private StringBuffer getCoRELinks(Obj obj) {
 		StringBuffer coreLinks = new StringBuffer("");
 		if (obj.getHref() == null)
 			return coreLinks;
 
 		if (obj != rootObject && obj != iotLobby)
-			coreLinks.append(String.format("<%s>;rt=\"%s\";if=\"obix\"", obj.getFullContextPath(), ContractRegistry.lookupContract(obj.getClass())));
+			coreLinks.append(String.format("<%s>;rt=\"%s\";if=\"obix\"", obj.getFullContextPath(),
+					ContractRegistry.lookupContract(obj.getClass())));
 
-		for (Obj child : obj.list())
-		{
+		for (Obj child : obj.list()) {
 			if (child.isRef())
 				continue;
 			coreLinks.append(getCoRELinks(child));
@@ -301,63 +278,53 @@ public class ObjectBrokerImpl implements ObjectBroker
 		return coreLinks;
 	}
 
-	public static ObjectBroker getInstance()
-	{
+	public static ObjectBroker getInstance() {
 		return instance;
 	}
 
 	@Override
-	public synchronized void addHistoryToDatapoints(Obj obj)
-	{
+	public synchronized void addHistoryToDatapoints(Obj obj) {
 		HistoryHelper.addHistoryToDatapoints(obj);
 	}
 
 	@Override
-	public synchronized void addHistoryToDatapoints(Obj obj, int countMax)
-	{
+	public synchronized void addHistoryToDatapoints(Obj obj, int countMax) {
 		HistoryHelper.addHistoryToDatapoints(obj, countMax);
 	}
 
 	@Override
-	public synchronized void enableObjectRefresh(Obj obj)
-	{
+	public synchronized void enableObjectRefresh(Obj obj) {
 		objectRefresher.addObject(obj);
 	}
 
 	@Override
-	public synchronized void disableObjectRefresh(Obj obj)
-	{
+	public synchronized void disableObjectRefresh(Obj obj) {
 		objectRefresher.removeObject(obj);
 	}
 
 	@Override
-	public synchronized void shutdown()
-	{
+	public synchronized void shutdown() {
 		objectRefresher.stop();
 		closeConnectors();
 	}
 
 	@Override
-	public void enableGroupComm(Obj obj)
-	{
+	public void enableGroupComm(Obj obj) {
 		GroupCommHelper.enableGroupCommForObject(obj);
 	}
-	
+
 	@Override
-	public void enableGroupComm(Obj obj, Connector connector, String adr)
-	{
+	public void enableGroupComm(Obj obj, Connector connector, String adr) {
 		GroupCommHelper.enableGroupCommForObject(obj, connector, adr);
 	}
 
 	@Override
-	public MdnsResolver getMDnsResolver()
-	{
+	public MdnsResolver getMDnsResolver() {
 		return resolver;
 	}
 
 	@Override
-	public void setMdnsResolver(MdnsResolver resolver)
-	{
+	public void setMdnsResolver(MdnsResolver resolver) {
 		this.resolver = resolver;
 	}
 
@@ -372,58 +339,57 @@ public class ObjectBrokerImpl implements ObjectBroker
 	}
 
 	@Override
-	public synchronized void enableObjectRefresh(Obj obj, long interval)
-	{
+	public synchronized void enableObjectRefresh(Obj obj, long interval) {
 		obj.setRefreshInterval(interval);
 
 		objectRefresher.addObject(obj);
 	}
+
 	/**
 	 * Should only be called when not running in OSGi
 	 */
 	@Override
-	public void initDevices(String devicesConfigFile){
+	public void initDevices(String devicesConfigFile) {
 		// add initial objects to the database
 		if (devicesConfigFile == null) {
 			deviceLoader = new DeviceLoaderImpl();
 		} else {
 			deviceLoader = new DeviceLoaderImpl(devicesConfigFile);
 		}
-		connectors = deviceLoader.initDevices(this); // will be empty if run in OSGi!
-		
-		// Transition step: migrate configs from devices.xml to DB, remove when done
+		connectors = deviceLoader.initDevices(this); // will be empty if run in
+														// OSGi!
+
+		// Transition step: migrate configs from devices.xml to DB, remove when
+		// done
 		configsDb.migrate(connectors);
 	}
-	
+
 	@Override
-	public void addConnectors(List<Connector> connectors){
+	public void addConnectors(List<Connector> connectors) {
 		this.connectors.addAll(connectors);
-		// Transition step: migrate configs from devices.xml to DB, remove when done
+		// Transition step: migrate configs from devices.xml to DB, remove when
+		// done
 		configsDb.prepareConnectors(connectors);
 	}
 
 	@Override
-	public void removeConnectors(List<Connector> connectors){
+	public void removeConnectors(List<Connector> connectors) {
 		connectors.removeAll(connectors);
 	}
-	
-	private void closeConnectors()
-	{
-		for (Connector connector : connectors)
-		{
-			try
-			{
+
+	private void closeConnectors() {
+		for (Connector connector : connectors) {
+			try {
 				connector.disconnect();
 				log.info("Shutting down connector " + connector.toString());
-			} catch (Exception e)
-			{
+			} catch (Exception e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-//	@Override
-//	public boolean doNotListCategorylessObjs() {
-//		return true;
-//	}
+	// @Override
+	// public boolean doNotListCategorylessObjs() {
+	// return true;
+	// }
 }

@@ -1,6 +1,9 @@
 package obix.contracts;
 
-import obix.*;
+import obix.Abstime;
+import obix.IObj;
+import obix.Int;
+import obix.List;
 
 /**
  * AlarmQueryOut
@@ -9,8 +12,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface AlarmQueryOut extends IObj
-{
+public interface AlarmQueryOut extends IObj {
 	public static final String CONTRACT = "obix:AlarmQueryOut";
 
 	public static final String countContract = "<int name='count' val='0' min='0'/>";

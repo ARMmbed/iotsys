@@ -27,44 +27,44 @@ import at.ac.tuwien.auto.calimero.exception.KNXException;
  * 
  * @author B. Malinowsky
  */
-public class KNXDisconnectException extends KNXException
-{
+public class KNXDisconnectException extends KNXException {
 	private static final long serialVersionUID = 1L;
 
 	private final Destination dst;
 
 	/**
-	 * Constructs a <code>KNXDisconnectException</code> without a detail message.
+	 * Constructs a <code>KNXDisconnectException</code> without a detail
+	 * message.
 	 * <p>
 	 */
-	public KNXDisconnectException()
-	{
+	public KNXDisconnectException() {
 		dst = null;
 	}
 
 	/**
-	 * Constructs a <code>KNXDisconnectException</code> with the specified detail
-	 * message.
+	 * Constructs a <code>KNXDisconnectException</code> with the specified
+	 * detail message.
 	 * <p>
 	 * 
-	 * @param s the detail message
+	 * @param s
+	 *            the detail message
 	 */
-	public KNXDisconnectException(String s)
-	{
+	public KNXDisconnectException(String s) {
 		super(s);
 		dst = null;
 	}
 
 	/**
-	 * Constructs a <code>KNXDisconnectException</code> with the specified detail
-	 * message and the affected destination object.
+	 * Constructs a <code>KNXDisconnectException</code> with the specified
+	 * detail message and the affected destination object.
 	 * <p>
 	 * 
-	 * @param s the detail message
-	 * @param d destination causing this exception by its disconnected state
+	 * @param s
+	 *            the detail message
+	 * @param d
+	 *            destination causing this exception by its disconnected state
 	 */
-	public KNXDisconnectException(String s, Destination d)
-	{
+	public KNXDisconnectException(String s, Destination d) {
 		super(s);
 		dst = d;
 	}
@@ -75,8 +75,7 @@ public class KNXDisconnectException extends KNXException
 	 * 
 	 * @return the Destination, or <code>null</code> if not supplied
 	 */
-	public final Destination getDestination()
-	{
+	public final Destination getDestination() {
 		return dst;
 	}
 }

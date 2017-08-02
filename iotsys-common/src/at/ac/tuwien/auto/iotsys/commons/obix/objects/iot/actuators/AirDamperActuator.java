@@ -34,34 +34,43 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 
 import obix.Int;
 
-public interface AirDamperActuator extends Actuator{
-	
-	public static final String CONTRACT="iot:AirDamperActuator";
-	
-	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_NAME="actPosSetpFreshAirValue";
-	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF="actPosSetpFreshAirValue";
-	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_UNIT="obix:units/percent";
-	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT = "<int name='"+ACT_POS_SETP_FRESH_AIR_CONTRACT_NAME+"' href='"+ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF+"' val='0'/>";
-	//Funktion muss genau so heissen wie FAN_SPEED_SETPOINT_CONTRACT_NAME !!!
+public interface AirDamperActuator extends Actuator {
+
+	public static final String CONTRACT = "iot:AirDamperActuator";
+
+	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_NAME = "actPosSetpFreshAirValue";
+	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF = "actPosSetpFreshAirValue";
+	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ACT_POS_SETP_FRESH_AIR_CONTRACT = "<int name='" + ACT_POS_SETP_FRESH_AIR_CONTRACT_NAME
+			+ "' href='" + ACT_POS_SETP_FRESH_AIR_CONTRACT_HREF + "' val='0'/>";
+
+	// Funktion muss genau so heissen wie FAN_SPEED_SETPOINT_CONTRACT_NAME !!!
 	public Int actPosSetpFreshAirValue();
 
-	public static final String ACT_POS_SETP_SUPPLY_AIR_CONTRACT_NAME="actPosSetpSupplyAirValue";
-	public static final String ACT_POS_SETP_SUPPLY_AIR_CONTRACT_HREF="actPosSetpSupplyAirValue";
-	public static final String ACT_POS_SETP_SUPPLY_AIR_CONTRACT_UNIT="obix:units/percent";
-	public static final String ACT_POS_SETP_SUPPLY_AIR_CONTRACT = "<int name='"+ACT_POS_SETP_SUPPLY_AIR_CONTRACT_NAME+"' href='"+ACT_POS_SETP_SUPPLY_AIR_CONTRACT_HREF+"' val='0'/>";
+	public static final String ACT_POS_SETP_SUPPLY_AIR_CONTRACT_NAME = "actPosSetpSupplyAirValue";
+	public static final String ACT_POS_SETP_SUPPLY_AIR_CONTRACT_HREF = "actPosSetpSupplyAirValue";
+	public static final String ACT_POS_SETP_SUPPLY_AIR_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ACT_POS_SETP_SUPPLY_AIR_CONTRACT = "<int name='" + ACT_POS_SETP_SUPPLY_AIR_CONTRACT_NAME
+			+ "' href='" + ACT_POS_SETP_SUPPLY_AIR_CONTRACT_HREF + "' val='0'/>";
+
 	public Int actPosSetpSupplyAirValue();
-	
-	
-	public static final String ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_NAME="actPosSetpDischargeAirValue";
-	public static final String ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_HREF="actPosSetpDischargeAirValue";
-	public static final String ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_UNIT="obix:units/percent";
-	public static final String ACT_POS_SETP_DISCHARGE_AIR_CONTRACT = "<int name='"+ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_NAME+"' href='"+ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_HREF+"' val='0'/>";
+
+	public static final String ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_NAME = "actPosSetpDischargeAirValue";
+	public static final String ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_HREF = "actPosSetpDischargeAirValue";
+	public static final String ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ACT_POS_SETP_DISCHARGE_AIR_CONTRACT = "<int name='"
+			+ ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_NAME + "' href='" + ACT_POS_SETP_DISCHARGE_AIR_CONTRACT_HREF
+			+ "' val='0'/>";
+
 	public Int actPosSetpDischargeAirValue();
-	
-	public static final String ACT_POS_SETP_EXTRACT_AIR_CONTRACT_NAME="actPosSetpExtractAirValue";
-	public static final String ACT_POS_SETP_EXTRACT_AIR_CONTRACT_HREF="actPosSetpExtractAirValue";
-	public static final String ACT_POS_SETP_EXTRACT_AIR_CONTRACT_UNIT="obix:units/percent";
-	public static final String ACT_POS_SETP_EXTRACT_AIR_CONTRACT = "<int name='"+ACT_POS_SETP_EXTRACT_AIR_CONTRACT_NAME+"' href='"+ACT_POS_SETP_EXTRACT_AIR_CONTRACT_HREF+"' val='0'/>";
+
+	public static final String ACT_POS_SETP_EXTRACT_AIR_CONTRACT_NAME = "actPosSetpExtractAirValue";
+	public static final String ACT_POS_SETP_EXTRACT_AIR_CONTRACT_HREF = "actPosSetpExtractAirValue";
+	public static final String ACT_POS_SETP_EXTRACT_AIR_CONTRACT_UNIT = "obix:units/percent";
+	public static final String ACT_POS_SETP_EXTRACT_AIR_CONTRACT = "<int name='"
+			+ ACT_POS_SETP_EXTRACT_AIR_CONTRACT_NAME + "' href='" + ACT_POS_SETP_EXTRACT_AIR_CONTRACT_HREF
+			+ "' val='0'/>";
+
 	public Int actPosSetpExtractAirValue();
-	
+
 }

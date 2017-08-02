@@ -1,6 +1,7 @@
 package obix.contracts;
 
-import obix.*;
+import obix.IObj;
+import obix.Op;
 
 /**
  * WatchService
@@ -9,11 +10,11 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface WatchService extends IObj
-{
+public interface WatchService extends IObj {
 	public static final String CONTRACT = "obix:WatchService";
 
-	public static final String makeContract = "<op name='make' in='" + Nil.CONTRACT + "' out='" + Watch.CONTRACT + "'/>";
+	public static final String makeContract = "<op name='make' in='" + Nil.CONTRACT + "' out='" + Watch.CONTRACT
+			+ "'/>";
 
 	public Op make();
 

@@ -1,6 +1,8 @@
 package obix.contracts;
 
-import obix.*;
+import obix.Abstime;
+import obix.IObj;
+import obix.Int;
 
 /**
  * HistoryFilter
@@ -9,8 +11,7 @@ import obix.*;
  * @creation 24 May 06
  * @version $Revision$ $Date$
  */
-public interface HistoryFilter extends IObj
-{
+public interface HistoryFilter extends IObj {
 	public static final String CONTRACT = "obix:HistoryFilter";
 
 	public static final String limitContract = "<int name='limit' val='0' null='true'/>";

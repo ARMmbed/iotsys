@@ -1,40 +1,35 @@
 package at.ac.tuwien.auto.iotsys.control;
 
-import obix.Obj;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.BoilerActuator;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.HeatPumpActuator;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.TemperatureControlActuator;
 import at.ac.tuwien.auto.iotsys.obix.observer.Observer;
 import at.ac.tuwien.auto.iotsys.obix.observer.Subject;
+import obix.Obj;
+import obix.Uri;
 
 /**
  * Basic client interaction with the oBIX object broker.
  * 
  * @author Markus Jung
  */
-public class TestClient implements Observer
-{
+public class TestClient implements Observer {
 	private ObjectBroker objectBroker;
 
-	public TestClient(ObjectBroker objectBroker)
-	{
+	public TestClient(ObjectBroker objectBroker) {
 		this.objectBroker = objectBroker;
 	}
 
-	public void runTests()
-	{
+	public void runTests() {
 		System.out.println("\n\nAvailable named objects: ");
-		for (Obj o : objectBroker.pullObj(new Uri("/"), true).list())
-		{
+		for (Obj o : objectBroker.pullObj(new Uri("/"), true).list()) {
 			if (o.getName() != null && !o.getName().isEmpty())
 				System.out.println("  " + o.getName());
 		}
 
 		System.out.println("\nObserving all objects.");
-		for (Obj o : objectBroker.pullObj(new Uri("/"), true).list())
-		{
+		for (Obj o : objectBroker.pullObj(new Uri("/"), true).list()) {
 			if (o.getName() != null && !o.getName().isEmpty())
 				o.attach(this);
 		}
@@ -43,8 +38,7 @@ public class TestClient implements Observer
 
 		Obj obj = objectBroker.pullObj(new Uri("/kuehlhaus_hesselbachweg_5"), true);
 
-		if (obj instanceof TemperatureControlActuator)
-		{
+		if (obj instanceof TemperatureControlActuator) {
 			TemperatureControlActuator kuehlhaus = (TemperatureControlActuator) obj;
 			System.out.println("\nKï¿½hlhaus Hesselbachweg 5.");
 
@@ -59,8 +53,7 @@ public class TestClient implements Observer
 
 		obj = objectBroker.pullObj(new Uri("/boiler_hesselbachweg_3"), true);
 
-		if (obj instanceof BoilerActuator)
-		{
+		if (obj instanceof BoilerActuator) {
 			BoilerActuator boiler = (BoilerActuator) obj;
 			System.out.println("\nElektroboiler Hesselbachweg 3.");
 
@@ -72,8 +65,7 @@ public class TestClient implements Observer
 
 		obj = objectBroker.pullObj(new Uri("/linbachstrasse_4_room_1"), true);
 
-		if (obj instanceof TemperatureControlActuator)
-		{
+		if (obj instanceof TemperatureControlActuator) {
 			TemperatureControlActuator electroHeating = (TemperatureControlActuator) obj;
 			System.out.println("\nElektro-Direktheizung Linbachstrasse 4.");
 
@@ -85,8 +77,7 @@ public class TestClient implements Observer
 
 		obj = objectBroker.pullObj(new Uri("/heatpump_lienbachstrasse_5"), true);
 
-		if (obj instanceof HeatPumpActuator)
-		{
+		if (obj instanceof HeatPumpActuator) {
 			HeatPumpActuator heatPump = (HeatPumpActuator) obj;
 			System.out.println("\nWï¿½rmepumpe Lienbachstraï¿½e 5.");
 
@@ -100,15 +91,12 @@ public class TestClient implements Observer
 	}
 
 	@Override
-	public void update(Object state)
-	{
+	public void update(Object state) {
 		Obj obj = (Obj) state;
 		System.out.println("\nObserved update on: " + obj.getName());
 
-		if (obj.getName().equals("kuehlhaus_hesselbachweg_5"))
-		{
-			if (obj instanceof TemperatureControlActuator)
-			{
+		if (obj.getName().equals("kuehlhaus_hesselbachweg_5")) {
+			if (obj instanceof TemperatureControlActuator) {
 				TemperatureControlActuator kuehlhaus = (TemperatureControlActuator) obj;
 				System.out.println("\nKï¿½hlhaus Hesselbachweg 5 (Observed).");
 
@@ -119,17 +107,14 @@ public class TestClient implements Observer
 			}
 		}
 
-		if (obj instanceof BoilerActuator)
-		{
+		if (obj instanceof BoilerActuator) {
 			BoilerActuator boiler = (BoilerActuator) obj;
 			System.out.println("\n" + boiler.getName() + " (Observed).");
 			System.out.println("  Freigabe Elektro-Heizstab: " + boiler.enabled());
 		}
 
-		if (obj.getName().equals("linbachstrasse_4_room_1"))
-		{
-			if (obj instanceof TemperatureControlActuator)
-			{
+		if (obj.getName().equals("linbachstrasse_4_room_1")) {
+			if (obj instanceof TemperatureControlActuator) {
 				TemperatureControlActuator kuehlhaus = (TemperatureControlActuator) obj;
 				System.out.println("\nKï¿½hlhaus Hesselbachweg 5 (Observed).");
 
@@ -140,8 +125,7 @@ public class TestClient implements Observer
 			}
 		}
 
-		if (obj instanceof HeatPumpActuator)
-		{
+		if (obj instanceof HeatPumpActuator) {
 			HeatPumpActuator heatPump = (HeatPumpActuator) obj;
 			System.out.println("  Sperre Wï¿½rmepumpe: " + heatPump.disabled());
 			System.out.println("  Sollwertbeeinflussung: " + heatPump.targetValueInfluence());
@@ -149,14 +133,12 @@ public class TestClient implements Observer
 	}
 
 	@Override
-	public void setSubject(Subject object)
-	{
+	public void setSubject(Subject object) {
 		// leave empty
 	}
 
 	@Override
-	public Subject getSubject()
-	{
+	public Subject getSubject() {
 		// leave empty - multiple objects observed
 		return null;
 	}

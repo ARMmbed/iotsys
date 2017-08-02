@@ -32,83 +32,89 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.coap;
 
-//import java.util.logging.Logger;
-
-import ch.ethz.inf.vs.californium.coap.Response;
-import ch.ethz.inf.vs.californium.coap.ResponseHandler;
-
-import obix.Obj;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.LightSwitchActuatorImpl;
 import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
 
-public class LightSwitchActuatorImplCoap extends LightSwitchActuatorImpl implements IoTSySDevice{
-	//private static final Logger log = Logger.getLogger(LightSwitchActuatorImplCoap.class.getName());
-	
+//import java.util.logging.Logger;
+
+import ch.ethz.inf.vs.californium.coap.Response;
+import ch.ethz.inf.vs.californium.coap.ResponseHandler;
+import obix.Obj;
+
+public class LightSwitchActuatorImplCoap extends LightSwitchActuatorImpl implements IoTSySDevice {
+	// private static final Logger log =
+	// Logger.getLogger(LightSwitchActuatorImplCoap.class.getName());
+
 	private CoapConnector coapConnector;
 	private String busAddress;
 	private boolean isObserved;
 	private boolean shouldObserve;
 	private boolean forwardGroupAddress;
-	
-	public LightSwitchActuatorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve, boolean forwardGroupAddress){
+
+	public LightSwitchActuatorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve,
+			boolean forwardGroupAddress) {
 		// technology specific initialization
 		this.coapConnector = coapConnector;
 		this.busAddress = busAddress;
 		this.isObserved = false;
 		this.shouldObserve = shouldObserve;
 		this.forwardGroupAddress = forwardGroupAddress;
-		
+
 	}
-	
+
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
-		if(shouldObserve)
+		if (shouldObserve)
 			addWatchDog();
 	}
-	
-	public void addWatchDog(){
+
+	public void addWatchDog() {
 		coapConnector.createWatchDog(busAddress, VALUE_CONTRACT_HERF, new ResponseHandler() {
-			public void handleResponse(Response response) {	
+			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-				
-				if(payload.equals("") || payload.equals("TooManyObservers")) return;
-				
-				if(payload.startsWith("Added")) {
+
+				if (payload.equals("") || payload.equals("TooManyObservers"))
+					return;
+
+				if (payload.startsWith("Added")) {
 					isObserved = true;
 					return;
 				}
 				boolean temp = Boolean.parseBoolean(CoapConnector.extractAttribute("bool", "val", payload));
-				
+
 				LightSwitchActuatorImplCoap.this.value().set(temp);
 
 			}
-		});	
+		});
 	}
-	
+
 	@Override
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.	
-		// The base class knows how to update the internal variable and to trigger
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
+		// The base class knows how to update the internal variable and to
+		// trigger
 		// all the oBIX specific processing.
 		super.writeObject(input);
-		
+
 		// write it out to the technology bus
-		coapConnector.writeBoolean(busAddress, VALUE_CONTRACT_HERF, this.value().get());	
+		coapConnector.writeBoolean(busAddress, VALUE_CONTRACT_HERF, this.value().get());
 	}
-	
+
 	@Override
-	public void refreshObject(){
-		// value is the protected instance variable of the base class (LightSwitchActuatorImpl)
-		if(value != null && !isObserved){
+	public void refreshObject() {
+		// value is the protected instance variable of the base class
+		// (LightSwitchActuatorImpl)
+		if (value != null && !isObserved) {
 			Boolean value = coapConnector.readBoolean(busAddress, VALUE_CONTRACT_HERF);
-			
-			// this calls the implementation of the base class, which triggers also
+
+			// this calls the implementation of the base class, which triggers
+			// also
 			// oBIX services (e.g. watches, history) and CoAP observe!
-			this.value().set(value); 
-		}	
+			this.value().set(value);
+		}
 	}
 
 	@Override

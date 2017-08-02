@@ -30,7 +30,6 @@
  * This file is part of the IoTSyS project.
  ******************************************************************************/
 
-
 package at.ac.tuwien.auto.iotsys.gateway.connectors.coap;
 
 import java.io.ByteArrayInputStream;
@@ -64,133 +63,131 @@ public class CoapConnector extends Connector {
 
 	@Override
 	public void connect() throws Exception {
-		log.info("CoapConnector connecting.");	
+		log.info("CoapConnector connecting.");
 	}
 
 	@Override
 	public void disconnect() throws Exception {
 		log.info("CoapConnector disconnecting.");
 	}
-	
+
 	private String send(String busAddress, String datapoint, String rType, String payload, ResponseHandler handler) {
-		
+
 		final String busUri = busAddress + "/" + datapoint;
-		
+
 		Request request = null;
-		
-		//Specify Type of Request
-		if(rType.equals("GET")){
+
+		// Specify Type of Request
+		if (rType.equals("GET")) {
 			request = new GETRequest();
-		} else if(rType.equals("PUT")){
+		} else if (rType.equals("PUT")) {
 			request = new PUTRequest();
-			request.setPayload(payload);	
-		} else if(rType.equals("POST")){
+			request.setPayload(payload);
+		} else if (rType.equals("POST")) {
 			request = new POSTRequest();
 			System.out.println("Adresse: " + busUri + "\nPayload: " + payload);
 			return null;
-			/*	
-		} else if(rType.equals("DELETE")){
-			request = new DELETERequest();
-		} else if(rType.equals("DISCOVER")){
-			request = new GETRequest();
-		*/
-		} else if(rType.equals("OBSERVE")){
+			/*
+			 * } else if(rType.equals("DELETE")){ request = new DELETERequest();
+			 * } else if(rType.equals("DISCOVER")){ request = new GETRequest();
+			 */
+		} else if (rType.equals("OBSERVE")) {
 			request = new GETRequest();
 			request.setObserve();
 			request.setOption(new Option(0, OptionNumberRegistry.OBSERVE));
-			if(handler != null) request.registerResponseHandler(handler);
+			if (handler != null)
+				request.registerResponseHandler(handler);
 		}
-		
+
 		request.setType(messageType.NON);
-		
-		request.setOption(new Option(MediaTypeRegistry.APPLICATION_XML,OptionNumberRegistry.ACCEPT));
-	
+
+		request.setOption(new Option(MediaTypeRegistry.APPLICATION_XML, OptionNumberRegistry.ACCEPT));
+
 		// specify URI of target endpoint
 		request.setURI(busUri);
 		// enable response queue for blocking I/O
 		request.enableResponseQueue(true);
-		
+
 		// request.setContentType(MediaTypeRegistry.APPLICATION_EXI);
 		// request.setAccept(MediaTypeRegistry.APPLICATION_XML);
-		
+
 		try {
 			log.info("Requesting busUri: " + busUri);
 			request.execute();
-			
+
 		} catch (IOException e) {
 			System.err.println("Failed to execute request: " + e.getMessage());
 		}
-		
-		//No Response for PUT needed
-		if(rType.equals("PUT")) return null;
-		
+
+		// No Response for PUT needed
+		if (rType.equals("PUT"))
+			return null;
+
 		// receive response
 		try {
 			Response response = request.receiveResponse();
-			if(response != null && response.getPayloadString() != null){
-				
+			if (response != null && response.getPayloadString() != null) {
+
 				return response.getPayloadString().trim();
 			}
-			
-				
+
 		} catch (InterruptedException e) {
-			System.err.println("Receiving of response interrupted: "
-					+ e.getMessage());
-		}	
+			System.err.println("Receiving of response interrupted: " + e.getMessage());
+		}
 		return null;
 	}
-	
-	//sends Observe to Sensor/Actor with Response to be handled in Sensor/Actor
+
+	// sends Observe to Sensor/Actor with Response to be handled in Sensor/Actor
 	public void createWatchDog(String busAddress, String datapoint, ResponseHandler handler) {
-		send(busAddress, datapoint, "OBSERVE", "", handler);	
+		send(busAddress, datapoint, "OBSERVE", "", handler);
 	}
-	
-	//sends POST for GroupCommunication
+
+	// sends POST for GroupCommunication
 	public void groupComm(String busAddress, String datapoint, String groupAddress) {
-		String payload = "<str val=\""+ groupAddress +"\"/>";
+		String payload = "<str val=\"" + groupAddress + "\"/>";
 		send(busAddress, datapoint, "POST", payload, null);
 	}
 
-	public Boolean readBoolean(String busAddress, String datapoint) {		
+	public Boolean readBoolean(String busAddress, String datapoint) {
 		String payload = send(busAddress, datapoint, "GET", "", null);
-		if(payload != null) {
+		if (payload != null) {
 			String temp = extractAttribute("bool", "val", payload);
 			return Boolean.parseBoolean(temp);
-		}	
+		}
 		return false;
 	}
-	
+
 	public Double readDouble(String busAddress, String datapoint) {
 		String payload = send(busAddress, datapoint, "GET", "", null);
-		if(payload != null) {
+		if (payload != null) {
 			String temp = extractAttribute("real", "val", payload);
 			return Double.parseDouble(temp);
 		}
 		return 0.0;
 	}
-	
+
 	public Long readInt(String busAddress, String datapoint) {
 		String payload = send(busAddress, datapoint, "GET", "", null);
-		if(payload != null) {
+		if (payload != null) {
 			String temp = extractAttribute("int", "val", payload);
 			return Long.parseLong(temp);
 		}
 		return 0L;
 	}
-	
+
 	public String readStr(String busAddress, String datapoint) {
 		String payload = send(busAddress, datapoint, "GET", "", null);
-		if(payload != null) {
+		if (payload != null) {
 			String temp = extractAttribute("str", "val", payload);
 			return temp;
 		}
 		return "";
 	}
-	
-	//TODO: Activity Contract von bool auf str aendern?!?
+
+	// TODO: Activity Contract von bool auf str aendern?!?
 	public String readActivity(String busAddress, String datapoint) {
 		String payload = send(busAddress, datapoint, "GET", "", null);
-		if(payload != null) {
+		if (payload != null) {
 			String temp = extractAttribute("bool", "val", payload);
 			return temp;
 		}
@@ -198,21 +195,21 @@ public class CoapConnector extends Connector {
 	}
 
 	public void writeBoolean(String busAddress, String datapoint, Boolean value) {
-		String payload = "<bool val=\""+ value +"\"/>";
+		String payload = "<bool val=\"" + value + "\"/>";
 		send(busAddress, datapoint, "PUT", payload, null);
 	}
 
 	public void writeDouble(String busAddress, String datapoint, Double value) {
-		String payload = "<real val=\""+ value +"\"/>";		
+		String payload = "<real val=\"" + value + "\"/>";
 		send(busAddress, datapoint, "PUT", payload, null);
 	}
-	
+
 	public void writeInt(String busAddress, String datapoint, Long value) {
-		String payload = "<int val=\""+ value +"\"/>";		
+		String payload = "<int val=\"" + value + "\"/>";
 		send(busAddress, datapoint, "PUT", payload, null);
 	}
-	
-	public static String extractAttribute(String elementName, String attributeName, String xml){
+
+	public static String extractAttribute(String elementName, String attributeName, String xml) {
 		Document document;
 		DocumentBuilder documentBuilder;
 		DocumentBuilderFactory documentBuilderFactory;
@@ -220,10 +217,8 @@ public class CoapConnector extends Connector {
 		try {
 			documentBuilderFactory = DocumentBuilderFactory.newInstance();
 			documentBuilder = documentBuilderFactory.newDocumentBuilder();
-			document = documentBuilder.parse(new ByteArrayInputStream(xml
-					.getBytes()));
-			NodeList elementsByTagName = document
-					.getElementsByTagName(elementName);
+			document = documentBuilder.parse(new ByteArrayInputStream(xml.getBytes()));
+			NodeList elementsByTagName = document.getElementsByTagName(elementName);
 			Node item = elementsByTagName.item(0);
 			return ((Element) item).getAttribute(attributeName).toString();
 		} catch (Exception e) {

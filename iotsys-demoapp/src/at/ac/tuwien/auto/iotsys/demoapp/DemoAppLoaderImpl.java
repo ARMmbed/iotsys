@@ -36,12 +36,11 @@ import java.util.ArrayList;
 
 import org.apache.commons.configuration.XMLConfiguration;
 
-import obix.Obj;
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.DeviceLoader;
 import at.ac.tuwien.auto.iotsys.commons.ObjectBroker;
 import at.ac.tuwien.auto.iotsys.commons.persistent.models.Connector;
-
+import obix.Obj;
+import obix.Uri;
 
 public class DemoAppLoaderImpl implements DeviceLoader {
 	private final ArrayList<String> myObjects = new ArrayList<String>();
@@ -50,14 +49,14 @@ public class DemoAppLoaderImpl implements DeviceLoader {
 	public ArrayList<Connector> initDevices(ObjectBroker objectBroker) {
 		Obj application = new CoapTemperatureControllerImpl();
 		Obj xacml = new XacmlApplication();
-		
+
 		application.setHref(new Uri("mixedTempControl"));
-		
+
 		xacml.setHref(new Uri("privacyGuard"));
-		
-		synchronized(myObjects){
-//			myObjects.addAll(objectBroker.addObj(application));
-//			myObjects.addAll(objectBroker.addObj(xacml));
+
+		synchronized (myObjects) {
+			// myObjects.addAll(objectBroker.addObj(application));
+			// myObjects.addAll(objectBroker.addObj(xacml));
 			objectBroker.enableGroupComm(application);
 		}
 		return null;
@@ -70,9 +69,10 @@ public class DemoAppLoaderImpl implements DeviceLoader {
 				objectBroker.removeObj(href);
 			}
 		}
-		
+
 	}
 
 	@Override
-	public void setConfiguration(XMLConfiguration devicesConfiguration) {}
+	public void setConfiguration(XMLConfiguration devicesConfiguration) {
+	}
 }

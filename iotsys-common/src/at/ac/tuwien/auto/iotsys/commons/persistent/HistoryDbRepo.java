@@ -38,10 +38,8 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.models.DbHistoryFeedRecord;
  * @author Nam Giang - zang at kaist dot ac dot kr
  *
  */
-@Views({
-	@View(name = "by_href", map = "function(doc) {emit(doc.href, doc.val);}"),
-	@View(name = "by_time_href", map = "function(doc) {emit([doc.href, doc.time], doc.val);}")
-})
+@Views({ @View(name = "by_href", map = "function(doc) {emit(doc.href, doc.val);}"),
+		@View(name = "by_time_href", map = "function(doc) {emit([doc.href, doc.time], doc.val);}") })
 public class HistoryDbRepo extends CouchDbRepositorySupport<DbHistoryFeedRecord> implements HistoryDb {
 
 	private static HistoryDbRepo INSTANCE;
@@ -51,9 +49,9 @@ public class HistoryDbRepo extends CouchDbRepositorySupport<DbHistoryFeedRecord>
 		super(DbHistoryFeedRecord.class, db);
 		initStandardDesignDocument();
 	}
-	
-	public static HistoryDb getInstance(){
-		if (INSTANCE == null){ 
+
+	public static HistoryDb getInstance() {
+		if (INSTANCE == null) {
 			CouchDbConnector db = new StdCouchDbConnector("historyFeeds", DbConnection.getCouchInstance());
 			try {
 				INSTANCE = new HistoryDbRepo(db);
@@ -67,7 +65,7 @@ public class HistoryDbRepo extends CouchDbRepositorySupport<DbHistoryFeedRecord>
 	public List<DbHistoryFeedRecord> findByHref(String href) {
 		return queryView("by_href", href);
 	}
-	
+
 	@Override
 	public DbHistoryFeedRecord getObject(String href) {
 		return get(href);
@@ -85,17 +83,18 @@ public class HistoryDbRepo extends CouchDbRepositorySupport<DbHistoryFeedRecord>
 		remove(p);
 	}
 
-//	@Override
-//	public void updateObject(DbHistoryFeed newp) {
-//		Assert.hasText(newp.getId(), "A datapoint must have a id");
-//		update(newp);		
-//	}
+	// @Override
+	// public void updateObject(DbHistoryFeed newp) {
+	// Assert.hasText(newp.getId(), "A datapoint must have a id");
+	// update(newp);
+	// }
 
 	@Override
 	public List<DbHistoryFeedRecord> getLatestHistoryFeed(String href, int number) {
 		ComplexKey startKey = ComplexKey.of(href);
 		ComplexKey endKey = ComplexKey.of(href, ComplexKey.emptyObject());
-		ViewQuery q = createQuery("by_time_href").includeDocs(true).startKey(endKey).endKey(startKey).descending(true).limit(number);
+		ViewQuery q = createQuery("by_time_href").includeDocs(true).startKey(endKey).endKey(startKey).descending(true)
+				.limit(number);
 		return db.queryView(q, DbHistoryFeedRecord.class);
 	}
 
@@ -105,20 +104,21 @@ public class HistoryDbRepo extends CouchDbRepositorySupport<DbHistoryFeedRecord>
 			end = (new Date()).getTime();
 		ComplexKey startKey = ComplexKey.of(href, start);
 		ComplexKey endKey = ComplexKey.of(href, end);
-		ViewQuery q = createQuery("by_time_href").includeDocs(true).startKey(endKey).endKey(startKey).descending(true).limit(limit);
+		ViewQuery q = createQuery("by_time_href").includeDocs(true).startKey(endKey).endKey(startKey).descending(true)
+				.limit(limit);
 		log.info("Querying database for history feed: " + href);
 		log.info("Couchdb query: " + q.buildQuery());
 		return db.queryView(q, DbHistoryFeedRecord.class);
 	}
-	
+
 	@Override
 	public void addBulkFeedRecords(List<DbHistoryFeedRecord> dhfs) {
-		if (dhfs.size() > 0){
+		if (dhfs.size() > 0) {
 			db.executeAllOrNothing(dhfs);
 			log.info("flushing history feed sizes " + dhfs.size() + " to database");
 		}
 	}
-	
+
 	@Override
 	public void compactDb() {
 		db.compact();

@@ -42,11 +42,11 @@ public class TelegramBodyHeader {
 	private TelegramField accNrField;
 	private TelegramField statusField;
 	private TelegramField sigField;
-	
+
 	public TelegramBodyHeader() {
-		
+
 	}
-	
+
 	public void createTelegramBodyHeader(String[] bodyHeader) {
 		// TODO: check CI-Field for correct Header length
 		this.setCiField(bodyHeader[0]);
@@ -54,53 +54,60 @@ public class TelegramBodyHeader {
 		this.setStatusField(bodyHeader[2]);
 		this.setSigField(Arrays.copyOfRange(bodyHeader, 3, 5));
 	}
-	
+
 	public void setCiField(String ciField) {
 		this.ciField = new TelegramField();
 		this.ciField.addFieldPart(ciField);
 	}
-	
+
 	public void setAccNrField(String accNrField) {
 		this.accNrField = new TelegramField();
 		this.accNrField.addFieldPart(accNrField);
 	}
-	
+
 	public void setStatusField(String statusField) {
 		this.statusField = new TelegramField();
 		this.statusField.addFieldPart(statusField);
 	}
-	
+
 	public void setSigField(String[] sigField) {
 		this.sigField = new TelegramField();
 		this.sigField.addFieldParts(sigField);
 	}
-	
+
 	public byte[] getAESCBCInitVectorPart() {
 		byte[] aesCbcInitVectorPart = new byte[8];
 		byte[] accNrFieldByteArr = this.accNrField.getFieldAsByteArray();
 		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, 0, accNrFieldByteArr.length);
-		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length, accNrFieldByteArr.length);
-		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 1, accNrFieldByteArr.length);
-		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 2, accNrFieldByteArr.length);
-		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 3, accNrFieldByteArr.length);
-		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 4, accNrFieldByteArr.length);
-		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 5, accNrFieldByteArr.length);
-		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 6, accNrFieldByteArr.length);
+		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length,
+				accNrFieldByteArr.length);
+		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 1,
+				accNrFieldByteArr.length);
+		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 2,
+				accNrFieldByteArr.length);
+		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 3,
+				accNrFieldByteArr.length);
+		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 4,
+				accNrFieldByteArr.length);
+		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 5,
+				accNrFieldByteArr.length);
+		System.arraycopy(accNrFieldByteArr, 0, aesCbcInitVectorPart, accNrFieldByteArr.length + 6,
+				accNrFieldByteArr.length);
 		return aesCbcInitVectorPart;
 	}
-	
+
 	public void debugOutput() {
-		if(this.ciField != null) {
+		if (this.ciField != null) {
 			System.out.println("Type of TelegramBodyHeader: " + this.ciField.getFieldParts().get(0));
 		}
-		if(this.accNrField != null) {
+		if (this.accNrField != null) {
 			System.out.println("AccessNumber: " + this.accNrField.getFieldParts().get(0));
 		}
-		if(this.statusField != null) {
+		if (this.statusField != null) {
 			// TODO: parse Status-Field
 			System.out.println("StatusField: " + this.statusField.getFieldParts().get(0));
 		}
-		if(this.sigField != null) {
+		if (this.sigField != null) {
 			// TODO: parse Sig-Field
 			System.out.println("Sig-Field1: " + this.sigField.getFieldParts().get(0));
 			System.out.println("Sig-Field2: " + this.sigField.getFieldParts().get(1));

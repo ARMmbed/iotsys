@@ -2,20 +2,20 @@ package org.opencean.core.common;
 
 public interface ProtocolConnector {
 
-    void connect(String device);
+	void connect(String device);
 
-    void disconnect();
+	void disconnect();
 
-    byte get();
+	byte get();
 
-    short getShort();
+	short getShort();
 
-    void get(byte[] data);
+	void get(byte[] data);
 
-    void mark();
+	void mark();
 
-    void reset();
+	void reset();
 
-    void write(byte[] data);
+	void write(byte[] data);
 
 }

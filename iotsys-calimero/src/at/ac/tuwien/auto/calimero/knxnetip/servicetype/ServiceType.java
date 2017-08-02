@@ -24,22 +24,18 @@ import java.io.ByteArrayOutputStream;
 import at.ac.tuwien.auto.calimero.log.LogManager;
 import at.ac.tuwien.auto.calimero.log.LogService;
 
-
 /**
  * Common base for the different service type structures.
  * <p>
  * 
  * @author B. Malinowsky
  */
-abstract class ServiceType
-{
-	static final LogService logger =
-		LogManager.getManager().getLogService("KNXnet/IP service");
+abstract class ServiceType {
+	static final LogService logger = LogManager.getManager().getLogService("KNXnet/IP service");
 
 	final int svcType;
 
-	ServiceType(int serviceType)
-	{
+	ServiceType(int serviceType) {
 		svcType = serviceType;
 	}
 
@@ -50,8 +46,7 @@ abstract class ServiceType
 	 * @return service type structure as byte array
 	 * @see PacketHelper
 	 */
-	public final byte[] toByteArray()
-	{
+	public final byte[] toByteArray() {
 		return toByteArray(new ByteArrayOutputStream(50));
 	}
 
@@ -61,8 +56,7 @@ abstract class ServiceType
 	 * 
 	 * @return service type as string
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return KNXnetIPHeader.getSvcName(svcType);
 	}
 

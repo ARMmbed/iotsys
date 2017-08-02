@@ -41,7 +41,6 @@ import at.ac.tuwien.auto.calimero.knxnetip.KNXConnectionClosedException;
 import at.ac.tuwien.auto.calimero.knxnetip.KNXnetIPConnection;
 import at.ac.tuwien.auto.calimero.knxnetip.KNXnetIPDevMgmt;
 
-
 /**
  * Property adapter for KNXnet/IP local device management.
  * <p>
@@ -50,37 +49,31 @@ import at.ac.tuwien.auto.calimero.knxnetip.KNXnetIPDevMgmt;
  * 
  * @author B. Malinowsky
  */
-public class KnIPDeviceMgmtAdapter implements PropertyAdapter
-{
-	private static final class Pair
-	{
+public class KnIPDeviceMgmtAdapter implements PropertyAdapter {
+	private static final class Pair {
 		final int oindex;
 		final int otype;
 
-		Pair(int objIndex, int objType)
-		{
+		Pair(int objIndex, int objType) {
 			oindex = objIndex;
 			otype = objType;
 		}
 	}
 
-	private final class KNXListenerImpl implements KNXListener
-	{
-		KNXListenerImpl()
-		{}
+	private final class KNXListenerImpl implements KNXListener {
+		KNXListenerImpl() {
+		}
 
-		public void frameReceived(FrameEvent e)
-		{
+		public void frameReceived(FrameEvent e) {
 			frames.add(e.getFrame());
 		}
 
-		public void connectionClosed(CloseEvent e)
-		{
+		public void connectionClosed(CloseEvent e) {
 			if (listener == null)
 				return;
 			final boolean user = serverReset ? false : e.isUserRequest();
 			listener.adapterClosed(new CloseEvent(KnIPDeviceMgmtAdapter.this, user,
-				serverReset ? "reset by server" : "requested by user"));
+					serverReset ? "reset by server" : "requested by user"));
 		}
 	}
 
@@ -96,7 +89,7 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter
 
 	private volatile boolean serverReset;
 	private volatile boolean closed;
-	
+
 	// little helpers to reduce a property scan to an acceptable level
 	private int lastObjIndex;
 	private int lastPropIndex;
@@ -105,38 +98,45 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter
 	/**
 	 * Creates a new property adapter for local device management.
 	 * <p>
-	 * The server to do management for is specified with the server control endpoint.
+	 * The server to do management for is specified with the server control
+	 * endpoint.
 	 * <p>
 	 * A note on write enabled / read only properties:<br>
-	 * The check whether a property is read only or write enabled, is done by issuing a
-	 * write request for that property. Due to the memory layout, write cycles of a memory
-	 * location and similar, this might not always be desired. To enable or skip this
-	 * check, the <code>queryWriteEnable</code> option has to be set appropriately.
-	 * Currently, the write enabled check is only of interest when getting a property
-	 * description {@link #getDescription(int, int, int)}.
+	 * The check whether a property is read only or write enabled, is done by
+	 * issuing a write request for that property. Due to the memory layout,
+	 * write cycles of a memory location and similar, this might not always be
+	 * desired. To enable or skip this check, the <code>queryWriteEnable</code>
+	 * option has to be set appropriately. Currently, the write enabled check is
+	 * only of interest when getting a property description
+	 * {@link #getDescription(int, int, int)}.
 	 * 
-	 * @param localEP the local endpoint of the connection, use <code>null</code> for
-	 *        assigning the default local host and an unused (ephemeral) port
-	 * @param serverCtrlEP the remote server control endpoint used for connect request
-	 * @param useNAT <code>true</code> to use a network address translation aware
-	 *        communication mechanism, <code>false</code> to use the default way
-	 * @param l property adapter listener to get notified about adapter events, use
-	 *        <code>null</code> for no listener
-	 * @param queryWriteEnable <code>true</code> to check whether a property is write
-	 *        enabled or read only, <code>false</code> to skip the check
-	 * @throws KNXException on failure establishing local device management connection or
-	 *         failure while initializing property adapter
+	 * @param localEP
+	 *            the local endpoint of the connection, use <code>null</code>
+	 *            for assigning the default local host and an unused (ephemeral)
+	 *            port
+	 * @param serverCtrlEP
+	 *            the remote server control endpoint used for connect request
+	 * @param useNAT
+	 *            <code>true</code> to use a network address translation aware
+	 *            communication mechanism, <code>false</code> to use the default
+	 *            way
+	 * @param l
+	 *            property adapter listener to get notified about adapter
+	 *            events, use <code>null</code> for no listener
+	 * @param queryWriteEnable
+	 *            <code>true</code> to check whether a property is write enabled
+	 *            or read only, <code>false</code> to skip the check
+	 * @throws KNXException
+	 *             on failure establishing local device management connection or
+	 *             failure while initializing property adapter
 	 */
-	public KnIPDeviceMgmtAdapter(InetSocketAddress localEP,
-		InetSocketAddress serverCtrlEP, boolean useNAT, PropertyAdapterListener l,
-		boolean queryWriteEnable) throws KNXException
-	{
+	public KnIPDeviceMgmtAdapter(InetSocketAddress localEP, InetSocketAddress serverCtrlEP, boolean useNAT,
+			PropertyAdapterListener l, boolean queryWriteEnable) throws KNXException {
 		InetSocketAddress local = localEP;
 		if (local == null)
 			try {
 				local = new InetSocketAddress(InetAddress.getLocalHost(), 0);
-			}
-			catch (final UnknownHostException e) {
+			} catch (final UnknownHostException e) {
 				throw new KNXException("no local host available");
 			}
 		conn = new KNXnetIPDevMgmt(local, serverCtrlEP, useNAT);
@@ -146,46 +146,50 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter
 		resetLastDescription();
 		try {
 			initInterfaceObjects();
-		}
-		catch (final KNXException e) {
+		} catch (final KNXException e) {
 			conn.close();
 			throw e;
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.mgmt.PropertyAdapter#setProperty
-	 * (int, int, int, int, byte[])
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.mgmt.PropertyAdapter#setProperty (int, int,
+	 * int, int, byte[])
 	 */
 	public void setProperty(int objIndex, int pid, int start, int elements, byte[] data)
-		throws KNXTimeoutException, KNXRemoteException, KNXConnectionClosedException
-	{
+			throws KNXTimeoutException, KNXRemoteException, KNXConnectionClosedException {
 		if (closed)
 			throw new KNXIllegalStateException("adapter closed");
-		conn.send(new CEMIDevMgmt(CEMIDevMgmt.MC_PROPWRITE_REQ, getObjectType(objIndex),
-			1, pid, start, elements, data), KNXnetIPConnection.WAIT_FOR_CON);
+		conn.send(new CEMIDevMgmt(CEMIDevMgmt.MC_PROPWRITE_REQ, getObjectType(objIndex), 1, pid, start, elements, data),
+				KNXnetIPConnection.WAIT_FOR_CON);
 		findFrame(CEMIDevMgmt.MC_PROPWRITE_CON);
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.mgmt.PropertyAdapter#getProperty(int, int, int, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.mgmt.PropertyAdapter#getProperty(int, int, int,
+	 * int)
 	 */
 	public byte[] getProperty(int objIndex, int pid, int start, int elements)
-		throws KNXTimeoutException, KNXRemoteException, KNXConnectionClosedException
-	{
+			throws KNXTimeoutException, KNXRemoteException, KNXConnectionClosedException {
 		if (closed)
 			throw new KNXIllegalStateException("adapter closed");
-		conn.send(new CEMIDevMgmt(CEMIDevMgmt.MC_PROPREAD_REQ, getObjectType(objIndex),
-			1, pid, start, elements), KNXnetIPConnection.WAIT_FOR_CON);
+		conn.send(new CEMIDevMgmt(CEMIDevMgmt.MC_PROPREAD_REQ, getObjectType(objIndex), 1, pid, start, elements),
+				KNXnetIPConnection.WAIT_FOR_CON);
 		return findFrame(CEMIDevMgmt.MC_PROPREAD_CON);
 	}
-		
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.mgmt.PropertyAdapter#getDescription(int, int, int)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.mgmt.PropertyAdapter#getDescription(int, int,
+	 * int)
 	 */
 	public byte[] getDescription(int objIndex, int pid, int propIndex)
-		throws KNXTimeoutException, KNXConnectionClosedException, KNXRemoteException
-	{
+			throws KNXTimeoutException, KNXConnectionClosedException, KNXRemoteException {
 		// imitate property description:
 		// oindex: PID_IO_LIST
 		// pindex: supplied, conditional
@@ -209,15 +213,14 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter
 				try {
 					ret = getProperty(objIndex, ++p, 0, 1);
 					++i;
+				} catch (final KNXRemoteException e) {
 				}
-				catch (final KNXRemoteException e) {}
 			if (i != propIndex) {
 				resetLastDescription();
 				throw new KNXRemoteException("can't deduce property index in object");
 			}
 			setLastDescription(objIndex, i, p);
-		}
-		else
+		} else
 			ret = getProperty(objIndex, p, 0, 1);
 
 		int writeEnabled = 0;
@@ -226,47 +229,46 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter
 			try {
 				setProperty(objIndex, p, 0, 1, ret);
 				writeEnabled = 0x80;
+			} catch (final KNXRemoteException e) {
 			}
-			catch (final KNXRemoteException e) {}
 		// ??? should we return current number of elements for max.element
 		// int elements = 0;
 		// for (int i = 0; i < ret.length; ++i)
-		// 	elements = elements << 8 | ret[i] & 0xff;
-		return new byte[] { (byte) objIndex, (byte) p, (byte) propIndex,
-			(byte) writeEnabled, 0, 0, 0 };
+		// elements = elements << 8 | ret[i] & 0xff;
+		return new byte[] { (byte) objIndex, (byte) p, (byte) propIndex, (byte) writeEnabled, 0, 0, 0 };
 	}
 
 	/**
-	 * {@inheritDoc} The name for this adapter starts with "local DM " + KNXnet/IP server
-	 * control endpoint, allowing easier distinction of adapter types.
+	 * {@inheritDoc} The name for this adapter starts with "local DM " +
+	 * KNXnet/IP server control endpoint, allowing easier distinction of adapter
+	 * types.
 	 */
-	public String getName()
-	{
+	public String getName() {
 		return "local DM " + conn.getRemoteAddress();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.mgmt.PropertyAdapter#isOpen()
 	 */
-	public boolean isOpen()
-	{
+	public boolean isOpen() {
 		return !closed;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.mgmt.PropertyAdapter#close()
 	 */
-	public void close()
-	{
+	public void close() {
 		if (!closed) {
 			closed = true;
 			conn.close();
 		}
 	}
 
-	private byte[] findFrame(int messageCode) throws KNXRemoteException,
-		KNXConnectionClosedException
-	{
+	private byte[] findFrame(int messageCode) throws KNXRemoteException, KNXConnectionClosedException {
 		while (frames.size() > 0) {
 			final CEMIDevMgmt frame = (CEMIDevMgmt) frames.remove(0);
 			final int mc = frame.getMessageCode();
@@ -274,19 +276,16 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter
 				serverReset = true;
 				close();
 				throw new KNXConnectionClosedException("reset by server");
-			}
-			else if (mc == messageCode) {
+			} else if (mc == messageCode) {
 				if (frame.isNegativeResponse())
-					throw new KNXRemoteException("L-DM negative response, "
-						+ frame.getErrorMessage());
+					throw new KNXRemoteException("L-DM negative response, " + frame.getErrorMessage());
 				return frame.getPayload();
 			}
 		}
 		throw new KNXInvalidResponseException("confirmation expected");
 	}
 
-	private int getObjectType(int objIndex) throws KNXRemoteException
-	{
+	private int getObjectType(int objIndex) throws KNXRemoteException {
 		for (final Iterator i = interfaceObjects.iterator(); i.hasNext();) {
 			final Pair p = (Pair) i.next();
 			if (p.oindex == objIndex)
@@ -295,23 +294,21 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter
 		throw new KNXRemoteException("object not listed");
 	}
 
-	private void initInterfaceObjects() throws KNXException
-	{
-		conn.send(new CEMIDevMgmt(CEMIDevMgmt.MC_PROPREAD_REQ, DEVICE_OBJECT, 1,
-			PID_IO_LIST, 0, 1), KNXnetIPConnection.WAIT_FOR_CON);
+	private void initInterfaceObjects() throws KNXException {
+		conn.send(new CEMIDevMgmt(CEMIDevMgmt.MC_PROPREAD_REQ, DEVICE_OBJECT, 1, PID_IO_LIST, 0, 1),
+				KNXnetIPConnection.WAIT_FOR_CON);
 		int objects = 0;
 		try {
 			final byte[] ret = findFrame(CEMIDevMgmt.MC_PROPREAD_CON);
 			objects = (ret[0] & 0xff) << 8 | ret[1] & 0xff;
-		}
-		catch (final KNXRemoteException e) {
+		} catch (final KNXRemoteException e) {
 			// device only has device- and cEMI server-object
 			interfaceObjects.add(new Pair(0, DEVICE_OBJECT));
 			interfaceObjects.add(new Pair(1, 8));
 			return;
 		}
-		conn.send(new CEMIDevMgmt(CEMIDevMgmt.MC_PROPREAD_REQ, DEVICE_OBJECT, 1,
-			PID_IO_LIST, 1, objects), KNXnetIPConnection.WAIT_FOR_CON);
+		conn.send(new CEMIDevMgmt(CEMIDevMgmt.MC_PROPREAD_REQ, DEVICE_OBJECT, 1, PID_IO_LIST, 1, objects),
+				KNXnetIPConnection.WAIT_FOR_CON);
 		final byte[] ret = findFrame(CEMIDevMgmt.MC_PROPREAD_CON);
 		int lastObjType = -1;
 		for (int i = 0; i < objects; ++i) {
@@ -321,16 +318,14 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter
 			lastObjType = objType;
 		}
 	}
-	
-	private void resetLastDescription()
-	{
+
+	private void resetLastDescription() {
 		lastObjIndex = -1;
 		lastPropIndex = -1;
 		lastPid = 0;
 	}
 
-	private void setLastDescription(int oi, int pi, int pid)
-	{
+	private void setLastDescription(int oi, int pi, int pid) {
 		lastObjIndex = oi;
 		lastPropIndex = pi;
 		lastPid = pid;

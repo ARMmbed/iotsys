@@ -32,11 +32,16 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.reader;
  * warrants that it will not use or redistribute the Software for such
  * purposes.
  */
-import java.io.*;
-import java.util.*;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.Enumeration;
 import java.util.logging.Logger;
+
 //import javax.comm.*;
-import gnu.io.*;
+import gnu.io.CommPortIdentifier;
+import gnu.io.PortInUseException;
+import gnu.io.SerialPort;
+import gnu.io.UnsupportedCommOperationException;
 
 /**
  * Class declaration
@@ -53,8 +58,7 @@ public class SimpleWriteRXTX {
 	static OutputStream outputStream;
 	static boolean outputBufferEmptyFlag = false;
 
-	private static final Logger log = Logger.getLogger(SimpleWriteRXTX.class
-			.getName());
+	private static final Logger log = Logger.getLogger(SimpleWriteRXTX.class.getName());
 
 	/**
 	 * Method declaration
@@ -85,8 +89,7 @@ public class SimpleWriteRXTX {
 					portFound = true;
 
 					try {
-						serialPort = (SerialPort) portId.open("SimpleWrite",
-								2000);
+						serialPort = (SerialPort) portId.open("SimpleWrite", 2000);
 					} catch (PortInUseException e) {
 						log.severe("Port in use. " + portId);
 
@@ -99,8 +102,7 @@ public class SimpleWriteRXTX {
 					}
 
 					try {
-						serialPort.setSerialPortParams(9600,
-								SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+						serialPort.setSerialPortParams(9600, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
 								SerialPort.PARITY_NONE);
 					} catch (UnsupportedCommOperationException e) {
 					}
@@ -108,12 +110,10 @@ public class SimpleWriteRXTX {
 					try {
 						serialPort.notifyOnOutputEmpty(true);
 					} catch (Exception e) {
-						log.severe("Error setting event notification"
-								+ e.toString());
+						log.severe("Error setting event notification" + e.toString());
 					}
 
-					log.finest("Writing \"" + messageString + "\" to "
-							+ serialPort.getName());
+					log.finest("Writing \"" + messageString + "\" to " + serialPort.getName());
 
 					try {
 						outputStream.write(messageString.getBytes());
@@ -125,7 +125,7 @@ public class SimpleWriteRXTX {
 											// closing
 					} catch (Exception e) {
 					}
-					serialPort.close();				
+					serialPort.close();
 				}
 			}
 		}

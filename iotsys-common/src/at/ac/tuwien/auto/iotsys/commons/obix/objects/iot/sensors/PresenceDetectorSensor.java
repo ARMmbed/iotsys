@@ -34,11 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Bool;
 
-public interface PresenceDetectorSensor extends Sensor{
-	public static final String PRESENCE_STATUS_CONTRACT_HREF="presenceStatus";
-	public static final String PRESENCE_STATUS_CONTRACT_NAME="presenceStatus";
-	
-	public static final String CONTRACT="iot:PresenceDetectorSensor";
-	public static final String PRESENCE_STATUS_CONTRACT = "<bool name='"+PresenceDetectorSensor.PRESENCE_STATUS_CONTRACT_NAME+"' href='"+PresenceDetectorSensor.PRESENCE_STATUS_CONTRACT_HREF+"' val='false'/>";
-	public Bool presenceStatusValue();  
+public interface PresenceDetectorSensor extends Sensor {
+	public static final String PRESENCE_STATUS_CONTRACT_HREF = "presenceStatus";
+	public static final String PRESENCE_STATUS_CONTRACT_NAME = "presenceStatus";
+
+	public static final String CONTRACT = "iot:PresenceDetectorSensor";
+	public static final String PRESENCE_STATUS_CONTRACT = "<bool name='"
+			+ PresenceDetectorSensor.PRESENCE_STATUS_CONTRACT_NAME + "' href='"
+			+ PresenceDetectorSensor.PRESENCE_STATUS_CONTRACT_HREF + "' val='false'/>";
+
+	public Bool presenceStatusValue();
 }

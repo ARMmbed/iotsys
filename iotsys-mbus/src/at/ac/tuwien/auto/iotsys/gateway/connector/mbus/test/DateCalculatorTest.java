@@ -42,7 +42,7 @@ public class DateCalculatorTest {
 	 */
 	public static void main(String[] args) {
 		TelegramDataField dField = new TelegramDataField();
-		dField.addFieldParts("12 0B D3 12".split(" ")); //  32 37 1F 15
+		dField.addFieldParts("12 0B D3 12".split(" ")); // 32 37 1F 15
 		dField.parseDate(Measure_Unit.DATE_TIME);
 	}
 

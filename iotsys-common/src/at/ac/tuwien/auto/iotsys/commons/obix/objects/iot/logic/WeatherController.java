@@ -35,9 +35,10 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic;
 import obix.Bool;
 import obix.IObj;
 
-public interface WeatherController extends IObj{
+public interface WeatherController extends IObj {
 	public static final String CONTRACT = "iot:WeatherController";
-	
+
 	public static final String enabledContract = "<bool name='enabled' href='enabled' val='false'/>";
+
 	public Bool enabled();
 }

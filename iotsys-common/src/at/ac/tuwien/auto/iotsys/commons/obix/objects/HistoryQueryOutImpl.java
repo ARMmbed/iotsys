@@ -49,40 +49,40 @@ public class HistoryQueryOutImpl extends Obj implements HistoryQueryOut {
 	private Int count = new Int("count");
 	private Abstime start = new Abstime("start");
 	private Abstime end = new Abstime("end");
-	
+
 	public static final String HISTORY_QUERY_OUT_CONTRACT = "obix:HistoryQueryOut";
-	
-	public HistoryQueryOutImpl(List<Obj> historyRecords) {	
-	
+
+	public HistoryQueryOutImpl(List<Obj> historyRecords) {
+
 		count.setHref(new Uri("count"));
 		start.setHref(new Uri("start"));
 		end.setHref(new Uri("end"));
-		
+
 		resultList = new obix.List();
 		resultList.setOf(new Contract(HistoryRecordImpl.HISTORY_RECORD_CONTRACT));
-		for(Obj historyRecord : historyRecords) {
+		for (Obj historyRecord : historyRecords) {
 			resultList.add(historyRecord);
 		}
-		
-		if(historyRecords.size() > 0) {
+
+		if (historyRecords.size() > 0) {
 			HistoryRecord firstRecord = (HistoryRecord) historyRecords.get(0);
-			HistoryRecord lastRecord  = (HistoryRecord) historyRecords.get(historyRecords.size()-1);
+			HistoryRecord lastRecord = (HistoryRecord) historyRecords.get(historyRecords.size() - 1);
 			start.set(firstRecord.timestamp().get(), TimeZone.getDefault());
 			end.set(lastRecord.timestamp().get(), TimeZone.getDefault());
 		}
-		
+
 		start.setNull(historyRecords.size() == 0);
-		end.setNull(  historyRecords.size() == 0);
-		
-		count.set(resultList.size(),false);
+		end.setNull(historyRecords.size() == 0);
+
+		count.set(resultList.size(), false);
 		setIs(new Contract(HISTORY_QUERY_OUT_CONTRACT));
-		
+
 		add(count);
 		add(start);
 		add(end);
 		add(resultList);
 	}
-	
+
 	@Override
 	public Int count() {
 		return count;

@@ -32,26 +32,29 @@
 
 package at.ac.tuwien.auto.iotsys.gateway.obix.objects.iot.actuators.impl.coap;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.FanSpeedActuatorImpl;
+import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
+
 //import java.util.logging.Logger;
 
 import ch.ethz.inf.vs.californium.coap.Response;
 import ch.ethz.inf.vs.californium.coap.ResponseHandler;
 import obix.Obj;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.IoTSySDevice;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl.FanSpeedActuatorImpl;
-import at.ac.tuwien.auto.iotsys.gateway.connectors.coap.CoapConnector;
 
-public class FanSpeedActuatorImplCoap extends FanSpeedActuatorImpl implements IoTSySDevice{
-	//private static final Logger log = Logger.getLogger(FanSpeedActuatorImplCoap.class.getName());
-	
+public class FanSpeedActuatorImplCoap extends FanSpeedActuatorImpl implements IoTSySDevice {
+	// private static final Logger log =
+	// Logger.getLogger(FanSpeedActuatorImplCoap.class.getName());
+
 	private CoapConnector coapConnector;
 	private String busAddress;
 	private boolean enableObserved;
 	private boolean speedObserved;
 	private boolean shouldObserve;
-	private boolean forwardGroupAddress;	
+	private boolean forwardGroupAddress;
 
-	public FanSpeedActuatorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve, boolean forwardGroupAddress) {
+	public FanSpeedActuatorImplCoap(CoapConnector coapConnector, String busAddress, boolean shouldObserve,
+			boolean forwardGroupAddress) {
 		// technology specific initialization
 		this.coapConnector = coapConnector;
 		this.busAddress = busAddress;
@@ -62,67 +65,71 @@ public class FanSpeedActuatorImplCoap extends FanSpeedActuatorImpl implements Io
 	}
 
 	@Override
-	public void initialize(){
+	public void initialize() {
 		super.initialize();
 		// But stuff here that should be executed after object creation
-		if(shouldObserve)
+		if (shouldObserve)
 			addWatchDog();
 	}
-	
-	public void addWatchDog(){
+
+	public void addWatchDog() {
 		coapConnector.createWatchDog(busAddress, ENBALED_CONTRACT_HREF, new ResponseHandler() {
 			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-				
-				if(payload.equals("") || payload.equals("TooManyObservers")) return;
-						
-				if(payload.startsWith("Added")) {
+
+				if (payload.equals("") || payload.equals("TooManyObservers"))
+					return;
+
+				if (payload.startsWith("Added")) {
 					enableObserved = true;
 					return;
 				}
 				boolean temp = Boolean.parseBoolean(CoapConnector.extractAttribute("bool", "val", payload));
 				FanSpeedActuatorImplCoap.this.enabled().set(temp);
 			}
-		});	
-		
+		});
+
 		coapConnector.createWatchDog(busAddress, FAN_SPEED_SETPOINT_CONTRACT_HREF, new ResponseHandler() {
-			public void handleResponse(Response response) {	
+			public void handleResponse(Response response) {
 				String payload = response.getPayloadString().trim();
-				
-				if(payload.equals("") || payload.equals("TooManyObservers")) return;
-						
-				if(payload.startsWith("Added")) {
+
+				if (payload.equals("") || payload.equals("TooManyObservers"))
+					return;
+
+				if (payload.startsWith("Added")) {
 					speedObserved = true;
 					return;
 				}
-				long temp = Long.parseLong( CoapConnector.extractAttribute("int", "val", payload));
+				long temp = Long.parseLong(CoapConnector.extractAttribute("int", "val", payload));
 				FanSpeedActuatorImplCoap.this.fanSpeedSetpointValue().set(temp);
 			}
-		});	
+		});
 	}
-	
+
 	@Override
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.	
-		// The base class knows how to update the internal variable and to trigger
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
+		// The base class knows how to update the internal variable and to
+		// trigger
 		// all the oBIX specific processing.
 		super.writeObject(input);
-		
+
 		// write it out to the technology bus
 		coapConnector.writeBoolean(busAddress, ENBALED_CONTRACT_HREF, this.enabled().get());
 		coapConnector.writeInt(busAddress, FAN_SPEED_SETPOINT_CONTRACT_HREF, this.fanSpeedSetpointValue().get());
 	}
-	
+
 	@Override
-	public void refreshObject(){
-		// value is the protected instance variable of the base class (FanSpeedActuatorImpl)
-		if(enabledValue != null && !enableObserved){
-			Boolean value = coapConnector.readBoolean(busAddress, ENBALED_CONTRACT_HREF);	
+	public void refreshObject() {
+		// value is the protected instance variable of the base class
+		// (FanSpeedActuatorImpl)
+		if (enabledValue != null && !enableObserved) {
+			Boolean value = coapConnector.readBoolean(busAddress, ENBALED_CONTRACT_HREF);
 			this.enabled().set(value);
 		}
-		if(fanSpeedSetpointValue != null && !speedObserved){
+		if (fanSpeedSetpointValue != null && !speedObserved) {
 			Long value = coapConnector.readInt(busAddress, FAN_SPEED_SETPOINT_CONTRACT_HREF);
-			this.fanSpeedSetpointValue().set(value); 		
+			this.fanSpeedSetpointValue().set(value);
 		}
 	}
 

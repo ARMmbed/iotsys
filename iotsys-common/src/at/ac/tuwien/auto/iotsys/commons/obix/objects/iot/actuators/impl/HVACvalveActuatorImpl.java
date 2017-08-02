@@ -32,13 +32,12 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl;
 
+//import tuwien.auto.obix.objects.iot.actuators.AirDamperActuator;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.HVACvalveActuator;
 import obix.Contract;
 import obix.Int;
 import obix.Obj;
 import obix.Uri;
-//import tuwien.auto.obix.objects.iot.actuators.AirDamperActuator;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.HVACvalveActuator;
-
 
 public class HVACvalveActuatorImpl extends ActuatorImpl implements HVACvalveActuator {
 	protected Int value = new Int(0);
@@ -47,36 +46,35 @@ public class HVACvalveActuatorImpl extends ActuatorImpl implements HVACvalveActu
 	protected Int actPosSetpHeatStageBValue = new Int(0);
 	protected Int actPosSetpCoolStageAValue = new Int(0);
 	protected Int actPosSetpCoolStageBValue = new Int(0);
-	
 
 	public HVACvalveActuatorImpl() {
 		setIs(new Contract(HVACvalveActuator.CONTRACT));
-		
-		//actPosSetpHeatStageAValue
+
+		// actPosSetpHeatStageAValue
 		actPosSetpHeatStageAValue.setWritable(true);
 		Uri actPosSetpHeatStageAValueUri = new Uri(HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_HREF);
 		actPosSetpHeatStageAValue.setHref(actPosSetpHeatStageAValueUri);
 		actPosSetpHeatStageAValue.setName(HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_NAME);
 		actPosSetpHeatStageAValue.setUnit(new Uri(HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_UNIT));
 		add(actPosSetpHeatStageAValue);
-		
-		//actPosSetpHeatStageBValue
+
+		// actPosSetpHeatStageBValue
 		actPosSetpHeatStageBValue.setWritable(true);
 		Uri actPosSetpHeatStageBValueUri = new Uri(HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_HREF);
 		actPosSetpHeatStageBValue.setHref(actPosSetpHeatStageBValueUri);
 		actPosSetpHeatStageBValue.setName(HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_NAME);
 		actPosSetpHeatStageBValue.setUnit(new Uri(HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_UNIT));
 		add(actPosSetpHeatStageBValue);
-		
-		//actPosSetpCoolStageAValue
+
+		// actPosSetpCoolStageAValue
 		actPosSetpCoolStageAValue.setWritable(true);
 		Uri actPosSetpCoolStageAValueUri = new Uri(HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_A_CONTRACT_HREF);
 		actPosSetpCoolStageAValue.setHref(actPosSetpCoolStageAValueUri);
 		actPosSetpCoolStageAValue.setName(HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_A_CONTRACT_NAME);
 		actPosSetpCoolStageAValue.setUnit(new Uri(HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_A_CONTRACT_UNIT));
 		add(actPosSetpCoolStageAValue);
-		
-		//actPosSetpCoolStageBValue
+
+		// actPosSetpCoolStageBValue
 		actPosSetpCoolStageBValue.setWritable(true);
 		Uri actPosSetpCoolStageBValueUri = new Uri(HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_B_CONTRACT_HREF);
 		actPosSetpCoolStageBValue.setHref(actPosSetpCoolStageBValueUri);
@@ -85,74 +83,70 @@ public class HVACvalveActuatorImpl extends ActuatorImpl implements HVACvalveActu
 		add(actPosSetpCoolStageBValue);
 	}
 
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.		
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
 		long newActPosSetpHeatStageAValue = 0;
 		long newActPosSetpHeatStageBValue = 0;
 		long newActPosSetpCoolStageAValue = 0;
 		long newActPosSetpCoolStageBValue = 0;
-		
-		
-		if(input instanceof HVACvalveActuator){
+
+		if (input instanceof HVACvalveActuator) {
 			HVACvalveActuator in = (HVACvalveActuator) input;
-			
-				newActPosSetpHeatStageAValue = in.actPosSetpHeatStageAValue().get();
-				this.actPosSetpHeatStageAValue.set(newActPosSetpHeatStageAValue);
 
-				newActPosSetpHeatStageBValue = in.actPosSetpHeatStageBValue().get();
-				this.actPosSetpHeatStageBValue.set(newActPosSetpHeatStageBValue);
+			newActPosSetpHeatStageAValue = in.actPosSetpHeatStageAValue().get();
+			this.actPosSetpHeatStageAValue.set(newActPosSetpHeatStageAValue);
 
-				newActPosSetpCoolStageAValue = in.actPosSetpCoolStageAValue().get();
-				this.actPosSetpCoolStageAValue.set(newActPosSetpCoolStageAValue);
+			newActPosSetpHeatStageBValue = in.actPosSetpHeatStageBValue().get();
+			this.actPosSetpHeatStageBValue.set(newActPosSetpHeatStageBValue);
 
-				newActPosSetpCoolStageBValue = in.actPosSetpCoolStageBValue().get();
-				this.actPosSetpCoolStageBValue.set(newActPosSetpCoolStageBValue);
+			newActPosSetpCoolStageAValue = in.actPosSetpCoolStageAValue().get();
+			this.actPosSetpCoolStageAValue.set(newActPosSetpCoolStageAValue);
+
+			newActPosSetpCoolStageBValue = in.actPosSetpCoolStageBValue().get();
+			this.actPosSetpCoolStageBValue.set(newActPosSetpCoolStageBValue);
 		}
-		
-		//Decide which children are requested
-		else if(input instanceof Int){
-			if(input.getHref() == null){
+
+		// Decide which children are requested
+		else if (input instanceof Int) {
+			if (input.getHref() == null) {
 				String resourceUriPath = input.getInvokedHref().substring(input.getInvokedHref().lastIndexOf('/') + 1);
-				
-				if(HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_HREF.equals(resourceUriPath)){
-						newActPosSetpHeatStageAValue = ((Int) input).get();
-						this.actPosSetpHeatStageAValue.set(newActPosSetpHeatStageAValue) ;
-				}
-				else if (HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_HREF.equals(resourceUriPath)){
-						newActPosSetpHeatStageBValue = ((Int) input).get();
-						this.actPosSetpHeatStageBValue.set(newActPosSetpHeatStageBValue);
-				}
-				else if (HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_A_CONTRACT_HREF.equals(resourceUriPath)){
-					newActPosSetpCoolStageAValue = ((Int) input).get();
-					this.actPosSetpCoolStageAValue.set(newActPosSetpCoolStageAValue);
-				}
-				else if (HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_B_CONTRACT_HREF.equals(resourceUriPath)){
-					newActPosSetpCoolStageBValue = ((Int) input).get();
-					this.actPosSetpCoolStageBValue.set(newActPosSetpCoolStageBValue);
-				}	
-			}
-			
-			//oBIX Int object contains a Href attribute
-			else{ 
-				if (HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_HREF.equals(input.getHref().toString())){ 
+
+				if (HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_HREF.equals(resourceUriPath)) {
 					newActPosSetpHeatStageAValue = ((Int) input).get();
-					this.actPosSetpHeatStageAValue.set(newActPosSetpHeatStageAValue) ;
-				}
-				else if (HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_HREF.equals(input.getHref().toString())){			
+					this.actPosSetpHeatStageAValue.set(newActPosSetpHeatStageAValue);
+				} else if (HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_HREF.equals(resourceUriPath)) {
+					newActPosSetpHeatStageBValue = ((Int) input).get();
 					this.actPosSetpHeatStageBValue.set(newActPosSetpHeatStageBValue);
-				}				
-				else if (HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_A_CONTRACT_HREF.equals(input.getHref().toString())){					
+				} else if (HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_A_CONTRACT_HREF.equals(resourceUriPath)) {
 					newActPosSetpCoolStageAValue = ((Int) input).get();
 					this.actPosSetpCoolStageAValue.set(newActPosSetpCoolStageAValue);
-				}
-				else if (HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_B_CONTRACT_HREF.equals(input.getHref().toString())){					
+				} else if (HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_B_CONTRACT_HREF.equals(resourceUriPath)) {
 					newActPosSetpCoolStageBValue = ((Int) input).get();
 					this.actPosSetpCoolStageBValue.set(newActPosSetpCoolStageBValue);
 				}
-			}	
-		}	
+			}
+
+			// oBIX Int object contains a Href attribute
+			else {
+				if (HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_A_CONTRACT_HREF.equals(input.getHref().toString())) {
+					newActPosSetpHeatStageAValue = ((Int) input).get();
+					this.actPosSetpHeatStageAValue.set(newActPosSetpHeatStageAValue);
+				} else if (HVACvalveActuator.ACT_POS_SETP_HEAT_STAGE_B_CONTRACT_HREF
+						.equals(input.getHref().toString())) {
+					this.actPosSetpHeatStageBValue.set(newActPosSetpHeatStageBValue);
+				} else if (HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_A_CONTRACT_HREF
+						.equals(input.getHref().toString())) {
+					newActPosSetpCoolStageAValue = ((Int) input).get();
+					this.actPosSetpCoolStageAValue.set(newActPosSetpCoolStageAValue);
+				} else if (HVACvalveActuator.ACT_POS_SETP_COOL_STAGE_B_CONTRACT_HREF
+						.equals(input.getHref().toString())) {
+					newActPosSetpCoolStageBValue = ((Int) input).get();
+					this.actPosSetpCoolStageBValue.set(newActPosSetpCoolStageBValue);
+				}
+			}
+		}
 	}
-	
+
 	@Override
 	public Int actPosSetpHeatStageAValue() {
 		return this.actPosSetpHeatStageAValue;
@@ -172,6 +166,5 @@ public class HVACvalveActuatorImpl extends ActuatorImpl implements HVACvalveActu
 	public Int actPosSetpCoolStageBValue() {
 		return this.actPosSetpCoolStageBValue;
 	}
-	
 
 }

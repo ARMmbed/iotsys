@@ -35,7 +35,7 @@ package at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.body;
 import at.ac.tuwien.auto.iotsys.gateway.connector.wmbus.telegrams.TelegramField;
 
 public class VIFETelegramField extends TelegramField {
-	
+
 	private boolean extensionBit = false;
 
 	public boolean isExtensionBit() {
@@ -45,7 +45,7 @@ public class VIFETelegramField extends TelegramField {
 	public void setExtensionBit(boolean extensionBit) {
 		this.extensionBit = extensionBit;
 	}
-	
+
 	public void debugOutput() {
 		System.out.println("VIFE-Field: ");
 		System.out.println("\tExtension-Bit: \t" + this.extensionBit);

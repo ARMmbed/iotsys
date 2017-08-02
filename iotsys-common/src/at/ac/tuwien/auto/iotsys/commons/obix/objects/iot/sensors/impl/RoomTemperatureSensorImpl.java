@@ -37,9 +37,9 @@ import obix.Obj;
 import obix.Real;
 import obix.Uri;
 
-public class RoomTemperatureSensorImpl extends SensorImpl implements RoomTemperatureSensor{
+public class RoomTemperatureSensorImpl extends SensorImpl implements RoomTemperatureSensor {
 	protected Real tempRoomValue = new Real(0);
-	
+
 	public RoomTemperatureSensorImpl() {
 		setIs(new Contract(RoomTemperatureSensor.CONTRACT));
 		tempRoomValue.setWritable(false);
@@ -50,17 +50,13 @@ public class RoomTemperatureSensorImpl extends SensorImpl implements RoomTempera
 		tempRoomValue.setUnit(new Uri(RoomTemperatureSensor.TEMP_ROOM_CONTRACT_UNIT));
 		add(tempRoomValue);
 	}
-	
+
 	public void writeObject(Obj input) {
 	}
-	
+
 	@Override
 	public Real tempRoomValue() {
 		return this.tempRoomValue;
 	}
 
 }
-
-
-
-

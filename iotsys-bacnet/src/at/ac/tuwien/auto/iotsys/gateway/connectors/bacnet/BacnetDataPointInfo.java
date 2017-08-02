@@ -27,7 +27,7 @@ import com.serotonin.bacnet4j.type.primitive.ObjectIdentifier;
 
 public class BacnetDataPointInfo {
 	private int deviceIdentifier = 0;
-	private ObjectIdentifier objectIdentifier = null;	
+	private ObjectIdentifier objectIdentifier = null;
 	private PropertyIdentifier propertyIdentifier = null;
 
 	public ObjectIdentifier getObjectIdentifier() {
@@ -37,7 +37,6 @@ public class BacnetDataPointInfo {
 	public void setObjectIdentifier(ObjectIdentifier objectIdentifier) {
 		this.objectIdentifier = objectIdentifier;
 	}
-
 
 	public PropertyIdentifier getPropertyIdentifier() {
 		return propertyIdentifier;
@@ -55,8 +54,7 @@ public class BacnetDataPointInfo {
 		this.deviceIdentifier = deviceIdentifier;
 	}
 
-	public BacnetDataPointInfo(int deviceIdentifier,
-			ObjectIdentifier objectIdentifier, 
+	public BacnetDataPointInfo(int deviceIdentifier, ObjectIdentifier objectIdentifier,
 			PropertyIdentifier propertyIdentifier) {
 		super();
 		this.deviceIdentifier = deviceIdentifier;
@@ -65,10 +63,7 @@ public class BacnetDataPointInfo {
 	}
 
 	public String toString() {
-		return "BacnetDataPointInfo [deviceIdentifier=" + deviceIdentifier
-				+ ", objectIdentifier=" + objectIdentifier
+		return "BacnetDataPointInfo [deviceIdentifier=" + deviceIdentifier + ", objectIdentifier=" + objectIdentifier
 				+ ", propertyIdentifier=" + propertyIdentifier + "]";
-	}	
+	}
 }
-
-	

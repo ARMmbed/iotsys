@@ -37,45 +37,40 @@ public class PDPBundleActivator implements BundleActivator, ServiceListener {
 
 		// initialize interceptor broker
 
-		enableXacml = Boolean.parseBoolean(PropertiesLoader.getInstance()
-				.getProperties().getProperty("iotsys.gateway.xacml", "false"));
+		enableXacml = Boolean.parseBoolean(
+				PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.xacml", "false"));
 
 		log.info("XACML module enabled: " + enableXacml);
 
 		if (enableXacml) {
 			this.context = context;
 
-			boolean remotePdp = Boolean.parseBoolean(PropertiesLoader
-					.getInstance().getProperties()
+			boolean remotePdp = Boolean.parseBoolean(PropertiesLoader.getInstance().getProperties()
 					.getProperty("iotsys.gateway.xacml.remotePDP", "false"));
 			PDPInterceptorSettings.getInstance().setRemotePdp(remotePdp);
 
-			log.info("Use remote pdp: " + remotePdp);;
-			
-			String remotePdpWsdl = PropertiesLoader.getInstance()
-					.getProperties()
+			log.info("Use remote pdp: " + remotePdp);
+			;
+
+			String remotePdpWsdl = PropertiesLoader.getInstance().getProperties()
 					.getProperty("iotsys.gateway.xacml.remotePDPWsdl", "");
 			PDPInterceptorSettings.getInstance().setRemotePdpWsdl(remotePdpWsdl);
 
 			log.info("Remote PDP WSDL: " + remotePdpWsdl);
-			
+
 			interceptor = new PDPInterceptor("res/");
 
-			
-			ServiceReference interceptorRef = context
-					.getServiceReference(InterceptorBroker.class.getName());
+			ServiceReference interceptorRef = context.getServiceReference(InterceptorBroker.class.getName());
 
 			if (interceptorRef == null) {
 				log.severe("Could not find InterceptorBroker");
 			} else {
-				InterceptorBroker iBroker = (InterceptorBroker) context
-						.getService(interceptorRef);
+				InterceptorBroker iBroker = (InterceptorBroker) context.getService(interceptorRef);
 				try {
 					iBroker.register(interceptor);
 				} catch (ClassAlreadyRegisteredException e) {
 					// silent exception handling ...
-					log.severe(interceptor.getClass().getSimpleName()
-							+ " is already registered!");
+					log.severe(interceptor.getClass().getSimpleName() + " is already registered!");
 				}
 			}
 			context.addServiceListener(this);
@@ -85,14 +80,12 @@ public class PDPBundleActivator implements BundleActivator, ServiceListener {
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		if (enableXacml) {
-			ServiceReference interceptorRef = context
-					.getServiceReference(InterceptorBroker.class.getName());
+			ServiceReference interceptorRef = context.getServiceReference(InterceptorBroker.class.getName());
 
 			if (interceptorRef == null) {
 				log.severe("Could not find a running InterceptorBroker to unregister devices!");
 			} else {
-				InterceptorBroker iBroker = (InterceptorBroker) context
-						.getService(interceptorRef);
+				InterceptorBroker iBroker = (InterceptorBroker) context.getService(interceptorRef);
 				iBroker.unregister(interceptor);
 			}
 		}
@@ -100,8 +93,7 @@ public class PDPBundleActivator implements BundleActivator, ServiceListener {
 
 	@Override
 	public void serviceChanged(ServiceEvent event) {
-		String[] objectClass = (String[]) event.getServiceReference()
-				.getProperty("objectClass");
+		String[] objectClass = (String[]) event.getServiceReference().getProperty("objectClass");
 
 		if (event.getType() == ServiceEvent.REGISTERED) {
 			if (objectClass[0].equals(InterceptorBroker.class.getName())) {
@@ -110,8 +102,7 @@ public class PDPBundleActivator implements BundleActivator, ServiceListener {
 					log.info("InterceptorBroker detected.");
 
 					if (!registered) {
-						InterceptorBroker iBroker = (InterceptorBroker) context
-								.getService(event.getServiceReference());
+						InterceptorBroker iBroker = (InterceptorBroker) context.getService(event.getServiceReference());
 						try {
 							if (interceptor == null) {
 								interceptor = new PDPInterceptor();
@@ -119,8 +110,7 @@ public class PDPBundleActivator implements BundleActivator, ServiceListener {
 							iBroker.register(interceptor);
 						} catch (ClassAlreadyRegisteredException e) {
 							// silent exception handling ...
-							log.severe(interceptor.getClass().getSimpleName()
-									+ " is already registered!");
+							log.severe(interceptor.getClass().getSimpleName() + " is already registered!");
 						}
 
 					}

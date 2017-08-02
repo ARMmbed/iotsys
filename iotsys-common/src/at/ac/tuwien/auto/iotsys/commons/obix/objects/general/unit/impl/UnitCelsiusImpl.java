@@ -31,16 +31,15 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.impl;
 
-import obix.Uri;
-import obix.contracts.impl.DimensionImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.UnitImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.unit.UnitCelsius;
+import obix.Uri;
+import obix.contracts.impl.DimensionImpl;
 
-public class UnitCelsiusImpl extends UnitImpl implements UnitCelsius
-{
-	public UnitCelsiusImpl()
-	{
-		super("celsius", "temperature (°C)", new Uri(UnitCelsius.HREF), "°C", 1, -273.15, new DimensionImpl(0, 0, 0, 1, 0, 0, 0));
+public class UnitCelsiusImpl extends UnitImpl implements UnitCelsius {
+	public UnitCelsiusImpl() {
+		super("celsius", "temperature (°C)", new Uri(UnitCelsius.HREF), "°C", 1, -273.15,
+				new DimensionImpl(0, 0, 0, 1, 0, 0, 0));
 
 		// Translations
 		addTranslation("de", TranslationAttribute.displayName, "Temperatur (°C)");

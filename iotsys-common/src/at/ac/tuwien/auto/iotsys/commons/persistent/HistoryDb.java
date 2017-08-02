@@ -28,15 +28,19 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.models.DbHistoryFeedRecord;
  *
  */
 public interface HistoryDb {
-	
+
 	public DbHistoryFeedRecord getObject(String href);
+
 	public List<DbHistoryFeedRecord> getLatestHistoryFeed(String href, int number);
-	
+
 	public void addObject(DbHistoryFeedRecord dhf);
+
 	public void addBulkFeedRecords(List<DbHistoryFeedRecord> dhfs);
+
 	public void deleteObject(String href);
+
 	public List<DbHistoryFeedRecord> getHistoryFeed(String href, long start, long end, int limit);
-//	public void updateObject(DbHistoryFeed dhf);
-	
+	// public void updateObject(DbHistoryFeed dhf);
+
 	public void compactDb();
 }

@@ -26,7 +26,6 @@ import at.ac.tuwien.auto.calimero.IndividualAddress;
 import at.ac.tuwien.auto.calimero.Priority;
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
 
-
 /**
  * L-data frame format on PL110 communication medium.
  * <p>
@@ -34,8 +33,7 @@ import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
  * 
  * @author B. Malinowsky
  */
-public class PL110LData extends RawFrameBase
-{
+public class PL110LData extends RawFrameBase {
 	private static final int MIN_LENGTH = 7;
 
 	private final byte[] doa;
@@ -44,16 +42,17 @@ public class PL110LData extends RawFrameBase
 	 * Creates a new L-data frame out of a byte array.
 	 * <p>
 	 * 
-	 * @param data byte array containing the L-data frame
-	 * @param offset start offset of frame structure in <code>data</code>, offset &gt;=
-	 *        0
-	 * @throws KNXFormatException if length of data too short for frame, on no valid frame
-	 *         structure
+	 * @param data
+	 *            byte array containing the L-data frame
+	 * @param offset
+	 *            start offset of frame structure in <code>data</code>, offset
+	 *            &gt;= 0
+	 * @throws KNXFormatException
+	 *             if length of data too short for frame, on no valid frame
+	 *             structure
 	 */
-	public PL110LData(byte[] data, int offset) throws KNXFormatException
-	{
-		final ByteArrayInputStream is =
-			new ByteArrayInputStream(data, offset, data.length - offset);
+	public PL110LData(byte[] data, int offset) throws KNXFormatException {
+		final ByteArrayInputStream is = new ByteArrayInputStream(data, offset, data.length - offset);
 		final int avail = is.available();
 		if (avail < MIN_LENGTH)
 			throw new KNXFormatException("data too short for L-data frame", avail);
@@ -76,10 +75,8 @@ public class PL110LData extends RawFrameBase
 			setDestination(addr, (ctrle & 0x80) != 0);
 			len = npci;
 			if (len > 64)
-				throw new KNXFormatException("APDU length exceeds maximum of 64 bytes",
-					len);
-		}
-		else {
+				throw new KNXFormatException("APDU length exceeds maximum of 64 bytes", len);
+		} else {
 			hopcount = (npci & 0x70) >> 4;
 			setDestination(addr, (npci & 0x80) != 0);
 			len = npci & 0x0f;
@@ -100,17 +97,16 @@ public class PL110LData extends RawFrameBase
 	 * 
 	 * @return domain address as byte array of length 2
 	 */
-	public final byte[] getDomainAddress()
-	{
+	public final byte[] getDomainAddress() {
 		return (byte[]) doa.clone();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.medium.RawFrameBase#toString()
 	 */
-	public String toString()
-	{
-		return super.toString() + " domain " + (doa[1] & 0xff) + ", tpdu "
-			+ DataUnitBuilder.toHex(tpdu, " ");
+	public String toString() {
+		return super.toString() + " domain " + (doa[1] & 0xff) + ", tpdu " + DataUnitBuilder.toHex(tpdu, " ");
 	}
 }

@@ -1,5 +1,6 @@
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.StringComparator;
 import obix.Bool;
 import obix.Contract;
 import obix.Int;
@@ -7,7 +8,6 @@ import obix.Obj;
 import obix.Real;
 import obix.Str;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.StringComparator;
 
 public class StringComparatorImpl extends Obj implements StringComparator {
 	protected Str input1 = new Str();
@@ -45,7 +45,7 @@ public class StringComparatorImpl extends Obj implements StringComparator {
 		compareType.setDisplayName("Compare Type");
 		compareType.setRange(new Uri("/enums/stringCompareTypes"));
 		compareType.set("eq");
-		
+
 		compareType.setHref(new Uri("compareType"));
 
 		this.add(input1);
@@ -80,8 +80,7 @@ public class StringComparatorImpl extends Obj implements StringComparator {
 	public void writeObject(Obj input) {
 		String resourceUriPath = "";
 		if (input.getHref() == null) {
-			resourceUriPath = input.getInvokedHref().substring(
-					input.getInvokedHref().lastIndexOf('/') + 1);
+			resourceUriPath = input.getInvokedHref().substring(input.getInvokedHref().lastIndexOf('/') + 1);
 		} else {
 			resourceUriPath = input.getHref().get();
 		}
@@ -92,59 +91,55 @@ public class StringComparatorImpl extends Obj implements StringComparator {
 			this.compareType.set(in.compareType().get());
 			this.enabled.set(in.enabled().get());
 		} else if (input instanceof Real) {
-			
-				
-				if ("input1".equals(resourceUriPath)) {
-					input1.set(((Real) input).get());
-				} else if ("input2".equals(resourceUriPath)) {
-					input2.set(((Real) input).get());
-				} else if("enabled".equals(resourceUriPath)){
-					enabled.set(((Real) input).get());
-				} else if("caseSensitive".equals(resourceUriPath)){
-					caseSensitive.set(((Real) input).get());
-				}
-			
+
+			if ("input1".equals(resourceUriPath)) {
+				input1.set(((Real) input).get());
+			} else if ("input2".equals(resourceUriPath)) {
+				input2.set(((Real) input).get());
+			} else if ("enabled".equals(resourceUriPath)) {
+				enabled.set(((Real) input).get());
+			} else if ("caseSensitive".equals(resourceUriPath)) {
+				caseSensitive.set(((Real) input).get());
+			}
+
 		} else if (input instanceof Bool) {
-			
-				if ("input1".equals(resourceUriPath)) {
-					input1.set(((Bool) input).get());
-				} else if ("input2".equals(resourceUriPath)) {
-					input2.set(((Bool) input).get());
-				} else if("enabled".equals(resourceUriPath)){
-					enabled.set(((Bool) input).get());
-				} else if("caseSensitive".equals(resourceUriPath)){
-					caseSensitive.set(((Bool) input).get());
-				}
-			
-		}
-		else if (input instanceof Int) {
-			
-				if ("input1".equals(resourceUriPath)) {
-					input1.set(((Int) input).get());
-				} else if ("input2".equals(resourceUriPath)) {
-					input2.set(((Int) input).get());
-				} else if("enabled".equals(resourceUriPath)){
-					enabled.set(((Int) input).get());
-				} else if("caseSensitive".equals(resourceUriPath)){
-					caseSensitive.set(((Int) input).get());
-				}
-			
-		}
-		else if (input instanceof Str) {
-			
+
+			if ("input1".equals(resourceUriPath)) {
+				input1.set(((Bool) input).get());
+			} else if ("input2".equals(resourceUriPath)) {
+				input2.set(((Bool) input).get());
+			} else if ("enabled".equals(resourceUriPath)) {
+				enabled.set(((Bool) input).get());
+			} else if ("caseSensitive".equals(resourceUriPath)) {
+				caseSensitive.set(((Bool) input).get());
+			}
+
+		} else if (input instanceof Int) {
+
+			if ("input1".equals(resourceUriPath)) {
+				input1.set(((Int) input).get());
+			} else if ("input2".equals(resourceUriPath)) {
+				input2.set(((Int) input).get());
+			} else if ("enabled".equals(resourceUriPath)) {
+				enabled.set(((Int) input).get());
+			} else if ("caseSensitive".equals(resourceUriPath)) {
+				caseSensitive.set(((Int) input).get());
+			}
+
+		} else if (input instanceof Str) {
+
 			if ("input1".equals(resourceUriPath)) {
 				input1.set(((Str) input).get());
 			} else if ("input2".equals(resourceUriPath)) {
 				input2.set(((Str) input).get());
-			} else if("enabled".equals(resourceUriPath)){
+			} else if ("enabled".equals(resourceUriPath)) {
 				enabled.set(((Str) input).get());
-			} else if("caseSensitive".equals(resourceUriPath)){
+			} else if ("caseSensitive".equals(resourceUriPath)) {
 				caseSensitive.set(((Str) input).get());
 			}
-		
-	}
-		else if (input instanceof obix.Enum){
-			this.compareType.set( ((obix.Enum) input).get() );
+
+		} else if (input instanceof obix.Enum) {
+			this.compareType.set(((obix.Enum) input).get());
 		}
 
 		// perform control logic
@@ -177,7 +172,7 @@ public class StringComparatorImpl extends Obj implements StringComparator {
 				} else {
 					result.set(false);
 				}
-			} 
+			}
 		}
 	}
 
@@ -194,7 +189,7 @@ public class StringComparatorImpl extends Obj implements StringComparator {
 
 	@Override
 	public Bool caseSensitive() {
-		
+
 		return caseSensitive;
 	}
 

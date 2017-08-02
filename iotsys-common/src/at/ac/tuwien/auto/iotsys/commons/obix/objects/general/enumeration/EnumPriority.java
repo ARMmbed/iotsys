@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration;
 
 import obix.contracts.Range;
 
-public interface EnumPriority extends Range
-{
+public interface EnumPriority extends Range {
 	public static final String HREF = "/enums/priority";
 
 	public static final String KEY_LOW = "low";

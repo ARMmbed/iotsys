@@ -34,11 +34,14 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.sensors;
 
 import obix.Real;
 
-public interface OutsideRelativeHumiditySensor extends Sensor{
-	public static final String HUMIDITY_RELATIVE_OUTSIDE_CONTRACT_NAME="humidityRelativeReturnAir";
-	public static final String HUMIDITY_RELATIVE_OUTSIDE_CONTRACT_HREF="humidityRelativeReturnAir";
-	
-	public static final String CONTRACT="iot:OutsideRelativeHumiditySensorr";
-	public static final String HUMIDITY_RELATIVE_OUTSIDE_CONTRACT = "<real name='"+OutsideRelativeHumiditySensor.HUMIDITY_RELATIVE_OUTSIDE_CONTRACT_NAME+"' href='"+OutsideRelativeHumiditySensor.HUMIDITY_RELATIVE_OUTSIDE_CONTRACT_HREF+"' val='0'/>";
+public interface OutsideRelativeHumiditySensor extends Sensor {
+	public static final String HUMIDITY_RELATIVE_OUTSIDE_CONTRACT_NAME = "humidityRelativeReturnAir";
+	public static final String HUMIDITY_RELATIVE_OUTSIDE_CONTRACT_HREF = "humidityRelativeReturnAir";
+
+	public static final String CONTRACT = "iot:OutsideRelativeHumiditySensorr";
+	public static final String HUMIDITY_RELATIVE_OUTSIDE_CONTRACT = "<real name='"
+			+ OutsideRelativeHumiditySensor.HUMIDITY_RELATIVE_OUTSIDE_CONTRACT_NAME + "' href='"
+			+ OutsideRelativeHumiditySensor.HUMIDITY_RELATIVE_OUTSIDE_CONTRACT_HREF + "' val='0'/>";
+
 	public Real humidityRelativeOutsideValue();
 }

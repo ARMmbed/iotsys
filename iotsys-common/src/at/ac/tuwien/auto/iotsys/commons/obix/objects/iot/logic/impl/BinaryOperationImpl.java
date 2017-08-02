@@ -1,12 +1,12 @@
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.BinaryOperation;
 import obix.Bool;
 import obix.Contract;
 import obix.Int;
 import obix.Obj;
 import obix.Real;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.BinaryOperation;
 
 public class BinaryOperationImpl extends Obj implements BinaryOperation {
 	protected Real input1 = new Real();
@@ -76,8 +76,7 @@ public class BinaryOperationImpl extends Obj implements BinaryOperation {
 	public void writeObject(Obj input) {
 		String resourceUriPath = "";
 		if (input.getHref() == null) {
-			resourceUriPath = input.getInvokedHref().substring(
-					input.getInvokedHref().lastIndexOf('/') + 1);
+			resourceUriPath = input.getInvokedHref().substring(input.getInvokedHref().lastIndexOf('/') + 1);
 		} else {
 			resourceUriPath = input.getHref().get();
 		}
@@ -118,9 +117,8 @@ public class BinaryOperationImpl extends Obj implements BinaryOperation {
 				enabled.set(((Int) input).get());
 			}
 
-		}
-		else if (input instanceof obix.Enum){
-			this.operationType.set( ((obix.Enum) input).get() );
+		} else if (input instanceof obix.Enum) {
+			this.operationType.set(((obix.Enum) input).get());
 		}
 
 		// perform control logic
@@ -132,17 +130,15 @@ public class BinaryOperationImpl extends Obj implements BinaryOperation {
 			} else if (BinaryOperation.BIN_OP_MUL.equals(operationType.get())) {
 				result.set(input1.get() * input2.get());
 			} else if (BinaryOperation.BIN_OP_DIV.equals(operationType.get())) {
-				if(input2.get() != 0){
+				if (input2.get() != 0) {
 					result.set(input1.get() / input2.get());
-				}
-				else{
+				} else {
 					result.set(0);
 				}
-			}  else if (BinaryOperation.BIN_OP_MOD.equals(operationType.get())) {
-				if(input2.get() != 0){
+			} else if (BinaryOperation.BIN_OP_MOD.equals(operationType.get())) {
+				if (input2.get() != 0) {
 					result.set(input1.get() % input2.get());
-				}
-				else{
+				} else {
 					result.set(0);
 				}
 			}

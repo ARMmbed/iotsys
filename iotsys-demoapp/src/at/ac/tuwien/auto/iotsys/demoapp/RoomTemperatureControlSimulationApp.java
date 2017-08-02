@@ -4,10 +4,9 @@ import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.logic.impl.RoomTemperat
 
 public class RoomTemperatureControlSimulationApp extends RoomTemperatureControlSimulationImpl {
 
-	
-//	ObjectBrokerImpl.getInstance();
-	
+	// ObjectBrokerImpl.getInstance();
+
 	public void doControl() {
-		
+
 	}
 }

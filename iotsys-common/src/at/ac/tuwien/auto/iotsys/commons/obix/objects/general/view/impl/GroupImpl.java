@@ -32,23 +32,21 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl.DatapointImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumConnector;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl.EnumsImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Group;
 import obix.Contract;
 import obix.Enum;
 import obix.Int;
 import obix.List;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.datapoint.impl.DatapointImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumConnector;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl.EnumsImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Group;
 
-public class GroupImpl extends ElementImpl implements Group
-{
+public class GroupImpl extends ElementImpl implements Group {
 	private DatapointImpl function = null;
 
-	public GroupImpl(String name, String displayName, String display, long address)
-	{
+	public GroupImpl(String name, String displayName, String display, long address) {
 		super(name, displayName, display, new Contract(Group.CONTRACT));
 
 		Int adr = new Int();
@@ -60,30 +58,25 @@ public class GroupImpl extends ElementImpl implements Group
 	}
 
 	@Override
-	public void initElements(List elements)
-	{
+	public void initElements(List elements) {
 		elements.setName("groups");
 		elements.setHref(new Uri("groups"));
 		elements.setOf(new Contract(Group.CONTRACT));
 	}
 
 	@Override
-	public void initInstances(List instances)
-	{
+	public void initInstances(List instances) {
 		instances.setName("instances");
 		instances.setHref(new Uri("instances"));
 		instances.setOf(new Contract(Group.CONTRACT_INSTANCE));
 	}
 
-	public void addGroup(GroupImpl group)
-	{
+	public void addGroup(GroupImpl group) {
 		this.addElement(group);
 	}
 
-	public void addFunction(DatapointImpl function)
-	{
-		if (this.function == null && function != null)
-		{
+	public void addFunction(DatapointImpl function) {
+		if (this.function == null && function != null) {
 			this.function = function;
 
 			if (!this.function.getName().equals("function"))
@@ -98,8 +91,7 @@ public class GroupImpl extends ElementImpl implements Group
 		}
 	}
 
-	public Obj addInstance(DatapointImpl datapoint, String connector)
-	{
+	public Obj addInstance(DatapointImpl datapoint, String connector) {
 		Obj instance = addInstance(datapoint, new Contract(Group.CONTRACT_INSTANCE));
 
 		Enum con = new Enum();

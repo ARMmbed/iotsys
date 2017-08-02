@@ -1,8 +1,8 @@
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast;
 
 public interface WeatherSymbol {
-public static final String CONTRACT = "iot:weatherSymbol";
-	
+	public static final String CONTRACT = "iot:weatherSymbol";
+
 	public static final String NAME = "weatherSymbol";
 
 	public static final int ID_UNKNOWN = -1;
@@ -46,5 +46,5 @@ public static final String CONTRACT = "iot:weatherSymbol";
 	public static final String NAME_SNOW_SHOWERS_THUNDER = "snow showers and thunder";
 	public static final String NAME_RAIN_THUNDER = "rain and thunder";
 	public static final String NAME_SLEET_THUNDER = "sleet and thunder";
-	
+
 }

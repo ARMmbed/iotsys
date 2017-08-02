@@ -20,36 +20,35 @@
 package at.ac.tuwien.auto.calimero.exception;
 
 /**
- * Thrown to indicate that a method has been passed an illegal or inappropriate argument.
+ * Thrown to indicate that a method has been passed an illegal or inappropriate
+ * argument.
  * <p>
  * 
  * @author B. Malinowsky
  */
-public class KNXIllegalArgumentException extends RuntimeException
-{
+public class KNXIllegalArgumentException extends RuntimeException {
 	private static final long serialVersionUID = 1L;
 
 	private final String arg;
 
 	/**
-	 * Constructs a new <code>KNXIllegalArgumentException</code> without a detail
-	 * message.
+	 * Constructs a new <code>KNXIllegalArgumentException</code> without a
+	 * detail message.
 	 * <p>
 	 */
-	public KNXIllegalArgumentException()
-	{
+	public KNXIllegalArgumentException() {
 		arg = null;
 	}
 
 	/**
-	 * Constructs a new <code>KNXIllegalArgumentException</code> with the specified
-	 * detail message.
+	 * Constructs a new <code>KNXIllegalArgumentException</code> with the
+	 * specified detail message.
 	 * <p>
 	 * 
-	 * @param s the detail message
+	 * @param s
+	 *            the detail message
 	 */
-	public KNXIllegalArgumentException(String s)
-	{
+	public KNXIllegalArgumentException(String s) {
 		super(s);
 		arg = null;
 	}
@@ -60,8 +59,7 @@ public class KNXIllegalArgumentException extends RuntimeException
 	 * 
 	 * @return argument as string, or <code>null</code> if no argument was set
 	 */
-	public final String getArgument()
-	{
+	public final String getArgument() {
 		return arg;
 	}
 }

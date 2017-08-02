@@ -30,13 +30,11 @@ import at.ac.tuwien.auto.calimero.log.LogService;
  * 
  * @author B. Malinowsky
  */
-public final class DataUnitBuilder
-{
+public final class DataUnitBuilder {
 	/** Name of the log service used by data-unit builder methods. */
 	public static final String LOG_SERVICE = "Data-unit builder";
 
-	private static final LogService logger =
-		LogManager.getManager().getLogService(LOG_SERVICE);
+	private static final LogService logger = LogManager.getManager().getLogService(LOG_SERVICE);
 
 	private static final int T_DATA_CONNECTED = 0x40;
 	private static final int T_CONNECT = 0x80;
@@ -44,18 +42,18 @@ public final class DataUnitBuilder
 	private static final int T_ACK = 0xC2;
 	private static final int T_NAK = 0xC3;
 
-	private DataUnitBuilder()
-	{}
+	private DataUnitBuilder() {
+	}
 
 	/**
 	 * Returns the application layer service of a given protocol data unit.
 	 * <p>
 	 * 
-	 * @param apdu application layer protocol data unit
+	 * @param apdu
+	 *            application layer protocol data unit
 	 * @return APDU service code
 	 */
-	public static int getAPDUService(byte[] apdu)
-	{
+	public static int getAPDUService(byte[] apdu) {
 		// high 4 bits of APCI
 		final int apci4 = (apdu[0] & 0x03) << 2 | (apdu[1] & 0xC0) >> 6;
 		// lowest 6 bits of APCI
@@ -64,8 +62,7 @@ public final class DataUnitBuilder
 		if (apci4 == 0) {
 			if (apci6 == 0)
 				return 0;
-		}
-		else if (apci4 == 1)
+		} else if (apci4 == 1)
 			return 0x40;
 		else if (apci4 == 2)
 			return 0x80;
@@ -95,11 +92,11 @@ public final class DataUnitBuilder
 	 * Returns the transport layer service of a given protocol data unit.
 	 * <p>
 	 * 
-	 * @param tpdu transport layer protocol data unit
+	 * @param tpdu
+	 *            transport layer protocol data unit
 	 * @return TPDU service code
 	 */
-	public static int getTPDUService(byte[] tpdu)
-	{
+	public static int getTPDUService(byte[] tpdu) {
 		final int ctrl = tpdu[0] & 0xff;
 		if ((ctrl & 0xFC) == 0)
 			return 0;
@@ -121,22 +118,23 @@ public final class DataUnitBuilder
 	}
 
 	/**
-	 * Creates an application layer protocol data unit out of a service code and a service
-	 * data unit.
+	 * Creates an application layer protocol data unit out of a service code and
+	 * a service data unit.
 	 * <p>
-	 * The transport layer bits in the first byte (TL / AL control field) are set 0. For
-	 * creating a compact APDU, refer to {@link #createCompactAPDU(int, byte[])}.
+	 * The transport layer bits in the first byte (TL / AL control field) are
+	 * set 0. For creating a compact APDU, refer to
+	 * {@link #createCompactAPDU(int, byte[])}.
 	 * 
-	 * @param service application layer service code
-	 * @param asdu application layer service data unit, <code>asdu.length</code> &lt;
-	 *        255
+	 * @param service
+	 *            application layer service code
+	 * @param asdu
+	 *            application layer service data unit, <code>asdu.length</code>
+	 *            &lt; 255
 	 * @return APDU as byte array
 	 */
-	public static byte[] createAPDU(int service, byte[] asdu)
-	{
+	public static byte[] createAPDU(int service, byte[] asdu) {
 		if (asdu.length > 254)
-			throw new KNXIllegalArgumentException(
-				"ASDU length exceeds maximum of 254 bytes");
+			throw new KNXIllegalArgumentException("ASDU length exceeds maximum of 254 bytes");
 		final byte[] apdu = new byte[2 + asdu.length];
 		apdu[0] = (byte) ((service >> 8) & 0x03);
 		apdu[1] |= (byte) service;
@@ -146,25 +144,24 @@ public final class DataUnitBuilder
 	}
 
 	/**
-	 * Creates a compact application layer protocol data unit out of a service code and a
-	 * service data unit.
+	 * Creates a compact application layer protocol data unit out of a service
+	 * code and a service data unit.
 	 * <p>
-	 * The transport layer bits in the first byte (TL / AL control field) are set 0. If
-	 * the compact APDU shall not contain any ASDU information, <code>asdu</code> can be
-	 * left <code>null</code>.
+	 * The transport layer bits in the first byte (TL / AL control field) are
+	 * set 0. If the compact APDU shall not contain any ASDU information,
+	 * <code>asdu</code> can be left <code>null</code>.
 	 * 
-	 * @param service application layer service code
-	 * @param asdu application layer service data unit, <code>asdu.length</code> &lt;
-	 *        255; or <code>null</code> for no ASDU
+	 * @param service
+	 *            application layer service code
+	 * @param asdu
+	 *            application layer service data unit, <code>asdu.length</code>
+	 *            &lt; 255; or <code>null</code> for no ASDU
 	 * @return APDU as byte array
 	 */
-	public static byte[] createCompactAPDU(int service, byte[] asdu)
-	{
-		final byte[] apdu =
-			new byte[(asdu != null && asdu.length > 0) ? 1 + asdu.length : 2];
+	public static byte[] createCompactAPDU(int service, byte[] asdu) {
+		final byte[] apdu = new byte[(asdu != null && asdu.length > 0) ? 1 + asdu.length : 2];
 		if (apdu.length > 255)
-			throw new KNXIllegalArgumentException(
-				"APDU length exceeds maximum of 255 bytes");
+			throw new KNXIllegalArgumentException("APDU length exceeds maximum of 255 bytes");
 		apdu[0] = (byte) ((service >> 8) & 0x03);
 		apdu[1] = (byte) service;
 		if (asdu != null && asdu.length > 0) {
@@ -176,40 +173,44 @@ public final class DataUnitBuilder
 		return apdu;
 	}
 
-// ??? commented out for now to prevent DPT dependency
-//
-//	/**
-//	 * Extracts KNX property data of an application layer protocol data unit into a DPT
-//	 * translator.
-//	 * <p>
-//	 * With the supplied <code>dataType</code>, the associated DPT translator is
-//	 * requested from {@link PropertyTypes}.
-//	 *
-//	 * @param dataType property data type of the properties carried in the APDU
-//	 * @param apdu application layer protocol data unit (APDU) of a cEMI property message
-//	 *        containing PDT items
-//	 * @return the created DPT translator with the extracted property items
-//	 * @throws KNXException on PDT not found or translator creation failed
-//	 */
-//	public static DPTXlator extractPropertyData(int dataType, byte[] apdu)
-//		throws KNXException
-//	{
-//		final DPTXlator t = PropertyTypes.createTranslator(dataType);
-//		t.setData(apdu, 6);
-//		return t;
-//	}
+	// ??? commented out for now to prevent DPT dependency
+	//
+	// /**
+	// * Extracts KNX property data of an application layer protocol data unit
+	// into a DPT
+	// * translator.
+	// * <p>
+	// * With the supplied <code>dataType</code>, the associated DPT translator
+	// is
+	// * requested from {@link PropertyTypes}.
+	// *
+	// * @param dataType property data type of the properties carried in the
+	// APDU
+	// * @param apdu application layer protocol data unit (APDU) of a cEMI
+	// property message
+	// * containing PDT items
+	// * @return the created DPT translator with the extracted property items
+	// * @throws KNXException on PDT not found or translator creation failed
+	// */
+	// public static DPTXlator extractPropertyData(int dataType, byte[] apdu)
+	// throws KNXException
+	// {
+	// final DPTXlator t = PropertyTypes.createTranslator(dataType);
+	// t.setData(apdu, 6);
+	// return t;
+	// }
 
 	/**
 	 * Returns a copy of the ASDU contained in the supplied APDU.
 	 * <p>
-	 * The application layer service data unit (ASDU) is the APDU with the application
-	 * layer service code removed.
+	 * The application layer service data unit (ASDU) is the APDU with the
+	 * application layer service code removed.
 	 * 
-	 * @param apdu application layer protocol data unit for which to get the ASDU
+	 * @param apdu
+	 *            application layer protocol data unit for which to get the ASDU
 	 * @return the ASDU as byte array
 	 */
-	public static byte[] extractASDU(byte[] apdu)
-	{
+	public static byte[] extractASDU(byte[] apdu) {
 		final int svc = getAPDUService(apdu);
 		int offset = 2;
 		int mask = 0xff;
@@ -241,23 +242,24 @@ public final class DataUnitBuilder
 		asdu[0] &= mask;
 		return asdu;
 	}
-	
+
 	/**
 	 * Decodes a protocol data unit into a textual representation.
 	 * <p>
-	 * Currently, the transport layer protocol control information (TPCI) and the
-	 * application layer protocol control information (APCI) is decoded. Decoding might be
-	 * extended in the future.<br>
-	 * The optional KNX destination address helps to determine the exact transport layer
-	 * service.
+	 * Currently, the transport layer protocol control information (TPCI) and
+	 * the application layer protocol control information (APCI) is decoded.
+	 * Decoding might be extended in the future.<br>
+	 * The optional KNX destination address helps to determine the exact
+	 * transport layer service.
 	 * 
-	 * @param tpdu transport layer protocol data unit to decode
-	 * @param dst KNX destination address belonging to the TPDU, might be
-	 *        <code>null</code>
+	 * @param tpdu
+	 *            transport layer protocol data unit to decode
+	 * @param dst
+	 *            KNX destination address belonging to the TPDU, might be
+	 *            <code>null</code>
 	 * @return textual representation of control information in the TPDU
 	 */
-	public static String decode(byte[] tpdu, KNXAddress dst)
-	{
+	public static String decode(byte[] tpdu, KNXAddress dst) {
 		if (tpdu.length < 1)
 			throw new KNXIllegalArgumentException("TPDU length too short");
 		final String s = decodeTPCI(tpdu[0] & 0xff, dst);
@@ -271,13 +273,14 @@ public final class DataUnitBuilder
 	 * representation.
 	 * <p>
 	 * 
-	 * @param tpci transport layer protocol control information
-	 * @param dst KNX destination address belonging to the tpci, might be
-	 *        <code>null</code>
+	 * @param tpci
+	 *            transport layer protocol control information
+	 * @param dst
+	 *            KNX destination address belonging to the tpci, might be
+	 *            <code>null</code>
 	 * @return textual representation of TPCI
 	 */
-	public static String decodeTPCI(int tpci, KNXAddress dst)
-	{
+	public static String decodeTPCI(int tpci, KNXAddress dst) {
 		final int ctrl = tpci & 0xff;
 		if ((ctrl & 0xFC) == 0) {
 			if (dst == null)
@@ -306,11 +309,11 @@ public final class DataUnitBuilder
 	 * representation.
 	 * <p>
 	 * 
-	 * @param apci application layer protocol control information
+	 * @param apci
+	 *            application layer protocol control information
 	 * @return textual representation of APCI
 	 */
-	public static String decodeAPCI(int apci)
-	{
+	public static String decodeAPCI(int apci) {
 		switch (apci) {
 		case 0x00:
 			return "A-group.read";
@@ -376,20 +379,21 @@ public final class DataUnitBuilder
 			return "unknown APCI";
 		}
 	}
-	
+
 	/**
-	 * Returns the content of <code>data</code> as unsigned bytes in hexadecimal string
-	 * representation.
+	 * Returns the content of <code>data</code> as unsigned bytes in hexadecimal
+	 * string representation.
 	 * <p>
 	 * This method does not add hexadecimal prefixes (like 0x).
 	 * 
-	 * @param data data array to format
-	 * @param sep separator to insert between 2 formatted data bytes, <code>null</code>
-	 *        or "" for no gap between byte tokens
+	 * @param data
+	 *            data array to format
+	 * @param sep
+	 *            separator to insert between 2 formatted data bytes,
+	 *            <code>null</code> or "" for no gap between byte tokens
 	 * @return an unsigned hexadecimal string of data
 	 */
-	public static String toHex(byte[] data, String sep)
-	{
+	public static String toHex(byte[] data, String sep) {
 		final StringBuffer sb = new StringBuffer();
 		for (int i = 0; i < data.length; ++i) {
 			final int no = data[i] & 0xff;

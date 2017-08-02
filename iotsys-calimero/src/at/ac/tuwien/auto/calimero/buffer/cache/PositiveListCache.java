@@ -29,33 +29,33 @@ import java.util.Set;
  * A static {@link Cache} using a positive list with allowed keys for the cache.
  * <p>
  * The positive list contains key objects which are allowed to be cached. On a
- * {@link #put(CacheObject)} operation, {@link CacheObject#getKey()} is checked for a
- * positive match in that list in order to be allowed for caching.
+ * {@link #put(CacheObject)} operation, {@link CacheObject#getKey()} is checked
+ * for a positive match in that list in order to be allowed for caching.
  * <p>
  * This cache does not use a replacement policy (static cache).<br>
- * Nevertheless, a timeout can be given to specify the expiring time of cache values.
+ * Nevertheless, a timeout can be given to specify the expiring time of cache
+ * values.
  * <p>
  * The usage value of {@link CacheObject#getUsage()} equals the access count,
  * {@link CacheObject#getCount()}.
  * 
  * @author B. Malinowsky
  */
-public class PositiveListCache extends ExpiringCache
-{
+public class PositiveListCache extends ExpiringCache {
 	private Set posList = new HashSet();
 	private long hits;
 	private long misses;
- 
+
 	/**
 	 * Creates a new {@link PositiveListCache}.
 	 * <p>
 	 * Optionally, an expiring time can be specified.
 	 * 
-	 * @param timeToExpire timespan in seconds for cache objects to stay valid,
-	 *        or 0 for no expiring
+	 * @param timeToExpire
+	 *            timespan in seconds for cache objects to stay valid, or 0 for
+	 *            no expiring
 	 */
-	public PositiveListCache(int timeToExpire)
-	{
+	public PositiveListCache(int timeToExpire) {
 		super(timeToExpire);
 	}
 
@@ -64,12 +64,13 @@ public class PositiveListCache extends ExpiringCache
 	 * <p>
 	 * Optionally, an expiring time can be specified.
 	 * 
-	 * @param positiveList a Collection holding the allowed keys for this cache
-	 * @param timeToExpire timespan in seconds for cache objects to stay valid,
-	 *        or 0 for no expiring
+	 * @param positiveList
+	 *            a Collection holding the allowed keys for this cache
+	 * @param timeToExpire
+	 *            timespan in seconds for cache objects to stay valid, or 0 for
+	 *            no expiring
 	 */
-	public PositiveListCache(Collection positiveList, int timeToExpire)
-	{
+	public PositiveListCache(Collection positiveList, int timeToExpire) {
 		this(timeToExpire);
 		setPositiveList(positiveList);
 	}
@@ -80,16 +81,16 @@ public class PositiveListCache extends ExpiringCache
 	 * The old list is discarded. All cache objects will be updated immediately
 	 * according to the new list.
 	 * 
-	 * @param positiveList a Collection holding the allowed keys for this cache
+	 * @param positiveList
+	 *            a Collection holding the allowed keys for this cache
 	 */
-	public final synchronized void setPositiveList(Collection positiveList)
-	{
+	public final synchronized void setPositiveList(Collection positiveList) {
 		if (posList.size() == 0)
 			posList.addAll(positiveList);
 		else {
 			posList = new HashSet(positiveList);
 			// remove old keys not in the new list anymore
-			for (final Iterator i = map.keySet().iterator(); i.hasNext(); )
+			for (final Iterator i = map.keySet().iterator(); i.hasNext();)
 				if (!posList.contains(i.next()))
 					i.remove();
 		}
@@ -100,10 +101,10 @@ public class PositiveListCache extends ExpiringCache
 	 * already present.
 	 * <p>
 	 * 
-	 * @param key the new key object
+	 * @param key
+	 *            the new key object
 	 */
-	public final synchronized void addToPositiveList(Object key)
-	{
+	public final synchronized void addToPositiveList(Object key) {
 		posList.add(key);
 	}
 
@@ -113,10 +114,10 @@ public class PositiveListCache extends ExpiringCache
 	 * The cache objects will be updated immediately according to the removed
 	 * key.
 	 * 
-	 * @param key key object to remove
+	 * @param key
+	 *            key object to remove
 	 */
-	public final synchronized void removeFromPositiveList(Object key)
-	{
+	public final synchronized void removeFromPositiveList(Object key) {
 		if (posList.remove(key))
 			remove(key);
 	}
@@ -126,22 +127,20 @@ public class PositiveListCache extends ExpiringCache
 	 * 
 	 * @return array of all allowed key objects.
 	 */
-	public final synchronized Object[] getPositiveList()
-	{
+	public final synchronized Object[] getPositiveList() {
 		return posList.toArray();
 	}
 
 	/**
 	 * For a {@link CacheObject} to be put into the cache, its key
-	 * {@link CacheObject#getKey()} has to be equal to one in the positive list of this
-	 * cache.<br>
-	 * If expiring of cache objects is set, and the timestamp of a {@link CacheObject} is
-	 * renewed externally after it has been put into the cache, a new
-	 * {@link #put(CacheObject)} is required for that object to apply the new timestamp
-	 * and keep the cache in a consistent state.
+	 * {@link CacheObject#getKey()} has to be equal to one in the positive list
+	 * of this cache.<br>
+	 * If expiring of cache objects is set, and the timestamp of a
+	 * {@link CacheObject} is renewed externally after it has been put into the
+	 * cache, a new {@link #put(CacheObject)} is required for that object to
+	 * apply the new timestamp and keep the cache in a consistent state.
 	 */
-	public synchronized void put(CacheObject obj)
-	{
+	public synchronized void put(CacheObject obj) {
 		if (posList.contains(obj.getKey())) {
 			startSweeper();
 			obj.resetTimestamp();
@@ -152,26 +151,27 @@ public class PositiveListCache extends ExpiringCache
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#get(java.lang.Object)
 	 */
-	public synchronized CacheObject get(Object key)
-	{
+	public synchronized CacheObject get(Object key) {
 		final CacheObject o = (CacheObject) map.get(key);
 		if (o != null) {
 			updateAccess(o);
 			++hits;
-		}
-		else
+		} else
 			++misses;
 		return o;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#remove(java.lang.Object)
 	 */
-	public synchronized void remove(Object key)
-	{
+	public synchronized void remove(Object key) {
 		map.remove(key);
 	}
 
@@ -179,22 +179,21 @@ public class PositiveListCache extends ExpiringCache
 	 * {@inheritDoc}<br>
 	 * This does not affect the positive list.
 	 */
-	public synchronized void clear()
-	{
+	public synchronized void clear() {
 		stopSweeper();
 		map.clear();
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.buffer.cache.Cache#statistic()
 	 */
-	public synchronized Statistic statistic()
-	{
+	public synchronized Statistic statistic() {
 		return new StatisticImpl(hits, misses);
 	}
-    
-	private static void updateAccess(CacheObject obj)
-	{
+
+	private static void updateAccess(CacheObject obj) {
 		obj.incCount();
 		obj.setUsage(obj.getCount());
 	}

@@ -32,19 +32,17 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.impl.EntityImpl;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Area;
 import obix.Contract;
 import obix.Int;
 import obix.List;
 import obix.Obj;
 import obix.Str;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.entity.impl.EntityImpl;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.view.Area;
 
-public class AreaImpl extends ElementImpl implements Area
-{
-	public AreaImpl(String name, String displayName, String display, long address, String mediaType)
-	{
+public class AreaImpl extends ElementImpl implements Area {
+	public AreaImpl(String name, String displayName, String display, long address, String mediaType) {
 		super(name, displayName, display, new Contract(Area.CONTRACT));
 
 		Int adr = new Int();
@@ -54,8 +52,7 @@ public class AreaImpl extends ElementImpl implements Area
 		adr.set(address);
 		this.add(adr);
 
-		if (mediaType != null)
-		{
+		if (mediaType != null) {
 			Str mt = new Str();
 			mt.setName("mediaType");
 			mt.setHref(new Uri("mediaType"));
@@ -65,28 +62,24 @@ public class AreaImpl extends ElementImpl implements Area
 	}
 
 	@Override
-	public void initElements(List elements)
-	{
+	public void initElements(List elements) {
 		elements.setName("areas");
 		elements.setHref(new Uri("areas"));
 		elements.setOf(new Contract(Area.CONTRACT));
 	}
 
 	@Override
-	public void initInstances(List instances)
-	{
+	public void initInstances(List instances) {
 		instances.setName("instances");
 		instances.setHref(new Uri("instances"));
 		instances.setOf(new Contract(Area.CONTRACT_INSTANCE));
 	}
 
-	public void addArea(AreaImpl area)
-	{
+	public void addArea(AreaImpl area) {
 		this.addElement(area);
 	}
 
-	public Obj addInstance(EntityImpl entity, long address)
-	{
+	public Obj addInstance(EntityImpl entity, long address) {
 		Obj instance = addInstance(entity, new Contract(Area.CONTRACT_INSTANCE));
 
 		Int adr = new Int();

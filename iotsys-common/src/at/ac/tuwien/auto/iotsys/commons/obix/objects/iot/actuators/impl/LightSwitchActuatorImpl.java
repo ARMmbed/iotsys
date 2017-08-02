@@ -41,43 +41,40 @@ import obix.Real;
 import obix.Uri;
 
 /**
- * This class represents an abstract light switching actuator that is technology independent and
- * allows to represent such device as OBIX contract.
+ * This class represents an abstract light switching actuator that is technology
+ * independent and allows to represent such device as OBIX contract.
  */
-public class LightSwitchActuatorImpl extends ActuatorImpl implements LightSwitchActuator{
+public class LightSwitchActuatorImpl extends ActuatorImpl implements LightSwitchActuator {
 	protected Bool value = new Bool(false);
-	
-	public LightSwitchActuatorImpl(){
+
+	public LightSwitchActuatorImpl() {
 		setIs(new Contract(LightSwitchActuator.CONTRACT));
 		value.setWritable(true);
 		value.setDisplayName("On/Off");
 		Uri valueUri = new Uri(LightSwitchActuator.VALUE_CONTRACT_HERF);
-	
+
 		value.setHref(valueUri);
-		value.setName(LightSwitchActuator.VALUE_CONTRACT_NAME);			
-		
+		value.setName(LightSwitchActuator.VALUE_CONTRACT_NAME);
+
 		add(value);
 	}
-	
-	public void writeObject(Obj input){	
-		if(input instanceof LightSwitchActuator){
+
+	public void writeObject(Obj input) {
+		if (input instanceof LightSwitchActuator) {
 			LightSwitchActuator in = (LightSwitchActuator) input;
 			this.value.set(in.value().get());
-			
-		}
-		else if(input instanceof Bool){
+
+		} else if (input instanceof Bool) {
 			this.value.set(((Bool) input).get());
-		}
-		else if(input instanceof Real){
+		} else if (input instanceof Real) {
 			this.value.set(((Real) input).get());
-		}
-		else if(input instanceof Int){
+		} else if (input instanceof Int) {
 			this.value.set(((Int) input).get());
 		}
-				
+
 	}
 
 	public Bool value() {
 		return this.value;
-	}	
-}	
+	}
+}

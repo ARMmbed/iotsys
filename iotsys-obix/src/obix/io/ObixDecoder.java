@@ -33,14 +33,14 @@ import obix.xml.XException;
 import obix.xml.XParser;
 
 /**
- * ObixDecoder is used to deserialize an XML stream into memory as a tree of Obj instances.
+ * ObixDecoder is used to deserialize an XML stream into memory as a tree of Obj
+ * instances.
  * 
  * @author Brian Frank
  * @creation 27 Apr 05
  * @version $Revision$ $Date$
  */
-public class ObixDecoder extends XParser
-{
+public class ObixDecoder extends XParser {
 
 	// //////////////////////////////////////////////////////////////
 	// Factory
@@ -49,20 +49,14 @@ public class ObixDecoder extends XParser
 	/**
 	 * Decode an Obj from a String.
 	 */
-	public static Obj fromString(String xml)
-	{
-		try
-		{
+	public static Obj fromString(String xml) {
+		try {
 			ByteArrayInputStream in = new ByteArrayInputStream(xml.getBytes("UTF-8"));
 			ObixDecoder decoder = new ObixDecoder(in);
 			return decoder.decodeDocument();
-		}
-		catch (XException e)
-		{
+		} catch (XException e) {
 			throw e;
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.toString());
 		}
@@ -75,8 +69,7 @@ public class ObixDecoder extends XParser
 	/**
 	 * Construct for specified input stream.
 	 */
-	public ObixDecoder(InputStream in) throws Exception
-	{
+	public ObixDecoder(InputStream in) throws Exception {
 		super(in);
 	}
 
@@ -85,19 +78,19 @@ public class ObixDecoder extends XParser
 	// //////////////////////////////////////////////////////////////
 
 	/**
-	 * Get the useContracts flags. If this flag is true, then we attempt to map contract attributes to predefined classes using the ContractRegistry. If the false, then we just map to the built-in classes (Obj, Bool, Int, etc). The default for this flag is
-	 * true.
+	 * Get the useContracts flags. If this flag is true, then we attempt to map
+	 * contract attributes to predefined classes using the ContractRegistry. If
+	 * the false, then we just map to the built-in classes (Obj, Bool, Int,
+	 * etc). The default for this flag is true.
 	 */
-	public boolean getUseContracts()
-	{
+	public boolean getUseContracts() {
 		return useContracts;
 	}
 
 	/**
 	 * Set the useContracts flag - see getUseContracts() for details.
 	 */
-	public void setUseContracts(boolean useContracts)
-	{
+	public void setUseContracts(boolean useContracts) {
 		this.useContracts = useContracts;
 	}
 
@@ -108,18 +101,16 @@ public class ObixDecoder extends XParser
 	/**
 	 * Convenience for <code>decodeDocument(true)</code>.
 	 */
-	public Obj decodeDocument() throws Exception
-	{
+	public Obj decodeDocument() throws Exception {
 		return decodeDocument(true);
 	}
 
 	/**
-	 * Decode the XML document into a Obj, and optionally close the input stream.
+	 * Decode the XML document into a Obj, and optionally close the input
+	 * stream.
 	 */
-	public Obj decodeDocument(boolean close) throws Exception
-	{
-		try
-		{
+	public Obj decodeDocument(boolean close) throws Exception {
+		try {
 			// parse into memory
 			XElem root = parse();
 
@@ -130,9 +121,7 @@ public class ObixDecoder extends XParser
 			warningsForUnresolvedFragRefs();
 
 			return result;
-		}
-		finally
-		{
+		} finally {
 			if (close)
 				close();
 		}
@@ -145,8 +134,7 @@ public class ObixDecoder extends XParser
 	/**
 	 * Recursively decode element into Obj instances.
 	 */
-	private Obj decode(Obj parent, XElem x, Contract defaultContract) throws Exception
-	{
+	private Obj decode(Obj parent, XElem x, Contract defaultContract) throws Exception {
 		// attribute variables
 		String name = null;
 		String val = null;
@@ -170,8 +158,7 @@ public class ObixDecoder extends XParser
 
 		// fill in attributes found
 		int attrSize = x.attrSize();
-		for (int i = 0; i < attrSize; ++i)
-		{
+		for (int i = 0; i < attrSize; ++i) {
 			String attrName = x.attrName(i);
 			String attrVal = x.attrValue(i);
 			if (attrName.equals("name"))
@@ -217,8 +204,7 @@ public class ObixDecoder extends XParser
 		// map element name to an Obj Class (Obj, Bool, Int, etc)
 		String elemName = x.name();
 		Class<?> cls = Obj.toClass(elemName);
-		if (cls == null)
-		{
+		if (cls == null) {
 			System.out.println("WARNING: Unknown element: " + x + " [Line " + x.line() + "]");
 			return null;
 		}
@@ -237,14 +223,12 @@ public class ObixDecoder extends XParser
 
 		// if obj wasn't found in parent then we need do
 		// go thru a process to figure out how to create it
-		if (obj == null)
-		{
+		if (obj == null) {
 			// if the decoder is configured to use contracts
 			// and we have a contract available, then map
 			// the contract to a class (otherwise we fallback
 			// to the class we looked up for the elem name)
-			if (useContracts)
-			{
+			if (useContracts) {
 				if (contract != null)
 					cls = ContractRegistry.toClass(cls, contract);
 				else if (defaultContract != null)
@@ -268,22 +252,18 @@ public class ObixDecoder extends XParser
 		// allocating a new instance we might be throwing awaya type
 		// we mapped from the ContractRegistery or facets the contract
 		// had declared - but in practice I'm not sure it matters
-		else if (!elemName.equals(obj.getElement()))
-		{
-			if (elemName.equals("ref") || obj.getElement().equals("obj"))
-			{
+		else if (!elemName.equals(obj.getElement())) {
+			if (elemName.equals("ref") || obj.getElement().equals("obj")) {
 				Obj newObj = Obj.toObj(elemName);
-				if (newObj != null)
-				{
+				if (newObj != null) {
 					newObj.setName(name);
 					if (obj.getParent() != null)
 						obj.getParent().replace(obj, newObj);
 					obj = newObj;
 				}
-			}
-			else
-			{
-				throw err("Element name '" + elemName + "' conflicts with contract element '" + obj.getElement() + "'", x);
+			} else {
+				throw err("Element name '" + elemName + "' conflicts with contract element '" + obj.getElement() + "'",
+						x);
 			}
 		}
 
@@ -292,14 +272,10 @@ public class ObixDecoder extends XParser
 			obj.setName(name);
 
 		// href
-		if (href != null)
-		{
-			if (obj instanceof Ref)
-			{
+		if (href != null) {
+			if (obj instanceof Ref) {
 				obj.setHref(decodeRefUri(href, x));
-			}
-			else
-			{
+			} else {
 				decodeHref(obj, href);
 			}
 		}
@@ -309,16 +285,12 @@ public class ObixDecoder extends XParser
 			obj.setIs(contract);
 
 		// parse value
-		if (val != null)
-		{
+		if (val != null) {
 			if (isNull == null)
 				obj.setNull(false);
-			try
-			{
+			try {
 				((Val) obj).decodeVal(val);
-			}
-			catch (Exception e)
-			{
+			} catch (Exception e) {
 				throw err("Invalid val attribte '" + val + "' for " + obj.getElement(), x, e);
 			}
 		}
@@ -339,8 +311,7 @@ public class ObixDecoder extends XParser
 
 		// meta-data & Type specific facets
 		Contract childrenDefaultContract = null;
-		if (obj instanceof List)
-		{
+		if (obj instanceof List) {
 			List list = (List) obj;
 			if (of != null)
 				list.setOf(childrenDefaultContract = decodeContract(of, x));
@@ -348,23 +319,17 @@ public class ObixDecoder extends XParser
 				list.setMin(Integer.parseInt(min));
 			if (max != null)
 				list.setMax(Integer.parseInt(max));
-		}
-		else if (obj instanceof Op)
-		{
+		} else if (obj instanceof Op) {
 			Op op = (Op) obj;
 			if (in != null)
 				op.setIn(decodeContract(in, x));
 			if (out != null)
 				op.setOut(decodeContract(out, x));
-		}
-		else if (obj instanceof Bool)
-		{
+		} else if (obj instanceof Bool) {
 			Bool b = (Bool) obj;
 			if (range != null)
 				b.setRange(decodeRefUri(range, x));
-		}
-		else if (obj instanceof Int)
-		{
+		} else if (obj instanceof Int) {
 			Int i = (Int) obj;
 			if (min != null)
 				i.setMin(Long.parseLong(min));
@@ -372,17 +337,13 @@ public class ObixDecoder extends XParser
 				i.setMax(Long.parseLong(max));
 			if (unit != null)
 				i.setUnit(decodeRefUri(unit, x));
-		}
-		else if (obj instanceof Str)
-		{
+		} else if (obj instanceof Str) {
 			Str s = (Str) obj;
 			if (min != null)
 				s.setMin(Integer.parseInt(min));
 			if (max != null)
 				s.setMax(Integer.parseInt(max));
-		}
-		else if (obj instanceof Real)
-		{
+		} else if (obj instanceof Real) {
 			Real r = (Real) obj;
 			if (min != null)
 				r.setMin(Double.parseDouble(min));
@@ -392,23 +353,17 @@ public class ObixDecoder extends XParser
 				r.setUnit(decodeRefUri(unit, x));
 			if (precision != null)
 				r.setPrecision(Integer.parseInt(precision));
-		}
-		else if (obj instanceof Enum)
-		{
+		} else if (obj instanceof Enum) {
 			Enum e = (Enum) obj;
 			if (range != null)
 				e.setRange(decodeRefUri(range, x));
-		}
-		else if (obj instanceof Reltime)
-		{
+		} else if (obj instanceof Reltime) {
 			Reltime r = (Reltime) obj;
 			if (min != null)
 				r.setMin(Reltime.parse(min));
 			if (max != null)
 				r.setMax(Reltime.parse(max));
-		}
-		else if (obj instanceof Abstime)
-		{
+		} else if (obj instanceof Abstime) {
 			Abstime a = (Abstime) obj;
 			if (min != null)
 				a.setMin(Abstime.parse(min));
@@ -416,9 +371,7 @@ public class ObixDecoder extends XParser
 				a.setMax(Abstime.parse(max));
 			if (tz != null)
 				a.setTz(tz);
-		}
-		else if (obj instanceof Time)
-		{
+		} else if (obj instanceof Time) {
 			Time t = (Time) obj;
 			if (min != null)
 				t.setMin(Time.parse(min));
@@ -426,9 +379,7 @@ public class ObixDecoder extends XParser
 				t.setMax(Time.parse(max));
 			if (tz != null)
 				t.setTz(tz);
-		}
-		else if (obj instanceof Date)
-		{
+		} else if (obj instanceof Date) {
 			Date d = (Date) obj;
 			if (min != null)
 				d.setMin(Date.parse(min));
@@ -436,9 +387,7 @@ public class ObixDecoder extends XParser
 				d.setMax(Date.parse(max));
 			if (tz != null)
 				d.setTz(tz);
-		}
-		else if (obj instanceof Feed)
-		{
+		} else if (obj instanceof Feed) {
 			Feed feed = (Feed) obj;
 			if (in != null)
 				feed.setIn(decodeContract(in, x));
@@ -448,17 +397,12 @@ public class ObixDecoder extends XParser
 
 		// recurse
 		XElem[] kids = x.elems();
-		for (int i = 0; i < kids.length; ++i)
-		{
+		for (int i = 0; i < kids.length; ++i) {
 			Obj kid = decode(obj, kids[i], childrenDefaultContract);
-			if (kid != null && kid.getParent() == null)
-			{
-				try
-				{
+			if (kid != null && kid.getParent() == null) {
+				try {
 					obj.add(kid);
-				}
-				catch (Exception e)
-				{
+				} catch (Exception e) {
 					throw err("Cannot add child '" + name + "'", kids[i], e);
 				}
 			}
@@ -473,10 +417,11 @@ public class ObixDecoder extends XParser
 	// //////////////////////////////////////////////////////////////
 
 	/**
-	 * Parse a uri string which identifies an object's href. If the id indicates a fragment identifier, then save the object away for resolution via decodeRefUri().
+	 * Parse a uri string which identifies an object's href. If the id indicates
+	 * a fragment identifier, then save the object away for resolution via
+	 * decodeRefUri().
 	 */
-	void decodeHref(Obj obj, String href)
-	{
+	void decodeHref(Obj obj, String href) {
 		// set href field
 		Uri uri = new Uri(null, href);
 		obj.setHref(uri);
@@ -503,10 +448,11 @@ public class ObixDecoder extends XParser
 	}
 
 	/**
-	 * Parse a string into a Uri instance. If the Uri references a fragment identifier, then resolve it too. This method should only be used for Uris which reference something (as opposed to Uris which identify something.
+	 * Parse a string into a Uri instance. If the Uri references a fragment
+	 * identifier, then resolve it too. This method should only be used for Uris
+	 * which reference something (as opposed to Uris which identify something.
 	 */
-	Uri decodeRefUri(String s, XElem elem)
-	{
+	Uri decodeRefUri(String s, XElem elem) {
 		Uri uri = new Uri(s);
 		if (!uri.isFragment())
 			return uri;
@@ -514,8 +460,7 @@ public class ObixDecoder extends XParser
 		// check if we've already parsed the obj to which
 		// this fragment id referneces
 		Obj resolved = (Obj) fragIds.get(s);
-		if (resolved != null)
-		{
+		if (resolved != null) {
 			uri.setResolved(resolved);
 			return uri;
 		}
@@ -532,10 +477,10 @@ public class ObixDecoder extends XParser
 	}
 
 	/**
-	 * Decode a contract list of Uris which might include fragment identifier references we should immediately resolve.
+	 * Decode a contract list of Uris which might include fragment identifier
+	 * references we should immediately resolve.
 	 */
-	Contract decodeContract(String s, XElem elem)
-	{
+	Contract decodeContract(String s, XElem elem) {
 		StringTokenizer st = new StringTokenizer(s, " ");
 		ArrayList<Uri> acc = new ArrayList<Uri>();
 		while (st.hasMoreTokens())
@@ -546,14 +491,11 @@ public class ObixDecoder extends XParser
 	/**
 	 * Print a warning for all the unresolved fragment identifiers.
 	 */
-	void warningsForUnresolvedFragRefs()
-	{
+	void warningsForUnresolvedFragRefs() {
 		FragRefs[] unresolved = (FragRefs[]) fragRefs.values().toArray(new FragRefs[fragRefs.size()]);
-		for (int i = 0; i < unresolved.length; ++i)
-		{
+		for (int i = 0; i < unresolved.length; ++i) {
 			FragRefs r = unresolved[i];
-			for (int j = 0; j < r.uris.size(); ++j)
-			{
+			for (int j = 0; j < r.uris.size(); ++j) {
 				Uri uri = (Uri) r.uris.get(j);
 				XElem elem = (XElem) r.elems.get(j);
 				warning("Unresolved fragment reference '" + uri + "'", elem);
@@ -561,8 +503,7 @@ public class ObixDecoder extends XParser
 		}
 	}
 
-	static class FragRefs
-	{
+	static class FragRefs {
 		ArrayList<Uri> uris = new ArrayList<Uri>(4);
 		ArrayList<XElem> elems = new ArrayList<XElem>(4);
 	}
@@ -571,18 +512,15 @@ public class ObixDecoder extends XParser
 	// Error
 	// //////////////////////////////////////////////////////////////
 
-	XException err(String msg, XElem elem, Throwable cause)
-	{
+	XException err(String msg, XElem elem, Throwable cause) {
 		return new XException(msg, elem, cause);
 	}
 
-	XException err(String msg, XElem elem)
-	{
+	XException err(String msg, XElem elem) {
 		return new XException(msg, elem);
 	}
 
-	void warning(String msg, XElem elem)
-	{
+	void warning(String msg, XElem elem) {
 		String line = "";
 		if (elem != null)
 			line = " [line " + elem.line() + "]";
@@ -594,7 +532,12 @@ public class ObixDecoder extends XParser
 	// //////////////////////////////////////////////////////////////
 
 	private boolean useContracts = true;
-	private HashMap<String, Obj> fragIds = new HashMap<String, Obj>(); // fragment id -> Obj
-	private HashMap<String, FragRefs> fragRefs = new HashMap<String, FragRefs>(); // fragment id -> FragRefs
+	private HashMap<String, Obj> fragIds = new HashMap<String, Obj>(); // fragment
+																		// id ->
+																		// Obj
+	private HashMap<String, FragRefs> fragRefs = new HashMap<String, FragRefs>(); // fragment
+																					// id
+																					// ->
+																					// FragRefs
 
 }

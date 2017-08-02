@@ -32,6 +32,7 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.UpcomingWeather;
 import obix.Abstime;
 import obix.Contract;
 import obix.Enum;
@@ -40,10 +41,9 @@ import obix.Obj;
 import obix.Real;
 import obix.Str;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.weatherforecast.UpcomingWeather;
 
 public class UpcomingWeatherImpl extends Obj implements UpcomingWeather {
-	
+
 	private Str tz = new Str("tz", "UTC");
 
 	private Abstime timestamp = new Abstime("timestamp");
@@ -54,23 +54,22 @@ public class UpcomingWeatherImpl extends Obj implements UpcomingWeather {
 	private Real precipitation = new Real("precipitation");
 	private Real cloudiness = new Real("cloudiness");
 	private Real fog = new Real("fog");
-	private Int  windSpeed = new Int("windSpeed");
+	private Int windSpeed = new Int("windSpeed");
 	private Real dewpointTemperature = new Real("dewpointTemperature");
 	private Str windDirection = new Str();
-	
-	
-	public UpcomingWeatherImpl(){
+
+	public UpcomingWeatherImpl() {
 		setIs(new Contract(UpcomingWeather.CONTRACT));
-		
+
 		probabilitycode.setRange(new Uri(ProbabilityCodeImpl.CONTRACT));
 		probabilitycode.setHref(new Uri("probabiltityCode"));
 		temperature.setUnit(new Uri("obix:units/celsius"));
 		temperature.setHref(new Uri("temperature"));
 		humidity.setUnit(new Uri("obix:units/percent"));
 		humidity.setHref(new Uri("humidity"));
-		pressure.setUnit(new Uri("obix:units/hectopascal")); //100*kg^1*m^-1*s^-2
+		pressure.setUnit(new Uri("obix:units/hectopascal")); // 100*kg^1*m^-1*s^-2
 		pressure.setHref(new Uri("pressure"));
-		precipitation.setUnit(new Uri("obix:units/millimeter")); //0.001*m^1
+		precipitation.setUnit(new Uri("obix:units/millimeter")); // 0.001*m^1
 		precipitation.setHref(new Uri("precipitation"));
 		cloudiness.setUnit(new Uri("obix:units/percent"));
 		cloudiness.setHref(new Uri("cloudiness"));
@@ -81,9 +80,9 @@ public class UpcomingWeatherImpl extends Obj implements UpcomingWeather {
 		dewpointTemperature.setUnit(new Uri("obix:units/celsius"));
 		dewpointTemperature.setHref(new Uri("dewpointTemperature"));
 		windDirection.setName("windDirection");
-		
+
 		add(timestamp);
-		//add(probabilitycode);
+		// add(probabilitycode);
 		add(temperature);
 		add(humidity);
 		add(pressure);
@@ -94,23 +93,22 @@ public class UpcomingWeatherImpl extends Obj implements UpcomingWeather {
 		add(windDirection);
 		add(dewpointTemperature);
 	}
-	
+
 	public UpcomingWeatherImpl(UpcomingWeather rec) {
 		this();
-		
+
 		setAll(rec);
 	}
-	
+
 	public void setAll(UpcomingWeather rec) {
 		timestamp.set(rec.timestamp().getMillis(), rec.timestamp().getTimeZone());
-		
+
 		if (ProbabilityCodeImpl.GetByName(rec.probabilitycode().get()) != ProbabilityCodeImpl.ID_UNKNOWN) {
 			probabilitycode.set(rec.probabilitycode().get());
-		}
-		else {
+		} else {
 			probabilitycode.set(ProbabilityCodeImpl.NAME_UNKNOWN);
 		}
-		
+
 		temperature.set(rec.temperature().get());
 		humidity.set(rec.humidity().get());
 		pressure.set(rec.pressure().get());
@@ -121,7 +119,7 @@ public class UpcomingWeatherImpl extends Obj implements UpcomingWeather {
 		windDirection.set(rec.windDirection().get());
 		dewpointTemperature.set(rec.dewpointTemperature().get());
 	}
-	
+
 	@Override
 	public Abstime timestamp() {
 		return timestamp;
@@ -164,7 +162,7 @@ public class UpcomingWeatherImpl extends Obj implements UpcomingWeather {
 
 	@Override
 	public Int windspeed() {
-		return  windSpeed;
+		return windSpeed;
 	}
 
 	@Override
@@ -176,9 +174,9 @@ public class UpcomingWeatherImpl extends Obj implements UpcomingWeather {
 	public Str windDirection() {
 		return windDirection;
 	}
-	
+
 	// workaround for encoding of history object
-	public void unsetHrefs(){
+	public void unsetHrefs() {
 		this.cloudiness.setHref(null);
 		this.dewpointTemperature.setHref(null);
 		this.fog.setHref(null);
@@ -191,10 +189,10 @@ public class UpcomingWeatherImpl extends Obj implements UpcomingWeather {
 		this.windDirection.setHref(null);
 		this.windSpeed.setHref(null);
 	}
-	
+
 	@Override
-	public void refreshObject(){
-		if(this.getParent() != null){
+	public void refreshObject() {
+		if (this.getParent() != null) {
 			this.getParent().refreshObject();
 		}
 	}

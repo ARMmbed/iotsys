@@ -34,8 +34,9 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators;
 
 import obix.Bool;
 
-public interface BoilerActuator extends Actuator{
-	public static final String CONTRACT="iot:Boiler";
+public interface BoilerActuator extends Actuator {
+	public static final String CONTRACT = "iot:Boiler";
 	public static final String enabledContract = "<bool name='enabled' href='enabled' val='false'/>";
+
 	public Bool enabled();
 }

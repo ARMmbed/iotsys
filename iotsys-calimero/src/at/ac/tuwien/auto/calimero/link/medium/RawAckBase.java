@@ -26,8 +26,7 @@ package at.ac.tuwien.auto.calimero.link.medium;
  * 
  * @author B. Malinowsky
  */
-public abstract class RawAckBase implements RawFrame
-{
+public abstract class RawAckBase implements RawFrame {
 	/**
 	 * Positive acknowledge type.
 	 * <p>
@@ -50,11 +49,12 @@ public abstract class RawAckBase implements RawFrame
 	 */
 	protected int ack;
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.link.medium.RawFrame#getFrameType()
 	 */
-	public final int getFrameType()
-	{
+	public final int getFrameType() {
 		return ACK_FRAME;
 	}
 
@@ -64,8 +64,7 @@ public abstract class RawAckBase implements RawFrame
 	 * 
 	 * @return type of acknowledge
 	 */
-	public final int getAckType()
-	{
+	public final int getAckType() {
 		return ack;
 	}
 
@@ -75,8 +74,7 @@ public abstract class RawAckBase implements RawFrame
 	 * 
 	 * @return string representation of the object
 	 */
-	public String toString()
-	{
+	public String toString() {
 		return ack == ACK ? "ACK" : "NAK";
 	}
 }

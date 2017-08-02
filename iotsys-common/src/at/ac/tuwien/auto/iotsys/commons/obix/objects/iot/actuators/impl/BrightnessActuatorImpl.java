@@ -41,50 +41,48 @@ import obix.Real;
 import obix.Uri;
 
 /**
- * This class represents an abstract brightness actuator that is technology independent and
- * allows to represent such device as OBIX contract.
+ * This class represents an abstract brightness actuator that is technology
+ * independent and allows to represent such device as OBIX contract.
+ * 
  * @author Juergen Weidinger
  *
  */
 
-public class BrightnessActuatorImpl extends ActuatorImpl implements BrightnessActuator{
+public class BrightnessActuatorImpl extends ActuatorImpl implements BrightnessActuator {
 	protected Int value = new Int(0);
 
-	public BrightnessActuatorImpl(){
+	public BrightnessActuatorImpl() {
 		setIs(new Contract(BrightnessActuator.CONTRACT));
 		value.setWritable(true);
 		value.setDisplayName("Brightness");
 		Uri valueUri = new Uri("value");
-	
+
 		value.setHref(valueUri);
 		value.setName("value");
 		this.value.setMin(0);
 		this.value.setMax(100);
 		add(value);
 	}
-	
-	public void writeObject(Obj input){
-		// A write on this object was received, update the according data point.		
 
-		if(input instanceof BrightnessActuator){
+	public void writeObject(Obj input) {
+		// A write on this object was received, update the according data point.
+
+		if (input instanceof BrightnessActuator) {
 			BrightnessActuator in = (BrightnessActuator) input;
 			this.value.set(in.value().get());
-			
-		}
-		else if(input instanceof Int){
+
+		} else if (input instanceof Int) {
 			this.value.set(((Int) input).get());
+		} else if (input instanceof Bool) {
+			this.value.set(((Bool) input).get());
+		} else if (input instanceof Real) {
+			this.value.set(((Real) input).get());
 		}
-		else if(input instanceof Bool){
-			this.value.set( ((Bool) input).get());
-		}
-		else if(input instanceof Real){
-			this.value.set( ((Real) input).get());
-		}
-		
+
 	}
-	
+
 	@Override
 	public Int value() {
 		return this.value;
-	}	
+	}
 }

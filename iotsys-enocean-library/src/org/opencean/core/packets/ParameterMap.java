@@ -6,18 +6,18 @@ import java.util.Set;
 
 public class ParameterMap {
 
-    Map<String, Object> map = new HashMap<String, Object>();
+	Map<String, Object> map = new HashMap<String, Object>();
 
-    public Object get(String parameterId) {
-        return map.get(parameterId);
-    }
+	public Object get(String parameterId) {
+		return map.get(parameterId);
+	}
 
-    public void put(String parameterId, Object value) {
-        map.put(parameterId, value);
-    }
+	public void put(String parameterId, Object value) {
+		map.put(parameterId, value);
+	}
 
-    public Set<String> keySet() {
-        return map.keySet();
-    }
+	public Set<String> keySet() {
+		return map.keySet();
+	}
 
 }

@@ -33,8 +33,7 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.encoding;
 
 import obix.contracts.Range;
 
-public interface EncodingPressedReleased extends Range
-{
+public interface EncodingPressedReleased extends Range {
 	public static final String HREF = "/encodings/pressedreleased";
 
 	public static final String KEY_PRESSED = "pressed";

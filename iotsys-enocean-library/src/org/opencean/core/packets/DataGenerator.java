@@ -6,22 +6,22 @@ import org.opencean.core.utils.ByteArray;
 
 public class DataGenerator {
 	private ByteArray data = new ByteArray();
-	
-	public DataGenerator(byte type, byte state, EnoceanParameterAddress deviceID, byte status){
+
+	public DataGenerator(byte type, byte state, EnoceanParameterAddress deviceID, byte status) {
 		data.addByte(type);
 		data.addByte(state);
 		data.addBytes(deviceID.getEnoceanDeviceId().toBytes());
 		data.addByte(status);
 	}
-	
-	public DataGenerator(byte type, byte state, EnoceanId deviceID, byte status){
+
+	public DataGenerator(byte type, byte state, EnoceanId deviceID, byte status) {
 		data.addByte(type);
 		data.addByte(state);
 		data.addBytes(deviceID.toBytes());
 		data.addByte(status);
 	}
-	
-	public byte[] getData(){
+
+	public byte[] getData() {
 		return data.getArray();
 	}
 }

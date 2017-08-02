@@ -34,20 +34,18 @@ package at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.impl;
 
 import java.util.ArrayList;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.EnoceanEntities;
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.EnoceanEntity;
+import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 import obix.Contract;
 import obix.List;
 import obix.Obj;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.EnoceanEntities;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.enocean.entity.EnoceanEntity;
-import at.ac.tuwien.auto.iotsys.commons.util.UriEncoder;
 
-public class EnoceanEntitiesImpl extends List implements EnoceanEntities
-{
+public class EnoceanEntitiesImpl extends List implements EnoceanEntities {
 	private ArrayList<EnoceanEntity> entities;
 
-	public EnoceanEntitiesImpl()
-	{
+	public EnoceanEntitiesImpl() {
 		this.setName("entities");
 		this.setIs(new Contract(EnoceanEntities.CONTRACT));
 		this.setOf(new Contract(new String[] { "obix:ref", EnoceanEntity.CONTRACT }));
@@ -57,25 +55,20 @@ public class EnoceanEntitiesImpl extends List implements EnoceanEntities
 		this.entities = new ArrayList<EnoceanEntity>();
 	}
 
-	public void addEntity(EnoceanEntityImpl entity)
-	{
-		if (entity instanceof Obj)
-		{
+	public void addEntity(EnoceanEntityImpl entity) {
+		if (entity instanceof Obj) {
 			entity.setHref(getHref(entity));
 			this.add((Obj) entity);
 			this.add(entity.getReference());
 		}
 	}
 
-	private Uri getHref(Obj entity)
-	{
+	private Uri getHref(Obj entity) {
 		int count = 1;
 		String uri = UriEncoder.getEscapedUri(entity.getDisplayName());
 
-		for (EnoceanEntity e : entities)
-		{
-			if (UriEncoder.getEscapedUri(e.getDisplayName()).equals(uri))
-			{
+		for (EnoceanEntity e : entities) {
+			if (UriEncoder.getEscapedUri(e.getDisplayName()).equals(uri)) {
 				count++;
 			}
 		}

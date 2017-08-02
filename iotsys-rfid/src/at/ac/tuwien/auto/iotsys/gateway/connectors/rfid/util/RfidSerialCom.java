@@ -1,19 +1,17 @@
 package at.ac.tuwien.auto.iotsys.gateway.connectors.rfid.util;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.logging.Logger;
+
 import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.Logger;
-
-public final class RfidSerialCom implements Runnable,
-		SerialPortEventListener {
-	private static final Logger log = Logger.getLogger(RfidSerialCom.class
-			.getName());
+public final class RfidSerialCom implements Runnable, SerialPortEventListener {
+	private static final Logger log = Logger.getLogger(RfidSerialCom.class.getName());
 
 	private static final int SERIAL_TIMEOUT = 2000;
 	private static final int BAUD_RATE = 9600;
@@ -30,8 +28,7 @@ public final class RfidSerialCom implements Runnable,
 		CommPortIdentifier portIdentifier;
 		try {
 			portIdentifier = CommPortIdentifier.getPortIdentifier(portName);
-			commPort = portIdentifier.open(portIdentifier.getName(),
-					SERIAL_TIMEOUT);
+			commPort = portIdentifier.open(portIdentifier.getName(), SERIAL_TIMEOUT);
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
@@ -39,8 +36,7 @@ public final class RfidSerialCom implements Runnable,
 		if (commPort instanceof SerialPort) {
 			try {
 				serialPort = (SerialPort) commPort;
-				serialPort.setSerialPortParams(BAUD_RATE,
-						SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
+				serialPort.setSerialPortParams(BAUD_RATE, SerialPort.DATABITS_8, SerialPort.STOPBITS_1,
 						SerialPort.PARITY_NONE);
 				inputStream = serialPort.getInputStream();
 				serialPort.addEventListener(this);

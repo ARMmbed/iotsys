@@ -10,8 +10,7 @@ package obix;
  * @creation 21 Sep 09
  * @version $Revision$ $Date$
  */
-public class Date extends Val
-{
+public class Date extends Val {
 
 	// //////////////////////////////////////////////////////////////
 	// Constructor
@@ -20,8 +19,7 @@ public class Date extends Val
 	/**
 	 * Construct named Date with specified values.
 	 */
-	public Date(String name, int year, int mon, int day)
-	{
+	public Date(String name, int year, int mon, int day) {
 		super(name);
 		set(year, mon, day);
 	}
@@ -29,24 +27,21 @@ public class Date extends Val
 	/**
 	 * Construct named Date with value of 1 Jan 2000.
 	 */
-	public Date(String name)
-	{
+	public Date(String name) {
 		super(name);
 	}
 
 	/**
 	 * Construct unnamed Date with specified values.
 	 */
-	public Date(int year, int mon, int day)
-	{
+	public Date(int year, int mon, int day) {
 		set(year, mon, day);
 	}
 
 	/**
 	 * Construct unnamed Date with value of 1 Jan 2000.
 	 */
-	public Date()
-	{
+	public Date() {
 	}
 
 	// //////////////////////////////////////////////////////////////
@@ -56,32 +51,28 @@ public class Date extends Val
 	/**
 	 * The year such as 2009.
 	 */
-	public final int getYear()
-	{
+	public final int getYear() {
 		return year;
 	}
 
 	/**
 	 * The month: 1-12.
 	 */
-	public final int getMonth()
-	{
+	public final int getMonth() {
 		return mon;
 	}
 
 	/**
 	 * The day of month: 1-31.
 	 */
-	public final int getDay()
-	{
+	public final int getDay() {
 		return day;
 	}
 
 	/**
 	 * Set values.
 	 */
-	public void set(int year, int mon, int day)
-	{
+	public void set(int year, int mon, int day) {
 		if (year < 1900 || year > 2100)
 			throw new IllegalArgumentException("year not 1900-2100: " + year);
 		if (mon < 1 || mon > 12)
@@ -101,26 +92,22 @@ public class Date extends Val
 	/**
 	 * Return "date".
 	 */
-	public String getElement()
-	{
+	public String getElement() {
 		return "date";
 	}
 
 	/**
 	 * Return BinObix.DATE.
 	 */
-	public int getBinCode()
-	{
+	public int getBinCode() {
 		return obix.io.BinObix.DATE;
 	}
 
 	/**
 	 * Return if specified Val has equivalent time value.
 	 */
-	public boolean valEquals(Val that)
-	{
-		if (that instanceof Date)
-		{
+	public boolean valEquals(Val that) {
+		if (that instanceof Date) {
 			Date x = (Date) that;
 			return year == x.year && mon == x.mon && day == x.day;
 		}
@@ -128,10 +115,11 @@ public class Date extends Val
 	}
 
 	/**
-	 * Compares this object with the specified object for order. Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object.
+	 * Compares this object with the specified object for order. Returns a
+	 * negative integer, zero, or a positive integer as this object is less
+	 * than, equal to, or greater than the specified object.
 	 */
-	public int compareTo(Object that)
-	{
+	public int compareTo(Object that) {
 		Date a = this;
 		Date b = (Date) that;
 
@@ -156,8 +144,7 @@ public class Date extends Val
 	/**
 	 * Encode the value as a string
 	 */
-	public String encodeVal()
-	{
+	public String encodeVal() {
 		StringBuffer s = new StringBuffer();
 
 		s.append(year);
@@ -175,8 +162,7 @@ public class Date extends Val
 	/**
 	 * Parse from value string.
 	 */
-	public static Date parse(String s) throws Exception
-	{
+	public static Date parse(String s) throws Exception {
 		Date r = new Date();
 		r.decodeVal(s);
 		return r;
@@ -185,10 +171,8 @@ public class Date extends Val
 	/**
 	 * Decode the value from a string.
 	 */
-	public void decodeVal(String s) throws Exception
-	{
-		try
-		{
+	public void decodeVal(String s) throws Exception {
+		try {
 			if (s.length() != 10 || s.charAt(4) != '-' || s.charAt(7) != '-')
 				throw new Exception();
 
@@ -196,9 +180,7 @@ public class Date extends Val
 			int mon = Integer.parseInt(s.substring(5, 7));
 			int day = Integer.parseInt(s.substring(8));
 			set(year, mon, day);
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new Exception("Invalid date: " + s);
 		}
 	}
@@ -210,56 +192,49 @@ public class Date extends Val
 	/**
 	 * Get the min facet or null if unspecified.
 	 */
-	public Date getMin()
-	{
+	public Date getMin() {
 		return min;
 	}
 
 	/**
 	 * Set the min facet.
 	 */
-	public void setMin(Date min)
-	{
+	public void setMin(Date min) {
 		this.min = min;
 	}
 
 	/**
 	 * Get the max facet or null if unspecified.
 	 */
-	public Date getMax()
-	{
+	public Date getMax() {
 		return max;
 	}
 
 	/**
 	 * Set the max facet.
 	 */
-	public void setMax(Date max)
-	{
+	public void setMax(Date max) {
 		this.max = max;
 	}
 
 	/**
 	 * Get the tz facet or null if not unspecified.
 	 */
-	public String getTz()
-	{
+	public String getTz() {
 		return tz;
 	}
 
 	/**
 	 * Set the tz facet.
 	 */
-	public void setTz(String tz)
-	{
+	public void setTz(String tz) {
 		this.tz = tz;
 	}
 
 	/**
 	 * Set to value of another Date
 	 */
-	public void set(Obj obj)
-	{
+	public void set(Obj obj) {
 		if (!(obj instanceof Date))
 			return;
 		Date date = (Date) obj;

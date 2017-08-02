@@ -37,20 +37,17 @@ import obix.List;
 import obix.Obj;
 import obix.Uri;
 
-public class ParametersImpl extends List implements IObj
-{
+public class ParametersImpl extends List implements IObj {
 	private static final ParametersImpl instance = new ParametersImpl();
 
-	private ParametersImpl()
-	{
+	private ParametersImpl() {
 		this.setName("parameters");
 		this.setOf(new Contract("obix:obj"));
 		this.setHref(new Uri("/parameters"));
 
 		Obj[] parameters = new Obj[] { new ParameterDimmingImpl() };
 
-		for (Obj obj : parameters)
-		{
+		for (Obj obj : parameters) {
 			obj.setHref(obj.getRelativePath());
 
 			this.add(obj);
@@ -58,8 +55,7 @@ public class ParametersImpl extends List implements IObj
 		}
 	}
 
-	public static ParametersImpl getInstance()
-	{
+	public static ParametersImpl getInstance() {
 		return instance;
 	}
 }

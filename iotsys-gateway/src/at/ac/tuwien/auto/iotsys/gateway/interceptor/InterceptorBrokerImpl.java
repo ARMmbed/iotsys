@@ -19,14 +19,14 @@ import at.ac.tuwien.auto.iotsys.commons.interceptor.InterceptorResponse.StatusCo
 public class InterceptorBrokerImpl implements InterceptorBroker, Interceptor {
 	private static Logger log = Logger.getLogger(InterceptorBrokerImpl.class.getName());
 
-	private static InterceptorBroker instance = new InterceptorBrokerImpl(); 
-	
+	private static InterceptorBroker instance = new InterceptorBrokerImpl();
+
 	private Map<Class<?>, Interceptor> interceptors = new HashMap<Class<?>, Interceptor>();
-		
+
 	private InterceptorBrokerImpl() {
 		log.info("Create InterceptorBroker");
 	}
-	
+
 	public static InterceptorBroker getInstance() {
 		log.info("Return InterceptorBroker instance.");
 		return instance;
@@ -44,14 +44,14 @@ public class InterceptorBrokerImpl implements InterceptorBroker, Interceptor {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public InterceptorResponse handleRequest(InterceptorRequest request) {
 		// log.info("Handle request!");
 		InterceptorResponse resp = null;
 		for (Interceptor i : interceptors.values()) {
 			resp = i.handleRequest(request);
-			if (!resp.getStatus().equals(StatusCode.OK)) {				
+			if (!resp.getStatus().equals(StatusCode.OK)) {
 				return resp;
 			}
 		}
@@ -66,7 +66,7 @@ public class InterceptorBrokerImpl implements InterceptorBroker, Interceptor {
 		InterceptorResponse resp = null;
 		for (Interceptor i : interceptors.values()) {
 			resp = i.handleResponse(response);
-			if (!resp.getStatus().equals(StatusCode.OK)) {				
+			if (!resp.getStatus().equals(StatusCode.OK)) {
 				return resp;
 			}
 		}
@@ -82,7 +82,7 @@ public class InterceptorBrokerImpl implements InterceptorBroker, Interceptor {
 		if (interceptors.containsKey(i.getClass())) {
 			throw new ClassAlreadyRegisteredException();
 		}
-		interceptors.put(i.getClass(), i);		
+		interceptors.put(i.getClass(), i);
 	}
 
 	@Override

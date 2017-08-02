@@ -31,17 +31,16 @@ import at.ac.tuwien.auto.calimero.xml.Attribute;
 import at.ac.tuwien.auto.calimero.xml.KNXMLException;
 import at.ac.tuwien.auto.calimero.xml.XMLWriter;
 
-
 /**
  * Default XML writer implementation of the XMLWriter interface.
  * <p>
- * Does not add any feature not already documented in the implemented interface.<br>
+ * Does not add any feature not already documented in the implemented
+ * interface.<br>
  * This writer is not thread safe.
  * 
  * @author B. Malinowsky
  */
-public class DefaultXMLWriter implements XMLWriter
-{
+public class DefaultXMLWriter implements XMLWriter {
 	// TODO implement tracing of line numbers written to output
 
 	// default indentation
@@ -60,40 +59,44 @@ public class DefaultXMLWriter implements XMLWriter
 	 * Creates a new XML writer.
 	 * <p>
 	 */
-	public DefaultXMLWriter()
-	{}
+	public DefaultXMLWriter() {
+	}
 
 	/**
 	 * Creates a new XML writer with output <code>w</code>.
 	 * <p>
 	 * The writer is buffered by this XML writer.
 	 * 
-	 * @param w the output {@link Writer}
-	 * @param close <code>true</code> to close <code>w</code> if XML writer is closed,
-	 *        <code>false</code> otherwise
+	 * @param w
+	 *            the output {@link Writer}
+	 * @param close
+	 *            <code>true</code> to close <code>w</code> if XML writer is
+	 *            closed, <code>false</code> otherwise
 	 * @see XMLWriter#setOutput(Writer, boolean)
 	 */
-	public DefaultXMLWriter(Writer w, boolean close)
-	{
+	public DefaultXMLWriter(Writer w, boolean close) {
 		setOutput(w, close);
 	};
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.xml.XMLWriter#setOutput(java.io.Writer, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.xml.XMLWriter#setOutput(java.io.Writer,
+	 * boolean)
 	 */
-	public void setOutput(Writer output, boolean close)
-	{
+	public void setOutput(Writer output, boolean close) {
 		reset();
 		w = new BufferedWriter(output);
 		closeWriter = close;
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.xml.XMLWriter#writeDeclaration(boolean, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.xml.XMLWriter#writeDeclaration(boolean,
+	 * java.lang.String)
 	 */
-	public void writeDeclaration(boolean standalone, String encoding)
-		throws KNXMLException
-	{
+	public void writeDeclaration(boolean standalone, String encoding) throws KNXMLException {
 		try {
 			w.write("<?xml version=" + quote + "1.0" + quote);
 			w.write(" standalone=" + quote + (standalone ? "yes" : "no") + quote);
@@ -101,142 +104,138 @@ public class DefaultXMLWriter implements XMLWriter
 				w.write(" encoding=" + quote + encoding + quote);
 			w.write("?>");
 			w.newLine();
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException(e.getMessage());
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.xml.XMLWriter#writeElement
-	 * (java.lang.String, java.util.List, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.xml.XMLWriter#writeElement (java.lang.String,
+	 * java.util.List, java.lang.String)
 	 */
-	public void writeElement(String name, List att, String content) throws KNXMLException
-	{
+	public void writeElement(String name, List att, String content) throws KNXMLException {
 		try {
 			final Tag tag = new Tag(name, att, content, false);
 			layout.push(tag);
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException(e.getMessage());
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLWriter#writeEmptyElement
 	 * (java.lang.String, java.util.List)
 	 */
-	public void writeEmptyElement(String name, List att) throws KNXMLException
-	{
+	public void writeEmptyElement(String name, List att) throws KNXMLException {
 		try {
 			final Tag tag = new Tag(name, att, null, true);
 			tag.endTag();
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException(e.getMessage());
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see tuwien.auto.calimero.xml.XMLWriter#writeCharData(java.lang.String, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see tuwien.auto.calimero.xml.XMLWriter#writeCharData(java.lang.String,
+	 * boolean)
 	 */
-	public void writeCharData(String text, boolean isCDATASection) throws KNXMLException
-	{
+	public void writeCharData(String text, boolean isCDATASection) throws KNXMLException {
 		try {
 			if (isCDATASection) {
 				w.write("<![CDATA[");
 				w.write(text);
 				w.write("]]>");
-			}
-			else
+			} else
 				w.write(References.replace(text, true));
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException(e.getMessage());
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLWriter#writeComment(java.lang.String)
 	 */
-	public void writeComment(String comment) throws KNXMLException
-	{
+	public void writeComment(String comment) throws KNXMLException {
 		try {
 			w.write("<!--");
 			w.write(comment);
 			w.write("-->");
 			w.newLine();
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException(e.getMessage());
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLWriter#endElement()
 	 */
-	public void endElement() throws KNXMLException
-	{
+	public void endElement() throws KNXMLException {
 		if (layout.empty())
 			throw new KNXIllegalStateException("no elements to end");
 		try {
 			((Tag) layout.pop()).endTag();
 			if (layout.empty())
 				w.flush();
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException(e.getMessage());
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLWriter#endAllElements()
 	 */
-	public void endAllElements() throws KNXMLException
-	{
+	public void endAllElements() throws KNXMLException {
 		try {
 			while (!layout.empty())
 				((Tag) layout.pop()).endTag();
 			w.flush();
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			throw new KNXMLException(e.getMessage());
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see tuwien.auto.calimero.xml.XMLWriter#close()
 	 */
-	public void close() throws KNXMLException
-	{
+	public void close() throws KNXMLException {
 		if (!layout.isEmpty())
 			endAllElements();
 		if (closeWriter)
 			try {
 				w.close();
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 				throw new KNXMLException(e.getMessage());
 			}
 	}
 
-	private BufferedWriter indent() throws IOException
-	{
+	private BufferedWriter indent() throws IOException {
 		for (int i = 0; i < indent; ++i)
 			w.write(' ');
 		return w;
 	}
 
-	private void reset()
-	{
+	private void reset() {
 		layout = new Stack();
 		indent = 0;
 		newTag = false;
 	}
 
 	// helper class for tag writing
-	private final class Tag
-	{
+	private final class Tag {
 		private static final String lt = "<";
 		private static final String gt = ">";
 		private static final String equal = "=";
@@ -244,23 +243,20 @@ public class DefaultXMLWriter implements XMLWriter
 		private static final String space = " ";
 		private String name;
 
-		Tag(String name, List att, String cnt, boolean empty) throws IOException
-		{
+		Tag(String name, List att, String cnt, boolean empty) throws IOException {
 			if (newTag)
 				w.newLine();
 			indent().write(lt + name);
 			if (att != null)
 				for (final Iterator i = att.iterator(); i.hasNext();) {
 					final Attribute a = (Attribute) i.next();
-					w.write(space + a.getName() + equal + quote
-						+ References.replace(a.getValue(), true) + quote);
+					w.write(space + a.getName() + equal + quote + References.replace(a.getValue(), true) + quote);
 				}
 			if (empty) {
 				w.write(space + slash + gt);
 				w.newLine();
 				newTag = false;
-			}
-			else {
+			} else {
 				newTag = true;
 				if (cnt == null || cnt.length() == 0)
 					w.write(gt);
@@ -271,8 +267,7 @@ public class DefaultXMLWriter implements XMLWriter
 			}
 		}
 
-		void endTag() throws IOException
-		{
+		void endTag() throws IOException {
 			if (name != null) {
 				indent -= indentWidth;
 				if (!newTag)

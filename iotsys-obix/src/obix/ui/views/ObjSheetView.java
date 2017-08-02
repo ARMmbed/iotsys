@@ -1,66 +1,62 @@
 /*
  * This code licensed to public domain
  */
-package obix.ui.views;  
+package obix.ui.views;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JScrollPane;
 
 import obix.Obj;
-import obix.ui.*;
+import obix.ui.Editor;
+import obix.ui.ObjSheet;
+import obix.ui.Shell;
+import obix.ui.UiSession;
+import obix.ui.View;
 
 /**
- * ObjSheetView is the default view for viewing/editing obix objects
- * with a simple property sheet.
+ * ObjSheetView is the default view for viewing/editing obix objects with a
+ * simple property sheet.
  *
- * @author    Brian Frank
- * @creation  13 Sept 05
- * @version   $Revision$ $Date$
+ * @author Brian Frank
+ * @creation 13 Sept 05
+ * @version $Revision$ $Date$
  */
-public class ObjSheetView
-  extends View   
-  implements ObjSheet.SaveVisitor 
-{                   
-    
-////////////////////////////////////////////////////////////////
-// Construction 
-////////////////////////////////////////////////////////////////
+public class ObjSheetView extends View implements ObjSheet.SaveVisitor {
 
-  public ObjSheetView(Shell shell, UiSession.Response resp)
-    throws Exception
-  {             
-    super(shell, "Obj", resp);                
+	////////////////////////////////////////////////////////////////
+	// Construction
+	////////////////////////////////////////////////////////////////
 
-    sheet = new ObjSheet(shell, resp.session);
-    sheet.load(resp.obj);
-    sheet.addListener(new Editor.Listener()
-    {
-      public void changed(Editor editor) { ObjSheetView.this.changed(); }
-    });
-    
-    add(new JScrollPane(sheet), BorderLayout.CENTER);
-  }                  
+	public ObjSheetView(Shell shell, UiSession.Response resp) throws Exception {
+		super(shell, "Obj", resp);
 
-////////////////////////////////////////////////////////////////
-// Save
-////////////////////////////////////////////////////////////////
+		sheet = new ObjSheet(shell, resp.session);
+		sheet.load(resp.obj);
+		sheet.addListener(new Editor.Listener() {
+			public void changed(Editor editor) {
+				ObjSheetView.this.changed();
+			}
+		});
 
-  public void save()
-    throws Exception
-  {                 
-    sheet.save(this);
-  }
-  
-  public void save(Obj obj)
-    throws Exception
-  {         
-    resp.session.write(obj);
-  }
+		add(new JScrollPane(sheet), BorderLayout.CENTER);
+	}
 
-////////////////////////////////////////////////////////////////
-// Fields
-////////////////////////////////////////////////////////////////
- 
-  ObjSheet sheet;
+	////////////////////////////////////////////////////////////////
+	// Save
+	////////////////////////////////////////////////////////////////
+
+	public void save() throws Exception {
+		sheet.save(this);
+	}
+
+	public void save(Obj obj) throws Exception {
+		resp.session.write(obj);
+	}
+
+	////////////////////////////////////////////////////////////////
+	// Fields
+	////////////////////////////////////////////////////////////////
+
+	ObjSheet sheet;
 }

@@ -31,19 +31,16 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.impl;
 
-import obix.Uri;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.contracts.impl.RangeImpl;
 import at.ac.tuwien.auto.iotsys.commons.obix.objects.general.enumeration.EnumLogicOperationTypes;
+import obix.Uri;
 
-public class EnumLogicOperationTypesImpl extends RangeImpl implements EnumLogicOperationTypes
-{
-	public EnumLogicOperationTypesImpl()
-	{
+public class EnumLogicOperationTypesImpl extends RangeImpl implements EnumLogicOperationTypes {
+	public EnumLogicOperationTypesImpl() {
 		super(new Uri(EnumLogicOperationTypes.HREF));
 	}
 
-	protected void initValues()
-	{
+	protected void initValues() {
 		addElement(new ObjElement(EnumLogicOperationTypes.KEY_AND));
 		addElement(new ObjElement(EnumLogicOperationTypes.KEY_NAND));
 		addElement(new ObjElement(EnumLogicOperationTypes.KEY_NOR));

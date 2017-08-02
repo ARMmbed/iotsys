@@ -32,15 +32,15 @@
 
 package at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.impl;
 
+import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.ChillerActuator;
 import obix.Bool;
 import obix.Contract;
 import obix.Uri;
-import at.ac.tuwien.auto.iotsys.commons.obix.objects.iot.actuators.ChillerActuator;
 
 public class ChillerActuatorImpl extends ActuatorImpl implements ChillerActuator {
 	private Bool enabled = new Bool(false);
-	
-	public ChillerActuatorImpl(){
+
+	public ChillerActuatorImpl() {
 		setIs(new Contract(ChillerActuator.class.getName()));
 		enabled.setName(ChillerActuator.CHILLER_ENABLED_NAME);
 		enabled.setHref(new Uri(ChillerActuator.CHILLER_ENABLED_HREF));

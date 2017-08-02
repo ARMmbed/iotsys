@@ -35,15 +35,13 @@ package at.ac.tuwien.auto.iotsys.commons.util;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public abstract class UriEncoder
-{
-	public static String getEscapedUri(String decodedStr)
-	{
+public abstract class UriEncoder {
+	public static String getEscapedUri(String decodedStr) {
 		String tmp = decodedStr;
-		
+
 		// lower case
 		tmp = tmp.toLowerCase();
-		
+
 		// replace characters
 		tmp = tmp.replace(" ", "_");
 		tmp = tmp.replace("-", "_");
@@ -67,16 +65,13 @@ public abstract class UriEncoder
 		tmp = tmp.replace("]", "");
 		tmp = tmp.replace("{", "");
 		tmp = tmp.replace("}", "");
-		
-		try
-		{
+
+		try {
 			tmp = URLEncoder.encode(tmp, "UTF-8");
-		}
-		catch (UnsupportedEncodingException e)
-		{
+		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-				
+
 		return tmp;
 	}
 }

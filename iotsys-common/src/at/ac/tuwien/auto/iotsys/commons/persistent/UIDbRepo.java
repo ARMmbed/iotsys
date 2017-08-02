@@ -44,37 +44,37 @@ import at.ac.tuwien.auto.iotsys.commons.persistent.models.User;
  * @author Nam Giang - zang at kaist dot ac dot kr
  *
  */
-@Views({
-	@View(name = "allKeyValues", map = "function(doc) {if (doc.key) emit(doc.key, doc);}"),
-	@View(name = "allUsers", map = "function(doc) {if (doc.name && doc.password) emit(doc.name, doc);}"),
-})
+@Views({ @View(name = "allKeyValues", map = "function(doc) {if (doc.key) emit(doc.key, doc);}"),
+		@View(name = "allUsers", map = "function(doc) {if (doc.name && doc.password) emit(doc.name, doc);}"), })
 public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
-	
+
 	private static UIDbRepo INSTANCE;
 	private static final Logger log = Logger.getLogger(UIDbRepo.class.getName());
-	
+
 	private Map<String, String> uiStorageMap = new HashMap<String, String>();
-	
+
 	protected UIDbRepo(CouchDbConnector db) {
 		super(User.class, db);
 		initStandardDesignDocument();
-		
+
 		loadAllKeyValues();
-		
+
 		// Instantiate bootstrap user account?
-		String bootstrapUser = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.security.bootstrapUser", "iotsys");
-		String bootstrapPassword = PropertiesLoader.getInstance().getProperties().getProperty("iotsys.gateway.security.bootstrapPassword", "s3cret");
-		
+		String bootstrapUser = PropertiesLoader.getInstance().getProperties()
+				.getProperty("iotsys.gateway.security.bootstrapUser", "iotsys");
+		String bootstrapPassword = PropertiesLoader.getInstance().getProperties()
+				.getProperty("iotsys.gateway.security.bootstrapPassword", "s3cret");
+
 		User u = getUser(bootstrapUser);
 		if (u != null)
 			return;
-		
+
 		u = new User(bootstrapUser, bootstrapPassword, "admin");
 		addUser(u);
 	}
-	
-	public static UIDb getInstance(){
-		if (INSTANCE == null){ 
+
+	public static UIDb getInstance() {
+		if (INSTANCE == null) {
 			CouchDbConnector db = new StdCouchDbConnector("uidb", DbConnection.getCouchInstance());
 			try {
 				INSTANCE = new UIDbRepo(db);
@@ -85,10 +85,10 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 		return INSTANCE;
 	}
 
-	private void loadAllKeyValues(){
+	private void loadAllKeyValues() {
 		try {
 			uiStorageMap = db.get(Map.class, "uistorage");
-		} catch (Exception e){
+		} catch (Exception e) {
 			uiStorageMap.put("_id", "uistorage");
 		}
 	}
@@ -105,7 +105,7 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 		uiKeyValues.remove("_rev");
 		// Check existing
 		loadAllKeyValues();
-		if (uiStorageMap.get("_rev") != null){
+		if (uiStorageMap.get("_rev") != null) {
 			uiKeyValues.put("_id", uiStorageMap.get("_id"));
 			uiKeyValues.put("_rev", uiStorageMap.get("_rev"));
 			db.update(uiKeyValues);
@@ -123,39 +123,43 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 		User u = null;
 		try {
 			u = db.get(User.class, name);
-		} catch(Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return u;
 	}
 
-	private class SaltHash{
+	private class SaltHash {
 		String salt;
 		String hash;
-		public SaltHash(String salt, String hash){
+
+		public SaltHash(String salt, String hash) {
 			this.salt = salt;
 			this.hash = hash;
 		}
+
 		public String getSalt() {
 			return salt;
 		}
+
 		public void setSalt(String salt) {
 			this.salt = salt;
 		}
+
 		public String getHash() {
 			return hash;
 		}
+
 		public void setHash(String hash) {
 			this.hash = hash;
 		}
-		
+
 	}
-	
+
 	private String hashGen(String rawPassword, String salt) {
 		byte[] saltB = new BigInteger(salt, 16).toByteArray();
 		// calculate the hash
-		KeySpec spec = new PBEKeySpec(rawPassword.toCharArray(), saltB, 65536,
-				128);
+		KeySpec spec = new PBEKeySpec(rawPassword.toCharArray(), saltB, 65536, 128);
 		SecretKeyFactory f;
 		try {
 			f = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
@@ -167,8 +171,8 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 			return null;
 		}
 	}
-	
-	private SaltHash saltHashGen(String rawPassword){
+
+	private SaltHash saltHashGen(String rawPassword) {
 		byte[] salt = new byte[16];
 		(new Random()).nextBytes(salt);
 		KeySpec spec = new PBEKeySpec(rawPassword.toCharArray(), salt, 65536, 128);
@@ -188,7 +192,7 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 		}
 		return null;
 	}
-	
+
 	@Override
 	public void addUser(User u) {
 		SaltHash sh = saltHashGen(u.getPassword());
@@ -219,7 +223,7 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 		try {
 			System.out.println(oldU.toString());
 			db.update(oldU);
-		} catch (Exception e){
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
@@ -234,17 +238,17 @@ public class UIDbRepo extends CouchDbRepositorySupport<User> implements UIDb {
 	@Override
 	public boolean authenticateUser(String name, String plainPassword) {
 		User u = getUser(name);
-		
+
 		if (u == null)
 			return false;
-		
+
 		System.out.println(u.toString());
 		// retrieve the stored salt
 		byte[] salt = new BigInteger(u.getSalt(), 16).toByteArray();
 		if (salt[0] == 0) {
-		    byte[] tmp = new byte[salt.length - 1];
-		    System.arraycopy(salt, 1, tmp, 0, tmp.length);
-		    salt = tmp;
+			byte[] tmp = new byte[salt.length - 1];
+			System.arraycopy(salt, 1, tmp, 0, tmp.length);
+			salt = tmp;
 		}
 		// calculate the hash
 		KeySpec spec = new PBEKeySpec(plainPassword.toCharArray(), salt, 65536, 128);
