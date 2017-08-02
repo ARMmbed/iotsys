@@ -31,6 +31,7 @@ import java.util.List;
 import at.ac.tuwien.auto.calimero.CloseEvent;
 import at.ac.tuwien.auto.calimero.FrameEvent;
 import at.ac.tuwien.auto.calimero.KNXListener;
+import at.ac.tuwien.auto.calimero.cemi.CEMI;
 import at.ac.tuwien.auto.calimero.cemi.CEMIDevMgmt;
 import at.ac.tuwien.auto.calimero.exception.KNXException;
 import at.ac.tuwien.auto.calimero.exception.KNXIllegalStateException;
@@ -50,7 +51,7 @@ import at.ac.tuwien.auto.calimero.knxnetip.KNXnetIPDevMgmt;
  * @author B. Malinowsky
  */
 public class KnIPDeviceMgmtAdapter implements PropertyAdapter {
-	private static final class Pair {
+	public static final class Pair {
 		final int oindex;
 		final int otype;
 
@@ -82,9 +83,9 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter {
 
 	private final KNXnetIPConnection conn;
 	private final PropertyAdapterListener listener;
-	private final List frames = Collections.synchronizedList(new LinkedList());
+	private final List<CEMI> frames = Collections.synchronizedList(new LinkedList<CEMI>());
 
-	private final List interfaceObjects = new ArrayList();
+	private final List<Pair> interfaceObjects = new ArrayList<Pair>();
 	private final boolean checkRW;
 
 	private volatile boolean serverReset;
@@ -286,7 +287,7 @@ public class KnIPDeviceMgmtAdapter implements PropertyAdapter {
 	}
 
 	private int getObjectType(int objIndex) throws KNXRemoteException {
-		for (final Iterator i = interfaceObjects.iterator(); i.hasNext();) {
+		for (final Iterator<Pair> i = interfaceObjects.iterator(); i.hasNext();) {
 			final Pair p = (Pair) i.next();
 			if (p.oindex == objIndex)
 				return p.otype;

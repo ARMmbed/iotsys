@@ -127,7 +127,7 @@ public abstract class Editor extends JPanel {
 		});
 	}
 
-	public void registerForChanged(JComboBox combo) {
+	public void registerForChanged(JComboBox<?> combo) {
 		registerForChanged((JTextComponent) combo.getEditor().getEditorComponent());
 		combo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent e) {
@@ -140,7 +140,7 @@ public abstract class Editor extends JPanel {
 	// Fields
 	////////////////////////////////////////////////////////////////
 
-	ArrayList listeners = new ArrayList();
+	ArrayList<Listener> listeners = new ArrayList<Listener>();
 	boolean editable = true;
 	boolean suppressChanged = false;
 

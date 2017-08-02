@@ -177,7 +177,7 @@ public final class TranslatorTypes {
 	 * Objects of this type are immutable.<br>
 	 */
 	public static class MainType {
-		private final Class xlator;
+		private final Class<?> xlator;
 		private final String desc;
 		private final int main;
 
@@ -193,7 +193,7 @@ public final class TranslatorTypes {
 		 *            textual information describing this data type to a user,
 		 *            use <code>null</code> for no description
 		 */
-		public MainType(int mainNumber, Class translator, String description) {
+		public MainType(int mainNumber, Class<?> translator, String description) {
 			if (mainNumber <= 0)
 				throw new KNXIllegalArgumentException("invalid main number");
 			if (!DPTXlator.class.isAssignableFrom(translator) || DPTXlator.class.equals(translator))
@@ -278,7 +278,7 @@ public final class TranslatorTypes {
 		 * 
 		 * @return the translator class as {@link Class} object
 		 */
-		public Class getTranslator() {
+		public Class<?> getTranslator() {
 			return xlator;
 		}
 
@@ -304,9 +304,9 @@ public final class TranslatorTypes {
 		 *             external, user supplied translators
 		 * @see DPTXlator#getSubTypes()
 		 */
-		public Map getSubTypes() throws KNXException {
+		public Map<?, ?> getSubTypes() throws KNXException {
 			try {
-				return (Map) xlator.getDeclaredMethod("getSubTypesStatic", null).invoke(null, null);
+				return (Map<?, ?>) xlator.getDeclaredMethod("getSubTypesStatic", null).invoke(null, null);
 			} catch (final NoSuchMethodException e) {
 				throw new KNXException("no method to get subtypes, " + e.getMessage());
 			} catch (final Exception e) {
@@ -317,13 +317,13 @@ public final class TranslatorTypes {
 		}
 	}
 
-	private static final Map map;
+	private static final Map<Integer, MainType> map;
 
 	private TranslatorTypes() {
 	}
 
 	static {
-		map = Collections.synchronizedMap(new HashMap(20));
+		map = Collections.synchronizedMap(new HashMap<Integer, MainType>(20));
 		addTranslator(TYPE_BOOLEAN, "DPTXlatorBoolean", "Boolean (main type 1)");
 		addTranslator(TYPE_3BIT_CONTROLLED, "DPTXlator3BitControlled", "3 Bit controlled (main type 3)");
 		addTranslator(TYPE_8BIT_UNSIGNED, "DPTXlator8BitUnsigned", "8 Bit unsigned value (main type 5)");
@@ -370,7 +370,7 @@ public final class TranslatorTypes {
 	 * @return a {@link Map} containing all data types as {@link MainType}
 	 *         objects
 	 */
-	public static Map getAllMainTypes() {
+	public static Map<Integer, MainType> getAllMainTypes() {
 		return map;
 	}
 
@@ -454,7 +454,7 @@ public final class TranslatorTypes {
 		try {
 			return createTranslator(0, dpt.getID());
 		} catch (final KNXException e) {
-			for (final Iterator i = map.values().iterator(); i.hasNext();)
+			for (final Iterator<MainType> i = map.values().iterator(); i.hasNext();)
 				try {
 					return ((MainType) i.next()).createTranslator(dpt);
 				} catch (final KNXException ignore) {

@@ -48,7 +48,7 @@ public class DefaultEntityResolver implements EntityResolver {
 	// decoders,
 	// only IANA names which are different from the java encoding names are
 	// listed
-	private static final Map javaNames = new HashMap();
+	private static final Map<String, String> javaNames = new HashMap<String, String>();
 
 	static {
 		// add a new mapping of names, if value from "encoding"

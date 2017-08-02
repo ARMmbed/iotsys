@@ -98,8 +98,8 @@ public class Discoverer {
 	private final int port;
 	// is our discovery/description aware of network address translation
 	private final boolean isNatAware;
-	private final List receiver = Collections.synchronizedList(new ArrayList());
-	private final List responses = Collections.synchronizedList(new ArrayList());
+	private final List<Receiver> receiver = Collections.synchronizedList(new ArrayList<Receiver>());
+	private final List<SearchResponse> responses = Collections.synchronizedList(new ArrayList<SearchResponse>());
 
 	static {
 		InetAddress a = null;
@@ -259,7 +259,7 @@ public class Discoverer {
 	public void startSearch(int timeout, boolean wait) throws KNXException {
 		if (timeout < 0)
 			throw new KNXIllegalArgumentException("timeout has to be >= 0");
-		final Enumeration eni;
+		final Enumeration<NetworkInterface> eni;
 		try {
 			eni = NetworkInterface.getNetworkInterfaces();
 		} catch (final SocketException e) {
@@ -271,11 +271,11 @@ public class Discoverer {
 			throw new KNXException("no network interfaces found");
 		}
 
-		final List rcv = new ArrayList();
+		final List<Receiver> rcv = new ArrayList<Receiver>();
 		boolean lo = false;
 		while (eni.hasMoreElements()) {
 			final NetworkInterface ni = (NetworkInterface) eni.nextElement();
-			for (final Enumeration ea = ni.getInetAddresses(); ea.hasMoreElements();) {
+			for (final Enumeration<InetAddress> ea = ni.getInetAddresses(); ea.hasMoreElements();) {
 				final InetAddress a = (InetAddress) ea.nextElement();
 				if (!isNatAware && a.getAddress().length != 4)
 					logger.info("skipped " + a + ", not an IPv4 address");
@@ -294,7 +294,7 @@ public class Discoverer {
 		if (rcv.size() == 0)
 			throw new KNXException("search couldn't be started on any network interface");
 		if (wait)
-			for (final Iterator i = rcv.iterator(); i.hasNext();)
+			for (final Iterator<Receiver> i = rcv.iterator(); i.hasNext();)
 				join((Thread) i.next());
 	}
 
@@ -305,7 +305,7 @@ public class Discoverer {
 	 */
 	public final void stopSearch() {
 		synchronized (receiver) {
-			for (final Iterator i = receiver.iterator(); i.hasNext();)
+			for (final Iterator<Receiver> i = receiver.iterator(); i.hasNext();)
 				((Receiver) i.next()).quit();
 			receiver.clear();
 		}
@@ -465,7 +465,7 @@ public class Discoverer {
 		throw e;
 	}
 
-	private final class Receiver extends Thread {
+	public final class Receiver extends Thread {
 		private volatile boolean quit;
 		private final MulticastSocket s;
 		private final int timeout;

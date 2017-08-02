@@ -16,8 +16,9 @@ public class AbstractGatewayTest {
 		gateway = new IoTSySGateway();
 
 		try {
-			Class mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
-			MdnsResolver m = (MdnsResolver) mc.getDeclaredMethod("getInstance", null).invoke(null, null);
+			Class<?> mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
+			MdnsResolver m = (MdnsResolver) mc.getDeclaredMethod("getInstance", (Class<?>[]) null).invoke(null,
+					(Object[]) null);
 			gateway.setMdnsResolver(m);
 
 		} catch (IllegalAccessException e) {

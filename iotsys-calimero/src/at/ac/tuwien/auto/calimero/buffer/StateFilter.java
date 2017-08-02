@@ -70,8 +70,8 @@ public class StateFilter implements NetworkFilter, RequestFilter {
 	// contains cross references of datapoints: which datapoint (key, of
 	// type KNXAddress) invalidates/updates which datapoints (value,
 	// of type List with GroupAddress entries)
-	private Map invalidate;
-	private Map update;
+	private Map<Object, List<GroupAddress>> invalidate;
+	private Map<Object, List<GroupAddress>> update;
 
 	/**
 	 * Creates a new state based filter.
@@ -192,9 +192,9 @@ public class StateFilter implements NetworkFilter, RequestFilter {
 
 	private void update(CEMILData f, Cache c) {
 		if (update != null) {
-			final List upd = (List) update.get(f.getDestination());
+			final List<?> upd = (List<?>) update.get(f.getDestination());
 			if (upd != null)
-				for (final Iterator i = upd.iterator(); i.hasNext();) {
+				for (final Iterator<?> i = upd.iterator(); i.hasNext();) {
 					final CacheObject co = c.get(i.next());
 					if (co != null)
 						((LDataObject) co)
@@ -205,19 +205,19 @@ public class StateFilter implements NetworkFilter, RequestFilter {
 
 	private void invalidate(CEMILData f, Cache c) {
 		if (invalidate != null) {
-			final List inv = (List) invalidate.get(f.getDestination());
+			final List<?> inv = (List<?>) invalidate.get(f.getDestination());
 			if (inv != null)
-				for (final Iterator i = inv.iterator(); i.hasNext();)
+				for (final Iterator<?> i = inv.iterator(); i.hasNext();)
 					c.remove(i.next());
 		}
 	}
 
 	private void createReferences(DatapointModel model) {
-		invalidate = new HashMap();
-		update = new HashMap();
-		final Collection c = ((DatapointMap) model).getDatapoints();
+		invalidate = new HashMap<Object, List<GroupAddress>>();
+		update = new HashMap<Object, List<GroupAddress>>();
+		final Collection<?> c = ((DatapointMap) model).getDatapoints();
 		synchronized (c) {
-			for (final Iterator i = c.iterator(); i.hasNext();) {
+			for (final Iterator<?> i = c.iterator(); i.hasNext();) {
 				try {
 					final StateDP dp = (StateDP) i.next();
 					createReferences(invalidate, dp.getAddresses(false), dp.getMainAddress());
@@ -228,12 +228,12 @@ public class StateFilter implements NetworkFilter, RequestFilter {
 		}
 	}
 
-	private void createReferences(Map map, Collection forAddr, GroupAddress toAddr) {
-		for (final Iterator i = forAddr.iterator(); i.hasNext();) {
+	private void createReferences(Map<Object, List<GroupAddress>> map, Collection<?> forAddr, GroupAddress toAddr) {
+		for (final Iterator<?> i = forAddr.iterator(); i.hasNext();) {
 			final Object o = i.next();
-			List l = (List) map.get(o);
+			List<GroupAddress> l = (List<GroupAddress>) map.get(o);
 			if (l == null)
-				map.put(o, l = new ArrayList());
+				map.put(o, l = new ArrayList<GroupAddress>());
 			l.add(toAddr);
 		}
 	}

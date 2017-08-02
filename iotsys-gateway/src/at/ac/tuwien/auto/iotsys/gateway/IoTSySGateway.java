@@ -182,7 +182,7 @@ public class IoTSySGateway {
 				String remotePdpWsdl = PropertiesLoader.getInstance().getProperties()
 						.getProperty("iotsys.gateway.xacml.remotePDPWsdl", "");
 				// PDPInterceptorSettings.getInstance().setRemotePdpWsdl(remotePdpWsdl);
-				Class pdpSettingsClazz = null;
+				Class<?> pdpSettingsClazz = null;
 
 				try {
 					pdpSettingsClazz = Class.forName("at.ac.tuwien.auto.iotsys.xacml.pdp.PDPInterceptorSettings");
@@ -213,7 +213,7 @@ public class IoTSySGateway {
 
 				}
 
-				Class clazz = null;
+				Class<?> clazz = null;
 				try {
 					clazz = Class.forName("at.ac.tuwien.auto.iotsys.xacml.pdp.PDPInterceptor");
 				} catch (ClassNotFoundException e1) {
@@ -315,7 +315,7 @@ public class IoTSySGateway {
 		if (enableServiceDiscovery) {
 			try {
 				Named n = (Named) Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.NamedImpl").newInstance();
-				Class mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
+				Class<?> mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
 				MdnsResolver m = (MdnsResolver) mc.getDeclaredMethod("getInstance", null).invoke(null, null);
 
 				n.startNamedService();

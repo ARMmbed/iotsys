@@ -26,7 +26,7 @@ public class ObixAssembler extends Assembler implements OpCodes {
 	 * interfaces. Each interface must contain only obix getter methods defining
 	 * a contracts sub-objects.
 	 */
-	public static Class compile(Class superClass, Class[] interfaces) throws Exception {
+	public static Class<?> compile(Class<?> superClass, Class<?>[] interfaces) throws Exception {
 		// short circuit if no interfaces to add
 		if (interfaces.length == 0)
 			return superClass;
@@ -47,7 +47,7 @@ public class ObixAssembler extends Assembler implements OpCodes {
 
 		// walk thru each interface and add code
 		// to ctor and accessor methods
-		HashMap done = new HashMap();
+		HashMap<String, Method> done = new HashMap<String, Method>();
 		for (int i = 0; i < interfaces.length; ++i)
 			asm.compileInterface(interfaces[i], done, ctor);
 
@@ -70,7 +70,7 @@ public class ObixAssembler extends Assembler implements OpCodes {
 	 * For the specified interface: 1) look at methods to figure out contract
 	 * children 2) add child init in constructor 3) add accessor method
 	 */
-	private void compileInterface(Class iface, HashMap done, Code ctor) {
+	private void compileInterface(Class<?> iface, HashMap<String, Method> done, Code ctor) {
 		// sanity checks
 		if (!iface.isInterface() || !IObj.class.isAssignableFrom(iface))
 			throw new IllegalArgumentException("Invalid contract interface: + " + iface);
@@ -102,7 +102,7 @@ public class ObixAssembler extends Assembler implements OpCodes {
 	private void compileSubObject(Code ctor, Method m) {
 		// gather some initial info
 		String name = m.getName();
-		Class type = m.getReturnType();
+		Class<?> type = m.getReturnType();
 
 		// anything with parameters or that doesn't
 		// return an Obj is invalid
@@ -172,7 +172,7 @@ public class ObixAssembler extends Assembler implements OpCodes {
 	// Private Constructor
 	////////////////////////////////////////////////////////////////
 
-	private ObixAssembler(String thisClass, Class superClass, Class[] interfaces) {
+	private ObixAssembler(String thisClass, Class<?> superClass, Class<?>[] interfaces) {
 		super(thisClass, superClass, Jvm.ACC_PUBLIC, interfaces);
 	}
 
@@ -213,7 +213,7 @@ public class ObixAssembler extends Assembler implements OpCodes {
 			super(ContractRegistry.getContractClassLoader());
 		}
 
-		public Class findClass(String name) throws ClassNotFoundException {
+		public Class<?> findClass(String name) throws ClassNotFoundException {
 			// first check if this is code in our class file map,
 			// if not then get safe copy of dependencies
 			Buffer classFile = null;
@@ -261,7 +261,9 @@ public class ObixAssembler extends Assembler implements OpCodes {
 	static AsmClassLoader classLoader = new AsmClassLoader();
 	static final Object nameLock = new Object();
 	static final Object loadLock = new Object();
-	static HashMap loadClassFiles = new HashMap(); // className -> byte[]
+	static HashMap<String, Buffer> loadClassFiles = new HashMap<String, Buffer>(); // className
+																					// ->
+																					// byte[]
 	static int nextName = 0;
 
 	private int objAdd, objAddWithName, objGet, decoderFromString;

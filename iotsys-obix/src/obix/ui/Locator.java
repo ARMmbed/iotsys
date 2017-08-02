@@ -17,7 +17,7 @@ import javax.swing.JComboBox;
  * @creation 13 Sept 05
  * @version $Revision$ $Date$
  */
-public class Locator extends JComboBox {
+public class Locator extends JComboBox<Object> {
 
 	////////////////////////////////////////////////////////////////
 	// Construction

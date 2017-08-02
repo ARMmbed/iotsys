@@ -87,7 +87,7 @@ public class FunctionRegistry {
 							}
 
 							// function attributes map
-							final Map funcAttrs = new HashMap();
+							final Map<Class<?>, Annotation> funcAttrs = new HashMap<Class<?>, Annotation>();
 							Annotation[] anns = current.getDeclaredAnnotations();
 							for (Annotation ann : anns) {
 								// We don't need the function id's annotation

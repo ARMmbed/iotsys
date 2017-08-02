@@ -91,7 +91,7 @@ public class ProcessCommunicatorImpl implements ProcessCommunicator {
 		private void fireGroupReadWrite(CEMILData f, byte[] asdu, int svc) {
 			final ProcessEvent e = new ProcessEvent(ProcessCommunicatorImpl.this, f.getSource(),
 					(GroupAddress) f.getDestination(), asdu);
-			for (final Iterator i = listeners.iterator(); i.hasNext();) {
+			for (final Iterator<?> i = listeners.iterator(); i.hasNext();) {
 				final Object l = i.next();
 				try {
 					if (svc == GROUP_READ && l instanceof ProcessListenerEx)
@@ -122,7 +122,7 @@ public class ProcessCommunicatorImpl implements ProcessCommunicator {
 	private final KNXNetworkLink lnk;
 	private final NetworkLinkListener lnkListener = new NLListener();
 	private final EventListeners listeners;
-	private final List indications = new LinkedList();
+	private final List<FrameEvent> indications = new LinkedList<FrameEvent>();
 	private Priority priority = Priority.LOW;
 	// maximum wait time in seconds for a response message
 	private int responseTimeout = 10;
@@ -486,7 +486,7 @@ public class ProcessCommunicatorImpl implements ProcessCommunicator {
 
 	private void fireDetached() {
 		final DetachEvent e = new DetachEvent(this);
-		for (final Iterator i = listeners.iterator(); i.hasNext();) {
+		for (final Iterator<?> i = listeners.iterator(); i.hasNext();) {
 			final ProcessListener l = (ProcessListener) i.next();
 			try {
 				l.detached(e);

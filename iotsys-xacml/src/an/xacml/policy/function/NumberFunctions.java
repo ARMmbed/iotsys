@@ -38,7 +38,7 @@ public abstract class NumberFunctions {
 			if (o1 == o2) {
 				return TRUE;
 			}
-			Comparable double1 = (Comparable) o1.getValue();
+			Comparable<Object> double1 = (Comparable<Object>) o1.getValue();
 			Object double2 = o2.getValue();
 			return double1.compareTo(double2) == 0 ? TRUE : FALSE;
 		}
@@ -160,7 +160,7 @@ public abstract class NumberFunctions {
 		Object real1 = num1.getValue();
 		Object real2 = num2.getValue();
 		if (real1 instanceof Comparable) {
-			return ((Comparable) real1).compareTo(real2);
+			return ((Comparable<Object>) real1).compareTo(real2);
 		}
 		throw new IndeterminateException(
 				"Expected a Comparable java typed value, but got a " + real1.getClass().getName());

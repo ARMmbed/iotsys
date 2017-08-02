@@ -86,7 +86,7 @@ public final class Jvm implements OpCodes {
 	 * long S short Z boolean V void ObjectType: L <classname> ; ArrayType [
 	 * FieldType
 	 */
-	public static String fieldDescriptor(Class cls) {
+	public static String fieldDescriptor(Class<?> cls) {
 		// handle base types
 		if (cls.isPrimitive()) {
 			if (cls.equals(byte.class))
@@ -133,7 +133,7 @@ public final class Jvm implements OpCodes {
 	 * @param returnType
 	 *            class of return type or void.class if no return type.
 	 */
-	public static String methodDescriptor(Class[] paramTypes, Class returnType) {
+	public static String methodDescriptor(Class<?>[] paramTypes, Class<?> returnType) {
 		StringBuffer s = new StringBuffer("(");
 
 		if (paramTypes != null)

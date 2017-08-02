@@ -149,8 +149,8 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 	private HeartbeatMonitor heartbeat;
 
 	// event listener lists
-	private final List listeners = new ArrayList();
-	private List listenersCopy = new ArrayList();
+	private final List<KNXListener> listeners = new ArrayList<KNXListener>();
+	private List<KNXListener> listenersCopy = new ArrayList<KNXListener>();
 	private final Semaphore sendWaitQueue = new Semaphore();
 
 	ConnectionImpl() {
@@ -169,7 +169,7 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
-				listenersCopy = new ArrayList(listeners);
+				listenersCopy = new ArrayList<KNXListener>(listeners);
 			} else
 				logger.warn("event listener already registered");
 		}
@@ -185,7 +185,7 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 	public void removeConnectionListener(KNXListener l) {
 		synchronized (listeners) {
 			if (listeners.remove(l))
-				listenersCopy = new ArrayList(listeners);
+				listenersCopy = new ArrayList<KNXListener>(listeners);
 		}
 	}
 
@@ -442,7 +442,7 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 	 */
 	protected void fireFrameReceived(CEMI frame) {
 		final FrameEvent fe = new FrameEvent(this, frame);
-		for (final Iterator i = listenersCopy.iterator(); i.hasNext();) {
+		for (final Iterator<KNXListener> i = listenersCopy.iterator(); i.hasNext();) {
 			final KNXListener l = (KNXListener) i.next();
 			try {
 				l.frameReceived(fe);
@@ -459,7 +459,7 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 		return channelID;
 	}
 
-	final List getListeners() {
+	final List<KNXListener> getListeners() {
 		return listenersCopy;
 	}
 
@@ -540,7 +540,7 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 		fireConnectionClosed(initiator, reason);
 		synchronized (listeners) {
 			listeners.clear();
-			listenersCopy = Collections.EMPTY_LIST;
+			listenersCopy = Collections.emptyList();
 		}
 		LogManager.getManager().removeLogService(getName());
 	}
@@ -577,7 +577,7 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 
 	private void fireConnectionClosed(int initiator, String reason) {
 		final ConnectionCloseEvent ce = new ConnectionCloseEvent(this, initiator, reason);
-		for (final Iterator i = listenersCopy.iterator(); i.hasNext();) {
+		for (final Iterator<KNXListener> i = listenersCopy.iterator(); i.hasNext();) {
 			final KNXListener l = (KNXListener) i.next();
 			try {
 				l.connectionClosed(ce);
@@ -607,7 +607,7 @@ abstract class ConnectionImpl implements KNXnetIPConnection {
 		private int cnt;
 
 		Semaphore() {
-			cnt = 1;
+			this(1);
 		}
 
 		Semaphore(int count) {

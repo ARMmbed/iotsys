@@ -48,7 +48,7 @@ public class ViewRegistry {
 	 * Get all the views associated with the specified response.
 	 */
 	public static View[] viewsFor(Shell shell, UiSession.Response resp) throws Exception {
-		ArrayList acc = new ArrayList();
+		ArrayList<View> acc = new ArrayList<View>();
 
 		// always have source and XML tabs
 		acc.add(0, new SourceView(shell, resp));
@@ -90,7 +90,7 @@ public class ViewRegistry {
 	 * active watch used to manage the objects in that watch.
 	 */
 	static View[] viewsForWatchService(Shell shell, UiSession.Response resp) throws Exception {
-		ArrayList acc = new ArrayList();
+		ArrayList<View> acc = new ArrayList<View>();
 		acc.add(new WatchServiceView(shell, resp));
 		SessionWatch[] watches = resp.session.getWatches();
 		for (int i = 0; i < watches.length; ++i)

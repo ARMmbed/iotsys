@@ -145,10 +145,10 @@ public class DPTXlator2ByteFloat extends DPTXlator {
 	 */
 	public static final DPT DPT_POWER = new DPT("9.024", "Power", "-670760", "+670760", "kW");
 
-	private static final Map types;
+	private static final Map<String, DPT> types;
 
 	static {
-		types = new HashMap(25);
+		types = new HashMap<String, DPT>(25);
 		types.put(DPT_TEMPERATURE.getID(), DPT_TEMPERATURE);
 		types.put(DPT_TEMPERATURE_DIFFERENCE.getID(), DPT_TEMPERATURE_DIFFERENCE);
 		types.put(DPT_TEMPERATURE_GRADIENT.getID(), DPT_TEMPERATURE_GRADIENT);
@@ -284,7 +284,7 @@ public class DPTXlator2ByteFloat extends DPTXlator {
 	 * 
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
-	public Map getSubTypes() {
+	public Map<String, DPT> getSubTypes() {
 		return types;
 	}
 
@@ -292,7 +292,7 @@ public class DPTXlator2ByteFloat extends DPTXlator {
 	 * @return the subtypes of the 2-byte float translator type
 	 * @see DPTXlator#getSubTypesStatic()
 	 */
-	protected static Map getSubTypesStatic() {
+	protected static Map<String, DPT> getSubTypesStatic() {
 		return types;
 	}
 

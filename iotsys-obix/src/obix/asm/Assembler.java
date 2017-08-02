@@ -12,7 +12,7 @@ import java.util.ArrayList;
  */
 public class Assembler {
 
-	public Assembler(String thisClass, Class superClass, int accessFlags, Class[] interfaces) {
+	public Assembler(String thisClass, Class<?> superClass, int accessFlags, Class<?>[] interfaces) {
 		this.thisClass = cp.cls(thisClass);
 
 		this.superClass = (superClass == null) ? 0 : // java.lang.Object
@@ -77,8 +77,8 @@ public class Assembler {
 	public final int accessFlags;
 	public final ConstantPool cp = new ConstantPool();
 
-	private ArrayList fields = new ArrayList();
-	private ArrayList methods = new ArrayList();
-	private ArrayList attributes = new ArrayList();
+	private ArrayList<FieldInfo> fields = new ArrayList<FieldInfo>();
+	private ArrayList<MethodInfo> methods = new ArrayList<MethodInfo>();
+	private ArrayList<AttributeInfo> attributes = new ArrayList<AttributeInfo>();
 
 }

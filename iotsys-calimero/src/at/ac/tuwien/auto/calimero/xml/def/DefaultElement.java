@@ -34,7 +34,7 @@ import at.ac.tuwien.auto.calimero.xml.Element;
  */
 public class DefaultElement implements Element {
 	private final String type;
-	private final List attributes;
+	private final List<Attribute> attributes;
 	private String content;
 	private volatile boolean emptyTag;
 
@@ -47,7 +47,7 @@ public class DefaultElement implements Element {
 	 */
 	public DefaultElement(String name) {
 		type = name;
-		attributes = new ArrayList();
+		attributes = new ArrayList<Attribute>();
 	}
 
 	/*
@@ -78,7 +78,7 @@ public class DefaultElement implements Element {
 	 */
 	public final String getAttribute(String name) {
 		synchronized (attributes) {
-			for (final Iterator i = attributes.iterator(); i.hasNext();) {
+			for (final Iterator<Attribute> i = attributes.iterator(); i.hasNext();) {
 				final Attribute a = (Attribute) i.next();
 				if (a.getName().equals(name))
 					return a.getValue();

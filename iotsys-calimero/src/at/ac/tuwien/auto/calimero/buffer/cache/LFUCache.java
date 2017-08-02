@@ -31,7 +31,7 @@ import java.util.TreeMap;
  * @author B. Malinowsky
  */
 public class LFUCache extends ExpiringCache {
-	private final TreeMap tree;
+	private final TreeMap<CacheObject, CacheObject> tree;
 	private int maxSize;
 	private long hits;
 	private long misses;
@@ -52,7 +52,7 @@ public class LFUCache extends ExpiringCache {
 		super(timeToExpire);
 		if (cacheSize > 0)
 			maxSize = cacheSize;
-		tree = new TreeMap(new LFUObjectCompare());
+		tree = new TreeMap<CacheObject, CacheObject>(new LFUObjectCompare());
 	}
 
 	/**
@@ -145,11 +145,11 @@ public class LFUCache extends ExpiringCache {
 				remove(((CacheObject) tree.firstKey()).getKey());
 	}
 
-	private static class LFUObjectCompare implements Comparator {
+	private static class LFUObjectCompare implements Comparator<CacheObject> {
 		LFUObjectCompare() {
 		}
 
-		public int compare(Object o1, Object o2) {
+		public int compare(CacheObject o1, CacheObject o2) {
 			final CacheObject cmp1 = (CacheObject) o1;
 			final CacheObject cmp2 = (CacheObject) o2;
 			if (cmp1.getUsage() > cmp2.getUsage())

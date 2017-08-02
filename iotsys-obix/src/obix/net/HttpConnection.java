@@ -49,8 +49,8 @@ public class HttpConnection {
 	public HttpConnection(String hostname, int port) {
 		this.hostname = hostname;
 		this.port = port < 0 ? Http.DEFAULT_HTTP_PORT : port;
-		this.requestHeaderFields = new Vector(5);
-		this.responseHeaderFields = new Hashtable(5);
+		this.requestHeaderFields = new Vector<NameValue>(5);
+		this.responseHeaderFields = new Hashtable<String, String>(5);
 		timeout = 0;
 	}
 
@@ -524,7 +524,7 @@ public class HttpConnection {
 	/**
 	 * Get a list of the response header fields.
 	 */
-	public Enumeration getResponseHeaderNames() {
+	public Enumeration<String> getResponseHeaderNames() {
 		return responseHeaderFields.keys();
 	}
 
@@ -652,7 +652,7 @@ public class HttpConnection {
 	public String dumpResponseHeader() {
 		StringBuffer sbuf = new StringBuffer(100);
 		sbuf.append(statusLine).append('\n');
-		Enumeration e = responseHeaderFields.keys();
+		Enumeration<String> e = responseHeaderFields.keys();
 		if (!e.hasMoreElements())
 			return sbuf.toString();
 
@@ -806,7 +806,7 @@ public class HttpConnection {
 	/**
 	 * Encapsulation of a name/value pair.
 	 */
-	private class NameValue {
+	public class NameValue {
 		public NameValue(String name, String value) {
 			this.name = name;
 			this.value = value;
@@ -862,7 +862,7 @@ public class HttpConnection {
 	private int port = Http.DEFAULT_HTTP_PORT;
 	private String hostname;
 
-	private Vector requestHeaderFields;
-	private Hashtable responseHeaderFields;
+	private Vector<NameValue> requestHeaderFields;
+	private Hashtable<String, String> responseHeaderFields;
 
 }

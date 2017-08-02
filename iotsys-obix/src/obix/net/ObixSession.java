@@ -338,8 +338,8 @@ public class ObixSession {
 			testHttps = false;
 			try {
 				if (conn instanceof HttpsURLConnection) {
-					Class clazz = Class.forName("obix.net.AnonymousVerifier");
-					Constructor init = clazz.getConstructor(new Class[] { URLConnection.class });
+					Class<?> clazz = Class.forName("obix.net.AnonymousVerifier");
+					Constructor<?> init = clazz.getConstructor(new Class[] { URLConnection.class });
 					init.newInstance(new Object[] { conn });
 				}
 				testHttps = true;
@@ -532,7 +532,7 @@ public class ObixSession {
 	String username;
 	String password;
 	String authHeader;
-	HashMap watches = new HashMap();
+	HashMap<String, SessionWatch> watches = new HashMap<String, SessionWatch>();
 	boolean testHttps = true;
 	boolean useHttpURLConnection = true;
 	int timeout = 0;

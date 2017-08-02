@@ -49,7 +49,7 @@ public class DefaultXMLWriter implements XMLWriter {
 	private BufferedWriter w;
 	private boolean closeWriter;
 	// xml layout stack
-	private Stack layout;
+	private Stack<Tag> layout;
 	// current layout indentation
 	private int indent;
 	// controls indentation for new tags
@@ -115,7 +115,7 @@ public class DefaultXMLWriter implements XMLWriter {
 	 * @see tuwien.auto.calimero.xml.XMLWriter#writeElement (java.lang.String,
 	 * java.util.List, java.lang.String)
 	 */
-	public void writeElement(String name, List att, String content) throws KNXMLException {
+	public void writeElement(String name, List<?> att, String content) throws KNXMLException {
 		try {
 			final Tag tag = new Tag(name, att, content, false);
 			layout.push(tag);
@@ -130,7 +130,7 @@ public class DefaultXMLWriter implements XMLWriter {
 	 * @see tuwien.auto.calimero.xml.XMLWriter#writeEmptyElement
 	 * (java.lang.String, java.util.List)
 	 */
-	public void writeEmptyElement(String name, List att) throws KNXMLException {
+	public void writeEmptyElement(String name, List<?> att) throws KNXMLException {
 		try {
 			final Tag tag = new Tag(name, att, null, true);
 			tag.endTag();
@@ -229,13 +229,13 @@ public class DefaultXMLWriter implements XMLWriter {
 	}
 
 	private void reset() {
-		layout = new Stack();
+		layout = new Stack<Tag>();
 		indent = 0;
 		newTag = false;
 	}
 
 	// helper class for tag writing
-	private final class Tag {
+	public final class Tag {
 		private static final String lt = "<";
 		private static final String gt = ">";
 		private static final String equal = "=";
@@ -243,12 +243,12 @@ public class DefaultXMLWriter implements XMLWriter {
 		private static final String space = " ";
 		private String name;
 
-		Tag(String name, List att, String cnt, boolean empty) throws IOException {
+		Tag(String name, List<?> att, String cnt, boolean empty) throws IOException {
 			if (newTag)
 				w.newLine();
 			indent().write(lt + name);
 			if (att != null)
-				for (final Iterator i = att.iterator(); i.hasNext();) {
+				for (final Iterator<?> i = att.iterator(); i.hasNext();) {
 					final Attribute a = (Attribute) i.next();
 					w.write(space + a.getName() + equal + quote + References.replace(a.getValue(), true) + quote);
 				}

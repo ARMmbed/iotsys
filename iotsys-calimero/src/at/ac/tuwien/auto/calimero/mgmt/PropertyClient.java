@@ -619,7 +619,7 @@ public class PropertyClient {
 		 * @throws KNXException
 		 *             on error reading from the resource
 		 */
-		Collection load(String resource) throws KNXException;
+		Collection<Property> load(String resource) throws KNXException;
 
 		/**
 		 * Saves the properties to the resource.
@@ -633,7 +633,7 @@ public class PropertyClient {
 		 * @throws KNXException
 		 *             on error writing to the resource
 		 */
-		void save(String resource, Collection properties) throws KNXException;
+		void save(String resource, Collection<Property> properties) throws KNXException;
 	}
 
 	/**
@@ -646,7 +646,7 @@ public class PropertyClient {
 	 * 
 	 * @author B. Malinowsky
 	 */
-	public static final class PropertyKey implements Comparable {
+	public static final class PropertyKey implements Comparable<Object> {
 		/** Identifier for a property defined with global object type. */
 		public static final int GLOBAL_OBJTYPE = -1;
 
@@ -835,7 +835,7 @@ public class PropertyClient {
 			"cEMI Server Object", "Group Object Table Object", "Polling Master", "KNXnet/IP Parameter Object",
 			"Application Controller", "File Server Object", };
 
-	private static Map properties;
+	private static Map<PropertyKey, Property> properties;
 	private static ResourceHandler rh;
 
 	private final PropertyAdapter pa;
@@ -846,7 +846,7 @@ public class PropertyClient {
 	private final LogService logger;
 
 	// maps object index to object type
-	private final List objectTypes = new ArrayList();
+	private final List<Pair> objectTypes = new ArrayList<Pair>();
 	private final DPTXlator2ByteUnsigned tObjType;
 
 	/**
@@ -917,10 +917,11 @@ public class PropertyClient {
 	public static synchronized void loadDefinitions(String resource) throws KNXException {
 		if (rh == null)
 			rh = new XMLPropertyHandler();
-		final Collection coll = rh.load(resource);
+		final Collection<Property> coll = rh.load(resource);
 		if (properties == null)
-			properties = Collections.synchronizedMap(new HashMap((int) ((coll.size() + 10) / 0.75)));
-		for (final Iterator i = coll.iterator(); i.hasNext();) {
+			properties = Collections
+					.synchronizedMap(new HashMap<PropertyKey, Property>((int) ((coll.size() + 10) / 0.75)));
+		for (final Iterator<Property> i = coll.iterator(); i.hasNext();) {
 			final Property p = (Property) i.next();
 			properties.put(new PropertyKey(p.objType, p.id), p);
 		}
@@ -940,7 +941,7 @@ public class PropertyClient {
 		if (properties != null) {
 			if (rh == null)
 				rh = new XMLPropertyHandler();
-			final Map map = new TreeMap(properties);
+			final Map<PropertyKey, Property> map = new TreeMap<PropertyKey, Property>(properties);
 			rh.save(resource, map.values());
 		}
 	}
@@ -958,7 +959,7 @@ public class PropertyClient {
 	 * 
 	 * @return property map, or <code>null</code> if no definitions loaded
 	 */
-	public static synchronized Map getDefinitions() {
+	public static synchronized Map<PropertyKey, Property> getDefinitions() {
 		return properties;
 	}
 
@@ -1142,10 +1143,10 @@ public class PropertyClient {
 	 * @throws KNXException
 	 *             on adapter errors while querying the descriptions
 	 */
-	public List scanProperties(boolean allProperties) throws KNXException {
-		final List scan = new ArrayList();
+	public List<Description> scanProperties(boolean allProperties) throws KNXException {
+		final List<Description> scan = new ArrayList<Description>();
 		for (int index = 0;; ++index) {
-			final List l = scanProperties(index, allProperties);
+			final List<Description> l = scanProperties(index, allProperties);
 			if (l.size() == 0)
 				break;
 			scan.addAll(l);
@@ -1169,8 +1170,8 @@ public class PropertyClient {
 	 * @throws KNXException
 	 *             on adapter errors while querying the descriptions
 	 */
-	public List scanProperties(int objIndex, boolean allProperties) throws KNXException {
-		final List scan = new ArrayList();
+	public List<Description> scanProperties(int objIndex, boolean allProperties) throws KNXException {
+		final List<Description> scan = new ArrayList<Description>();
 		// property with index 0 is description of object type
 		// rest are ordinary properties of the object
 		try {
@@ -1218,7 +1219,7 @@ public class PropertyClient {
 	}
 
 	private int getObjectType(int objIndex, boolean queryObject) throws KNXException {
-		for (final Iterator i = objectTypes.iterator(); i.hasNext();) {
+		for (final Iterator<Pair> i = objectTypes.iterator(); i.hasNext();) {
 			final Pair p = (Pair) i.next();
 			if (p.oindex == objIndex)
 				return p.otype;
@@ -1287,9 +1288,9 @@ public class PropertyClient {
 		 * @see tuwien.auto.calimero.mgmt.PropertyClient.ResourceHandler#load
 		 * (java.lang.String)
 		 */
-		public Collection load(String resource) throws KNXException {
+		public Collection<Property> load(String resource) throws KNXException {
 			final XMLReader r = XMLFactory.getInstance().createXMLReader(resource);
-			final List list = new ArrayList(30);
+			final List<Property> list = new ArrayList<Property>(30);
 			int objType = -1;
 			try {
 				if (r.read() != XMLReader.START_TAG || !r.getCurrent().getName().equals(PROPDEFS_TAG))
@@ -1324,7 +1325,7 @@ public class PropertyClient {
 		 * @see tuwien.auto.calimero.mgmt.PropertyClient.ResourceHandler#save
 		 * (java.lang.String, java.util.Collection)
 		 */
-		public void save(String resource, Collection properties) throws KNXException {
+		public void save(String resource, Collection<Property> properties) throws KNXException {
 			final XMLWriter w = XMLFactory.getInstance().createXMLWriter(resource);
 			try {
 				w.writeDeclaration(true, "UTF-8");
@@ -1333,18 +1334,18 @@ public class PropertyClient {
 				w.writeElement(PROPDEFS_TAG, null, null);
 				final int noType = -2;
 				int objType = noType;
-				for (final Iterator i = properties.iterator(); i.hasNext();) {
+				for (final Iterator<Property> i = properties.iterator(); i.hasNext();) {
 					final Property p = (Property) i.next();
 					if (p.objType != objType) {
 						if (objType != noType)
 							w.endElement();
 						objType = p.objType;
-						final List att = new ArrayList();
+						final List<Attribute> att = new ArrayList<Attribute>();
 						att.add(new Attribute(OBJECTTYPE_ATTR, objType == -1 ? "global" : Integer.toString(objType)));
 						w.writeElement(OBJECT_TAG, att, null);
 					}
 					// property attributes
-					final List att = new ArrayList();
+					final List<Attribute> att = new ArrayList<Attribute>();
 					att.add(new Attribute(PID_ATTR, Integer.toString(p.id)));
 					att.add(new Attribute(PIDNAME_ATTR, p.name));
 					att.add(new Attribute(NAME_ATTR, p.propName));
@@ -1377,7 +1378,7 @@ public class PropertyClient {
 		}
 	}
 
-	private static final class Pair {
+	public static final class Pair {
 		final int oindex;
 		final int otype;
 

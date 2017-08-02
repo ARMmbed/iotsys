@@ -953,7 +953,7 @@ public class NanoHTTPD {
 		public int[] getBoundaryPositions(byte[] b, byte[] boundary) {
 			int matchcount = 0;
 			int matchbyte = -1;
-			Vector matchbytes = new Vector();
+			Vector<Integer> matchbytes = new Vector<Integer>();
 			for (int i = 0; i < b.length; i++) {
 				if (b[i] == boundary[matchcount]) {
 					if (matchcount == 0)
@@ -1091,7 +1091,7 @@ public class NanoHTTPD {
 					pw.print("Date: " + gmtFrmt.format(new Date()) + "\r\n");
 
 				if (header != null) {
-					Enumeration e = header.keys();
+					Enumeration<?> e = header.keys();
 					while (e.hasMoreElements()) {
 						String key = (String) e.nextElement();
 						String value = header.getProperty(key);
@@ -1341,7 +1341,7 @@ public class NanoHTTPD {
 	/**
 	 * Hashtable mapping (String)FILENAME_EXTENSION -> (String)MIME_TYPE
 	 */
-	private static Hashtable theMimeTypes = new Hashtable();
+	private static Hashtable<String, String> theMimeTypes = new Hashtable<String, String>();
 	static {
 		StringTokenizer st = new StringTokenizer("css		text/css " + "htm		text/html " + "html		text/html "
 				+ "xml		text/xml " + "txt		text/plain " + "asc		text/plain " + "gif		image/gif "

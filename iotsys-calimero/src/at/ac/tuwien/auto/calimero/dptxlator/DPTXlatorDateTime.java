@@ -205,12 +205,12 @@ public class DPTXlatorDateTime extends DPTXlator {
 	private static final int[] FLAG_MASKS = { WD, DST, FAULT, QUALITY };
 
 	private static Calendar c;
-	private static final Map types;
+	private static final Map<String, DPT> types;
 
 	private boolean extFormat = true;
 
 	static {
-		types = new HashMap(3);
+		types = new HashMap<String, DPT>(3);
 		types.put(DPT_DATE_TIME.getID(), DPT_DATE_TIME);
 	}
 
@@ -669,7 +669,7 @@ public class DPTXlatorDateTime extends DPTXlator {
 	 * 
 	 * @see tuwien.auto.calimero.dptxlator.DPTXlator#getSubTypes()
 	 */
-	public Map getSubTypes() {
+	public Map<String, DPT> getSubTypes() {
 		return types;
 	}
 
@@ -677,7 +677,7 @@ public class DPTXlatorDateTime extends DPTXlator {
 	 * @return the subtypes of the date with time translator type
 	 * @see DPTXlator#getSubTypesStatic()
 	 */
-	protected static Map getSubTypesStatic() {
+	protected static Map<String, DPT> getSubTypesStatic() {
 		return types;
 	}
 

@@ -132,11 +132,11 @@ public class TransportLayerImpl implements TransportLayer {
 	private volatile boolean detached;
 	private final KNXNetworkLink lnk;
 	private final NetworkLinkListener lnkListener = new NLListener();
-	private final List indications = new LinkedList();
+	private final List<FrameEvent> indications = new LinkedList<FrameEvent>();
 	private final EventListeners listeners;
 
 	// holds the mapping of connection destination address to proxy
-	private final Map proxies = new HashMap();
+	private final Map<IndividualAddress, AggregatorProxy> proxies = new HashMap<IndividualAddress, AggregatorProxy>();
 	private AggregatorProxy active;
 	private volatile int repeated;
 	private final Object lock = new Object();
@@ -485,7 +485,7 @@ public class TransportLayerImpl implements TransportLayer {
 	}
 
 	private void fireDisconnected(Destination d) {
-		for (final Iterator i = listeners.iterator(); i.hasNext();) {
+		for (final Iterator<?> i = listeners.iterator(); i.hasNext();) {
 			final TransportListener l = (TransportListener) i.next();
 			try {
 				l.disconnected(d);
@@ -499,7 +499,7 @@ public class TransportLayerImpl implements TransportLayer {
 	// type 0 = broadcast, 1 = group, 2 = individual, 3 = connected
 	private void fireFrameType(CEMI frame, int type) {
 		final FrameEvent e = new FrameEvent(this, frame);
-		for (final Iterator i = listeners.iterator(); i.hasNext();) {
+		for (final Iterator<?> i = listeners.iterator(); i.hasNext();) {
 			final TransportListener l = (TransportListener) i.next();
 			try {
 				if (type == 0)
@@ -519,7 +519,7 @@ public class TransportLayerImpl implements TransportLayer {
 
 	private void fireDetached() {
 		final DetachEvent e = new DetachEvent(this);
-		for (final Iterator i = listeners.iterator(); i.hasNext();) {
+		for (final Iterator<?> i = listeners.iterator(); i.hasNext();) {
 			final TransportListener l = (TransportListener) i.next();
 			try {
 				l.detached(e);
@@ -531,7 +531,7 @@ public class TransportLayerImpl implements TransportLayer {
 	}
 
 	private void fireLinkClosed(CloseEvent e) {
-		for (final Iterator i = listeners.iterator(); i.hasNext();) {
+		for (final Iterator<?> i = listeners.iterator(); i.hasNext();) {
 			final TransportListener l = (TransportListener) i.next();
 			try {
 				l.linkClosed(e);

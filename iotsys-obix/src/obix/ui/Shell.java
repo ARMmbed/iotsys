@@ -199,7 +199,8 @@ public class Shell extends JFrame {
 
 	String uri;
 	ViewPane views;
-	HashMap state = new HashMap(); // keyed by view.class.name
+	HashMap<?, ?> state = new HashMap<Object, Object>(); // keyed by
+															// view.class.name
 	JLabel status = new JLabel(" ");
 	JSplitPane splitter = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT);
 	Tree tree = new Tree(this);

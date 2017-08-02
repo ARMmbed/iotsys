@@ -223,8 +223,8 @@ public final class CEMIFactory {
 			final CEMILDataEx copy = new CEMILDataEx(mc, s, d, content, f.getPriority(), f.isRepetition(),
 					f.isDomainBroadcast(), f.isAckRequested(), f.getHopCount());
 			// copy additional info
-			final List l = f.getAdditionalInfo();
-			for (final Iterator i = l.iterator(); i.hasNext();) {
+			final List<?> l = f.getAdditionalInfo();
+			for (final Iterator<?> i = l.iterator(); i.hasNext();) {
 				final CEMILDataEx.AddInfo info = (CEMILDataEx.AddInfo) i.next();
 				copy.addAdditionalInfo(info.getType(), info.getInfo());
 			}

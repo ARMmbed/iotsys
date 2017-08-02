@@ -248,7 +248,7 @@ public class KNXnetIPRouter extends ConnectionImpl {
 
 	private void fireLostMessage(RoutingLostMessage lost) {
 		final LostMessageEvent e = new LostMessageEvent(this, lost.getDeviceState(), lost.getLostMessages());
-		for (final Iterator i = getListeners().iterator(); i.hasNext();) {
+		for (final Iterator<?> i = getListeners().iterator(); i.hasNext();) {
 			final Object o = i.next();
 			if (o instanceof RouterListener)
 				try {

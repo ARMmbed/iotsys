@@ -46,7 +46,7 @@ public abstract class MemberInfo {
 
 	public void addAttribute(AttributeInfo ai) {
 		if (attributes == null)
-			attributes = new ArrayList(5);
+			attributes = new ArrayList<AttributeInfo>(5);
 		attributes.add(ai);
 	}
 
@@ -74,5 +74,5 @@ public abstract class MemberInfo {
 	public final int name;
 	public final int type;
 	public final int accessFlags;
-	ArrayList attributes;
+	ArrayList<AttributeInfo> attributes;
 }

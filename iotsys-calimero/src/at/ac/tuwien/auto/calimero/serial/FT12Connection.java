@@ -127,8 +127,8 @@ public class FT12Connection {
 	private int idleTimeout;
 
 	// event listener lists
-	private final List listeners = new ArrayList();
-	private List listenersCopy = new ArrayList();
+	private final List<KNXListener> listeners = new ArrayList<KNXListener>();
+	private List<KNXListener> listenersCopy = new ArrayList<KNXListener>();
 
 	private static class CommConnectionAdapter extends LibraryAdapter {
 		private Object conn;
@@ -160,7 +160,7 @@ public class FT12Connection {
 		private void open(String portID, int baudrate) throws KNXException {
 			Object cc = null;
 			try {
-				final Class connector = Class.forName("javax.microedition.io.Connector");
+				final Class<?> connector = Class.forName("javax.microedition.io.Connector");
 				cc = invoke(connector, "open", new String[] { "comm:" + portID + ";baudrate=" + baudrate
 						+ ";bitsperchar=8;stopbits=1;parity=even;autocts=off;autorts=off" });
 				is = (InputStream) invoke(cc, "openInputStream", null);
@@ -273,7 +273,7 @@ public class FT12Connection {
 		}
 		if (SerialCom.isLoaded()) {
 			final String prefix = defaultPortPrefix();
-			final List l = new ArrayList(10);
+			final List<String> l = new ArrayList<String>(10);
 			for (int i = 0; i < 10; ++i)
 				if (SerialCom.portExists(prefix + i))
 					l.add(prefix + i);
@@ -298,7 +298,7 @@ public class FT12Connection {
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
-				listenersCopy = new ArrayList(listeners);
+				listenersCopy = new ArrayList<KNXListener>(listeners);
 			} else
 				logger.warn("event listener already registered");
 		}
@@ -317,7 +317,7 @@ public class FT12Connection {
 	public void removeConnectionListener(KNXListener l) {
 		synchronized (listeners) {
 			if (listeners.remove(l))
-				listenersCopy = new ArrayList(listeners);
+				listenersCopy = new ArrayList<KNXListener>(listeners);
 		}
 	}
 
@@ -494,7 +494,7 @@ public class FT12Connection {
 		// check whether a rxtx library is hanging around somewhere
 		logger.info("try rxtx library support for serial ports");
 		try {
-			final Class c = Class.forName("tuwien.auto.calimero.serial.RxtxAdapter");
+			final Class<?> c = Class.forName("tuwien.auto.calimero.serial.RxtxAdapter");
 			return (LibraryAdapter) c.getConstructors()[0].newInstance(new Object[] { portID, new Integer(baudrate) });
 		} catch (final ClassNotFoundException e) {
 			logger.warn("rxtx library adapter not found");
@@ -578,7 +578,7 @@ public class FT12Connection {
 
 	private void fireConnectionClosed(boolean user, String reason) {
 		final CloseEvent ce = new CloseEvent(this, user, reason);
-		for (final Iterator i = listenersCopy.iterator(); i.hasNext();) {
+		for (final Iterator<KNXListener> i = listenersCopy.iterator(); i.hasNext();) {
 			final KNXListener l = (KNXListener) i.next();
 			try {
 				l.connectionClosed(ce);
@@ -731,7 +731,7 @@ public class FT12Connection {
 		 */
 		private void fireFrameReceived(byte[] frame) {
 			final FrameEvent fe = new FrameEvent(this, frame);
-			for (final Iterator i = listenersCopy.iterator(); i.hasNext();) {
+			for (final Iterator<KNXListener> i = listenersCopy.iterator(); i.hasNext();) {
 				final KNXListener l = (KNXListener) i.next();
 				try {
 					l.frameReceived(fe);

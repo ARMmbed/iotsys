@@ -80,7 +80,7 @@ public class MdnssdServiceTest extends AbstractGatewayTest {
 	public void initialize() {
 
 		try {
-			Class mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
+			Class<?> mc = Class.forName("at.ac.tuwien.auto.iotsys.mdnssd.MdnsResolverImpl");
 			m = (MdnsResolver) mc.getDeclaredMethod("getInstance", null).invoke(null, null);
 
 		} catch (IllegalAccessException e) {

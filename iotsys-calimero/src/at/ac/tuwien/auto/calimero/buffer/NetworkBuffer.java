@@ -75,7 +75,7 @@ import at.ac.tuwien.auto.calimero.log.LogService;
  */
 public final class NetworkBuffer {
 	// this is for network link only, for now
-	private static final class ConfigImpl implements Configuration {
+	public static final class ConfigImpl implements Configuration {
 		private final SquirrelLink lnk;
 		private final NetworkLinkListener ll;
 		private Cache cache;
@@ -111,7 +111,7 @@ public final class NetworkBuffer {
 
 		private final class SquirrelLink implements KNXNetworkLink {
 			private final KNXNetworkLink base;
-			private final List listeners = new Vector();
+			private final List<NetworkLinkListener> listeners = new Vector<NetworkLinkListener>();
 
 			SquirrelLink(KNXNetworkLink baseLink) {
 				base = baseLink;
@@ -192,7 +192,7 @@ public final class NetworkBuffer {
 			private void fireIndication(CEMILData frame) {
 				final FrameEvent e = new FrameEvent(this, frame);
 				synchronized (listeners) {
-					for (final Iterator i = listeners.iterator(); i.hasNext();) {
+					for (final Iterator<NetworkLinkListener> i = listeners.iterator(); i.hasNext();) {
 						final NetworkLinkListener l = (NetworkLinkListener) i.next();
 						try {
 							l.indication(e);
@@ -297,10 +297,10 @@ public final class NetworkBuffer {
 	static final LogService logger = LogManager.getManager().getLogService(LOG_SERVICE);
 
 	// all network buffers currently in use
-	private static final List buffers = new ArrayList();
+	private static final List<NetworkBuffer> buffers = new ArrayList<NetworkBuffer>();
 	private static int uniqueInstID;
 
-	private final List configs = Collections.synchronizedList(new ArrayList());
+	private final List<ConfigImpl> configs = Collections.synchronizedList(new ArrayList<ConfigImpl>());
 	private final String inst;
 
 	private NetworkBuffer(String installation) {
@@ -342,7 +342,7 @@ public final class NetworkBuffer {
 	 *            installation ID of the network buffer to remove
 	 */
 	public static synchronized void removeBuffer(String installationID) {
-		for (final Iterator i = buffers.iterator(); i.hasNext();) {
+		for (final Iterator<NetworkBuffer> i = buffers.iterator(); i.hasNext();) {
 			final NetworkBuffer b = (NetworkBuffer) i.next();
 			if (b.inst.equals(installationID)) {
 				i.remove();
@@ -363,7 +363,7 @@ public final class NetworkBuffer {
 	 * @return the network buffer, or <code>null</code> if no buffer found
 	 */
 	public static synchronized NetworkBuffer getBuffer(String installationID) {
-		for (final Iterator i = buffers.iterator(); i.hasNext();) {
+		for (final Iterator<NetworkBuffer> i = buffers.iterator(); i.hasNext();) {
 			final NetworkBuffer db = (NetworkBuffer) i.next();
 			if (db.inst.equals(installationID))
 				return db;
@@ -426,7 +426,7 @@ public final class NetworkBuffer {
 	 *            <code>null</code>
 	 */
 	public static synchronized void removeConfiguration(Configuration c, String installationID) {
-		for (final Iterator i = buffers.iterator(); i.hasNext();) {
+		for (final Iterator<NetworkBuffer> i = buffers.iterator(); i.hasNext();) {
 			final NetworkBuffer b = (NetworkBuffer) i.next();
 			if (b.inst.equals(installationID) || installationID == null && b.configs.contains(c)) {
 				b.removeConfiguration(c);
@@ -483,7 +483,7 @@ public final class NetworkBuffer {
 	 */
 	public Configuration getConfiguration(KNXNetworkLink bufferedLink) {
 		synchronized (configs) {
-			for (final Iterator i = configs.iterator(); i.hasNext();) {
+			for (final Iterator<ConfigImpl> i = configs.iterator(); i.hasNext();) {
 				final ConfigImpl lc = (ConfigImpl) i.next();
 				if (lc.getBufferedLink() == bufferedLink)
 					return lc;

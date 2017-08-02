@@ -134,7 +134,7 @@ public class ManagementClientImpl implements ManagementClient {
 	private final TLListener tlListener = new TLListener();
 	private volatile Priority priority = Priority.LOW;
 	private volatile int responseTimeout = 5;
-	private final List indications = new LinkedList();
+	private final List<FrameEvent> indications = new LinkedList<FrameEvent>();
 	private volatile int svcResponse;
 	private volatile boolean detached;
 	private final LogService logger;
@@ -234,7 +234,7 @@ public class ManagementClientImpl implements ManagementClient {
 	 */
 	public synchronized IndividualAddress[] readAddress(boolean oneAddressOnly)
 			throws KNXTimeoutException, KNXRemoteException, KNXLinkClosedException {
-		final List l = new ArrayList();
+		final List<IndividualAddress> l = new ArrayList<IndividualAddress>();
 		try {
 			svcResponse = IND_ADDR_RESPONSE;
 			tl.broadcast(false, Priority.SYSTEM, DataUnitBuilder.createCompactAPDU(IND_ADDR_READ, null));
@@ -309,7 +309,7 @@ public class ManagementClientImpl implements ManagementClient {
 	 * @see
 	 * tuwien.auto.calimero.mgmt.ManagementClient#readDomainAddress(boolean)
 	 */
-	public synchronized List readDomainAddress(boolean oneDomainOnly)
+	public synchronized List<byte[]> readDomainAddress(boolean oneDomainOnly)
 			throws KNXLinkClosedException, KNXInvalidResponseException, KNXTimeoutException {
 		// we allow 6 bytes ASDU for RF domains
 		return makeDOAs(readBroadcast(priority, DataUnitBuilder.createCompactAPDU(DOA_READ, null), DOA_RESPONSE, 6, 6,
@@ -322,7 +322,7 @@ public class ManagementClientImpl implements ManagementClient {
 	 * @see tuwien.auto.calimero.mgmt.ManagementClient#readDomainAddress
 	 * (byte[], tuwien.auto.calimero.IndividualAddress, int)
 	 */
-	public List readDomainAddress(byte[] domain, IndividualAddress start, int range)
+	public List<byte[]> readDomainAddress(byte[] domain, IndividualAddress start, int range)
 			throws KNXInvalidResponseException, KNXLinkClosedException, KNXTimeoutException {
 		if (domain.length != 2)
 			throw new KNXIllegalArgumentException("length of domain address not 2 bytes");
@@ -675,9 +675,10 @@ public class ManagementClientImpl implements ManagementClient {
 		return waitForResponse(minASDULen, maxASDULen, responseTimeout * 1000);
 	}
 
-	private synchronized List readBroadcast(Priority p, byte[] apdu, int response, int minASDULen, int maxASDULen,
-			boolean oneOnly) throws KNXLinkClosedException, KNXInvalidResponseException, KNXTimeoutException {
-		final List l = new ArrayList();
+	private synchronized List<byte[]> readBroadcast(Priority p, byte[] apdu, int response, int minASDULen,
+			int maxASDULen, boolean oneOnly)
+			throws KNXLinkClosedException, KNXInvalidResponseException, KNXTimeoutException {
+		final List<byte[]> l = new ArrayList<byte[]>();
 		try {
 			svcResponse = response;
 			tl.broadcast(true, p, apdu);
@@ -699,7 +700,7 @@ public class ManagementClientImpl implements ManagementClient {
 	}
 
 	// cut domain addresses out of APDUs
-	private List makeDOAs(List l) {
+	private List<byte[]> makeDOAs(List<byte[]> l) {
 		for (int i = 0; i < l.size(); ++i) {
 			final byte[] pdu = (byte[]) l.get(i);
 			if (pdu.length == 4)

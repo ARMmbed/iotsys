@@ -155,7 +155,7 @@ public class SessionWatch {
 		return list;
 	}
 
-	public Iterator hrefs() {
+	public Iterator<String> hrefs() {
 		return hrefToItem.keySet().iterator();
 	}
 
@@ -520,13 +520,13 @@ public class SessionWatch {
 	Uri pollChangesHref;
 	Uri pollRefreshHref;
 	Uri deleteHref;
-	ArrayList items = new ArrayList();
-	HashMap hrefToItem = new HashMap();
+	ArrayList<Item> items = new ArrayList<Item>();
+	HashMap<String, Item> hrefToItem = new HashMap<String, Item>();
 	long pollPeriod;
 	long lastPollAttempt;
 	long lastPollSuccess;
 	Thread poller;
 	boolean alive;
-	ArrayList listeners = new ArrayList();
+	ArrayList<WatchListener> listeners = new ArrayList<WatchListener>();
 
 }

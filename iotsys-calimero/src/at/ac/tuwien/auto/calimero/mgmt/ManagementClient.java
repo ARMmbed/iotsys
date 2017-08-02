@@ -245,7 +245,7 @@ public interface ManagementClient {
 	 * @throws KNXException
 	 *             on other read domain address errors
 	 */
-	List readDomainAddress(boolean oneAddressOnly) throws KNXException;
+	List<?> readDomainAddress(boolean oneAddressOnly) throws KNXException;
 
 	/**
 	 * Reads the domain address of a communication partner identified using an
@@ -282,7 +282,7 @@ public interface ManagementClient {
 	 * @throws KNXException
 	 *             on other read domain address errors
 	 */
-	List readDomainAddress(byte[] domain, IndividualAddress startAddress, int range) throws KNXException;
+	List<?> readDomainAddress(byte[] domain, IndividualAddress startAddress, int range) throws KNXException;
 
 	/**
 	 * Reads the device descriptor information of a communication partner its

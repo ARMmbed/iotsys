@@ -46,12 +46,12 @@ public final class LogManager {
 	// application, i.e. remove all log-svcs, wait for dispatcher idle, return
 	// writers
 
-	private final Map loggers;
-	private final List writers;
+	private final Map<String, LogService> loggers;
+	private final List<LogWriter> writers;
 
 	private LogManager() {
-		loggers = Collections.synchronizedMap(new HashMap());
-		writers = new Vector();
+		loggers = Collections.synchronizedMap(new HashMap<String, LogService>());
+		writers = new Vector<LogWriter>();
 	}
 
 	/**
@@ -99,7 +99,7 @@ public final class LogManager {
 			if (l == null) {
 				l = new LogService(name);
 				loggers.put(name, l);
-				for (final Iterator i = writers.iterator(); i.hasNext();)
+				for (final Iterator<LogWriter> i = writers.iterator(); i.hasNext();)
 					l.addWriter((LogWriter) i.next());
 			}
 			return l;
@@ -156,7 +156,7 @@ public final class LogManager {
 		}
 		synchronized (loggers) {
 			writers.add(writer);
-			for (final Iterator i = loggers.values().iterator(); i.hasNext();)
+			for (final Iterator<LogService> i = loggers.values().iterator(); i.hasNext();)
 				((LogService) i.next()).addWriter(writer);
 			return true;
 		}
@@ -185,7 +185,7 @@ public final class LogManager {
 		} else
 			synchronized (loggers) {
 				if (writers.remove(writer))
-					for (final Iterator i = loggers.values().iterator(); i.hasNext();)
+					for (final Iterator<LogService> i = loggers.values().iterator(); i.hasNext();)
 						((LogService) i.next()).removeWriter(writer);
 			}
 	}

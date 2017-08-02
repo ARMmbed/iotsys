@@ -42,14 +42,14 @@ import at.ac.tuwien.auto.calimero.xml.XMLWriter;
 public class DatapointMap implements DatapointModel {
 	private static final String TAG_DATAPOINTS = "datapoints";
 
-	private final Map points;
+	private final Map<GroupAddress, Datapoint> points;
 
 	/**
 	 * Creates a new empty datapoint map.
 	 * <p>
 	 */
 	public DatapointMap() {
-		points = Collections.synchronizedMap(new HashMap(20));
+		points = Collections.synchronizedMap(new HashMap<GroupAddress, Datapoint>(20));
 	}
 
 	/**
@@ -65,10 +65,11 @@ public class DatapointMap implements DatapointModel {
 	 * @throws KNXIllegalArgumentException
 	 *             on duplicate datapoint
 	 */
-	public DatapointMap(Collection datapoints) {
+	public DatapointMap(Collection<?> datapoints) {
 		// not all HashSets put additional capacity in HashSet(Collection) ctor
-		final Map m = new HashMap(Math.max(2 * datapoints.size(), 11));
-		for (final Iterator i = datapoints.iterator(); i.hasNext();) {
+		final Map<GroupAddress, Datapoint> m = new HashMap<GroupAddress, Datapoint>(
+				Math.max(2 * datapoints.size(), 11));
+		for (final Iterator<?> i = datapoints.iterator(); i.hasNext();) {
 			final Datapoint dp = (Datapoint) i.next();
 			if (m.containsKey(dp.getMainAddress()))
 				throw new KNXIllegalArgumentException("duplicate datapoint " + dp.getMainAddress());
@@ -127,7 +128,7 @@ public class DatapointMap implements DatapointModel {
 	 * 
 	 * @return unmodifiable collection with entries of type {@link Datapoint}
 	 */
-	public Collection getDatapoints() {
+	public Collection<Datapoint> getDatapoints() {
 		return Collections.unmodifiableCollection(points.values());
 	}
 
@@ -184,7 +185,7 @@ public class DatapointMap implements DatapointModel {
 	public void save(XMLWriter w) throws KNXMLException {
 		w.writeElement(TAG_DATAPOINTS, Collections.EMPTY_LIST, null);
 		synchronized (points) {
-			for (final Iterator i = points.values().iterator(); i.hasNext();)
+			for (final Iterator<Datapoint> i = points.values().iterator(); i.hasNext();)
 				((Datapoint) i.next()).save(w);
 		}
 		w.endElement();

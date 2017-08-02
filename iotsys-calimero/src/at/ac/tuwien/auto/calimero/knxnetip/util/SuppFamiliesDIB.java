@@ -24,6 +24,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import at.ac.tuwien.auto.calimero.exception.KNXFormatException;
@@ -43,7 +44,7 @@ public class SuppFamiliesDIB extends DIB {
 	private static final String[] familyNames = { null, null, "Core", "Device Management", "Tunneling", "Routing",
 			"Remote Logging", "Remote Configuration/Diagnosis", "Object Server" };
 
-	private final Map map = new HashMap();
+	private final Map<Short, Short> map = new HashMap<Short, Short>();
 
 	/**
 	 * Creates a supported families DIB out of a byte array.
@@ -78,7 +79,7 @@ public class SuppFamiliesDIB extends DIB {
 	 * @return an unmodifiable set containing supported entries (family-version
 	 *         pair)
 	 */
-	public final Set getFamilies() {
+	public final Set<?> getFamilies() {
 		return Collections.unmodifiableSet(map.entrySet());
 	}
 
@@ -115,8 +116,8 @@ public class SuppFamiliesDIB extends DIB {
 	public byte[] toByteArray() {
 		final byte[] buf = super.toByteArray();
 		int i = 2;
-		for (final Iterator it = map.entrySet().iterator(); it.hasNext();) {
-			final Map.Entry e = (Map.Entry) it.next();
+		for (final Iterator<Map.Entry<Short, Short>> it = map.entrySet().iterator(); it.hasNext();) {
+			final Entry<Short, Short> e = it.next();
 			buf[i++] = ((Short) e.getKey()).byteValue();
 			buf[i++] = ((Short) e.getValue()).byteValue();
 		}
@@ -131,8 +132,8 @@ public class SuppFamiliesDIB extends DIB {
 	 */
 	public String toString() {
 		final StringBuffer buf = new StringBuffer();
-		for (final Iterator i = map.entrySet().iterator(); i.hasNext();) {
-			final Map.Entry entry = (Map.Entry) i.next();
+		for (final Iterator<Map.Entry<Short, Short>> i = map.entrySet().iterator(); i.hasNext();) {
+			final Entry<Short, Short> entry = i.next();
 			buf.append(getFamilyName(((Short) entry.getKey()).shortValue()));
 			buf.append(" - version ").append(entry.getValue());
 			if (i.hasNext())

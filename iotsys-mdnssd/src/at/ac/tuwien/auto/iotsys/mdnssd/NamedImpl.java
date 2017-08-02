@@ -151,7 +151,7 @@ public class NamedImpl implements Named {
 					msg.getSenderUDPPayload());
 
 			Collection<? extends DNSQuestion> questions = msg.getQuestions();
-			Iterator i = questions.iterator();
+			Iterator<?> i = questions.iterator();
 			while (i.hasNext()) {
 				DNSQuestion aQuestion = (DNSQuestion) i.next();
 				String requestedName = aQuestion.getName();

@@ -82,7 +82,7 @@ public interface XMLWriter {
 	 * @throws KNXMLException
 	 *             on output error
 	 */
-	void writeElement(String name, List att, String text) throws KNXMLException;
+	void writeElement(String name, List<?> att, String text) throws KNXMLException;
 
 	/**
 	 * Writes an empty element tag to the current position in a document.
@@ -98,7 +98,7 @@ public interface XMLWriter {
 	 * @throws KNXMLException
 	 *             on output error
 	 */
-	void writeEmptyElement(String name, List att) throws KNXMLException;
+	void writeEmptyElement(String name, List<?> att) throws KNXMLException;
 
 	/**
 	 * Writes a comment to the current position in a document.

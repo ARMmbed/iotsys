@@ -327,8 +327,8 @@ public class CEMILDataEx extends CEMILData implements Cloneable {
 	 * 
 	 * @return a List with {@link AddInfo} objects
 	 */
-	public synchronized List getAdditionalInfo() {
-		final List l = new ArrayList();
+	public synchronized List<AddInfo> getAdditionalInfo() {
+		final List<AddInfo> l = new ArrayList<AddInfo>();
 		for (int i = 0; i < addInfo.length; ++i)
 			if (addInfo[i] != null)
 				l.add(new AddInfo(i, (byte[]) addInfo[i].clone()));

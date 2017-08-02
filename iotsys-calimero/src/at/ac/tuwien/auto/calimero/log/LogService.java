@@ -49,15 +49,15 @@ import java.util.Vector;
  */
 public class LogService {
 	// NOTE: log dispatcher is a daemon thread and never closed explicitly
-	private static final class Dispatcher extends Thread {
-		private static final class LogData {
-			final List wr;
+	public static final class Dispatcher extends Thread {
+		public static final class LogData {
+			final List<LogWriter> wr;
 			final String svc;
 			final LogLevel lvl;
 			final String msg;
 			final Throwable trow;
 
-			LogData(List writers, String service, LogLevel level, String message, Throwable t) {
+			LogData(List<LogWriter> writers, String service, LogLevel level, String message, Throwable t) {
 				wr = writers;
 				svc = service;
 				lvl = level;
@@ -66,7 +66,7 @@ public class LogService {
 			}
 		}
 
-		private final List data = new LinkedList();
+		private final List<LogData> data = new LinkedList<LogData>();
 		private volatile boolean quit;
 
 		Dispatcher() {
@@ -95,7 +95,7 @@ public class LogService {
 			}
 		}
 
-		void add(List writers, String service, LogLevel level, String msg, Throwable t) {
+		void add(List<LogWriter> writers, String service, LogLevel level, String msg, Throwable t) {
 			if (!quit) {
 				synchronized (data) {
 					data.add(new LogData(writers, service, level, msg, t));
@@ -117,7 +117,7 @@ public class LogService {
 
 		private void dispatch(LogData d) {
 			synchronized (d.wr) {
-				for (final Iterator i = d.wr.iterator(); i.hasNext();)
+				for (final Iterator<LogWriter> i = d.wr.iterator(); i.hasNext();)
 					((LogWriter) i.next()).write(d.svc, d.lvl, d.msg, d.trow);
 			}
 		}
@@ -128,7 +128,7 @@ public class LogService {
 	/** Name of this log service. */
 	protected final String name;
 	private LogLevel logLevel = LogLevel.ALL;
-	private List writers = new Vector();
+	private List<LogWriter> writers = new Vector<LogWriter>();
 
 	/**
 	 * Creates a new log service with the specified <code>name</code>.
@@ -228,10 +228,10 @@ public class LogService {
 	public void removeAllWriter(boolean close) {
 		if (close)
 			synchronized (writers) {
-				for (final Iterator i = writers.iterator(); i.hasNext();)
+				for (final Iterator<LogWriter> i = writers.iterator(); i.hasNext();)
 					((LogWriter) i.next()).close();
 			}
-		writers = new Vector();
+		writers = new Vector<LogWriter>();
 	}
 
 	/**

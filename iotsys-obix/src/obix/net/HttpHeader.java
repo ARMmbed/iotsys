@@ -26,12 +26,12 @@ public class HttpHeader {
 	 * Constructor.
 	 */
 	public HttpHeader() {
-		table = new HashMap(17);
+		table = new HashMap<String, String>(17);
 	}
 
-	public Enumeration getFieldNames() {
-		Vector names = new Vector(table.size() + 3);
-		Iterator i = table.keySet().iterator();
+	public Enumeration<String> getFieldNames() {
+		Vector<String> names = new Vector<String>(table.size() + 3);
+		Iterator<String> i = table.keySet().iterator();
 		while (i.hasNext()) {
 			String name = (String) i.next();
 			names.add(name);
@@ -41,7 +41,7 @@ public class HttpHeader {
 		return names.elements();
 	}
 
-	protected void addFieldNames(Vector names) {
+	protected void addFieldNames(Vector<String> names) {
 	}
 
 	/**
@@ -204,7 +204,7 @@ public class HttpHeader {
 	 */
 	public void write(PrintWriter out, StringBuffer trace) throws IOException {
 		// write the normal fields
-		Iterator fields = table.keySet().iterator();
+		Iterator<String> fields = table.keySet().iterator();
 		while (fields.hasNext()) {
 			String name = (String) fields.next();
 			String value = (String) table.get(name);
@@ -242,7 +242,7 @@ public class HttpHeader {
 			return new String[] { s };
 		else {
 			StringTokenizer st = new StringTokenizer(s, ", ");
-			Vector vals = new Vector(2);
+			Vector<String> vals = new Vector<String>(2);
 			while (st.hasMoreTokens())
 				vals.addElement(st.nextToken());
 
@@ -257,7 +257,7 @@ public class HttpHeader {
 	 */
 	public String toString() {
 		StringBuffer s = new StringBuffer(256);
-		Iterator keys = table.keySet().iterator();
+		Iterator<String> keys = table.keySet().iterator();
 		while (keys.hasNext()) {
 			String key = (String) keys.next();
 			s.append("  ").append(key).append(": ");
@@ -284,5 +284,5 @@ public class HttpHeader {
 	// Attributes
 	////////////////////////////////////////////////////////////////
 
-	protected HashMap table;
+	protected HashMap<String, String> table;
 }

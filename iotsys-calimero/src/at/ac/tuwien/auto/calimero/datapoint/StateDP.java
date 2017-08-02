@@ -59,10 +59,10 @@ public class StateDP extends Datapoint {
 	private static final String TAG_INVALIDATING = "invalidatingAddresses";
 
 	// list of group addresses, whose .ind messages invalidate the data point
-	private final List invalidating;
+	private final List<GroupAddress> invalidating;
 	// list of group addresses, whose .ind and .res messages update the data
 	// point
-	private final List updating;
+	private final List<GroupAddress> updating;
 	// timeout in seconds, how long a set state value stays valid since
 	// reception
 	private volatile int timeout;
@@ -78,8 +78,8 @@ public class StateDP extends Datapoint {
 	 */
 	public StateDP(GroupAddress main, String name) {
 		super(main, name, true);
-		invalidating = Collections.synchronizedList(new ArrayList());
-		updating = Collections.synchronizedList(new ArrayList());
+		invalidating = Collections.synchronizedList(new ArrayList<GroupAddress>());
+		updating = Collections.synchronizedList(new ArrayList<GroupAddress>());
 	}
 
 	/**
@@ -120,11 +120,12 @@ public class StateDP extends Datapoint {
 	 *            KNX group addresses, whose indication and response messages
 	 *            lead to an update of this datapoint state
 	 */
-	public StateDP(GroupAddress main, String name, Collection invalidatingAddresses, Collection updatingAddresses) {
+	public StateDP(GroupAddress main, String name, Collection<GroupAddress> invalidatingAddresses,
+			Collection<GroupAddress> updatingAddresses) {
 		super(main, name, true);
-		invalidating = Collections.synchronizedList(new ArrayList(invalidatingAddresses));
+		invalidating = Collections.synchronizedList(new ArrayList<GroupAddress>(invalidatingAddresses));
 		checkGAs(invalidating);
-		updating = Collections.synchronizedList(new ArrayList(updatingAddresses));
+		updating = Collections.synchronizedList(new ArrayList<GroupAddress>(updatingAddresses));
 		checkGAs(updating);
 	}
 
@@ -145,8 +146,8 @@ public class StateDP extends Datapoint {
 		super(r);
 		if (!isStateBased())
 			throw new KNXMLException("no state based KNX datapoint element", null, r.getLineNumber());
-		invalidating = Collections.synchronizedList(new ArrayList());
-		updating = Collections.synchronizedList(new ArrayList());
+		invalidating = Collections.synchronizedList(new ArrayList<GroupAddress>());
+		updating = Collections.synchronizedList(new ArrayList<GroupAddress>());
 		doLoad(r);
 	}
 
@@ -241,7 +242,7 @@ public class StateDP extends Datapoint {
 	 * @return an unmodifiable collection with entries of type
 	 *         {@link GroupAddress}
 	 */
-	public Collection getAddresses(boolean updatingAddresses) {
+	public Collection<? extends Object> getAddresses(boolean updatingAddresses) {
 		return Collections.unmodifiableCollection(updatingAddresses ? updating : invalidating);
 	}
 
@@ -329,21 +330,21 @@ public class StateDP extends Datapoint {
 				Arrays.asList(new Attribute[] { new Attribute(ATTR_TIMEOUT, Integer.toString(timeout)) }));
 		w.writeElement(TAG_UPDATING, Collections.EMPTY_LIST, null);
 		synchronized (updating) {
-			for (final Iterator i = updating.iterator(); i.hasNext();)
+			for (final Iterator<GroupAddress> i = updating.iterator(); i.hasNext();)
 				((GroupAddress) i.next()).save(w);
 		}
 		w.endElement();
 		w.writeElement(TAG_INVALIDATING, Collections.EMPTY_LIST, null);
 		synchronized (invalidating) {
-			for (final Iterator i = invalidating.iterator(); i.hasNext();)
+			for (final Iterator<GroupAddress> i = invalidating.iterator(); i.hasNext();)
 				((GroupAddress) i.next()).save(w);
 		}
 		w.endElement();
 	}
 
 	// iteration not synchronized
-	private void checkGAs(List l) {
-		for (final Iterator i = l.iterator(); i.hasNext();)
+	private void checkGAs(List<GroupAddress> l) {
+		for (final Iterator<GroupAddress> i = l.iterator(); i.hasNext();)
 			if (!(i.next() instanceof GroupAddress))
 				throw new KNXIllegalArgumentException("not a group address list");
 	}

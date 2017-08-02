@@ -321,7 +321,7 @@ public abstract class DPTXlator {
 	 * @return subtypes as {@link Map}, key is the subtype ID of type string,
 	 *         value of type {@link DPT}
 	 */
-	public abstract Map getSubTypes();
+	public abstract Map<?, ?> getSubTypes();
 
 	/**
 	 * Returns the KNX data type size in bytes for one value item.
@@ -382,7 +382,7 @@ public abstract class DPTXlator {
 	 * @throws KNXFormatException
 	 *             on DPT not available
 	 */
-	protected void setTypeID(Map availableTypes, String dptID) throws KNXFormatException {
+	protected void setTypeID(Map<?, ?> availableTypes, String dptID) throws KNXFormatException {
 		final DPT t = (DPT) availableTypes.get(dptID);
 		if (t == null) {
 			// don't call logThrow since dpt is not set yet
@@ -408,7 +408,7 @@ public abstract class DPTXlator {
 	 * @return subtypes as {@link Map}, key is the subtype ID of type string,
 	 *         value of type {@link DPT}
 	 */
-	protected static Map getSubTypesStatic() {
+	protected static Map<?, ?> getSubTypesStatic() {
 		throw new KNXIllegalStateException("invoke on specific translator");
 	}
 

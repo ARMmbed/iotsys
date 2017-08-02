@@ -93,10 +93,10 @@ abstract class EventNotifier extends Thread implements KNXListener {
 	final Object source;
 
 	// event listeners
-	private final List listeners = new ArrayList();
-	private List listenersCopy = new ArrayList();
+	private final List<LinkListener> listeners = new ArrayList<LinkListener>();
+	private List<LinkListener> listenersCopy = new ArrayList<LinkListener>();
 
-	private final List events = new LinkedList();
+	private final List<EventCallback> events = new LinkedList<EventCallback>();
 	private volatile boolean stop;
 
 	EventNotifier(Object source, LogService logger) {
@@ -149,7 +149,7 @@ abstract class EventNotifier extends Thread implements KNXListener {
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
-				listenersCopy = new ArrayList(listeners);
+				listenersCopy = new ArrayList<LinkListener>(listeners);
 			} else
 				logger.warn("event listener already registered");
 		}
@@ -158,7 +158,7 @@ abstract class EventNotifier extends Thread implements KNXListener {
 	final void removeListener(LinkListener l) {
 		synchronized (listeners) {
 			if (listeners.remove(l))
-				listenersCopy = new ArrayList(listeners);
+				listenersCopy = new ArrayList<LinkListener>(listeners);
 		}
 	}
 
@@ -176,7 +176,7 @@ abstract class EventNotifier extends Thread implements KNXListener {
 	}
 
 	private void fire(EventCallback ec) {
-		for (final Iterator i = listenersCopy.iterator(); i.hasNext();) {
+		for (final Iterator<LinkListener> i = listenersCopy.iterator(); i.hasNext();) {
 			final LinkListener l = (LinkListener) i.next();
 			try {
 				ec.invoke(l);

@@ -233,7 +233,7 @@ public class IntHashMap {
 	// Enumerator
 	////////////////////////////////////////////////////////////////
 
-	public class Iterator implements java.util.Iterator {
+	public class Iterator implements java.util.Iterator<Object> {
 
 		public boolean hasNext() {
 			if (entry != null)

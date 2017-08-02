@@ -127,7 +127,7 @@ public class Form extends JPanel {
 	////////////////////////////////////////////////////////////////
 
 	static Editor makeEditor(Field field) {
-		Class type = field.getType();
+		Class<?> type = field.getType();
 		if (type == String.class)
 			return new StringEditor(field);
 		if (type == int.class)
@@ -206,7 +206,7 @@ public class Form extends JPanel {
 	static class SessionEditor extends Editor {
 		SessionEditor(Field field) {
 			super(field);
-			editor = combo = new JComboBox(UiSession.list());
+			editor = combo = new JComboBox<Object>(UiSession.list());
 			combo.setSelectedIndex(0);
 		}
 
@@ -219,7 +219,7 @@ public class Form extends JPanel {
 			return combo.getSelectedItem();
 		}
 
-		JComboBox combo;
+		JComboBox<?> combo;
 	}
 
 	////////////////////////////////////////////////////////////////

@@ -33,8 +33,8 @@ import at.ac.tuwien.auto.calimero.log.LogService;
  * @author B. Malinowsky
  */
 final class EventListeners {
-	private final List listeners = new ArrayList();
-	private List listenersCopy = new ArrayList();
+	private final List<EventListener> listeners = new ArrayList<EventListener>();
+	private List<EventListener> listenersCopy = new ArrayList<EventListener>();
 	private final LogService logger;
 
 	EventListeners(LogService logger) {
@@ -47,7 +47,7 @@ final class EventListeners {
 		synchronized (listeners) {
 			if (!listeners.contains(l)) {
 				listeners.add(l);
-				listenersCopy = new ArrayList(listeners);
+				listenersCopy = new ArrayList<EventListener>(listeners);
 			} else
 				logger.warn("event listener already registered");
 		}
@@ -56,11 +56,11 @@ final class EventListeners {
 	void remove(EventListener l) {
 		synchronized (listeners) {
 			if (listeners.remove(l))
-				listenersCopy = new ArrayList(listeners);
+				listenersCopy = new ArrayList<EventListener>(listeners);
 		}
 	}
 
-	Iterator iterator() {
+	Iterator<EventListener> iterator() {
 		return listenersCopy.iterator();
 	}
 }
