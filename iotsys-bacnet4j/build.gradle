@@ -1,4 +1,5 @@
 apply plugin: 'findbugs'
+apply plugin: "jacoco"
 
 // Variables
 description = 'OSGI wrapper for BACnet4J'
@@ -12,6 +13,22 @@ eclipse {
 				classpath.entries.findAll { entry -> entry.kind == 'lib' }*.exported = true
 			}
 		}
+	}
+}
+
+configurations {
+	provided
+	testProvided
+}
+
+sourceSets {
+	main { compileClasspath += configurations.provided }
+
+	test {
+		java { srcDir 'test' }
+		compileClasspath += configurations.testProvided
+		runtimeClasspath += configurations.provided
+		runtimeClasspath += configurations.testProvided
 	}
 }
 
@@ -46,7 +63,10 @@ jar {
 	}
 }
 
-dependencies{ compile ":seroUtils:" }
+dependencies {
+	compile ":seroUtils:"
+	testCompile group: 'junit',name:'junit',version: '4.8+'
+}
 
 def excludePattern = 'com/serotonin/bacnet4j/test'
 
@@ -57,5 +77,13 @@ tasks.withType(FindBugs) {
 	}
 	classes = classes.filter {
 		!it.path.contains(excludePattern)
+	}
+}
+
+jacocoTestReport {
+	reports {
+		xml.enabled false
+		csv.enabled false
+		html.destination "${buildDir}/jacocoHtml"
 	}
 }

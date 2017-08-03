@@ -22,11 +22,16 @@
  */
 package com.serotonin.bacnet4j.test;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import org.junit.Test;
 
 import com.serotonin.bacnet4j.apdu.APDU;
 import com.serotonin.bacnet4j.apdu.ComplexACK;
@@ -152,11 +157,12 @@ import com.serotonin.bacnet4j.type.primitive.Unsigned16;
 import com.serotonin.bacnet4j.type.primitive.UnsignedInteger;
 import com.serotonin.util.queue.ByteQueue;
 
+/**
+ * Changed to JUnit tests instead of Java application
+ */
 public class AnnexFEncodingTest {
-	public static void main(String[] args) {
-		new AnnexFEncodingTest().executeAll();
-	}
 
+	@Test
 	public void e1_1aTest() {
 		AcknowledgeAlarmRequest acknowledgeAlarmRequest = new AcknowledgeAlarmRequest(new UnsignedInteger(1),
 				new ObjectIdentifier(ObjectType.analogInput, 2), EventState.highLimit,
@@ -173,15 +179,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x5e, (byte) 0x2e, (byte) 0xa4, (byte) 0x5c, (byte) 0x06, (byte) 0x15, (byte) 0xff, (byte) 0xb4,
 				(byte) 0x0d, (byte) 0x03, (byte) 0x29, (byte) 0x09, (byte) 0x2f, (byte) 0x5f };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_1bTest() {
 		SimpleACK simpleACK = new SimpleACK((byte) 7, 0);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x07, (byte) 0x00 };
-		compare(simpleACK, expectedResult);
+		assertions(simpleACK, expectedResult);
 	}
 
+	@Test
 	public void e1_2aTest() {
 		List<PropertyValue> list = new ArrayList<>();
 		list.add(new PropertyValue(PropertyIdentifier.presentValue, null, new Real(65), null));
@@ -203,15 +211,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x44, (byte) 0x42, (byte) 0x82, (byte) 0x00, (byte) 0x00, (byte) 0x2f, (byte) 0x09, (byte) 0x6f,
 				(byte) 0x2e, (byte) 0x82, (byte) 0x04, (byte) 0x00, (byte) 0x2f, (byte) 0x4f };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_2bTest() {
 		SimpleACK pdu = new SimpleACK((byte) 15, 1);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x0f, (byte) 0x01 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_3Test() {
 		List<PropertyValue> list = new ArrayList<>();
 		list.add(new PropertyValue(PropertyIdentifier.presentValue, null, new Real(65), null));
@@ -232,9 +242,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x82, (byte) 0x00, (byte) 0x00, (byte) 0x2f, (byte) 0x09, (byte) 0x6f, (byte) 0x2e, (byte) 0x82,
 				(byte) 0x04, (byte) 0x00, (byte) 0x2f, (byte) 0x4f };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_4aTest() {
 		ConfirmedEventNotificationRequest confirmedEventNotificationRequest = new ConfirmedEventNotificationRequest(
 				new UnsignedInteger(1), new ObjectIdentifier(ObjectType.device, 4),
@@ -255,15 +266,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x80, (byte) 0x00, (byte) 0x00, (byte) 0x3c, (byte) 0x42, (byte) 0xa0, (byte) 0x00, (byte) 0x00,
 				(byte) 0x5f, (byte) 0xcf };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_4bTest() {
 		SimpleACK pdu = new SimpleACK((byte) 16, 2);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x10, (byte) 0x02 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_5Test() {
 		UnconfirmedEventNotificationRequest unconfirmedEventNotificationRequest = new UnconfirmedEventNotificationRequest(
 				new UnsignedInteger(1), new ObjectIdentifier(ObjectType.device, 9),
@@ -283,9 +296,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x3c, (byte) 0x42, (byte) 0xa0, (byte) 0x00, (byte) 0x00, (byte) 0x5f,
 				(byte) 0xcf };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_6aTest() {
 		GetAlarmSummaryRequest getAlarmSummaryRequest = new GetAlarmSummaryRequest();
 
@@ -294,9 +308,10 @@ public class AnnexFEncodingTest {
 
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x03 };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_6bTest() {
 		List<GetAlarmSummaryAck.AlarmSummary> alarmSummaries = new ArrayList<>();
 		alarmSummaries.add(new GetAlarmSummaryAck.AlarmSummary(new ObjectIdentifier(ObjectType.analogInput, 2),
@@ -313,9 +328,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x91, (byte) 0x04, (byte) 0x82, (byte) 0x05,
 				(byte) 0xe0 };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_7aTest() {
 		GetEnrollmentSummaryRequest getEnrollmentSummaryRequest = new GetEnrollmentSummaryRequest(
 				new Enumerated(GetEnrollmentSummaryRequest.AcknowledgmentFilters.notAcked), null, null, null, null,
@@ -326,9 +342,10 @@ public class AnnexFEncodingTest {
 
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x02, (byte) 0x01, (byte) 0x04, (byte) 0x09, (byte) 0x02 };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_7bTest() {
 		List<GetEnrollmentSummaryAck.EnrollmentSummary> enrollmentSummaries = new ArrayList<>();
 		enrollmentSummaries
@@ -348,9 +365,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x21, (byte) 0x04, (byte) 0xc4, (byte) 0x02, (byte) 0x40, (byte) 0x00, (byte) 0x06, (byte) 0x91,
 				(byte) 0x01, (byte) 0x91, (byte) 0x00, (byte) 0x21, (byte) 0x32, (byte) 0x21, (byte) 0x02 };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_7cTest() {
 		GetEnrollmentSummaryRequest getEnrollmentSummaryRequest = new GetEnrollmentSummaryRequest(
 				new Enumerated(GetEnrollmentSummaryRequest.AcknowledgmentFilters.all),
@@ -366,9 +384,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x19, (byte) 0x09, (byte) 0x1f, (byte) 0x4e, (byte) 0x09, (byte) 0x06, (byte) 0x19, (byte) 0x0a,
 				(byte) 0x4f };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_7dTest() {
 		List<GetEnrollmentSummaryAck.EnrollmentSummary> enrollmentSummaries = new ArrayList<>();
 		enrollmentSummaries
@@ -398,9 +417,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x07, (byte) 0x91, (byte) 0x04, (byte) 0x91, (byte) 0x00, (byte) 0x21, (byte) 0x03, (byte) 0x21,
 				(byte) 0x08 };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_8aTest() {
 		GetEventInformation getEventInformation = new GetEventInformation(null);
 
@@ -409,9 +429,10 @@ public class AnnexFEncodingTest {
 
 		byte[] expectedResult = { (byte) 0x02, (byte) 0x02, (byte) 0x01, (byte) 0x1d };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_8bTest() {
 		List<GetEventInformationAck.EventSummary> eventSummaries = new ArrayList<>();
 		eventSummaries.add(new GetEventInformationAck.EventSummary(new ObjectIdentifier(ObjectType.analogInput, 2),
@@ -444,9 +465,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x0f, (byte) 0x21, (byte) 0x0f, (byte) 0x21, (byte) 0x14, (byte) 0x6f, (byte) 0x0f, (byte) 0x19,
 				(byte) 0x00 };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_9aTest() {
 		LifeSafetyOperationRequest lifeSafetyOperationRequest = new LifeSafetyOperationRequest(new UnsignedInteger(18),
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "MDL"), LifeSafetyOperation.reset,
@@ -459,15 +481,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x1c, (byte) 0x00, (byte) 0x4d, (byte) 0x44, (byte) 0x4c, (byte) 0x29, (byte) 0x04, (byte) 0x3c,
 				(byte) 0x05, (byte) 0x40, (byte) 0x00, (byte) 0x01 };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_9bTest() {
 		SimpleACK pdu = new SimpleACK((byte) 15, 27);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x0f, (byte) 0x1b };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_10aTest() {
 		SubscribeCOVRequest subscribeCOVRequest = new SubscribeCOVRequest(new UnsignedInteger(18),
 				new ObjectIdentifier(ObjectType.analogInput, 10), new Boolean(true), new UnsignedInteger(0));
@@ -479,15 +503,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x1c, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0a, (byte) 0x29, (byte) 0x01, (byte) 0x39,
 				(byte) 0x00 };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_10bTest() {
 		SimpleACK pdu = new SimpleACK((byte) 15, 5);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x0f, (byte) 0x05 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_11aTest() {
 		SubscribeCOVPropertyRequest subscribeCOVPropertyRequest = new SubscribeCOVPropertyRequest(
 				new UnsignedInteger(18), new ObjectIdentifier(ObjectType.analogInput, 10), new Boolean(true),
@@ -501,15 +527,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x3c, (byte) 0x4e, (byte) 0x09, (byte) 0x55, (byte) 0x4f, (byte) 0x5c, (byte) 0x3f, (byte) 0x80,
 				(byte) 0x00, (byte) 0x00 };
 
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e1_11bTest() {
 		SimpleACK pdu = new SimpleACK((byte) 15, 28);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x0f, (byte) 0x1c };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e2_1aTest() {
 		ConfirmedRequestService service = new AtomicReadFileRequest(new ObjectIdentifier(ObjectType.file, 1), false,
 				new SignedInteger(0), new UnsignedInteger(27));
@@ -518,9 +546,10 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x02, (byte) 0x00, (byte) 0x06, (byte) 0xC4, (byte) 0x02,
 				(byte) 0x80, (byte) 0x00, (byte) 0x01, (byte) 0x0E, (byte) 0x31, (byte) 0x00, (byte) 0x21, (byte) 0x1B,
 				(byte) 0x0F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e2_1bTest() {
 		AcknowledgementService service = new AtomicReadFileAck(new Boolean(false), new SignedInteger(0),
 				new OctetString("Chiller01 On-Time=4.3 Hours".getBytes()));
@@ -530,9 +559,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x65, (byte) 0x72, (byte) 0x30, (byte) 0x31, (byte) 0x20, (byte) 0x4F, (byte) 0x6E, (byte) 0x2D,
 				(byte) 0x54, (byte) 0x69, (byte) 0x6D, (byte) 0x65, (byte) 0x3D, (byte) 0x34, (byte) 0x2E, (byte) 0x33,
 				(byte) 0x20, (byte) 0x48, (byte) 0x6F, (byte) 0x75, (byte) 0x72, (byte) 0x73, (byte) 0x0F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e2_1cTest() {
 		ConfirmedRequestService service = new AtomicReadFileRequest(new ObjectIdentifier(ObjectType.file, 2), true,
 				new SignedInteger(14), new UnsignedInteger(3));
@@ -541,9 +571,10 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x02, (byte) 0x12, (byte) 0x06, (byte) 0xC4, (byte) 0x02,
 				(byte) 0x80, (byte) 0x00, (byte) 0x02, (byte) 0x1E, (byte) 0x31, (byte) 0x0E, (byte) 0x21, (byte) 0x03,
 				(byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e2_1dTest() {
 		List<OctetString> strings = new ArrayList<>();
 		strings.add(new OctetString("12:00,45.6".getBytes()));
@@ -556,9 +587,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x30, (byte) 0x30, (byte) 0x2C, (byte) 0x34, (byte) 0x35, (byte) 0x2E, (byte) 0x36, (byte) 0x65,
 				(byte) 0x0A, (byte) 0x31, (byte) 0x32, (byte) 0x3A, (byte) 0x31, (byte) 0x35, (byte) 0x2C, (byte) 0x34,
 				(byte) 0x34, (byte) 0x2E, (byte) 0x38, (byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e2_2aTest() {
 		ConfirmedRequestService service = new AtomicWriteFileRequest(new ObjectIdentifier(ObjectType.file, 1),
 				new SignedInteger(30), new OctetString("Chiller01 On-Time=4.3 Hours".getBytes()));
@@ -570,16 +602,18 @@ public class AnnexFEncodingTest {
 				(byte) 0x31, (byte) 0x20, (byte) 0x4F, (byte) 0x6E, (byte) 0x2D, (byte) 0x54, (byte) 0x69, (byte) 0x6D,
 				(byte) 0x65, (byte) 0x3D, (byte) 0x34, (byte) 0x2E, (byte) 0x33, (byte) 0x20, (byte) 0x48, (byte) 0x6F,
 				(byte) 0x75, (byte) 0x72, (byte) 0x73, (byte) 0x0F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e2_2bTest() {
 		AcknowledgementService service = new AtomicWriteFileAck(false, new SignedInteger(30));
 		APDU pdu = new ComplexACK(false, false, (byte) 85, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x55, (byte) 0x07, (byte) 0x09, (byte) 0x1E };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e2_2cTest() {
 		List<OctetString> strings = new ArrayList<>();
 		strings.add(new OctetString("12:00,45.6".getBytes()));
@@ -594,16 +628,18 @@ public class AnnexFEncodingTest {
 				(byte) 0x34, (byte) 0x35, (byte) 0x2E, (byte) 0x36, (byte) 0x65, (byte) 0x0A, (byte) 0x31, (byte) 0x32,
 				(byte) 0x3A, (byte) 0x31, (byte) 0x35, (byte) 0x2C, (byte) 0x34, (byte) 0x34, (byte) 0x2E, (byte) 0x38,
 				(byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e2_2dTest() {
 		AcknowledgementService service = new AtomicWriteFileAck(true, new SignedInteger(14));
 		APDU pdu = new ComplexACK(false, false, (byte) 85, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x55, (byte) 0x07, (byte) 0x19, (byte) 0x0E };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_1aTest() {
 		List<PropertyReference> propertyReferences = new ArrayList<>();
 		propertyReferences.add(new PropertyReference(PropertyIdentifier.presentValue, null));
@@ -620,15 +656,17 @@ public class AnnexFEncodingTest {
 				(byte) 0xC0, (byte) 0x00, (byte) 0x03, (byte) 0x19, (byte) 0x35, (byte) 0x3E, (byte) 0x0C, (byte) 0x00,
 				(byte) 0x00, (byte) 0x00, (byte) 0x0F, (byte) 0x1E, (byte) 0x09, (byte) 0x55, (byte) 0x09, (byte) 0x67,
 				(byte) 0x1F, (byte) 0x3F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_1bTest() {
 		APDU pdu = new SimpleACK((byte) 1, 8);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x01, (byte) 0x08 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_2aTest() {
 		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<>();
 
@@ -656,15 +694,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x09, (byte) 0x1C, (byte) 0x1F, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D,
 				(byte) 0x1E, (byte) 0x09, (byte) 0x55, (byte) 0x09, (byte) 0x67, (byte) 0x09, (byte) 0x1C, (byte) 0x1F,
 				(byte) 0x3F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_2bTest() {
 		APDU pdu = new SimpleACK((byte) 52, 9);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x34, (byte) 0x09 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_2cTest() {
 		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<>();
 
@@ -689,15 +729,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x00, (byte) 0x0C, (byte) 0x1E, (byte) 0x09, (byte) 0x55, (byte) 0x09, (byte) 0x67,
 				(byte) 0x1F, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x1E, (byte) 0x09,
 				(byte) 0x55, (byte) 0x09, (byte) 0x67, (byte) 0x1F, (byte) 0x3F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_2dTest() {
 		APDU pdu = new SimpleACK((byte) 53, 8);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x35, (byte) 0x08 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_3aTest() {
 		List<PropertyValue> propertyValues = new ArrayList<>();
 		propertyValues.add(new PropertyValue(PropertyIdentifier.objectName, null,
@@ -712,59 +754,66 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x54, (byte) 0x72, (byte) 0x65, (byte) 0x6E, (byte) 0x64, (byte) 0x20, (byte) 0x31,
 				(byte) 0x2F, (byte) 0x09, (byte) 0x29, (byte) 0x2E, (byte) 0x91, (byte) 0x00, (byte) 0x2F,
 				(byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_3bTest() {
 		AcknowledgementService service = new CreateObjectAck(new ObjectIdentifier(ObjectType.file, 13));
 		APDU pdu = new ComplexACK(false, false, (byte) 86, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x56, (byte) 0x0A, (byte) 0xC4, (byte) 0x02, (byte) 0x80,
 				(byte) 0x00, (byte) 0x0D };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_4aTest() {
 		ConfirmedRequestService service = new DeleteObjectRequest(new ObjectIdentifier(ObjectType.group, 6));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 87, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x57, (byte) 0x0B, (byte) 0xC4, (byte) 0x02,
 				(byte) 0xC0, (byte) 0x00, (byte) 0x06 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_4bTest() {
 		APDU pdu = new SimpleACK((byte) 87, 11);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x57, (byte) 0x0B };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_4cTest() {
 		ConfirmedRequestService service = new DeleteObjectRequest(new ObjectIdentifier(ObjectType.group, 7));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_1024, (byte) 88, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x58, (byte) 0x0B, (byte) 0xC4, (byte) 0x02,
 				(byte) 0xC0, (byte) 0x00, (byte) 0x07 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_4dTest() {
 		BaseError baseError = new BaseError((byte) 11,
 				new BACnetError(ErrorClass.object, ErrorCode.objectDeletionNotPermitted));
 		APDU pdu = new com.serotonin.bacnet4j.apdu.Error((byte) 88, baseError);
 		byte[] expectedResult = { (byte) 0x50, (byte) 0x58, (byte) 0x0B, (byte) 0x91, (byte) 0x01, (byte) 0x91,
 				(byte) 0x17 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_5aTest() {
 		ConfirmedRequestService service = new ReadPropertyRequest(new ObjectIdentifier(ObjectType.analogInput, 5),
 				PropertyIdentifier.presentValue, null);
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_50, (byte) 1, (byte) 0, 0, service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x0C, (byte) 0x0C, (byte) 0x00,
 				(byte) 0x00, (byte) 0x00, (byte) 0x05, (byte) 0x19, (byte) 0x55 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_5bTest() {
 		AcknowledgementService service = new ReadPropertyAck(new ObjectIdentifier(ObjectType.analogInput, 5),
 				PropertyIdentifier.presentValue, null, new Real(72.3f));
@@ -772,9 +821,10 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x01, (byte) 0x0C, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
 				(byte) 0x00, (byte) 0x05, (byte) 0x19, (byte) 0x55, (byte) 0x3E, (byte) 0x44, (byte) 0x42, (byte) 0x90,
 				(byte) 0x99, (byte) 0x9A, (byte) 0x3F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_6aTest() {
 		List<SelectionCriteria> selectionCriteria = new ArrayList<>();
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.objectType, null, RelationSpecifier.equal,
@@ -787,9 +837,10 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x51, (byte) 0x0D, (byte) 0x0E, (byte) 0x09,
 				(byte) 0x00, (byte) 0x1E, (byte) 0x09, (byte) 0x4F, (byte) 0x29, (byte) 0x00, (byte) 0x3E, (byte) 0x91,
 				(byte) 0x03, (byte) 0x3F, (byte) 0x1F, (byte) 0x0F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_6bTest() {
 		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 		readAccessResults.add(new ReadAccessResult(new ObjectIdentifier(ObjectType.binaryInput, 1), null));
@@ -802,9 +853,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x01, (byte) 0x0C, (byte) 0x00, (byte) 0xC0, (byte) 0x00, (byte) 0x02, (byte) 0x0C,
 				(byte) 0x00, (byte) 0xC0, (byte) 0x00, (byte) 0x03, (byte) 0x0C, (byte) 0x00, (byte) 0xC0, (byte) 0x00,
 				(byte) 0x04 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_6cTest() {
 		List<SelectionCriteria> selectionCriteria = new ArrayList<>();
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.objectType, null, RelationSpecifier.equal,
@@ -820,9 +872,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x1E, (byte) 0x09, (byte) 0x4F, (byte) 0x29, (byte) 0x00, (byte) 0x3E, (byte) 0x91,
 				(byte) 0x00, (byte) 0x3F, (byte) 0x09, (byte) 0x55, (byte) 0x29, (byte) 0x03, (byte) 0x3E, (byte) 0x44,
 				(byte) 0x42, (byte) 0xC8, (byte) 0x00, (byte) 0x00, (byte) 0x3F, (byte) 0x1F, (byte) 0x0F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_6dTest() {
 		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 
@@ -850,9 +903,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x34, (byte) 0xB3, (byte) 0x33, (byte) 0x4F, (byte) 0x1F, (byte) 0x0C, (byte) 0x00, (byte) 0x00,
 				(byte) 0x00, (byte) 0x03, (byte) 0x1E, (byte) 0x29, (byte) 0x55, (byte) 0x4E, (byte) 0x44, (byte) 0x43,
 				(byte) 0x0E, (byte) 0x19, (byte) 0x9A, (byte) 0x4F, (byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_6eTest() {
 		List<SelectionCriteria> selectionCriteria = new ArrayList<>();
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.reliability, null, RelationSpecifier.notEqual,
@@ -876,9 +930,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x3F, (byte) 0x09, (byte) 0x51, (byte) 0x29, (byte) 0x00, (byte) 0x3E, (byte) 0x11,
 				(byte) 0x3F, (byte) 0x1F, (byte) 0x0F, (byte) 0x1E, (byte) 0x09, (byte) 0x55, (byte) 0x09, (byte) 0x67,
 				(byte) 0x09, (byte) 0x51, (byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_6fTest() {
 		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 
@@ -906,9 +961,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x7A, (byte) 0x00, (byte) 0x00, (byte) 0x4F, (byte) 0x29, (byte) 0x67, (byte) 0x4E, (byte) 0x91,
 				(byte) 0x07, (byte) 0x4F, (byte) 0x29, (byte) 0x51, (byte) 0x4E, (byte) 0x10, (byte) 0x4F,
 				(byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_6gTest() {
 		List<SelectionCriteria> selectionCriteria = new ArrayList<>();
 		selectionCriteria.add(new SelectionCriteria(PropertyIdentifier.objectName, null, RelationSpecifier.equal,
@@ -933,9 +989,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x3F, (byte) 0x20, (byte) 0x53, (byte) 0x75, (byte) 0x70, (byte) 0x70, (byte) 0x6C, (byte) 0x79,
 				(byte) 0x20, (byte) 0x54, (byte) 0x65, (byte) 0x6D, (byte) 0x70, (byte) 0x3F, (byte) 0x1F, (byte) 0x0F,
 				(byte) 0x1E, (byte) 0x09, (byte) 0x4D, (byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_6hTest() {
 		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 
@@ -991,9 +1048,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x4E, (byte) 0x75, (byte) 0x10, (byte) 0x00, (byte) 0x41, (byte) 0x43, (byte) 0x33, (byte) 0x20,
 				(byte) 0x53, (byte) 0x75, (byte) 0x70, (byte) 0x70, (byte) 0x6C, (byte) 0x79, (byte) 0x20, (byte) 0x54,
 				(byte) 0x65, (byte) 0x6D, (byte) 0x70, (byte) 0x4F, (byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_7aTest() {
 		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<>();
 		List<PropertyReference> propertyReferences = new ArrayList<>();
@@ -1007,9 +1065,10 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0xF1, (byte) 0x0E, (byte) 0x0C, (byte) 0x00,
 				(byte) 0x00, (byte) 0x00, (byte) 0x10, (byte) 0x1E, (byte) 0x09, (byte) 0x55, (byte) 0x09, (byte) 0x67,
 				(byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_7bTest() {
 		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 		List<Result> results = new ArrayList<>();
@@ -1023,9 +1082,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x10, (byte) 0x1E, (byte) 0x29, (byte) 0x55, (byte) 0x4E, (byte) 0x44, (byte) 0x42,
 				(byte) 0x90, (byte) 0x99, (byte) 0x9A, (byte) 0x4F, (byte) 0x29, (byte) 0x67, (byte) 0x4E, (byte) 0x91,
 				(byte) 0x00, (byte) 0x4F, (byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_7cTest() {
 		List<ReadAccessSpecification> readAccessSpecs = new ArrayList<>();
 
@@ -1052,9 +1112,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x32, (byte) 0x1E, (byte) 0x09, (byte) 0x55, (byte) 0x1F,
 				(byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x23, (byte) 0x1E, (byte) 0x09, (byte) 0x55,
 				(byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_7dTest() {
 		List<ReadAccessResult> readAccessResults = new ArrayList<>();
 
@@ -1083,13 +1144,15 @@ public class AnnexFEncodingTest {
 				(byte) 0x91, (byte) 0x1F, (byte) 0x5F, (byte) 0x1F, (byte) 0x0C, (byte) 0x00, (byte) 0x00, (byte) 0x00,
 				(byte) 0x23, (byte) 0x1E, (byte) 0x29, (byte) 0x55, (byte) 0x4E, (byte) 0x44, (byte) 0x43, (byte) 0xD9,
 				(byte) 0xD9, (byte) 0x9A, (byte) 0x4F, (byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_8aTest() {
 		// Deprecated parameters.
 	}
 
+	@Test
 	public void e3_8bTest() {
 		List<BaseType> itemData = new ArrayList<>();
 		itemData.add(
@@ -1110,9 +1173,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x0E, (byte) 0xA4, (byte) 0x62, (byte) 0x03, (byte) 0x17, (byte) 0x01, (byte) 0xB4, (byte) 0x13,
 				(byte) 0x38, (byte) 0x1B, (byte) 0x00, (byte) 0x0F, (byte) 0x1E, (byte) 0x2C, (byte) 0x41, (byte) 0x90,
 				(byte) 0xCC, (byte) 0xCD, (byte) 0x1F, (byte) 0x2A, (byte) 0x04, (byte) 0x00, (byte) 0x5F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_9aTest() {
 		ConfirmedRequestService service = new WritePropertyRequest(new ObjectIdentifier(ObjectType.analogValue, 1),
 				PropertyIdentifier.presentValue, null, new Real(180), null);
@@ -1121,15 +1185,17 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x59, (byte) 0x0F, (byte) 0x0C, (byte) 0x00,
 				(byte) 0x80, (byte) 0x00, (byte) 0x01, (byte) 0x19, (byte) 0x55, (byte) 0x3E, (byte) 0x44, (byte) 0x43,
 				(byte) 0x34, (byte) 0x00, (byte) 0x00, (byte) 0x3F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_9bTest() {
 		APDU pdu = new SimpleACK((byte) 89, 15);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x59, (byte) 0x0F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_10aTest() {
 		List<WriteAccessSpecification> writeAccessSpecs = new ArrayList<>();
 
@@ -1157,15 +1223,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x42, (byte) 0x86, (byte) 0x00, (byte) 0x00, (byte) 0x2F, (byte) 0x1F, (byte) 0x0C, (byte) 0x00,
 				(byte) 0x80, (byte) 0x00, (byte) 0x07, (byte) 0x1E, (byte) 0x09, (byte) 0x55, (byte) 0x2E, (byte) 0x44,
 				(byte) 0x42, (byte) 0x90, (byte) 0x00, (byte) 0x00, (byte) 0x2F, (byte) 0x1F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e3_10bTest() {
 		APDU pdu = new SimpleACK((byte) 1, 16);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x01, (byte) 0x10 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_1aTest() {
 		ConfirmedRequestService service = new DeviceCommunicationControlRequest(new UnsignedInteger(5),
 				EnableDisable.disable, new CharacterString(CharacterString.Encodings.ANSI_X3_4, "#egbdf!"));
@@ -1174,15 +1242,17 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x05, (byte) 0x11, (byte) 0x09, (byte) 0x05,
 				(byte) 0x19, (byte) 0x01, (byte) 0x2D, (byte) 0x08, (byte) 0x00, (byte) 0x23, (byte) 0x65, (byte) 0x67,
 				(byte) 0x62, (byte) 0x64, (byte) 0x66, (byte) 0x21 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_1bTest() {
 		APDU pdu = new SimpleACK((byte) 5, 17);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x05, (byte) 0x11 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_2aTest() {
 		List<ElementSpecification> elements = new ArrayList<>();
 		elements.add(new ElementSpecification("value1", Real.class, false, false));
@@ -1203,18 +1273,20 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x04, (byte) 0x55, (byte) 0x12, (byte) 0x09, (byte) 0x19,
 				(byte) 0x19, (byte) 0x08, (byte) 0x2E, (byte) 0x44, (byte) 0x42, (byte) 0x90, (byte) 0xCC, (byte) 0xCD,
 				(byte) 0x62, (byte) 0x16, (byte) 0x49, (byte) 0x2F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_2bTest() {
 		AcknowledgementService service = new ConfirmedPrivateTransferAck(new UnsignedInteger(25),
 				new UnsignedInteger(8), null);
 		APDU pdu = new ComplexACK(false, false, (byte) 85, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x55, (byte) 0x12, (byte) 0x09, (byte) 0x19, (byte) 0x19,
 				(byte) 0x08 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_3Test() {
 		List<ElementSpecification> elements = new ArrayList<>();
 		elements.add(new ElementSpecification("value1", Real.class, false, false));
@@ -1234,9 +1306,10 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x04, (byte) 0x09, (byte) 0x19, (byte) 0x19, (byte) 0x08,
 				(byte) 0x2E, (byte) 0x44, (byte) 0x42, (byte) 0x90, (byte) 0xCC, (byte) 0xCD, (byte) 0x62, (byte) 0x16,
 				(byte) 0x49, (byte) 0x2F };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_4aTest() {
 		ConfirmedRequestService service = new ReinitializeDeviceRequest(ReinitializedStateOfDevice.warmstart,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "AbCdEfGh"));
@@ -1245,15 +1318,17 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x01, (byte) 0x02, (byte) 0x14, (byte) 0x09, (byte) 0x01,
 				(byte) 0x1D, (byte) 0x09, (byte) 0x00, (byte) 0x41, (byte) 0x62, (byte) 0x43, (byte) 0x64, (byte) 0x45,
 				(byte) 0x66, (byte) 0x47, (byte) 0x68 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_4bTest() {
 		APDU pdu = new SimpleACK((byte) 2, 20);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x02, (byte) 0x14 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_5aTest() {
 		ConfirmedRequestService service = new ConfirmedTextMessageRequest(new ObjectIdentifier(ObjectType.device, 5),
 				MessagePriority.normal,
@@ -1265,15 +1340,17 @@ public class AnnexFEncodingTest {
 				(byte) 0x50, (byte) 0x4D, (byte) 0x20, (byte) 0x72, (byte) 0x65, (byte) 0x71, (byte) 0x75, (byte) 0x69,
 				(byte) 0x72, (byte) 0x65, (byte) 0x64, (byte) 0x20, (byte) 0x66, (byte) 0x6F, (byte) 0x72, (byte) 0x20,
 				(byte) 0x50, (byte) 0x55, (byte) 0x4D, (byte) 0x50, (byte) 0x33, (byte) 0x34, (byte) 0x37 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_5bTest() {
 		APDU pdu = new SimpleACK((byte) 3, 19);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x03, (byte) 0x13 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_6Test() {
 		UnconfirmedRequestService service = new UnconfirmedTextMessageRequest(
 				new ObjectIdentifier(ObjectType.device, 5), MessagePriority.normal,
@@ -1284,27 +1361,30 @@ public class AnnexFEncodingTest {
 				(byte) 0x20, (byte) 0x72, (byte) 0x65, (byte) 0x71, (byte) 0x75, (byte) 0x69, (byte) 0x72, (byte) 0x65,
 				(byte) 0x64, (byte) 0x20, (byte) 0x66, (byte) 0x6F, (byte) 0x72, (byte) 0x20, (byte) 0x50, (byte) 0x55,
 				(byte) 0x4D, (byte) 0x50, (byte) 0x33, (byte) 0x34, (byte) 0x37 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_7Test() {
 		UnconfirmedRequestService service = new TimeSynchronizationRequest(
 				new DateTime(new Date(1992, Month.NOVEMBER, 17, DayOfWeek.UNSPECIFIED), new Time(22, 45, 30, 70)));
 		APDU pdu = new UnconfirmedRequest(service);
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x06, (byte) 0xA4, (byte) 0x5C, (byte) 0x0B, (byte) 0x11,
 				(byte) 0xFF, (byte) 0xB4, (byte) 0x16, (byte) 0x2D, (byte) 0x1E, (byte) 0x46 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_8aTest() {
 		UnconfirmedRequestService service = new WhoHasRequest(null,
 				new CharacterString(CharacterString.Encodings.ANSI_X3_4, "OATemp"));
 		APDU pdu = new UnconfirmedRequest(service);
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x07, (byte) 0x3D, (byte) 0x07, (byte) 0x00, (byte) 0x4F,
 				(byte) 0x41, (byte) 0x54, (byte) 0x65, (byte) 0x6D, (byte) 0x70 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_8bTest() {
 		UnconfirmedRequestService service = new IHaveRequest(new ObjectIdentifier(ObjectType.device, 8),
 				new ObjectIdentifier(ObjectType.analogInput, 3),
@@ -1313,17 +1393,19 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x01, (byte) 0xC4, (byte) 0x02, (byte) 0x00, (byte) 0x00,
 				(byte) 0x08, (byte) 0xC4, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x75, (byte) 0x07,
 				(byte) 0x00, (byte) 0x4F, (byte) 0x41, (byte) 0x54, (byte) 0x65, (byte) 0x6D, (byte) 0x70 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_8cTest() {
 		UnconfirmedRequestService service = new WhoHasRequest(null, new ObjectIdentifier(ObjectType.analogInput, 3));
 		APDU pdu = new UnconfirmedRequest(service);
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x07, (byte) 0x2C, (byte) 0x00, (byte) 0x00, (byte) 0x00,
 				(byte) 0x03 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_8dTest() {
 		UnconfirmedRequestService service = new IHaveRequest(new ObjectIdentifier(ObjectType.device, 8),
 				new ObjectIdentifier(ObjectType.analogInput, 3),
@@ -1332,16 +1414,18 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x01, (byte) 0xC4, (byte) 0x02, (byte) 0x00, (byte) 0x00,
 				(byte) 0x08, (byte) 0xC4, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x03, (byte) 0x75, (byte) 0x07,
 				(byte) 0x00, (byte) 0x4F, (byte) 0x41, (byte) 0x54, (byte) 0x65, (byte) 0x6D, (byte) 0x70 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_9aTest() {
 		UnconfirmedRequestService service = new WhoIsRequest(new UnsignedInteger(3), new UnsignedInteger(3));
 		APDU pdu = new UnconfirmedRequest(service);
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x08, (byte) 0x09, (byte) 0x03, (byte) 0x19, (byte) 0x03 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_9bTest() {
 		UnconfirmedRequestService service = new IAmRequest(new ObjectIdentifier(ObjectType.device, 3),
 				new UnsignedInteger(1024), Segmentation.noSegmentation, new UnsignedInteger(99));
@@ -1349,16 +1433,18 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x00, (byte) 0xC4, (byte) 0x02, (byte) 0x00, (byte) 0x00,
 				(byte) 0x03, (byte) 0x22, (byte) 0x04, (byte) 0x00, (byte) 0x91, (byte) 0x03, (byte) 0x21,
 				(byte) 0x63 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_9cTest() {
 		UnconfirmedRequestService service = new WhoIsRequest();
 		APDU pdu = new UnconfirmedRequest(service);
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x08 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_9dTest() {
 		UnconfirmedRequestService service = new IAmRequest(new ObjectIdentifier(ObjectType.device, 1),
 				new UnsignedInteger(480), Segmentation.segmentedTransmit, new UnsignedInteger(99));
@@ -1366,18 +1452,20 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x00, (byte) 0xC4, (byte) 0x02, (byte) 0x00, (byte) 0x00,
 				(byte) 0x01, (byte) 0x22, (byte) 0x01, (byte) 0xE0, (byte) 0x91, (byte) 0x01, (byte) 0x21,
 				(byte) 0x63 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_9eTest() {
 		UnconfirmedRequestService service = new IAmRequest(new ObjectIdentifier(ObjectType.device, 2),
 				new UnsignedInteger(206), Segmentation.segmentedReceive, new UnsignedInteger(33));
 		APDU pdu = new UnconfirmedRequest(service);
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x00, (byte) 0xC4, (byte) 0x02, (byte) 0x00, (byte) 0x00,
 				(byte) 0x02, (byte) 0x21, (byte) 0xCE, (byte) 0x91, (byte) 0x02, (byte) 0x21, (byte) 0x21 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_9fTest() {
 		UnconfirmedRequestService service = new IAmRequest(new ObjectIdentifier(ObjectType.device, 3),
 				new UnsignedInteger(1024), Segmentation.noSegmentation, new UnsignedInteger(99));
@@ -1385,34 +1473,38 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x00, (byte) 0xC4, (byte) 0x02, (byte) 0x00, (byte) 0x00,
 				(byte) 0x03, (byte) 0x22, (byte) 0x04, (byte) 0x00, (byte) 0x91, (byte) 0x03, (byte) 0x21,
 				(byte) 0x63 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e4_9gTest() {
 		UnconfirmedRequestService service = new IAmRequest(new ObjectIdentifier(ObjectType.device, 4),
 				new UnsignedInteger(128), Segmentation.segmentedBoth, new UnsignedInteger(66));
 		APDU pdu = new UnconfirmedRequest(service);
 		byte[] expectedResult = { (byte) 0x10, (byte) 0x00, (byte) 0xC4, (byte) 0x02, (byte) 0x00, (byte) 0x00,
 				(byte) 0x04, (byte) 0x21, (byte) 0x80, (byte) 0x91, (byte) 0x00, (byte) 0x21, (byte) 0x42 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_aTest() {
 		ConfirmedRequestService service = new VtOpenRequest(VtClass.ansi_x3_64, new UnsignedInteger(5));
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_128, (byte) 80, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x01, (byte) 0x50, (byte) 0x15, (byte) 0x91, (byte) 0x01,
 				(byte) 0x21, (byte) 0x05 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_bTest() {
 		AcknowledgementService service = new VtOpenAck(new UnsignedInteger(29));
 		APDU pdu = new ComplexACK(false, false, (byte) 80, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x50, (byte) 0x15, (byte) 0x21, (byte) 0x1D };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_cTest() {
 		byte[] data = "\r\nEnter User Name:".getBytes();
 		ConfirmedRequestService service = new VtDataRequest(new UnsignedInteger(5), new OctetString(data),
@@ -1423,16 +1515,18 @@ public class AnnexFEncodingTest {
 				(byte) 0x65, (byte) 0x12, (byte) 0x0D, (byte) 0x0A, (byte) 0x45, (byte) 0x6E, (byte) 0x74, (byte) 0x65,
 				(byte) 0x72, (byte) 0x20, (byte) 0x55, (byte) 0x73, (byte) 0x65, (byte) 0x72, (byte) 0x20, (byte) 0x4E,
 				(byte) 0x61, (byte) 0x6D, (byte) 0x65, (byte) 0x3A, (byte) 0x21, (byte) 0x00 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_dTest() {
 		AcknowledgementService service = new VtDataAck(new Boolean(true), null);
 		APDU pdu = new ComplexACK(false, false, (byte) 81, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x51, (byte) 0x17, (byte) 0x09, (byte) 0x01 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_eTest() {
 		ConfirmedRequestService service = new VtDataRequest(new UnsignedInteger(29),
 				new OctetString("FRED\r".getBytes()), new UnsignedInteger(0));
@@ -1441,16 +1535,18 @@ public class AnnexFEncodingTest {
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x01, (byte) 0x52, (byte) 0x17, (byte) 0x21, (byte) 0x1D,
 				(byte) 0x65, (byte) 0x05, (byte) 0x46, (byte) 0x52, (byte) 0x45, (byte) 0x44, (byte) 0x0D, (byte) 0x21,
 				(byte) 0x00 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_fTest() {
 		AcknowledgementService service = new VtDataAck(new Boolean(true), null);
 		APDU pdu = new ComplexACK(false, false, (byte) 82, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x52, (byte) 0x17, (byte) 0x09, (byte) 0x01 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_gTest() {
 		ConfirmedRequestService service = new VtDataRequest(new UnsignedInteger(5),
 				new OctetString("FRED\r\nEnter Password:".getBytes()), new UnsignedInteger(1));
@@ -1461,16 +1557,18 @@ public class AnnexFEncodingTest {
 				(byte) 0x45, (byte) 0x6E, (byte) 0x74, (byte) 0x65, (byte) 0x72, (byte) 0x20, (byte) 0x50, (byte) 0x61,
 				(byte) 0x73, (byte) 0x73, (byte) 0x77, (byte) 0x6F, (byte) 0x72, (byte) 0x64, (byte) 0x3A, (byte) 0x21,
 				(byte) 0x01 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_hTest() {
 		AcknowledgementService service = new VtDataAck(new Boolean(true), null);
 		APDU pdu = new ComplexACK(false, false, (byte) 83, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x53, (byte) 0x17, (byte) 0x09, (byte) 0x01 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_iTest() {
 		List<UnsignedInteger> ids = new ArrayList<>();
 		ids.add(new UnsignedInteger(29));
@@ -1478,15 +1576,17 @@ public class AnnexFEncodingTest {
 		APDU pdu = new ConfirmedRequest(false, false, false, 0, MaxApduLength.UP_TO_128, (byte) 84, (byte) 0, 0,
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x01, (byte) 0x54, (byte) 0x16, (byte) 0x21, (byte) 0x1D };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e5_jTest() {
 		APDU pdu = new SimpleACK((byte) 84, 22);
 		byte[] expectedResult = { (byte) 0x20, (byte) 0x54, (byte) 0x16 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e6_aTest() {
 		ConfirmedRequestService service = new RequestKeyRequest(new ObjectIdentifier(ObjectType.device, 1),
 				new Address(new Unsigned16(2), new OctetString(new byte[] { 17 })),
@@ -1498,9 +1598,10 @@ public class AnnexFEncodingTest {
 				(byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x21, (byte) 0x02, (byte) 0x61, (byte) 0x11, (byte) 0xc4,
 				(byte) 0x02, (byte) 0x00, (byte) 0x00, (byte) 0x02, (byte) 0x21, (byte) 0x02, (byte) 0x61,
 				(byte) 0x22 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e6_bTest() {
 		ConfirmedRequestService service = new AuthenticateRequest(new UnsignedInteger(305419896),
 				new UnsignedInteger(15), null, null, null);
@@ -1508,134 +1609,27 @@ public class AnnexFEncodingTest {
 				service);
 		byte[] expectedResult = { (byte) 0x00, (byte) 0x05, (byte) 0x01, (byte) 0x18, (byte) 0x0c, (byte) 0x12,
 				(byte) 0x34, (byte) 0x56, (byte) 0x78, (byte) 0x19, (byte) 0x0f };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
+	@Test
 	public void e6_cTest() {
 		AcknowledgementService service = new AuthenticateAck(new UnsignedInteger(BigInteger.valueOf(2478168049l)));
 		APDU pdu = new ComplexACK(false, false, (byte) 1, 0, 0, service);
 		byte[] expectedResult = { (byte) 0x30, (byte) 0x01, (byte) 0x18, (byte) 0x24, (byte) 0x93, (byte) 0xb5,
 				(byte) 0xd7, (byte) 0xf1 };
-		compare(pdu, expectedResult);
+		assertions(pdu, expectedResult);
 	}
 
-	public void executeAll() {
-		e1_1aTest();
-		e1_1bTest();
-		e1_2aTest();
-		e1_2bTest();
-		e1_3Test();
-		e1_4aTest();
-		e1_4bTest();
-		e1_5Test();
-		e1_6aTest();
-		e1_6bTest();
-		e1_7aTest();
-		e1_7bTest();
-		e1_7cTest();
-		e1_7dTest();
-		e1_8aTest();
-		e1_8bTest();
-		e1_9aTest();
-		e1_9bTest();
-		e1_10aTest();
-		e1_10bTest();
-		e1_11aTest();
-		e1_11bTest();
-
-		e2_1aTest();
-		e2_1bTest();
-		e2_1cTest();
-		e2_1dTest();
-		e2_2aTest();
-		e2_2bTest();
-		e2_2cTest();
-		e2_2dTest();
-
-		e3_1aTest();
-		e3_1bTest();
-		e3_2aTest();
-		e3_2bTest();
-		e3_2cTest();
-		e3_2dTest();
-		e3_3aTest();
-		e3_3bTest();
-		e3_4aTest();
-		e3_4bTest();
-		e3_4cTest();
-		e3_4dTest();
-		e3_5aTest();
-		e3_5bTest();
-		e3_6aTest();
-		e3_6bTest();
-		e3_6cTest();
-		e3_6dTest();
-		e3_6eTest();
-		e3_6fTest();
-		e3_6gTest();
-		e3_6hTest();
-		e3_7aTest();
-		e3_7bTest();
-		e3_7cTest();
-		e3_7dTest();
-		e3_8aTest();
-		e3_8bTest();
-		e3_9aTest();
-		e3_9bTest();
-		e3_10aTest();
-		e3_10bTest();
-
-		e4_1aTest();
-		e4_1bTest();
-		e4_2aTest();
-		e4_2bTest();
-		e4_3Test();
-		e4_4aTest();
-		e4_4bTest();
-		e4_5aTest();
-		e4_5bTest();
-		e4_6Test();
-		e4_7Test();
-		e4_8aTest();
-		e4_8bTest();
-		e4_8cTest();
-		e4_8dTest();
-		e4_9aTest();
-		e4_9bTest();
-		e4_9cTest();
-		e4_9dTest();
-		e4_9eTest();
-		e4_9fTest();
-		e4_9gTest();
-
-		e5_aTest();
-		e5_bTest();
-		e5_cTest();
-		e5_dTest();
-		e5_eTest();
-		e5_fTest();
-		e5_gTest();
-		e5_hTest();
-		e5_iTest();
-		e5_jTest();
-
-		e6_aTest();
-		e6_bTest();
-		e6_cTest();
-	}
-
-	private void compare(APDU pdu, byte[] expectedResult) {
+	private void assertions(APDU pdu, byte[] expectedResult) {
 		ByteQueue queue = new ByteQueue();
 		pdu.write(queue);
 
-		if (queue.size() != expectedResult.length)
-			throw new RuntimeException("Size of queue differs from expected: " + queue);
+		assertEquals("Size of queue differs from expected: " + queue, expectedResult.length, queue.size());
 
 		for (int i = 0; i < expectedResult.length; i++) {
-			if (queue.peek(i) != expectedResult[i])
-				throw new RuntimeException("Unexpected content at index " + i + ": " + queue);
+			assertEquals("Unexpected content at index " + i + ": " + queue, expectedResult[i], queue.peek(i));
 		}
-
 		APDU parsedAPDU;
 		try {
 			parsedAPDU = APDU.createAPDU(queue);
@@ -1644,14 +1638,7 @@ public class AnnexFEncodingTest {
 		} catch (BACnetException e) {
 			throw new RuntimeException(e);
 		}
-
-		if (queue.size() != 0)
-			throw new RuntimeException("Queue not empty after parse");
-		if (!parsedAPDU.equals(pdu)) {
-			parsedAPDU.equals(pdu); // For debugging
-			parsedAPDU.equals(pdu);
-			parsedAPDU.equals(pdu);
-			throw new RuntimeException("Parsed APDU does not equal given APDU");
-		}
+		assertTrue("Queue not empty after parse", queue.size() == 0);
+		assertEquals("Parsed APDU does not equal given APDU", parsedAPDU, pdu);
 	}
 }
